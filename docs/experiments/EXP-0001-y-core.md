@@ -2,7 +2,7 @@
 
 Status: Complete
 Date: 2026-10-05
-Commit: see `../BENCHMARKS.md` (the Phase 1 commit that contains `results/`); results were generated from the committed source tree on 2026-10-05.
+Commit: 823902e. Results were generated from exactly this source tree on 2026-10-05, before the commit existed; `results/synth_environment.txt` therefore records the previous HEAD (e15f10c) and is left untouched because it is tool-generated.
 
 ## Research Question
 

@@ -9,7 +9,7 @@ KI-001
 Status:           Workaround
 Severity:         Minor
 First observed:   2026-10-05
-Relevant commit:  Phase 1 commit
+Relevant commit:  823902e
 Description:      The YoWASP (WebAssembly) Yosys 0.69 build takes ~13 minutes on
                   synth/int8_dot16_baseline.ys. Native Yosys 0.52 under WSL does
                   the same script in <3 s. With `synth -noabc` the WASM build
@@ -26,7 +26,7 @@ KI-002
 Status:           Workaround
 Severity:         Minor
 First observed:   2026-10-05
-Relevant commit:  Phase 1 commit
+Relevant commit:  823902e
 Description:      Windows Smart App Control (enabled on the founder's machine)
                   blocks the unsigned OSS CAD Suite yosys.exe with "An
                   Application Control policy has blocked this file". Icarus
@@ -45,7 +45,7 @@ KI-003
 Status:           Open
 Severity:         Minor (affects interpretation, not correctness)
 First observed:   2026-10-05
-Relevant commit:  Phase 1 commit
+Relevant commit:  823902e
 Description:      Generic cell counts for small designs vary ~2x between Yosys
                   versions (Y-Core: 33 cells in 0.69, 60 in 0.52). Large
                   designs vary ~3%.

@@ -2,7 +2,7 @@
 
 Date: 2026-10-05
 Agent: Claude (Claude Code, model Fable 5.1), implementation role
-Current commit: the Phase 1 commit (see `git log`; this file is part of it)
+Current commit: 823902e (Phase 1), followed by a docs-only fixup commit recording this hash
 
 ## Objective
 
