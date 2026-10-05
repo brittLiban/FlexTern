@@ -1,0 +1,25 @@
+# Yosys generic synthesis — INT8 16-element dot-product baseline (NOT part of FlexTern)
+# Run from the repository root:  yosys -q synth/int8_dot16_baseline.ys
+# See synth/y_core.ys for the meaning of the two stat passes.
+
+tee -q -o results/int8_dot16_baseline_synth.txt log ==== Baseline generic synthesis: int8_dot16_baseline ====
+tee -q -a results/int8_dot16_baseline_synth.txt log
+
+read_verilog -sv rtl/int8_mul_baseline.sv
+read_verilog -sv rtl/int8_dot16_baseline.sv
+hierarchy -check -top int8_dot16_baseline
+proc
+flatten
+opt_clean
+
+tee -q -a results/int8_dot16_baseline_synth.txt log ==== STAGE 1: coarse-grain cells (after proc/flatten/opt_clean) ====
+delete t:$scopeinfo
+tee -q -a results/int8_dot16_baseline_synth.txt stat
+
+synth -top int8_dot16_baseline -flatten
+
+tee -q -a results/int8_dot16_baseline_synth.txt log ==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+delete t:$scopeinfo
+tee -q -a results/int8_dot16_baseline_synth.txt stat
+
+check -assert

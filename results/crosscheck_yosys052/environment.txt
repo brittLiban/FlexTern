@@ -1,0 +1,8 @@
+Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)
+Native Linux Yosys from Ubuntu 26.04 apt package, run under WSL2 on the same source tree.
+Purpose: cross-version / cross-build sanity check of the canonical YoWASP results in results/.
+Generated: 2026-10-05T23:43:24+03:00
+y_core exit=0 217ms
+y_dot16 exit=0 794ms
+int8_mul_baseline exit=0 261ms
+int8_dot16_baseline exit=0 2637ms

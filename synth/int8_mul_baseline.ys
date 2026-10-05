@@ -1,0 +1,24 @@
+# Yosys generic synthesis — INT8 x INT8 multiplier baseline (NOT part of FlexTern)
+# Run from the repository root:  yosys -q synth/int8_mul_baseline.ys
+# See synth/y_core.ys for the meaning of the two stat passes.
+# Expect a $mul cell in stage 1, decomposed into many gates in stage 2.
+
+tee -q -o results/int8_mul_baseline_synth.txt log ==== Baseline generic synthesis: int8_mul_baseline ====
+tee -q -a results/int8_mul_baseline_synth.txt log
+
+read_verilog -sv rtl/int8_mul_baseline.sv
+hierarchy -check -top int8_mul_baseline
+proc
+opt_clean
+
+tee -q -a results/int8_mul_baseline_synth.txt log ==== STAGE 1: coarse-grain cells (after proc/opt_clean) ====
+delete t:$scopeinfo
+tee -q -a results/int8_mul_baseline_synth.txt stat
+
+synth -top int8_mul_baseline -flatten
+
+tee -q -a results/int8_mul_baseline_synth.txt log ==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+delete t:$scopeinfo
+tee -q -a results/int8_mul_baseline_synth.txt stat
+
+check -assert

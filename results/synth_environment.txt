@@ -1,0 +1,14 @@
+﻿FlexTern Phase 1 synthesis environment
+Generated: 2026-10-05 23:52:31 +03:00
+Git commit (HEAD at time of run): e15f10c
+
+Yosys    : C:\Users\liban\AppData\Local\Programs\Python\Python312\Scripts\yowasp-yosys.exe
+           Yosys 0.69 (git sha1 9f75ca1f9, Release, Clang /workspace/YoWASP/yosys/wasi-sdk-33.0-x86_64-linux/share/cmake/../..//bin/clang++ 22.1.0)
+Icarus   : C:\iverilog\bin\iverilog.exe
+           Icarus Verilog version 12.0 (devel) (s20150603-1539-g2693dd32b)
+Python   : C:\Users\liban\AppData\Local\Programs\Python\Python312\python.exe
+           Python 3.12.10
+
+Synthesis type: generic Yosys synthesis (synth -flatten, internal cell library via ABC).
+No FPGA target, no standard-cell library, no timing constraints.
+Cell counts are technology-independent structure measurements, not area/power/frequency.

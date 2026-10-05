@@ -1,0 +1,44 @@
+==== FlexTern generic synthesis: y_core ====
+
+==== STAGE 1: coarse-grain cells (after proc/opt_clean) ====
+
+5. Printing statistics.
+
+=== y_core ===
+
+        +----------Local Count, excluding submodules.
+        | 
+        7 wires
+       39 wire bits
+        4 public wires
+       28 public wire bits
+        3 ports
+       19 port bits
+        4 cells
+        2   $eq
+        1   $neg
+        1   $pmux
+
+==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+
+7. Printing statistics.
+
+=== y_core ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       28 wires
+       52 wire bits
+        4 public wires
+       28 public wire bits
+        3 ports
+       19 port bits
+       33 cells
+        2   $_ANDNOT_
+        8   $_AND_
+        1   $_MUX_
+        9   $_NAND_
+        1   $_ORNOT_
+        7   $_OR_
+        5   $_XNOR_
+

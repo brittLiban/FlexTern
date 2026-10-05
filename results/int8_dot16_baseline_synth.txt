@@ -1,0 +1,46 @@
+==== Baseline generic synthesis: int8_dot16_baseline ====
+
+==== STAGE 1: coarse-grain cells (after proc/flatten/opt_clean) ====
+
+7. Printing statistics.
+
+=== int8_dot16_baseline ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       69 wires
+     1396 wire bits
+       54 public wires
+     1096 public wire bits
+        3 ports
+      276 port bits
+       32 cells
+       16   $add
+       16   $mul
+
+==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+
+9. Printing statistics.
+
+=== int8_dot16_baseline ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     8680 wires
+     9722 wire bits
+       54 public wires
+     1096 public wire bits
+        3 ports
+      276 port bits
+     8646 cells
+      117   $_ANDNOT_
+     1185   $_AND_
+       70   $_MUX_
+     4002   $_NAND_
+       14   $_NOR_
+       18   $_NOT_
+      139   $_ORNOT_
+      110   $_OR_
+      329   $_XNOR_
+     2662   $_XOR_
+

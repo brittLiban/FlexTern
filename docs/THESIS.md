@@ -43,13 +43,13 @@ These are external facts, not FlexTern results.
 
 ## FlexTern hypotheses (HYPOTHESIZED)
 
-- **H1.** A dedicated ternary datapath (Y-Core) is materially smaller and/or lower-power than a conventional multiply-based datapath at the same activation precision on the same target.
+- **H1.** A dedicated ternary datapath (Y-Core) is materially smaller and/or lower-power than a conventional multiply-based datapath at the same activation precision on the same target. *First evidence (EXP-0001, 2026-10-05): MEASURED under generic synthesis, 5–12× fewer logic cells than INT8 multiply depending on scale and tool version. Not yet physical, not yet power.*
 - **H2.** The advantage in H1 survives, or grows, when composed into dot products and arrays, because wide ternary accumulation avoids multiplier arrays entirely.
 - **H3.** 2-bit (or denser) weight storage reduces memory traffic enough to matter for decode-bound inference.
 - **H4.** Explicit zero-skipping yields useful savings on real ternary models, because those models contain exploitable sparsity.
 - **H5.** Co-designing the compiler/runtime with the hardware captures gains that generic software on generic hardware cannot.
 
-None of these has been tested in this repository. The current objective (`CURRENT_WORK.md`) addresses H1 only.
+Only H1 has been tested, and only at the generic-logic level. EXP-0001 also showed the per-element advantage shrinking as accumulation is added, which bears on H2.
 
 ## Unknowns and risks
 

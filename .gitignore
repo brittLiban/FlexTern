@@ -15,6 +15,25 @@ __pycache__/
 .venv/
 venv/
 
-# Tool-specific ignores (synthesis outputs, simulation waveforms, etc.)
-# are added once a toolchain is chosen. Raw reports that an experiment
-# cites belong in results/ and are committed, not ignored.
+# Build outputs: compiled simulations, sim logs, scratch copies
+build/
+
+# Icarus Verilog
+*.vvp
+*.vcd
+*.fst
+*.lxt
+*.lxt2
+
+# Generated test vectors (regenerated deterministically by scripts/gen_vectors.py)
+tests/vectors/
+
+# Yosys temporaries (the curated logs in results/ ARE committed)
+*.il
+*.blif
+*.json.tmp
+abc.history
+yosys.log
+_tmp_yosys*
+
+# Keep: results/*.txt, results/*.md  (intentional, versioned measurements)

@@ -1,0 +1,49 @@
+==== FlexTern generic synthesis: y_dot16 ====
+
+==== STAGE 1: coarse-grain cells (after proc/flatten/opt_clean) ====
+
+7. Printing statistics.
+
+=== y_dot16 ===
+
+   Number of wires:                133
+   Number of wire bits:           1181
+   Number of public wires:          70
+   Number of public wire bits:     810
+   Number of ports:                  3
+   Number of port bits:            173
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 80
+     $add                           16
+     $eq                            32
+     $neg                           16
+     $pmux                          16
+
+==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+
+9. Printing statistics.
+
+=== y_dot16 ===
+
+   Number of wires:               1734
+   Number of wire bits:           2203
+   Number of public wires:          53
+   Number of public wire bits:     522
+   Number of ports:                  3
+   Number of port bits:            173
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1694
+     $_ANDNOT_                     597
+     $_AND_                         50
+     $_NAND_                        19
+     $_NOR_                        108
+     $_NOT_                         30
+     $_ORNOT_                      103
+     $_OR_                         360
+     $_XNOR_                        81
+     $_XOR_                        346
+

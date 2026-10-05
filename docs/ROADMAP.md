@@ -5,9 +5,9 @@
 It contains no tickets. The only committed work is the single objective in `CURRENT_WORK.md`. Phases beyond the current one describe where the project *might* go if earlier phases produce supporting evidence.
 
 ```
-PHASE 1   ◀── current
+PHASE 1   ◀── complete 2026-10-05 (EXP-0001); next phase not yet chosen
 Ternary primitive
-Y-Core
+Y-Core, Y-Dot16
 controlled baseline
 
       ↓

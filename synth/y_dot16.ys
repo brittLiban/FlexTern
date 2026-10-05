@@ -1,0 +1,27 @@
+# Yosys generic synthesis — Y-Dot16 v0.1 (16 x Y-Core + adder tree)
+# Run from the repository root:  yosys -q synth/y_dot16.ys
+# See synth/y_core.ys for the meaning of the two stat passes.
+# `-flatten` is essential so the 16 y_core instances are counted as cells,
+# not reported once as a submodule.
+
+tee -q -o results/y_dot16_synth.txt log ==== FlexTern generic synthesis: y_dot16 ====
+tee -q -a results/y_dot16_synth.txt log
+
+read_verilog -sv rtl/y_core.sv
+read_verilog -sv rtl/y_dot16.sv
+hierarchy -check -top y_dot16
+proc
+flatten
+opt_clean
+
+tee -q -a results/y_dot16_synth.txt log ==== STAGE 1: coarse-grain cells (after proc/flatten/opt_clean) ====
+delete t:$scopeinfo
+tee -q -a results/y_dot16_synth.txt stat
+
+synth -top y_dot16 -flatten
+
+tee -q -a results/y_dot16_synth.txt log ==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+delete t:$scopeinfo
+tee -q -a results/y_dot16_synth.txt stat
+
+check -assert

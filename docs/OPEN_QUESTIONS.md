@@ -6,36 +6,6 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 
 ---
 
-## Blocking the current objective
-
-### Q-001
-**Question:** Which FPGA board and toolchain is the measurement vehicle for Y-Core v0.1?
-**Why it matters:** Resource and timing numbers are target-specific. Without a fixed target, no result is reproducible. This does *not* decide the long-term platform.
-**Current evidence:** None.
-**What would answer it:** Founder decision based on hardware and tools available.
-**Status:** Open — blocks FT-CURRENT.
-
-### Q-002
-**Question:** What activation bit width does Y-Core v0.1 use?
-**Why it matters:** Width drives both the Y-Core and the baseline size. The comparison is only fair if both use the same width. Final activation precision is a separate, later question.
-**Current evidence:** None.
-**What would answer it:** Founder decision for v0.1. Width sweeps could be a later experiment.
-**Status:** Open — blocks FT-CURRENT.
-
-### Q-003
-**Question:** What is the ternary weight encoding at the Y-Core input boundary for v0.1?
-**Why it matters:** The Y-Core must decode something. Encoding choice affects decode logic and, later, memory packing. For v0.1 it only needs to be explicit.
-**Current evidence:** None.
-**What would answer it:** Founder decision for v0.1. The *best* physical encoding is Q-011.
-**Status:** Open — blocks FT-CURRENT.
-
-### Q-004
-**Question:** What exactly is the "conventional multiply-based datapath" baseline?
-**Why it matters:** Benchmark fairness. A naive baseline inflates the result; an over-engineered one hides it. Operand widths, signedness, DSP usage, and whether accumulation is included must be fixed before synthesis.
-**Current evidence:** None.
-**What would answer it:** Founder decision, ideally after discussion with ChatGPT and/or a reviewer.
-**Status:** Open — blocks FT-CURRENT.
-
 ## Thesis-level
 
 ### Q-005
@@ -91,4 +61,7 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 
 ## Closed
 
-None.
+- **Q-001** Measurement vehicle for v0.1 → generic Yosys synthesis, no physical target. Closed 2026-10-05 by ADR-0002.
+- **Q-002** v0.1 activation width → signed 8-bit. Closed 2026-10-05 by ADR-0002. (Final precision remains Q-007.)
+- **Q-003** v0.1 weight encoding → 2-bit, 00=0 / 01=+1 / 11=-1 / 10=reserved→0. Closed 2026-10-05 by ADR-0002. (Best physical packing remains Q-011.)
+- **Q-004** Conventional baseline → signed INT8 × INT8 via `*`, 16-bit product, 20-bit dot16 accumulator. Closed 2026-10-05 by ADR-0002.

@@ -1,0 +1,32 @@
+# Yosys generic synthesis — Y-Core v0.1
+# Run from the repository root:  yosys -q synth/y_core.ys
+#
+# `delete t:$scopeinfo` removes flatten's debug-marker cells (metadata, not logic)
+# before each stat so cell counts contain logic only.
+#
+# Two `stat` passes are recorded on purpose:
+#   1. After `proc`/`opt_clean`: coarse-grain cells ($mul, $neg, $add, $mux...)
+#      This answers "was a general multiplier inferred?" directly.
+#   2. After `synth -flatten`: generic gate-level cells from Yosys' internal
+#      library mapped by ABC. These are technology-independent counts, NOT
+#      area, timing, or power on any real device.
+
+tee -q -o results/y_core_synth.txt log ==== FlexTern generic synthesis: y_core ====
+tee -q -a results/y_core_synth.txt log
+
+read_verilog -sv rtl/y_core.sv
+hierarchy -check -top y_core
+proc
+opt_clean
+
+tee -q -a results/y_core_synth.txt log ==== STAGE 1: coarse-grain cells (after proc/opt_clean) ====
+delete t:$scopeinfo
+tee -q -a results/y_core_synth.txt stat
+
+synth -top y_core -flatten
+
+tee -q -a results/y_core_synth.txt log ==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+delete t:$scopeinfo
+tee -q -a results/y_core_synth.txt stat
+
+check -assert
