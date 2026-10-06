@@ -147,7 +147,7 @@ KI-008
 Status:           Workaround
 Severity:         Minor
 First observed:   2026-10-07
-Relevant commit:  EXP-0005 commit
+Relevant commit:  eef813f
 Description:      The canonical YoWASP Yosys 0.69 asserts
                   (`modules_.count(module->name) == 0`, rtlil_bufnorm.cc:681)
                   in `hierarchy -check -top <m> -chparam ...` when the design

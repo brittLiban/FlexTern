@@ -2,7 +2,7 @@
 
 Date: 2026-10-07
 Agent: Claude (Claude Code, model Fable 5.1), implementation role
-Current commit: the EXP-0005 commit ("research: compare packed streaming and near-memory ternary dataflow"), followed by a docs-only fixup commit recording this hash
+Current commit: eef813f (EXP-0005), followed by a docs-only fixup commit recording this hash
 
 ## Objective
 

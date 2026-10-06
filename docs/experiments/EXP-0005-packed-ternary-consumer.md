@@ -2,7 +2,7 @@
 
 Status: Complete (awaiting founder/ChatGPT review)
 Date: 2026-10-07
-Commit: the EXP-0005 commit ("research: compare packed streaming and near-memory ternary dataflow"); results generated from that tree.
+Commit: eef813f ("research: compare packed streaming and near-memory ternary dataflow (EXP-0005)"); results generated from that tree.
 
 Primary data: `results/hardware_gate/` (`summary.md`, `synthesis.csv`, `synth/*.txt`, `primary_comparison.csv`, `workload_mapping.csv`, `workload_totals.csv`, `traffic_comparison.csv`, `capacity_scaling.csv`, `bandwidth_requirements.csv`, `system_reconnect.csv`, `environment.json`, `checkpoint_slices.json`). Labels as in `AGENTS.md` §7. **This is an RTL + simulation + generic synthesis + analytical data-movement experiment. There is no FPGA, no physical timing, no power, no area.** Gate 1A and Gate 1B are scored separately at the end.
 
