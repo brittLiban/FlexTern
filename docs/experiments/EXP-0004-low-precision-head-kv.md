@@ -2,7 +2,7 @@
 
 Status: Complete (awaiting founder/ChatGPT review)
 Date: 2026-10-06
-Commit: the EXP-0004 commit ("research: evaluate INT4 head and KV cache on Falcon-E 1B"); results generated from that tree.
+Commit: 438da28 ("research: evaluate INT4 head and KV cache on Falcon-E 1B (EXP-0004)"); results generated from that tree.
 
 Primary data: `results/model_precision/` (JSON per phase, `quality_comparison.csv`, `memory_comparison.csv`, `latency_comparison.csv`, `candidate_format.md`, `roofline_reconnect.md`). This record interprets them. Labels as in `AGENTS.md` §7. **This is a software experiment on one checkpoint; nothing here is a hardware result.**
 

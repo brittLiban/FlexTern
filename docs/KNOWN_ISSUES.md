@@ -88,7 +88,7 @@ KI-005
 Status:           Workaround
 Severity:         Major (blocks any PyTorch work on the Windows host)
 First observed:   2026-10-06
-Relevant commit:  EXP-0004 commit
+Relevant commit:  438da28
 Description:      Windows Smart App Control blocks PyTorch's unsigned DLLs
                   (shm.dll, torch_cpu.dll, c10.dll, torch_cuda.dll are all
                   NotSigned) at `import torch` with WinError 4551, even for the
@@ -107,7 +107,7 @@ KI-006
 Status:           Workaround
 Severity:         Minor
 First observed:   2026-10-06
-Relevant commit:  EXP-0004 commit
+Relevant commit:  438da28
 Description:      optimum-quanto 0.2.7 registers CUDA/C++ extensions at import
                   whenever CUDA is visible and JIT-builds them on first use with
                   torch.utils.cpp_extension.load, which needs nvcc/CUDA_HOME.
@@ -127,7 +127,7 @@ KI-007
 Status:           Workaround
 Severity:         Minor
 First observed:   2026-10-06
-Relevant commit:  EXP-0004 commit
+Relevant commit:  438da28
 Description:      Long single-process GPU runs under WSL2 (memory capped at
                   6 GB by .wslconfig on a 15 GB host) were killed by host
                   memory pressure twice during EXP-0004 (a 73-minute lm-eval

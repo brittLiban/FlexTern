@@ -2,7 +2,7 @@
 
 Date: 2026-10-06
 Agent: Claude (Claude Code, model Fable 5.1), implementation role
-Current commit: the EXP-0004 commit ("research: evaluate INT4 head and KV cache on Falcon-E 1B"), followed by a docs-only fixup commit recording this hash
+Current commit: 438da28 (EXP-0004), followed by a docs-only fixup commit recording this hash
 
 ## Objective
 

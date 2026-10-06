@@ -2,7 +2,7 @@
 
 Reviewer: Fable 5.1 (advisor role, consulted by the implementing Claude agent)
 Date: 2026-10-06
-Scope: EXP-0004 and its artifacts (`analysis/model_precision/`, `tests/test_model_precision.py`, `results/model_precision/`, ADR-0006, the EXP-0004 record, the handoff, and the THESIS / OPEN_QUESTIONS / PROJECT_STATE wording) as they stood immediately before the EXP-0004 commit. Per the founder's instruction that the reviewer receive a different prompt from the implementation, the following twelve points were put to the reviewer verbatim: attack (1) benchmark validity, (2) the perplexity calculation, (3) dataset selection, (4) sample sizes, (5) quantization correctness, (6) KV append / cache semantics, (7) dequantization overhead, (8) memory accounting, (9) misleading runtime comparisons, (10) quality claims, (11) INT4 baseline fairness, (12) hardware implications and the recommended next objective.
+Scope: EXP-0004 and its artifacts (`analysis/model_precision/`, `tests/test_model_precision.py`, `results/model_precision/`, ADR-0006, the EXP-0004 record, the handoff, and the THESIS / OPEN_QUESTIONS / PROJECT_STATE wording) as they stood immediately before the EXP-0004 commit (438da28). Per the founder's instruction that the reviewer receive a different prompt from the implementation, the following twelve points were put to the reviewer verbatim: attack (1) benchmark validity, (2) the perplexity calculation, (3) dataset selection, (4) sample sizes, (5) quantization correctness, (6) KV append / cache semantics, (7) dequantization overhead, (8) memory accounting, (9) misleading runtime comparisons, (10) quality claims, (11) INT4 baseline fairness, (12) hardware implications and the recommended next objective.
 
 ## Overall Assessment
 
