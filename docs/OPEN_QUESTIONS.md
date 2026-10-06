@@ -11,22 +11,22 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 ### Q-005
 **Question:** At scale, does arithmetic or memory movement dominate the benefit of ternary computation?
 **Why it matters:** Determines whether the Y-Core or the memory/encoding subsystem is the real product.
-**Current evidence:** None from FlexTern. External work suggests decode inference is memory-bound on conventional hardware (KNOWN), but that does not settle where FlexTern's advantage lies.
-**What would answer it:** Phase 2+ experiments with realistic dataflow and memory traffic measurement.
-**Status:** Open.
+**Current evidence:** EXP-0002 (INFERRED, analytical): for BitNet 2B4T batch-1 decode with weights streamed once, the 2-bit ternary layers are 521 MB/token but the BF16 tied output head is 657 MB/token and the KV cache at 4k context another 315 MB/token. Ternary arithmetic is 86% of linear MACs but only 35% of weight-plus-KV bytes. Not measured on any hardware.
+**What would answer it:** A hardware experiment that models or measures the memory stream, not just the datapath.
+**Status:** Open; evidence now points toward memory.
 
 ### Q-006
 **Question:** How much exploitable sparsity (weight = 0) exists in target ternary models?
 **Why it matters:** Zero-skipping hardware is only worth its complexity if zeros are common and clustered enough to skip.
-**Current evidence:** None gathered.
-**What would answer it:** Analyzing weight distributions of published ternary models.
-**Status:** Open.
+**Current evidence:** EXP-0002 (MEASURED): 42.2% of ternary weights are zero (per-tensor 36–60%). Along the dot-product axis, zero placement matches independence once all-zero rows are removed, so there is no block structure to exploit at g = 4/8/16. What does exist is channel-level: 4.76% of MLP intermediate channels are entirely dead (gate and up rows both zero; layer 1 is 43.6% dead), which is skippable at the channel level with no per-element machinery.
+**What would answer it:** Whether a second model shows the same pattern (Q-018), and whether unstructured 42% zeros can be exploited cheaply (e.g., by what the accumulator does with a zero term) versus the cost of detecting them.
+**Status:** Open; partially answered for this model.
 
 ### Q-007
 **Question:** Which activation precision is actually optimal for ternary-weight inference quality vs cost?
 **Why it matters:** Activation width dominates datapath and traffic once weights are 2-bit.
-**Current evidence:** None.
-**What would answer it:** Model-quality studies plus hardware cost sweeps. Not a Phase 1 question.
+**Current evidence:** EXP-0002 (KNOWN from reference code): the reference model uses per-token absmax symmetric INT8 with range [-127, 127]; -128 is unreachable. Whether narrower activations keep quality is untested.
+**What would answer it:** Model-quality studies plus hardware cost sweeps.
 **Status:** Open.
 
 ### Q-008
@@ -48,7 +48,29 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 
 ### Q-011
 **Question:** What is the best physical encoding/packing for ternary weights in memory?
+**Current evidence:** EXP-0002: the reference checkpoint uses 2 bits/weight (4 per byte along the output dimension); 5-trits-per-byte would cut ternary bytes by 20% (521 → 417 MB) at the cost of a base-3 decoder. Whether that decoder is cheaper than the bandwidth it saves is unmeasured.
 **Status:** Open. Deferred.
+
+### Q-018
+**Question:** Do the EXP-0002 findings (42% zeros, dead early-layer MLP channels, two dot lengths, per-tensor scale, INT8 per-token activations) hold for other native ternary models?
+**Why it matters:** Every workload-driven hardware decision currently rests on one model.
+**Current evidence:** One model only.
+**What would answer it:** Re-running `analysis/ternary_model_profile.py` (generalized for other layouts) on a second native ternary release when one exists.
+**Status:** Open.
+
+### Q-019
+**Question:** Is the non-ternary BF16 output head (328 M parameters, 657 MB, 13.6% of linear MACs) in FlexTern's scope, or an accepted fixed cost handled elsewhere?
+**Why it matters:** Under a stream-once decode model it is the single largest weight stream per token, bigger than all ternary layers combined. Quantizing it to INT8/INT4 is a model-quality question FlexTern cannot answer alone.
+**Current evidence:** EXP-0002 traffic model (INFERRED).
+**What would answer it:** Founder decision on scope; a quality study if quantizing the head is considered.
+**Status:** Open — founder-level.
+
+### Q-020
+**Question:** Can channel-level dead sparsity (whole-row zeros) be exploited at the compiler/packing level rather than in hardware, and does that make per-element zero-skipping unnecessary?
+**Why it matters:** EXP-0002 shows the only structured sparsity is dead channels, which a compiler can simply drop (2.44% of weights, up to 43.6% of MLP channels in one layer).
+**Current evidence:** EXP-0002 (MEASURED counts; no exploitation tried).
+**What would answer it:** A packing/scheduling experiment, not RTL.
+**Status:** Open.
 
 ## Strategic (founder-only; not for agents to decide)
 

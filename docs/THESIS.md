@@ -45,11 +45,11 @@ These are external facts, not FlexTern results.
 
 - **H1.** A dedicated ternary datapath (Y-Core) is materially smaller and/or lower-power than a conventional multiply-based datapath at the same activation precision on the same target. *First evidence (EXP-0001, 2026-10-05): MEASURED under generic synthesis, 5–12× fewer logic cells than INT8 multiply depending on scale and tool version. Not yet physical, not yet power.*
 - **H2.** The advantage in H1 survives, or grows, when composed into dot products and arrays, because wide ternary accumulation avoids multiplier arrays entirely.
-- **H3.** 2-bit (or denser) weight storage reduces memory traffic enough to matter for decode-bound inference.
-- **H4.** Explicit zero-skipping yields useful savings on real ternary models, because those models contain exploitable sparsity.
+- **H3.** 2-bit (or denser) weight storage reduces memory traffic enough to matter for decode-bound inference. *Evidence (EXP-0002, INFERRED traffic model): ternary layers of the reference model stream 521 MB/token at 2 bits, but the BF16 output head streams 657 MB/token on its own. H3 is necessary but not sufficient; the non-ternary parts of the model dominate bytes unless they are also addressed.*
+- **H4.** Explicit zero-skipping yields useful savings on real ternary models, because those models contain exploitable sparsity. *Evidence (EXP-0002, MEASURED): 42% of weights are zero, but their placement along K matches independence; the only structure is whole dead channels (4.76% of MLP intermediate channels). Per-element skipping would face unstructured zeros; channel-level skipping is trivial and small.*
 - **H5.** Co-designing the compiler/runtime with the hardware captures gains that generic software on generic hardware cannot.
 
-Only H1 has been tested, and only at the generic-logic level. EXP-0001 also showed the per-element advantage shrinking as accumulation is added, which bears on H2.
+H1 has been tested at the generic-logic level (EXP-0001). H3 and H4 have workload evidence from one model (EXP-0002) but no hardware evidence. EXP-0001 also showed the per-element advantage shrinking as accumulation is added, which bears on H2.
 
 ## Unknowns and risks
 

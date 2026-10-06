@@ -37,3 +37,8 @@ yosys.log
 _tmp_yosys*
 
 # Keep: results/*.txt, results/*.md  (intentional, versioned measurements)
+
+# Third-party model checkpoints: never committed (EXP-0002 uses the HF cache outside the repo)
+models/
+*.safetensors
+*.gguf

@@ -57,6 +57,25 @@ Workaround:       Always report the Yosys version alongside any count. Prefer
                   give more meaningful numbers.
 ```
 
+```
+KI-004
+Status:           Open (informational)
+Severity:         Minor
+First observed:   2026-10-06
+Relevant commit:  Phase 2 commit
+Description:      Applying the official absmean ternarization (WeightQuant) to
+                  the BF16 latent repo microsoft/bitnet-b1.58-2B-4T-bf16
+                  reproduces the packed repo's 2-bit codes at 98.0-99.4%, not
+                  100%, on three tensors checked. The stored weight_scale does
+                  match mean|W_latent| to BF16 precision. The two repos appear
+                  to be different training snapshots or were ternarized with
+                  different rounding.
+Impact:           Anyone deriving ternary statistics from the BF16 repo would
+                  get numbers that differ by ~1-2 percentage points from the
+                  deployed packed weights. EXP-0002 uses the packed repo only.
+Workaround:       Treat the packed repo as authoritative. Do not mix the two.
+```
+
 ### Template
 
 ```

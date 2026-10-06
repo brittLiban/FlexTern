@@ -6,82 +6,81 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 **Objective ID:** FT-CURRENT
 
-**Title:** Phase 1 — Y-Core v0.1 + Y-Dot16 + first generic synthesis comparison against an INT8 multiply-based datapath.
+**Title:** Phase 2 — Characterize a real ternary transformer workload (BitNet b1.58 2B4T) well enough to determine what hardware problem FlexTern should optimize next.
 
-**Status:** Complete. Awaiting founder/ChatGPT review of results. No next objective has been set.
+**Status:** Complete. Awaiting founder/ChatGPT review of EXP-0002. No next implementation objective has been set.
 
 **Owner / agent:** Claude (implementation)
 
-**Started:** 2026-10-05
-**Completed:** 2026-10-05
+**Started:** 2026-10-06
+**Completed:** 2026-10-06
 
 ## Why we are doing this
 
-The entire FlexTern thesis (`THESIS.md`, hypothesis H1) rests on the assumption that a ternary datapath is materially cheaper than a multiply-based one. Before building anything larger, we need to know whether the primitive advantage is real at the RTL/logic level, how large it is in generic cell counts, and whether the primitive composes correctly into a dot product.
+Phase 1 (EXP-0001) showed the ternary primitive is cheap and that accumulation dilutes the advantage. Before designing Y-Array, accumulators, sparsity hardware, or a memory system, FlexTern needs to know what a real ternary transformer actually demands: shapes, dot lengths, zero rates, activation format, scale handling, and where the bytes and arithmetic go.
 
 ## Question we are trying to answer
 
-Can activation × ternary-weight be implemented correctly without a multiplier, and how does the resulting generic logic compare to a conventional signed INT8 × INT8 multiplier, at single-element and 16-element dot-product scale?
+What does a real, publicly released, natively ternary transformer require from the hardware, and which architectural bottleneck should FlexTern attack next?
 
 ## Scope
 
-- Python golden reference (`reference/ternary_op.py`) with unit tests.
-- Y-Core v0.1 RTL (`rtl/y_core.sv`): combinational, 8-bit signed activation, 2-bit ternary weight, 9-bit signed result. Exhaustive testbench over all 768 valid inputs plus the reserved encoding.
-- Y-Dot16 RTL (`rtl/y_dot16.sv`): 16 Y-Cores plus adder tree, 13-bit signed output. Deterministic, 10,000 randomized, and Python-generated cross-check vectors.
-- INT8 baselines (`rtl/int8_mul_baseline.sv`, `rtl/int8_dot16_baseline.sv`) with their own correctness testbench.
-- Yosys generic synthesis of all four modules with logs in `results/`.
-- `scripts/run_all.ps1` reproducing the whole flow on Windows.
-- `results/benchmark.md` with measured values only.
-
-Scope note: the original FT-CURRENT definition excluded Y-Dot16. Founder direction on 2026-10-05 added it. Interface parameters are fixed by ADR-0002.
+- Select and pin one official native ternary model (ADR-0003).
+- Extract configuration programmatically; inventory every linear operation and its shape.
+- Measure the -1/0/+1 distribution of every ternary tensor, globally, per module, per layer; measure zero structure along K and dead channels.
+- Characterize weight-scale and activation-quantization schemes from the reference implementation; cross-check absmean ternarization against the BF16 latent repo.
+- Inventory non-ternary operations per block with static op counts.
+- Compute storage sizes, a first-order batch-1 decode traffic model, and mathematically safe accumulator widths for real K.
+- Evaluate Y-Core v0.1's assumptions against the model.
+- Rank candidate next experiments and recommend exactly one.
 
 ## Explicitly out of scope
 
-- Y-Array or anything beyond a 16-element dot product.
-- Memory interfaces, weight unpacking beyond the Y-Core's own decode.
-- Any neural-network workload or BitNet model.
-- FPGA bitstream, physical place-and-route, timing closure, power measurement.
-- ASIC projection of any kind.
-- GPU comparison.
-- Compiler, runtime, CUDA compatibility.
-- Pipelining or clocked designs.
+- Any RTL: Y-Array, accumulator variants, zero-skipping, popcount, packing hardware.
+- FPGA bitstreams, board selection, ASIC, compiler, CUDA/Triton.
+- Running the model; runtime profiling.
+- Performance, power, or area claims derived from model statistics.
 
 ## Definition of done
 
-All items met; see `experiments/EXP-0001-y-core.md` for evidence.
+All items met; evidence in `experiments/EXP-0002-real-ternary-workload-profile.md` and `../results/workload_profile/`.
 
-- [x] Python reference exists and its tests pass.
-- [x] `y_core.sv` exists; all 768 valid cases verified; -128 × -1 = +128 verified by name.
-- [x] `y_dot16.sv` exists; deterministic, randomized, and Python cross-check tests pass.
-- [x] INT8 baselines exist and pass their own exhaustive/randomized tests.
-- [x] All four modules synthesize in Yosys; logs saved in `results/`.
-- [x] `results/benchmark.md` contains only tool-obtained numbers.
-- [x] `scripts/run_all.ps1` runs the full flow and stops on failure.
-- [x] Documentation updated per `AGENTS.md` §9.
+- [x] Canonical docs read first; model selected with provenance (ADR-0003).
+- [x] Config extracted; linear shapes inventoried; dot lengths identified.
+- [x] Ternary distributions measured; official ternarization reproduced on BF16 latents.
+- [x] Zero sparsity measured globally and per layer/module; structure analyzed.
+- [x] Scale and activation schemes characterized from code.
+- [x] Non-ternary operations inventoried.
+- [x] Storage, traffic model, accumulator widths computed.
+- [x] Y-Core assumptions evaluated.
+- [x] Analysis code validated (16 unit tests + in-tool reconciliation asserts).
+- [x] One-command reproduction (`scripts/run_workload_profile.ps1`).
+- [x] One next objective recommended, not implemented.
 
 ## Required validation
 
-Met. Functional correctness by exhaustive and randomized simulation; independence by Python-vs-RTL cross-check; synthesis by Yosys `check -assert` passing on every module.
+Met. See EXP-0002 "Method" and `tests/test_analysis.py`.
 
 ## Relevant files
 
-`reference/ternary_op.py`, `tests/test_reference.py`, `rtl/*.sv`, `tests/*_tb.sv`, `scripts/gen_vectors.py`, `scripts/run_all.ps1`, `synth/*.ys`, `results/*.txt`, `results/benchmark.md`.
+`analysis/`, `tests/test_analysis.py`, `scripts/run_workload_profile.ps1`, `results/workload_profile/`.
 
 ## Relevant ADRs
 
 - ADR-0001 — Operating model.
-- ADR-0002 — Y-Core v0.1 interface, encoding, and measurement baseline.
+- ADR-0002 — Y-Core v0.1 interface (the assumptions tested here).
+- ADR-0003 — Reference workload: BitNet b1.58 2B4T.
 
 ## Relevant experiments
 
-- EXP-0001 — Y-Core v0.1 and Y-Dot16 vs INT8 baseline (complete).
+- EXP-0001 — Y-Core v0.1 and Y-Dot16 vs INT8 baseline.
+- EXP-0002 — Real ternary workload profile (this objective).
 
 ## Known uncertainties
 
-- Generic Yosys cell counts are a structure measurement. They do not predict FPGA LUT counts, ASIC area, frequency, or power on any real technology.
-- The INT8 baseline computes a strictly more general function with a wider output. Part of the measured difference is reduced function, not architectural insight.
-- Single-element and 16-element results say nothing about system-level behavior once memory, control, and interconnect are included.
+- All findings are from one model. Generalization to other ternary models is Q-018.
+- Arithmetic and traffic figures are static estimates, not measurements.
 
 ## Questions requiring founder decision
 
-None block this objective. For what to do next, see the handoff `handoffs/2026-10-05-phase1-y-core.md` and `OPEN_QUESTIONS.md`.
+None block this objective. See the EXP-0002 handoff for questions the founder and ChatGPT should discuss before choosing the next objective.

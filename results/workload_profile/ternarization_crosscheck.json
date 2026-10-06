@@ -1,0 +1,55 @@
+{
+  "packed_repo": "microsoft/bitnet-b1.58-2B-4T",
+  "packed_revision": "04c3b9ad9361b824064a1f25ea60a8be9599b127",
+  "bf16_repo": "microsoft/bitnet-b1.58-2B-4T-bf16",
+  "bf16_revision": "276681394656abdadb8e80e5b2c3db5e5d7fcaff",
+  "method": "WeightQuant.forward (transformers integrations/bitnet.py): scale=1/mean|W|, q=round(W*scale).clamp(-1,1), float32 math",
+  "interpretation": "weight_scale stored in the packed repo equals mean|W_latent| (absmean beta) to BF16 precision; ternarizing the bf16 repo reproduces the packed codes at ~98-99.4%, not 100%, so the two repos are not bit-identical snapshots. The packed repo is the deployed artifact and is what EXP-0002 measures.",
+  "tensors": [
+    {
+      "tensor": "model.layers.0.self_attn.q_proj.weight",
+      "shape": [
+        2560,
+        2560
+      ],
+      "bf16_mean_abs": 1.2188504934310913,
+      "packed_weight_scale": 1.21875,
+      "scale_matches_absmean_to_bf16_precision": true,
+      "agreement_pct": 98.78358459472656,
+      "mismatches": 79719,
+      "elements": 6553600,
+      "zero_pct_from_bf16": 50.83364868164062,
+      "zero_pct_packed": 49.61723327636719
+    },
+    {
+      "tensor": "model.layers.0.self_attn.k_proj.weight",
+      "shape": [
+        640,
+        2560
+      ],
+      "bf16_mean_abs": 1.7940565347671509,
+      "packed_weight_scale": 1.796875,
+      "scale_matches_absmean_to_bf16_precision": true,
+      "agreement_pct": 99.36871337890625,
+      "mismatches": 10343,
+      "elements": 1638400,
+      "zero_pct_from_bf16": 45.84228515625,
+      "zero_pct_packed": 46.47357177734375
+    },
+    {
+      "tensor": "model.layers.17.mlp.down_proj.weight",
+      "shape": [
+        2560,
+        6912
+      ],
+      "bf16_mean_abs": 2.6830971240997314,
+      "packed_weight_scale": 2.6875,
+      "scale_matches_absmean_to_bf16_precision": true,
+      "agreement_pct": 98.01425509982639,
+      "mismatches": 351372,
+      "elements": 17694720,
+      "zero_pct_from_bf16": 37.9486083984375,
+      "zero_pct_packed": 39.934353298611114
+    }
+  ]
+}

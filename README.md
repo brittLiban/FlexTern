@@ -28,6 +28,16 @@ Phase 1 is **complete**. Results are in [`results/benchmark.md`](results/benchma
 | **Simulation** | Running RTL in a simulator (Icarus Verilog) with a testbench that checks outputs against expected values. Proves correctness. |
 | **Synthesis** | Translating RTL into a netlist of logic cells (Yosys). Shows what structure the logic requires. Here it is *generic*: no target device, so no area, timing, or power. |
 
+## Phase 2 — Real workload characterization
+
+Phase 2 asked what a real ternary transformer actually demands. The reference workload is `microsoft/bitnet-b1.58-2B-4T` (MIT, pinned revision in ADR-0003). `analysis/ternary_model_profile.py` reads the packed checkpoint directly, counts every one of its 2.08 billion ternary weights, and writes [`results/workload_profile/`](results/workload_profile/). The experiment record is [`docs/experiments/EXP-0002-real-ternary-workload-profile.md`](docs/experiments/EXP-0002-real-ternary-workload-profile.md).
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\run_workload_profile.ps1
+```
+
+Downloads 1.18 GB into the Hugging Face cache on first run (never into the repo), verifies its SHA-256, then profiles it in about 40 seconds. Needs `pip install numpy huggingface_hub`.
+
 ## Repository layout
 
 ```
@@ -38,6 +48,7 @@ docs/              Canonical project documentation. Start at docs/INDEX.md.
   experiments/     Experiment records, including negative results
   reviews/         Independent reviewer critiques
   handoffs/        Agent-to-agent handoff notes
+analysis/          Workload-characterization tools (EXP-0002); no RTL
 reference/         ternary_op.py — Python golden reference the RTL is checked against
 rtl/               y_core.sv, y_dot16.sv, int8_mul_baseline.sv, int8_dot16_baseline.sv
 tests/             Python unit tests and SystemVerilog testbenches

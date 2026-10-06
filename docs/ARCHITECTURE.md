@@ -29,6 +29,8 @@ Implementation: sign-extend to 9 bits, then a 3-way select between 0, +x, and -x
 
 MEASURED (generic Yosys): 2 `$eq` + 1 `$neg` + 1 `$pmux` before mapping; 33 generic cells after (Yosys 0.69), 60 (Yosys 0.52). No multiplier inferred.
 
+Workload fit (EXP-0002, reference model BitNet 2B4T): the INT8 activation and 2-bit ternary weight match the model's format exactly. The model's activation quantizer cannot emit -128, so the 9-bit result's +128 case never occurs on this workload; the width is still correct for the format. Real dot lengths are K = 2560 and 6912, not 16; per-tensor scaling happens once per output after accumulation and does not touch the primitive.
+
 ## 2. Y-Dot16 — first composition
 
 **Status: Implemented (v0.1)** — `rtl/y_dot16.sv`, verified against testbench arithmetic and Python-generated vectors, synthesized generically (EXP-0001).
@@ -91,5 +93,6 @@ Signed INT8 × INT8 via `*`, 16-bit product; 16-element dot with 20-bit accumula
 
 ## Change log for this document
 
+- 2026-10-06 — Added workload-fit note under Y-Core from EXP-0002. No design change.
 - 2026-10-05 — Y-Core v0.1 and Y-Dot16 v0.1 marked Implemented after EXP-0001. Baselines section added.
 - 2026-10-05 — Initial version. Nothing implemented.

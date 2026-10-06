@@ -6,7 +6,7 @@
 //
 //     y = sum_{i=0}^{15}  x[i] * w[i],   w[i] in {-1, 0, +1}
 //
-// Built from 16 Y-Core instances plus an adder tree. There is no multiplier
+// Built from 16 Y-Core instances plus a sequential adder chain. There is no multiplier
 // anywhere in this design.
 //
 // Port packing: ports are flat packed vectors (not unpacked arrays) so the

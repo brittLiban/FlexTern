@@ -52,7 +52,7 @@ The structural conclusion (no multiplier; ternary datapath is several times smal
 ## Observations (labeled)
 
 - **MEASURED.** Neither Y-Core nor Y-Dot16 infers a `$mul` cell. The ternary operation reduces to equality decode, a 9-bit negate, and a 3-way select.
-- **MEASURED.** At 16 elements, the ratio between baseline and ternary falls from 12.3× to 6.5× (Yosys 0.69). The accumulation adder tree is a cost both designs share.
+- **MEASURED.** At 16 elements, the ratio between baseline and ternary falls from 12.3× to 6.5× (Yosys 0.69). The accumulation adder chain is a cost both designs share.
 - **INFERRED.** Subtracting 16 × single-element cost from the dot16 totals gives a rough accumulation cost of ~800 cells for Y-Dot16 (13-bit adds) and ~2,100 for the INT8 baseline (20-bit adds). ABC optimizes across element boundaries, so this split is approximate.
 - **INFERRED.** Y-Dot16's accumulation is roughly 60% of its total logic. Any further gains at this level would come from the adder structure, not from the Y-Core itself.
 

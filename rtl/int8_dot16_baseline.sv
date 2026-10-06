@@ -6,7 +6,7 @@
 //
 //     y = sum_{i=0}^{15} x[i] * w[i],   x[i], w[i] both signed int8
 //
-// Built from 16 int8_mul_baseline instances plus an adder tree, mirroring the
+// Built from 16 int8_mul_baseline instances plus a sequential adder chain, mirroring the
 // structure of y_dot16.sv so the only material difference is the per-element
 // operation (general multiply vs ternary select).
 //

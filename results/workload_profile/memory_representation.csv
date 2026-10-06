@@ -1,0 +1,14 @@
+representation,scope,bytes,note
+BF16 (16 bit/weight),ternary linear weights only,4168089600,THEORETICAL reference
+INT8 (8 bit/weight),ternary linear weights only,2084044800,THEORETICAL
+INT4 (4 bit/weight),ternary linear weights only,1042022400.0,THEORETICAL
+2-bit naive ternary,ternary linear weights only,521011200.0,THEORETICAL; equals checkpoint packing
+log2(3) = 1.585 bit/weight bound,ternary linear weights only,412891607.2278652,THEORETICAL information bound
+5 trits per byte (1.6 bit/weight),ternary linear weights only,416808960.0,THEORETICAL practical packing (3^5=243<=256)
+ACTUAL checkpoint packed U8,ternary linear weights only,521011200,MEASURED from header byte ranges
+weight_scale BF16,metadata,420,MEASURED; 1 per tensor
+norm weights BF16,metadata,880640,MEASURED
+embedding / tied lm_head BF16,non-ternary weights,656670720,MEASURED; 55.7% of file
+ACTUAL whole file,model.safetensors,1178623988,MEASURED
+HYPOTHETICAL: 2-bit ternary layers + INT8 head,all weights,850227620.0,HYPOTHETICAL FlexTern packing
+HYPOTHETICAL: 2-bit ternary layers + INT4 head,all weights,686059940.0,HYPOTHETICAL; head quality impact unknown

@@ -1,4 +1,4 @@
-# Yosys generic synthesis — Y-Dot16 v0.1 (16 x Y-Core + adder tree)
+# Yosys generic synthesis — Y-Dot16 v0.1 (16 x Y-Core + sequential adder chain)
 # Run from the repository root:  yosys -q synth/y_dot16.ys
 # See synth/y_core.ys for the meaning of the two stat passes.
 # `-flatten` is essential so the 16 y_core instances are counted as cells,

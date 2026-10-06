@@ -1,0 +1,3 @@
+K,modules,tensors,dot_products_per_token,weights,pct_of_ternary_weights,pct_zero,expected_nonzero_terms
+2560,gate_proj+k_proj+o_proj+q_proj+up_proj+v_proj,180,606720,1553203200,74.52830188679245,42.518368234111286,1471.529773206751
+6912,down_proj,30,76800,530841600,25.471698113207548,41.31112520194348,4056.575026041666
