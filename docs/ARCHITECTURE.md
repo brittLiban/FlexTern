@@ -29,7 +29,7 @@ Implementation: sign-extend to 9 bits, then a 3-way select between 0, +x, and -x
 
 MEASURED (generic Yosys): 2 `$eq` + 1 `$neg` + 1 `$pmux` before mapping; 33 generic cells after (Yosys 0.69), 60 (Yosys 0.52). No multiplier inferred.
 
-Workload fit (EXP-0002, reference model BitNet 2B4T): the INT8 activation and 2-bit ternary weight match the model's format exactly. The model's activation quantizer cannot emit -128, so the 9-bit result's +128 case never occurs on this workload; the width is still correct for the format. Real dot lengths are K = 2560 and 6912, not 16; per-tensor scaling happens once per output after accumulation and does not touch the primitive.
+Workload fit (EXP-0002 and EXP-0002B, reference set ADR-0004): the INT8 per-token activation and ternary weight match both BitNet 2B4T and Falcon-E 1B/3B exactly. Neither family's activation quantizer can emit -128, so the 9-bit result's +128 case never occurs on these workloads; the width is still correct for the format. Real dot lengths are K ∈ {2048, 2560, 6912, 9216, 13312}, all multiples of 256, never 16; per-tensor scaling happens once per output after accumulation in both families and does not touch the primitive. Checkpoint weight codes are 00/01/10 → -1/0/+1 in both families (transformers packing), while Y-Core v0.1 uses 00/01/11; a remap at the load boundary is required either way, and the two families also store the scale with opposite conventions (β vs 1/β), so a FlexTern-internal canonical representation (code, scale) is a loader concern, not a primitive concern.
 
 ## 2. Y-Dot16 — first composition
 
@@ -93,6 +93,7 @@ Signed INT8 × INT8 via `*`, 16-bit product; 16-element dot with 20-bit accumula
 
 ## Change log for this document
 
+- 2026-10-06 — Workload-fit note under Y-Core extended to Falcon-E (EXP-0002B): K range 2048–13312, both checkpoint encodings, scale conventions. No design change.
 - 2026-10-06 — Added workload-fit note under Y-Core from EXP-0002. No design change.
 - 2026-10-05 — Y-Core v0.1 and Y-Dot16 v0.1 marked Implemented after EXP-0001. Baselines section added.
 - 2026-10-05 — Initial version. Nothing implemented.

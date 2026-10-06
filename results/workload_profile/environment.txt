@@ -1,12 +1,12 @@
-FlexTern EXP-0002 workload profile environment
-Generated: 2026-10-06 00:31:06 +0300
-Command: python analysis\ternary_model_profile.py
+FlexTern workload profile environment — bitnet-2b4t
+Generated: 2026-10-06 06:19:44 +0300
+Command: python analysis\ternary_model_profile.py --model bitnet-2b4t
 Python: 3.12.10 (Windows-11-10.0.26200-SP0)
 numpy: 2.5.3   huggingface_hub: 2.1.1
 Model: microsoft/bitnet-b1.58-2B-4T  revision 04c3b9ad9361b824064a1f25ea60a8be9599b127
 Model file: C:\Users\liban\.cache\huggingface\hub\models--microsoft--bitnet-b1.58-2B-4T\snapshots\04c3b9ad9361b824064a1f25ea60a8be9599b127\model.safetensors
 File size: 1178623988 (expected 1178623988: OK)
 SHA-256: 8143ae115ed6babe5e5ada8fb8c5b769d8f417802b2db042ad98b4f7ed73975b  (expected 8143ae115ed6babe5e5ada8fb8c5b769d8f417802b2db042ad98b4f7ed73975b: OK)
-Reference quantization code: transformers src/transformers/integrations/bitnet.py @ d6abd1333078195535f461589b64f112b53688b2
+Reference quantization code: huggingface/transformers src/transformers/integrations/bitnet.py @ d6abd1333078195535f461589b64f112b53688b2 (AutoBitLinear, offline mode; config linear_class=autobitlinear)
 Random seeds: none (fully deterministic)
-Runtime: 39.5 s
+Runtime: 39.2 s

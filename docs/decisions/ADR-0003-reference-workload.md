@@ -1,6 +1,6 @@
 # ADR-0003 — Reference ternary workload: BitNet b1.58 2B4T
 
-Status: Accepted
+Status: Superseded (by ADR-0004, 2026-10-06; the BitNet 2B4T choice itself still stands as the first member of the reference set)
 Date: 2026-10-06
 
 ## Context
@@ -39,4 +39,4 @@ None.
 
 ## Superseded By
 
-None.
+ADR-0004 — Reference workload set (adds Falcon-E 1B/3B; BitNet 2B4T remains the first reference).

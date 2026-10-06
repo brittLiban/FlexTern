@@ -8,7 +8,7 @@ log2(3) = 1.585 bit/weight bound,ternary linear weights only,412891607.2278652,T
 ACTUAL checkpoint packed U8,ternary linear weights only,521011200,MEASURED from header byte ranges
 weight_scale BF16,metadata,420,MEASURED; 1 per tensor
 norm weights BF16,metadata,880640,MEASURED
-embedding / tied lm_head BF16,non-ternary weights,656670720,MEASURED; 55.7% of file
+embedding BF16 (tied: also the lm_head),non-ternary weights,656670720,MEASURED; 55.7% of file
 ACTUAL whole file,model.safetensors,1178623988,MEASURED
-HYPOTHETICAL: 2-bit ternary layers + INT8 head,all weights,850227620.0,HYPOTHETICAL FlexTern packing
-HYPOTHETICAL: 2-bit ternary layers + INT4 head,all weights,686059940.0,HYPOTHETICAL; head quality impact unknown
+HYPOTHETICAL: 2-bit ternary layers + INT8 embed/head,all weights,850227620.0,HYPOTHETICAL FlexTern packing
+HYPOTHETICAL: 2-bit ternary layers + INT4 embed/head,all weights,686059940.0,HYPOTHETICAL; quality impact unknown

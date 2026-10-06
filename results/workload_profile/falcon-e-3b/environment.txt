@@ -1,0 +1,12 @@
+FlexTern workload profile environment — falcon-e-3b
+Generated: 2026-10-06 06:22:13 +0300
+Command: python analysis\ternary_model_profile.py --model falcon-e-3b
+Python: 3.12.10 (Windows-11-10.0.26200-SP0)
+numpy: 2.5.3   huggingface_hub: 2.1.1
+Model: tiiuae/Falcon-E-3B-Base  revision ad18b0713c10a8696144b1112accf4ccd28af6d3
+Model file: C:\Users\liban\.cache\huggingface\hub\models--tiiuae--Falcon-E-3B-Base\snapshots\ad18b0713c10a8696144b1112accf4ccd28af6d3\model.safetensors
+File size: 998568704 (expected 998568704: OK)
+SHA-256: 25dbd87d68cf853de3bea1ae4615bf2fa027f252b77ec2137a07e94c1a1a6ba2  (expected 25dbd87d68cf853de3bea1ae4615bf2fa027f252b77ec2137a07e94c1a1a6ba2: OK)
+Reference quantization code: as falcon-e-1b (transformers BitLinear @ d6abd1333078195535f461589b64f112b53688b2; onebitllms @ 9be8e4f377bd7fa0e86fc0e3083f7785dc805201)
+Random seeds: none (fully deterministic)
+Runtime: 54.3 s

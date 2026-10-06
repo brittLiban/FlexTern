@@ -1,9 +1,11 @@
 {
   "model_id": "microsoft/bitnet-b1.58-2B-4T",
   "revision": "04c3b9ad9361b824064a1f25ea60a8be9599b127",
+  "family": "Microsoft BitNet b1.58",
   "source": "huggingface_hub: microsoft/bitnet-b1.58-2B-4T @ 04c3b9ad9361b824064a1f25ea60a8be9599b127",
   "license": "MIT (LICENSE file in model repo; Hugging Face tag license:mit)",
   "paper": "BitNet b1.58 2B4T Technical Report, arXiv:2504.12285",
+  "native_ternary_claim": "Model card: 'trained from scratch with this quantization scheme, not post-training quantized'; 4T tokens; absmean ternary weights, 8-bit absmax per-token activations (W1.58A8).",
   "architectures": [
     "BitNetForCausalLM"
   ],
@@ -28,13 +30,21 @@
     "linear_class": "autobitlinear",
     "quantization_mode": "offline"
   },
+  "norms_per_layer": 4,
+  "norm_names": [
+    "input_layernorm",
+    "post_attention_layernorm",
+    "self_attn.attn_sub_norm",
+    "mlp.ffn_sub_norm"
+  ],
   "normalization": "RMSNorm (BitNetRMSNorm) x4 per layer: input_layernorm, post_attention_layernorm, self_attn.attn_sub_norm (before o_proj), mlp.ffn_sub_norm (before down_proj); plus final model.norm",
   "attention": "GQA, RoPE on q/k, attn_sub_norm applied to attention output before o_proj, no bias",
   "mlp": "down_proj(ffn_sub_norm(relu2(gate_proj(x)) * up_proj(x)))",
-  "weight_quantization": "absmean ternary (WeightQuant: scale=1/mean|W|, round, clamp[-1,1]); stored packed 2-bit (code = q+1) 4 per uint8 along dim 0; one BF16 weight_scale per tensor; AutoBitLinear offline mode: output = linear(x, W_q) * weight_scale",
-  "activation_quantization": "per-token (last dim) absmax symmetric int8: scale = 127/absmax, round, clamp[-128,127]; effective range [-127,127]; dequantized by dividing by the same scale",
+  "weight_quantization": "absmean ternary (scale=1/mean|W|, round, clamp[-1,1]); stored packed 2-bit (code = q+1) 4 per uint8 along dim 0; one BF16 weight_scale per tensor; scale convention: multiply (weight_scale = beta, output * weight_scale); checkpoint rounding: torch round (half-to-even) in WeightQuant; packed repo produced by Microsoft (method confirmed on latents, 98-99.4% code agreement)",
+  "activation_quantization": "per-token (last dim) absmax symmetric int8: scale = 127/absmax, clamp[-128,127]; effective range [-127,127] (-128 unreachable); rounding: torch round (half-to-even), clamp [-128,127]; source: transformers AutoBitLinear/ActQuant (inference) \u2014 same code as BitLinear.activation_quant",
+  "scale_convention": "multiply",
   "config_source": "config.json at the pinned revision",
-  "code_source": "huggingface/transformers src/transformers/integrations/bitnet.py @ d6abd1333078195535f461589b64f112b53688b2",
+  "code_source": "huggingface/transformers src/transformers/integrations/bitnet.py @ d6abd1333078195535f461589b64f112b53688b2 (AutoBitLinear, offline mode; config linear_class=autobitlinear)",
   "file_size_bytes": 1178623988,
   "file_size_matches_expected": true,
   "file_sha256": "8143ae115ed6babe5e5ada8fb8c5b769d8f417802b2db042ad98b4f7ed73975b",
@@ -46,16 +56,19 @@
     "norm": 121,
     "weight_scale": 210,
     "packed_ternary": 210,
-    "unclassified": 0
+    "unclassified": 0,
+    "lm_head": 0
   },
   "parameters": {
     "ternary_linear": 2084044800,
-    "embedding_bf16_tied_lm_head": 328335360,
+    "embedding_bf16": 328335360,
+    "lm_head_bf16_untied": 0,
+    "head_is_tied_to_embedding": true,
     "norm_bf16": 440320,
     "weight_scales_bf16": 210,
     "total": 2412820690,
     "pct_ternary": 86.37379514513364,
-    "pct_embedding": 13.607946970978603,
+    "pct_embedding_and_head": 13.607946970978603,
     "attention_proj_ternary": 491520000,
     "mlp_ternary": 1592524800,
     "pct_of_ternary_attention": 23.58490566037736,
@@ -100,5 +113,34 @@
     "pct_mlp_intermediate_channels_dead": 4.759837962962963,
     "weights_in_dead_rows_or_cols": 50808320,
     "pct_ternary_weights_in_dead_rows": 2.437966784591195
-  }
+  },
+  "head": {
+    "tensor": "model.embed_tokens.weight",
+    "dtype": "BF16",
+    "params": 328335360,
+    "bytes": 656670720,
+    "pct_of_file_bytes": 55.71503097559559,
+    "ternary": false,
+    "tied": true
+  },
+  "dot_lengths": [
+    {
+      "K": 2560,
+      "modules": "gate_proj+k_proj+o_proj+q_proj+up_proj+v_proj",
+      "pct_of_ternary_weights": 74.52830188679245,
+      "div_64": true,
+      "div_128": true,
+      "div_256": true,
+      "div_512": true
+    },
+    {
+      "K": 6912,
+      "modules": "down_proj",
+      "pct_of_ternary_weights": 25.471698113207548,
+      "div_64": true,
+      "div_128": true,
+      "div_256": true,
+      "div_512": false
+    }
+  ]
 }

@@ -36,7 +36,9 @@ Phase 2 asked what a real ternary transformer actually demands. The reference wo
 powershell -ExecutionPolicy Bypass -File scripts\run_workload_profile.ps1
 ```
 
-Downloads 1.18 GB into the Hugging Face cache on first run (never into the repo), verifies its SHA-256, then profiles it in about 40 seconds. Needs `pip install numpy huggingface_hub`.
+Downloads each pinned checkpoint into the Hugging Face cache on first run (never into the repo), verifies its SHA-256, then profiles it in under a minute. Needs `pip install numpy huggingface_hub`.
+
+**EXP-0002B** repeated the profile on an independent native ternary family, TII Falcon-E 1B and 3B, with the same tool, to separate what generalizes from what was Microsoft-specific. Comparison: [`results/workload_profile/cross_model/comparison.md`](results/workload_profile/cross_model/comparison.md); record: [`docs/experiments/EXP-0002B-cross-model-validation.md`](docs/experiments/EXP-0002B-cross-model-validation.md).
 
 ## Repository layout
 

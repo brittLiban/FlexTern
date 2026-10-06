@@ -1,0 +1,20 @@
+operation,class,domain,count_per_block,K,N,macs_or_ops_per_token_per_block,notes
+q_proj,linear,TERNARY,1,2048,2048,4194304,"int8 act x ternary w, one BF16 scale per tensor"
+k_proj,linear,TERNARY,1,2048,256,524288,"int8 act x ternary w, one BF16 scale per tensor"
+v_proj,linear,TERNARY,1,2048,256,524288,"int8 act x ternary w, one BF16 scale per tensor"
+o_proj,linear,TERNARY,1,2048,2048,4194304,"int8 act x ternary w, one BF16 scale per tensor"
+gate_proj,linear,TERNARY,1,2048,13312,27262976,"int8 act x ternary w, one BF16 scale per tensor"
+up_proj,linear,TERNARY,1,2048,13312,27262976,"int8 act x ternary w, one BF16 scale per tensor"
+down_proj,linear,TERNARY,1,13312,2048,27262976,"int8 act x ternary w, one BF16 scale per tensor"
+activation_quant (per-token absmax int8),quantize,NON-TERNARY,4,,,38912,"4 distinct inputs: pre-qkv (H), pre-o (H), pre-gate/up (H), pre-down (I); absmax+scale+round each"
+weight_scale multiply,scale,NON-TERNARY,7,,,33280,one multiply per output element per linear (BF16)
+"RMSNorm (input_layernorm, post_attention_layernorm)",norm,NON-TERNARY,2,,,4096,elements normalized per block; each ~3 ops/element
+RoPE on q and k,rotary,NON-TERNARY,1,,,4608,"complex rotate, ~2 mul+add per element"
+attention QK^T @ context 4096,attention,NON-TERNARY,1,128,4096,8388608,"BF16/FP, grows linearly with context"
+softmax @ context 4096,softmax,NON-TERNARY,1,,,65536,exp + sum + divide per score
+attention AV @ context 4096,attention,NON-TERNARY,1,4096,128,8388608,"BF16/FP, grows linearly with context"
+KV-cache write (BF16),memory,NON-TERNARY,1,,,512,1024 bytes/token/layer written
+KV-cache read @ context 4096 (BF16),memory,NON-TERNARY,1,,,2097152,4194304 bytes/token/layer read
+silu,activation,NON-TERNARY,1,,,13312,silu on gate output
+gate*up elementwise,elementwise,NON-TERNARY,1,,,13312,BF16 multiply
+residual add,elementwise,NON-TERNARY,2,,,4096,BF16 add

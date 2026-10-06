@@ -1,0 +1,132 @@
+{
+  "models": {
+    "bitnet-2b4t": {
+      "model_id": "microsoft/bitnet-b1.58-2B-4T",
+      "revision": "04c3b9ad9361b824064a1f25ea60a8be9599b127",
+      "K": [
+        2560,
+        6912
+      ],
+      "pct_zero": 42.21086293346477,
+      "pct_neg": 28.893989467021054,
+      "pct_pos": 28.895147599514175,
+      "dead_mlp_channels_pct": 4.759837962962963,
+      "head": {
+        "tensor": "model.embed_tokens.weight",
+        "dtype": "BF16",
+        "params": 328335360,
+        "bytes": 656670720,
+        "pct_of_file_bytes": 55.71503097559559,
+        "ternary": false,
+        "tied": true
+      },
+      "scale_convention": "multiply"
+    },
+    "falcon-e-1b": {
+      "model_id": "tiiuae/Falcon-E-1B-Base",
+      "revision": "f4001b8b1c26d28a717d79a8ece14901816d92e8",
+      "K": [
+        2048,
+        9216
+      ],
+      "pct_zero": 41.07102553049723,
+      "pct_neg": 29.423151318989103,
+      "pct_pos": 29.505823150513663,
+      "dead_mlp_channels_pct": 0.0,
+      "head": {
+        "tensor": "lm_head.weight",
+        "dtype": "BF16",
+        "params": 67108864,
+        "bytes": 134217728,
+        "pct_of_file_bytes": 20.1818578873383,
+        "ternary": false,
+        "tied": false
+      },
+      "scale_convention": "divide"
+    },
+    "falcon-e-3b": {
+      "model_id": "tiiuae/Falcon-E-3B-Base",
+      "revision": "ad18b0713c10a8696144b1112accf4ccd28af6d3",
+      "K": [
+        2048,
+        13312
+      ],
+      "pct_zero": 39.69240387280782,
+      "pct_neg": 30.138934206688543,
+      "pct_pos": 30.168661920503638,
+      "dead_mlp_channels_pct": 0.0,
+      "head": {
+        "tensor": "lm_head.weight",
+        "dtype": "BF16",
+        "params": 67108864,
+        "bytes": 134217728,
+        "pct_of_file_bytes": 13.441010865087156,
+        "ternary": false,
+        "tied": false
+      },
+      "scale_convention": "divide"
+    }
+  },
+  "all_K": [
+    2048,
+    2560,
+    6912,
+    9216,
+    13312
+  ],
+  "gcd_K": 256,
+  "largest_pow2_dividing_all_K": 256,
+  "accumulators": [
+    {
+      "K": 2048,
+      "models": [
+        "Falcon-E-1B-Base",
+        "Falcon-E-3B-Base"
+      ],
+      "format_bits": 20,
+      "model_bits": 19,
+      "max_nonzero_row": 2039,
+      "data_bounded_bits": 19
+    },
+    {
+      "K": 2560,
+      "models": [
+        "bitnet-b1.58-2B-4T"
+      ],
+      "format_bits": 20,
+      "model_bits": 20,
+      "max_nonzero_row": 2560,
+      "data_bounded_bits": 20
+    },
+    {
+      "K": 6912,
+      "models": [
+        "bitnet-b1.58-2B-4T"
+      ],
+      "format_bits": 21,
+      "model_bits": 21,
+      "max_nonzero_row": 6785,
+      "data_bounded_bits": 21
+    },
+    {
+      "K": 9216,
+      "models": [
+        "Falcon-E-1B-Base"
+      ],
+      "format_bits": 22,
+      "model_bits": 22,
+      "max_nonzero_row": 9179,
+      "data_bounded_bits": 22
+    },
+    {
+      "K": 13312,
+      "models": [
+        "Falcon-E-3B-Base"
+      ],
+      "format_bits": 22,
+      "model_bits": 22,
+      "max_nonzero_row": 13206,
+      "data_bounded_bits": 22
+    }
+  ]
+}

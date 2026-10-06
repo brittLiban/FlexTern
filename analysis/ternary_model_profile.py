@@ -1,16 +1,19 @@
 """
-FlexTern workload characterization of a real ternary transformer (EXP-0002).
+FlexTern workload characterization of real ternary transformers (EXP-0002, EXP-0002B).
 
-Analyzes microsoft/bitnet-b1.58-2B-4T (packed 2-bit checkpoint) and writes
-machine-readable CSV/JSON plus a human-readable summary under
-results/workload_profile/. Everything is derived from the checkpoint header,
-the packed weight bytes, config.json, and the reference implementation's
-quantization code. Nothing is executed at runtime; all arithmetic counts are
-static and labeled INFERRED.
+Analyzes a packed 2-bit BitNet-format checkpoint and writes machine-readable
+CSV/JSON plus a human-readable summary. Everything is derived from the
+checkpoint header, the packed weight bytes, config.json, and the reference
+implementation's quantization code. Nothing is executed at runtime; all
+arithmetic counts are static and labeled INFERRED.
+
+Supported models are declared in analysis/model_specs.py.
 
 Usage (from repo root):
-    python analysis/ternary_model_profile.py
-    python analysis/ternary_model_profile.py --local-file path/to/model.safetensors --local-config path/to/config.json
+    python analysis/ternary_model_profile.py                         # microsoft/bitnet-b1.58-2B-4T (EXP-0002 canonical)
+    python analysis/ternary_model_profile.py --model falcon-e-1b
+    python analysis/ternary_model_profile.py --model falcon-e-3b
+    python analysis/ternary_model_profile.py --local-file m.safetensors --local-config config.json
 
 Deterministic. No random numbers are used anywhere.
 """
@@ -33,28 +36,20 @@ from dataclasses import asdict, dataclass
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from model_specs import (ACT_FORMAT_MAX, ACT_FORMAT_MIN, ACT_MODEL_MAX, ACT_MODEL_MIN,  # noqa: E402
+                         SPECS, ModelSpec, get_spec)
 from safetensors_reader import SafetensorsFile, unpack_ternary  # noqa: E402
 
-MODEL_ID = "microsoft/bitnet-b1.58-2B-4T"
-MODEL_REVISION = "04c3b9ad9361b824064a1f25ea60a8be9599b127"
-EXPECTED_SHA256 = "8143ae115ed6babe5e5ada8fb8c5b769d8f417802b2db042ad98b4f7ed73975b"
-EXPECTED_FILE_SIZE = 1_178_623_988
-TRANSFORMERS_BITNET_COMMIT = "d6abd1333078195535f461589b64f112b53688b2"  # integrations/bitnet.py
+# Backwards-compatible names used by tests and the cross-check script.
+MODEL_ID = SPECS["bitnet-2b4t"].model_id
+MODEL_REVISION = SPECS["bitnet-2b4t"].revision
 
-# Activation quantization facts from transformers/integrations/bitnet.py
-# (BitLinear.activation_quant and ActQuant.forward): per-token absmax,
-# scale = 127 / absmax, round, clamp to [-128, 127]. Because |x * scale| <= 127
-# before rounding, the value -128 is unreachable; the effective range is
-# [-127, +127].
-ACT_BITS = 8
-ACT_FORMAT_MIN, ACT_FORMAT_MAX = -128, 127
-ACT_MODEL_MIN, ACT_MODEL_MAX = -127, 127
-
+PROJ = ("q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj")
 PACKED_RE = re.compile(r"^model\.layers\.(\d+)\.(self_attn|mlp)\.(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)\.weight$")
 SCALE_RE = re.compile(r"^model\.layers\.(\d+)\.(self_attn|mlp)\.(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)\.weight_scale$")
-NORM_RE = re.compile(r"^model\.layers\.(\d+)\.(input_layernorm|post_attention_layernorm|self_attn\.attn_sub_norm|mlp\.ffn_sub_norm)\.weight$")
 FINAL_NORM = "model.norm.weight"
 EMBED = "model.embed_tokens.weight"
+LM_HEAD = "lm_head.weight"
 
 
 # =============================================================================
@@ -145,6 +140,52 @@ def brute_force_accumulator(k: int, act_min: int, act_max: int) -> tuple[int, in
     return lo, hi
 
 
+def expected_tensor_count(num_layers: int, n_norms_per_layer: int, tied_head: bool) -> int:
+    """embed + (lm_head if untied) + final norm + L * (7 packed + 7 scales + norms)."""
+    return 1 + (0 if tied_head else 1) + 1 + num_layers * (7 + 7 + n_norms_per_layer)
+
+
+def expected_projection_dims(cfg: dict) -> tuple[dict, dict]:
+    """Config-derived (out_dim, in_dim) per projection. Uses config.head_dim when present."""
+    H = cfg["hidden_size"]; I = cfg["intermediate_size"]
+    nH = cfg["num_attention_heads"]; nKV = cfg["num_key_value_heads"]
+    hd = cfg.get("head_dim") or H // nH
+    out = {"q_proj": nH * hd, "k_proj": nKV * hd, "v_proj": nKV * hd, "o_proj": H,
+           "gate_proj": I, "up_proj": I, "down_proj": H}
+    inn = {"q_proj": H, "k_proj": H, "v_proj": H, "o_proj": nH * hd,
+           "gate_proj": H, "up_proj": H, "down_proj": I}
+    return out, inn
+
+
+def expected_ternary_total(cfg: dict) -> int:
+    out, inn = expected_projection_dims(cfg)
+    return cfg["num_hidden_layers"] * sum(out[p] * inn[p] for p in PROJ)
+
+
+def classify_tensors(names, spec: ModelSpec) -> dict[str, list[str]]:
+    """Put every tensor name into exactly one class. Unclassified names are returned, never dropped."""
+    norm_re = re.compile(r"^model\.layers\.(\d+)\.(" + "|".join(re.escape(n) for n in spec.norm_names) + r")\.weight$")
+    classes: dict[str, list[str]] = defaultdict(list)
+    for name in names:
+        if PACKED_RE.match(name):
+            classes["packed_ternary"].append(name)
+        elif SCALE_RE.match(name):
+            classes["weight_scale"].append(name)
+        elif norm_re.match(name) or name == FINAL_NORM:
+            classes["norm"].append(name)
+        elif name == EMBED:
+            classes["embedding"].append(name)
+        elif name == LM_HEAD and not spec.tied_head:
+            classes["lm_head"].append(name)
+        else:
+            classes["unclassified"].append(name)
+    return classes
+
+
+def divisibility(k: int) -> dict:
+    return {f"div_{d}": (k % d == 0) for d in (64, 128, 256, 512)}
+
+
 def analyze_ternary_tensor(st: SafetensorsFile, name: str, scale_name: str) -> TernaryTensorStats:
     m = PACKED_RE.match(name)
     layer, grp, mod = int(m.group(1)), m.group(2), m.group(3)
@@ -205,14 +246,17 @@ def fmt_bytes(b: float) -> str:
 # =============================================================================
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--model", default="bitnet-2b4t", choices=sorted(SPECS), help="model spec (analysis/model_specs.py)")
     ap.add_argument("--local-file", help="Path to model.safetensors (skips download)")
     ap.add_argument("--local-config", help="Path to config.json (skips download)")
-    ap.add_argument("--out", default=os.path.join("results", "workload_profile"))
+    ap.add_argument("--out", help="output directory (default: per-model, see model_specs.py)")
     ap.add_argument("--context", type=int, default=4096, help="context length for attention/KV estimates")
-    ap.add_argument("--skip-hash", action="store_true", help="skip SHA-256 of the 1.18 GB file")
+    ap.add_argument("--skip-hash", action="store_true", help="skip SHA-256 of the checkpoint")
     args = ap.parse_args()
+    spec = get_spec(args.model)
+    out = args.out or spec.default_out
     t0 = time.time()
-    os.makedirs(args.out, exist_ok=True)
+    os.makedirs(out, exist_ok=True)
     argv = " ".join(sys.argv)
 
     # ---- 1. Resolve files ------------------------------------------------------
@@ -221,75 +265,69 @@ def main() -> int:
         source = f"local files ({model_path})"
     else:
         from huggingface_hub import hf_hub_download
-        model_path = hf_hub_download(MODEL_ID, "model.safetensors", revision=MODEL_REVISION)
-        config_path = hf_hub_download(MODEL_ID, "config.json", revision=MODEL_REVISION)
-        source = f"huggingface_hub: {MODEL_ID} @ {MODEL_REVISION}"
+        model_path = hf_hub_download(spec.model_id, spec.weights_file, revision=spec.revision)
+        config_path = hf_hub_download(spec.model_id, spec.config_file, revision=spec.revision)
+        source = f"huggingface_hub: {spec.model_id} @ {spec.revision}"
     with open(config_path, encoding="utf-8") as f:
         cfg = json.load(f)
 
     file_sha = None if args.skip_hash else sha256_file(model_path)
-    size_ok = os.path.getsize(model_path) == EXPECTED_FILE_SIZE
-    hash_ok = (file_sha == EXPECTED_SHA256) if file_sha else None
+    size_ok = os.path.getsize(model_path) == spec.expected_file_size
+    hash_ok = (file_sha == spec.expected_sha256) if (file_sha and spec.expected_sha256) else None
 
     # ---- 2. Config -------------------------------------------------------------
     L = cfg["num_hidden_layers"]; H = cfg["hidden_size"]; I = cfg["intermediate_size"]
     nH = cfg["num_attention_heads"]; nKV = cfg["num_key_value_heads"]; V = cfg["vocab_size"]
-    hd = H // nH
+    hd = cfg.get("head_dim") or H // nH
     ctx = args.context
+    max_ctx = cfg["max_position_embeddings"]
+    tied = bool(cfg.get("tie_word_embeddings", False))
+    assert tied == spec.tied_head, f"config tie_word_embeddings={tied} but spec says {spec.tied_head}"
     model_summary = {
-        "model_id": MODEL_ID, "revision": MODEL_REVISION, "source": source,
-        "license": "MIT (LICENSE file in model repo; Hugging Face tag license:mit)",
-        "paper": "BitNet b1.58 2B4T Technical Report, arXiv:2504.12285",
+        "model_id": spec.model_id, "revision": spec.revision, "family": spec.family, "source": source,
+        "license": spec.license, "paper": spec.paper, "native_ternary_claim": spec.native_ternary_claim,
         "architectures": cfg["architectures"], "model_type": cfg["model_type"],
         "num_hidden_layers": L, "hidden_size": H, "intermediate_size": I,
         "num_attention_heads": nH, "num_key_value_heads": nKV, "head_dim": hd,
         "gqa_group_size": nH // nKV, "vocab_size": V, "embedding_dim": H,
-        "max_position_embeddings": cfg["max_position_embeddings"],
-        "rope_theta": cfg["rope_theta"], "rms_norm_eps": cfg["rms_norm_eps"],
-        "hidden_act": cfg["hidden_act"], "tie_word_embeddings": cfg["tie_word_embeddings"],
-        "torch_dtype": cfg["torch_dtype"], "quantization_config": cfg["quantization_config"],
-        "normalization": "RMSNorm (BitNetRMSNorm) x4 per layer: input_layernorm, post_attention_layernorm, "
-                         "self_attn.attn_sub_norm (before o_proj), mlp.ffn_sub_norm (before down_proj); plus final model.norm",
-        "attention": "GQA, RoPE on q/k, attn_sub_norm applied to attention output before o_proj, no bias",
-        "mlp": "down_proj(ffn_sub_norm(relu2(gate_proj(x)) * up_proj(x)))",
-        "weight_quantization": "absmean ternary (WeightQuant: scale=1/mean|W|, round, clamp[-1,1]); stored packed 2-bit "
-                               "(code = q+1) 4 per uint8 along dim 0; one BF16 weight_scale per tensor; "
-                               "AutoBitLinear offline mode: output = linear(x, W_q) * weight_scale",
-        "activation_quantization": "per-token (last dim) absmax symmetric int8: scale = 127/absmax, round, clamp[-128,127]; "
-                                   "effective range [-127,127]; dequantized by dividing by the same scale",
-        "config_source": "config.json at the pinned revision",
-        "code_source": f"huggingface/transformers src/transformers/integrations/bitnet.py @ {TRANSFORMERS_BITNET_COMMIT}",
+        "max_position_embeddings": max_ctx,
+        "rope_theta": cfg.get("rope_theta"), "rms_norm_eps": cfg["rms_norm_eps"],
+        "hidden_act": cfg["hidden_act"], "tie_word_embeddings": tied,
+        "torch_dtype": cfg.get("torch_dtype"), "quantization_config": cfg.get("quantization_config"),
+        "norms_per_layer": len(spec.norm_names), "norm_names": list(spec.norm_names),
+        "normalization": spec.prose_normalization, "attention": spec.prose_attention, "mlp": spec.prose_mlp,
+        "weight_quantization": f"absmean ternary (scale=1/mean|W|, round, clamp[-1,1]); stored packed 2-bit (code = q+1) 4 per uint8 "
+                               f"along dim 0; one BF16 weight_scale per tensor; scale convention: {spec.scale_convention} "
+                               f"({'weight_scale = beta, output * weight_scale' if spec.scale_convention == 'multiply' else 'weight_scale = 1/beta, output / weight_scale'}); "
+                               f"checkpoint rounding: {spec.weight_rounding}",
+        "activation_quantization": f"per-token (last dim) absmax symmetric int8: scale = 127/absmax, clamp[-128,127]; effective range "
+                                   f"[-127,127] (-128 unreachable); rounding: {spec.act_rounding}; source: {spec.act_quant_source}",
+        "scale_convention": spec.scale_convention,
+        "config_source": f"{spec.config_file} at the pinned revision",
+        "code_source": spec.code_source,
     }
 
     # ---- 3. Open checkpoint, classify tensors, reconcile bytes ----------------
     st = SafetensorsFile(model_path)
     layout = st.verify_layout()
-    classes = defaultdict(list)
-    for name, t in st.tensors.items():
-        if PACKED_RE.match(name) and t.dtype == "U8":
-            classes["packed_ternary"].append(name)
-        elif SCALE_RE.match(name):
-            classes["weight_scale"].append(name)
-        elif NORM_RE.match(name) or name == FINAL_NORM:
-            classes["norm"].append(name)
-        elif name == EMBED:
-            classes["embedding"].append(name)
-        else:
-            classes["unclassified"].append(name)
+    classes = classify_tensors(st.tensors.keys(), spec)
     assert len(classes["unclassified"]) == 0, f"unclassified tensors: {classes['unclassified']}"
-    assert len(classes["packed_ternary"]) == 7 * L
+    assert len(classes["packed_ternary"]) == 7 * L, len(classes["packed_ternary"])
     assert len(classes["weight_scale"]) == 7 * L
-    assert len(classes["norm"]) == 4 * L + 1
+    assert len(classes["norm"]) == len(spec.norm_names) * L + 1, len(classes["norm"])
     assert len(classes["embedding"]) == 1
-    assert "lm_head.weight" not in st.tensors, "expected tied head (no lm_head tensor)"
-    assert layout["tensor_count"] == 7 * L + 7 * L + 4 * L + 1 + 1
+    assert len(classes["lm_head"]) == (0 if tied else 1)
+    assert layout["tensor_count"] == expected_tensor_count(L, len(spec.norm_names), tied), layout["tensor_count"]
     assert st.tensors[EMBED].shape == (V, H)
+    for name in classes["packed_ternary"]:
+        assert st.tensors[name].dtype == "U8", name
+    head_name = EMBED if tied else LM_HEAD
+    if not tied:
+        assert st.tensors[LM_HEAD].shape == (V, H)
+        assert st.tensors[LM_HEAD].dtype == "BF16"
 
     # ---- 4. Ternary tensor statistics -----------------------------------------
-    expected_out = {"q_proj": nH * hd, "k_proj": nKV * hd, "v_proj": nKV * hd, "o_proj": H,
-                    "gate_proj": I, "up_proj": I, "down_proj": H}
-    expected_in = {"q_proj": H, "k_proj": H, "v_proj": H, "o_proj": nH * hd,
-                   "gate_proj": H, "up_proj": H, "down_proj": I}
+    expected_out, expected_in = expected_projection_dims(cfg)
     stats: list[TernaryTensorStats] = []
     for name in sorted(classes["packed_ternary"], key=lambda s: (int(PACKED_RE.match(s).group(1)), s)):
         s = analyze_ternary_tensor(st, name, name + "_scale")
@@ -298,14 +336,15 @@ def main() -> int:
         assert s.count_neg + s.count_zero + s.count_pos + s.count_code3 == s.numel
         assert s.count_code3 == 0, f"{name}: reserved 2-bit code 3 present"
         stats.append(s)
-        print(f"  {name:48s} N={s.out_dim:5d} K={s.in_dim:4d} zero={s.pct_zero:5.2f}% scale={s.weight_scale:.5f}", flush=True)
+        print(f"  {name:48s} N={s.out_dim:5d} K={s.in_dim:5d} zero={s.pct_zero:5.2f}% scale={s.weight_scale:.5f}", flush=True)
 
     total_ternary = sum(s.numel for s in stats)
     tot_neg = sum(s.count_neg for s in stats); tot_zero = sum(s.count_zero for s in stats); tot_pos = sum(s.count_pos for s in stats)
     assert tot_neg + tot_zero + tot_pos == total_ternary
-    expected_ternary = L * (H * (nH * hd) + 2 * H * (nKV * hd) + (nH * hd) * H + 2 * H * I + I * H)
-    assert total_ternary == expected_ternary, (total_ternary, expected_ternary)
+    assert total_ternary == expected_ternary_total(cfg), (total_ternary, expected_ternary_total(cfg))
     packed_bytes_total = sum(s.packed_bytes for s in stats)
+    assert packed_bytes_total == total_ternary // 4
+    n_tensors = len(stats)
 
     zr = np.array([s.pct_zero for s in stats])
     global_dist = {
@@ -321,9 +360,8 @@ def main() -> int:
         "reserved_code3_count": sum(s.count_code3 for s in stats),
     }
 
-    # by module type
     by_module = []
-    for mod in ("q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"):
+    for mod in PROJ:
         ss = [s for s in stats if s.module == mod]
         n = sum(s.numel for s in ss); z = sum(s.count_zero for s in ss)
         ng = sum(s.count_neg for s in ss); ps = sum(s.count_pos for s in ss)
@@ -344,10 +382,9 @@ def main() -> int:
     dead_rows = []
     for layer in range(L):
         ss = {s.module: s for s in stats if s.layer == layer}
-        # Recompute the row masks for gate/up to intersect them (cheap: two tensors per layer).
-        g_dead = unpack_ternary(st.uint8(ss["gate_proj"].name)).any(axis=1) == False
-        u_dead = unpack_ternary(st.uint8(ss["up_proj"].name)).any(axis=1) == False
-        d_cols = unpack_ternary(st.uint8(ss["down_proj"].name)).any(axis=0) == False
+        g_dead = unpack_ternary(st.uint8(ss["gate_proj"].name)).any(axis=1) == False  # noqa: E712
+        u_dead = unpack_ternary(st.uint8(ss["up_proj"].name)).any(axis=1) == False  # noqa: E712
+        d_cols = unpack_ternary(st.uint8(ss["down_proj"].name)).any(axis=0) == False  # noqa: E712
         dead_rows.append({"layer": layer,
                           "q_dead_rows": ss["q_proj"].allzero_rows, "k_dead_rows": ss["k_proj"].allzero_rows,
                           "v_dead_rows": ss["v_proj"].allzero_rows, "o_dead_rows": ss["o_proj"].allzero_rows,
@@ -376,11 +413,12 @@ def main() -> int:
     dot_rows = []
     for k in sorted(by_k):
         d = by_k[k]
-        dot_rows.append({"K": k, "modules": "+".join(sorted(d["modules"])), "tensors": d["tensors"],
-                         "dot_products_per_token": d["output_rows"], "weights": d["weights"],
-                         "pct_of_ternary_weights": 100 * d["weights"] / total_ternary, "pct_zero": 100 * d["zero"] / d["weights"],
-                         "expected_nonzero_terms": k * (1 - d["zero"] / d["weights"])})
-    # expected terms per representative dot product, per module
+        row = {"K": k, "modules": "+".join(sorted(d["modules"])), "tensors": d["tensors"],
+               "dot_products_per_token": d["output_rows"], "weights": d["weights"],
+               "pct_of_ternary_weights": 100 * d["weights"] / total_ternary, "pct_zero": 100 * d["zero"] / d["weights"],
+               "expected_nonzero_terms": k * (1 - d["zero"] / d["weights"])}
+        row.update(divisibility(k))
+        dot_rows.append(row)
     expected_terms = []
     for m in by_module:
         k = m["K"]; p0 = m["pct_zero"] / 100; pn = m["pct_neg"] / 100; pp = m["pct_pos"] / 100
@@ -398,15 +436,17 @@ def main() -> int:
         "4 distinct inputs: pre-qkv (H), pre-o (H), pre-gate/up (H), pre-down (I); absmax+scale+round each", "", "")
     add("weight_scale multiply", "scale", "NON-TERNARY", 7, sum(m["N"] for m in by_module),
         "one multiply per output element per linear (BF16)", "", "")
-    add("RMSNorm (input, post_attn, attn_sub, ffn_sub)", "norm", "NON-TERNARY", 4, 3 * H + I,
-        "elements normalized: input_layernorm H, post_attention_layernorm H, attn_sub_norm H, ffn_sub_norm I; each ~3 ops/element", "", "")
+    norm_elems = sum(I if "ffn_sub_norm" in nm else H for nm in spec.norm_names)
+    add(f"RMSNorm ({', '.join(n.split('.')[-1] for n in spec.norm_names)})", "norm", "NON-TERNARY", len(spec.norm_names), norm_elems,
+        "elements normalized per block; each ~3 ops/element", "", "")
     add("RoPE on q and k", "rotary", "NON-TERNARY", 1, 2 * (nH * hd + nKV * hd), "complex rotate, ~2 mul+add per element", "", "")
     add(f"attention QK^T @ context {ctx}", "attention", "NON-TERNARY", 1, nH * hd * ctx, "BF16/FP, grows linearly with context", hd, ctx)
     add(f"softmax @ context {ctx}", "softmax", "NON-TERNARY", 1, nH * ctx, "exp + sum + divide per score", "", "")
     add(f"attention AV @ context {ctx}", "attention", "NON-TERNARY", 1, nH * hd * ctx, "BF16/FP, grows linearly with context", ctx, hd)
     add("KV-cache write (BF16)", "memory", "NON-TERNARY", 1, 2 * nKV * hd, f"{2 * nKV * hd * 2} bytes/token/layer written", "", "")
     add(f"KV-cache read @ context {ctx} (BF16)", "memory", "NON-TERNARY", 1, 2 * nKV * hd * ctx, f"{2 * nKV * hd * ctx * 2} bytes/token/layer read", "", "")
-    add("relu^2", "activation", "NON-TERNARY", 1, I, "max(0,x)^2 on gate output", "", "")
+    act_name = {"relu2": "relu^2", "silu": "silu"}.get(cfg["hidden_act"], cfg["hidden_act"])
+    add(act_name, "activation", "NON-TERNARY", 1, I, f"{cfg['hidden_act']} on gate output", "", "")
     add("gate*up elementwise", "elementwise", "NON-TERNARY", 1, I, "BF16 multiply", "", "")
     add("residual add", "elementwise", "NON-TERNARY", 2, 2 * H, "BF16 add", "", "")
     ternary_macs_per_block = sum(m["weights"] for m in by_module) // L
@@ -425,15 +465,17 @@ def main() -> int:
 
     # ---- 7. Parameter accounting ----------------------------------------------
     embed_params = V * H
+    head_params = 0 if tied else V * H
     norm_params = sum(st.tensors[n].numel for n in classes["norm"])
     scale_params = len(classes["weight_scale"])
     params = {
-        "ternary_linear": total_ternary, "embedding_bf16_tied_lm_head": embed_params,
+        "ternary_linear": total_ternary, "embedding_bf16": embed_params,
+        "lm_head_bf16_untied": head_params, "head_is_tied_to_embedding": tied,
         "norm_bf16": norm_params, "weight_scales_bf16": scale_params,
-        "total": total_ternary + embed_params + norm_params + scale_params,
+        "total": total_ternary + embed_params + head_params + norm_params + scale_params,
     }
     params["pct_ternary"] = 100 * total_ternary / params["total"]
-    params["pct_embedding"] = 100 * embed_params / params["total"]
+    params["pct_embedding_and_head"] = 100 * (embed_params + head_params) / params["total"]
     attn_w = sum(m["weights"] for m in by_module if m["group"] == "attention")
     mlp_w = sum(m["weights"] for m in by_module if m["group"] == "mlp")
     params["attention_proj_ternary"] = attn_w; params["mlp_ternary"] = mlp_w
@@ -442,6 +484,9 @@ def main() -> int:
     # ---- 8. Memory representation ---------------------------------------------
     W = total_ternary
     bits_log2_3 = math.log2(3)
+    head_bytes = st.tensors[head_name].nbytes
+    embed_bytes = st.tensors[EMBED].nbytes
+    nonternary_bytes = embed_bytes + (0 if tied else head_bytes)
     mem_rows = [
         {"representation": "BF16 (16 bit/weight)", "scope": "ternary linear weights only", "bytes": 2 * W, "note": "THEORETICAL reference"},
         {"representation": "INT8 (8 bit/weight)", "scope": "ternary linear weights only", "bytes": W, "note": "THEORETICAL"},
@@ -452,31 +497,43 @@ def main() -> int:
         {"representation": "ACTUAL checkpoint packed U8", "scope": "ternary linear weights only", "bytes": packed_bytes_total, "note": "MEASURED from header byte ranges"},
         {"representation": "weight_scale BF16", "scope": "metadata", "bytes": 2 * scale_params, "note": "MEASURED; 1 per tensor"},
         {"representation": "norm weights BF16", "scope": "metadata", "bytes": 2 * norm_params, "note": "MEASURED"},
-        {"representation": "embedding / tied lm_head BF16", "scope": "non-ternary weights", "bytes": st.tensors[EMBED].nbytes, "note": "MEASURED; 55.7% of file"},
-        {"representation": "ACTUAL whole file", "scope": "model.safetensors", "bytes": layout["file_size"], "note": "MEASURED"},
-        {"representation": "HYPOTHETICAL: 2-bit ternary layers + INT8 head", "scope": "all weights", "bytes": W / 4 + embed_params + 2 * (norm_params + scale_params), "note": "HYPOTHETICAL FlexTern packing"},
-        {"representation": "HYPOTHETICAL: 2-bit ternary layers + INT4 head", "scope": "all weights", "bytes": W / 4 + embed_params / 2 + 2 * (norm_params + scale_params), "note": "HYPOTHETICAL; head quality impact unknown"},
+        {"representation": "embedding BF16" + (" (tied: also the lm_head)" if tied else ""), "scope": "non-ternary weights", "bytes": embed_bytes,
+         "note": f"MEASURED; {100 * embed_bytes / layout['file_size']:.1f}% of file"},
+    ]
+    if not tied:
+        mem_rows.append({"representation": "lm_head BF16 (untied)", "scope": "non-ternary weights", "bytes": head_bytes,
+                         "note": f"MEASURED; {100 * head_bytes / layout['file_size']:.1f}% of file"})
+    mem_rows += [
+        {"representation": "ACTUAL whole file", "scope": spec.weights_file, "bytes": layout["file_size"], "note": "MEASURED"},
+        {"representation": "HYPOTHETICAL: 2-bit ternary layers + INT8 embed/head", "scope": "all weights", "bytes": W / 4 + nonternary_bytes / 2 + 2 * (norm_params + scale_params), "note": "HYPOTHETICAL FlexTern packing"},
+        {"representation": "HYPOTHETICAL: 2-bit ternary layers + INT4 embed/head", "scope": "all weights", "bytes": W / 4 + nonternary_bytes / 4 + 2 * (norm_params + scale_params), "note": "HYPOTHETICAL; quality impact unknown"},
     ]
 
     # ---- 9. Decode traffic model (INFERRED / ANALYTICAL) -----------------------
+    # Per token: all ternary layer bytes, the output head (full lm_head matrix: embedding if tied,
+    # separate tensor if untied), norms and scales. The embedding lookup itself reads one row (negligible).
     layer_packed = packed_bytes_total
-    head_bf16 = st.tensors[EMBED].nbytes
     meta = 2 * (norm_params + scale_params)
-    kv_read = 2 * nKV * hd * 2 * L  # bytes per token per unit of context
+    kv_read_per_ctx = 2 * nKV * hd * 2 * L  # bytes per token per unit of context
     traffic = []
     def trow(name, layers_b, head_b, note):
         total = layers_b + head_b + meta
         traffic.append({"scenario": name, "ternary_layer_bytes_per_token": layers_b, "head_bytes_per_token": head_b,
                         "norm_and_scale_bytes_per_token": meta, "weight_bytes_per_token": total,
-                        "pct_head": 100 * head_b / total, "kv_cache_read_bytes_per_token_at_context": kv_read * ctx,
-                        "total_bytes_per_token_at_context": total + kv_read * ctx, "note": note})
-    trow("As stored: 2-bit packed layers + BF16 head", layer_packed, head_bf16, "matches checkpoint")
-    trow("BF16 layers + BF16 head (dense reference)", 2 * W, head_bf16, "what a BF16 model of this shape would stream")
-    trow("INT8 layers + BF16 head", W, head_bf16, "")
-    trow("INT4 layers + BF16 head", W / 2, head_bf16, "")
-    trow("2-bit layers + INT8 head", layer_packed, embed_params, "HYPOTHETICAL head quantization")
-    trow("2-bit layers + INT4 head", layer_packed, embed_params / 2, "HYPOTHETICAL head quantization")
-    trow("1.6-bit (5 trits/byte) layers + INT4 head", W / 5, embed_params / 2, "HYPOTHETICAL")
+                        "pct_head": 100 * head_b / total,
+                        "kv_cache_read_bytes_per_token_at_context": kv_read_per_ctx * ctx,
+                        "total_bytes_per_token_at_context": total + kv_read_per_ctx * ctx,
+                        "kv_cache_read_bytes_per_token_at_max_context": kv_read_per_ctx * max_ctx,
+                        "total_bytes_per_token_at_max_context": total + kv_read_per_ctx * max_ctx,
+                        "note": note})
+    head_label = "BF16 head" + (" (tied embedding)" if tied else " (untied lm_head)")
+    trow(f"As stored: 2-bit packed layers + {head_label}", layer_packed, head_bytes, "matches checkpoint")
+    trow(f"BF16 layers + {head_label} (dense reference)", 2 * W, head_bytes, "what a BF16 model of this shape would stream")
+    trow(f"INT8 layers + {head_label}", W, head_bytes, "")
+    trow(f"INT4 layers + {head_label}", W / 2, head_bytes, "")
+    trow("2-bit layers + INT8 head", layer_packed, V * H, "HYPOTHETICAL head quantization")
+    trow("2-bit layers + INT4 head", layer_packed, V * H / 2, "HYPOTHETICAL head quantization")
+    trow("1.6-bit (5 trits/byte) layers + INT4 head", W / 5, V * H / 2, "HYPOTHETICAL")
     trow("2-bit layers only (head cached on-chip / excluded)", layer_packed, 0, "if the head were resident or handled elsewhere")
 
     # ---- 10. Accumulator widths -----------------------------------------------
@@ -491,7 +548,6 @@ def main() -> int:
                          "model_range": f"[{ACT_MODEL_MIN},{ACT_MODEL_MAX}]", "model_sum_min": a["sum_min"], "model_sum_max": a["sum_max"], "model_signed_bits": a["signed_bits"],
                          "max_nonzero_in_any_row": max_nz[k], "data_bounded_sum_max": d["sum_max"], "data_bounded_signed_bits": d["signed_bits"],
                          "note": "format: INT8 [-128,127] with ternary -1 giving +128; model: activation_quant cannot produce -128; data-bounded: INFERRED from this checkpoint only"})
-    # Also the Phase-1 reference point and some sub-block sizes a tiler might use
     for k in (16, 64, 256, 512, 1024):
         f = accumulator_width(k, ACT_FORMAT_MIN, ACT_FORMAT_MAX); a = accumulator_width(k, ACT_MODEL_MIN, ACT_MODEL_MAX)
         acc_rows.append({"K": k, "modules": "(tile size, not a model K)", "format_range": f"[{ACT_FORMAT_MIN},{ACT_FORMAT_MAX}]",
@@ -500,7 +556,6 @@ def main() -> int:
                          "max_nonzero_in_any_row": "", "data_bounded_sum_max": "", "data_bounded_signed_bits": "", "note": "partial-sum tile"})
 
     # ---- 11. Write outputs ----------------------------------------------------
-    out = args.out
     model_summary.update({
         "file_size_bytes": layout["file_size"], "file_size_matches_expected": size_ok,
         "file_sha256": file_sha, "file_sha256_matches_hf_etag": hash_ok,
@@ -508,19 +563,23 @@ def main() -> int:
         "tensor_classes": {k: len(v) for k, v in classes.items()},
         "parameters": params, "global_ternary_distribution": global_dist, "operation_summary": op_summary,
         "dead_channels": dead_summary,
+        "head": {"tensor": head_name, "dtype": st.tensors[head_name].dtype, "params": V * H, "bytes": head_bytes,
+                 "pct_of_file_bytes": 100 * head_bytes / layout["file_size"], "ternary": False, "tied": tied},
+        "dot_lengths": [{"K": r["K"], "modules": r["modules"], "pct_of_ternary_weights": r["pct_of_ternary_weights"],
+                         **divisibility(r["K"])} for r in dot_rows],
     })
-    write_csv(os.path.join(out, "dead_channels_by_layer.csv"), dead_rows)
     with open(os.path.join(out, "model_summary.json"), "w", encoding="utf-8") as f:
         json.dump(model_summary, f, indent=2)
     write_csv(os.path.join(out, "weight_distribution.csv"), [asdict(s) for s in stats])
     write_csv(os.path.join(out, "weight_distribution_by_module.csv"), by_module)
     write_csv(os.path.join(out, "weight_distribution_by_layer.csv"), by_layer)
+    write_csv(os.path.join(out, "dead_channels_by_layer.csv"), dead_rows)
     write_csv(os.path.join(out, "layer_shapes.csv"), [
         {"layer": s.layer, "module": s.module, "group": s.group, "op": "linear", "K_in": s.in_dim, "N_out": s.out_dim,
          "weight_shape_unpacked": f"{s.out_dim}x{s.in_dim}", "weight_shape_packed_u8": s.packed_shape, "weights": s.numel,
          "ternary": True, "has_scale": True, "scale_granularity": "per-tensor", "dot_length": s.in_dim,
          "dots_per_token": s.out_dim, "repeats_per_block": 1} for s in stats] + [
-        {"layer": "", "module": "lm_head (tied embed_tokens)", "group": "output", "op": "linear", "K_in": H, "N_out": V,
+        {"layer": "", "module": "lm_head (tied embed_tokens)" if tied else "lm_head (untied)", "group": "output", "op": "linear", "K_in": H, "N_out": V,
          "weight_shape_unpacked": f"{V}x{H}", "weight_shape_packed_u8": "", "weights": V * H, "ternary": False, "has_scale": False,
          "scale_granularity": "", "dot_length": H, "dots_per_token": V, "repeats_per_block": "once per token"}])
     write_csv(os.path.join(out, "dot_length_summary.csv"), dot_rows)
@@ -533,16 +592,16 @@ def main() -> int:
     # ---- 12. Environment --------------------------------------------------------
     import numpy, huggingface_hub
     env = [
-        "FlexTern EXP-0002 workload profile environment",
+        f"FlexTern workload profile environment — {spec.slug}",
         f"Generated: {time.strftime('%Y-%m-%d %H:%M:%S %z')}",
         f"Command: python {argv}",
         f"Python: {sys.version.split()[0]} ({platform.platform()})",
         f"numpy: {numpy.__version__}   huggingface_hub: {huggingface_hub.__version__}",
-        f"Model: {MODEL_ID}  revision {MODEL_REVISION}",
+        f"Model: {spec.model_id}  revision {spec.revision}",
         f"Model file: {model_path}",
-        f"File size: {layout['file_size']} (expected {EXPECTED_FILE_SIZE}: {'OK' if size_ok else 'MISMATCH'})",
-        f"SHA-256: {file_sha}  (expected {EXPECTED_SHA256}: {'OK' if hash_ok else ('SKIPPED' if hash_ok is None else 'MISMATCH')})",
-        f"Reference quantization code: transformers src/transformers/integrations/bitnet.py @ {TRANSFORMERS_BITNET_COMMIT}",
+        f"File size: {layout['file_size']} (expected {spec.expected_file_size}: {'OK' if size_ok else 'MISMATCH'})",
+        f"SHA-256: {file_sha}  (expected {spec.expected_sha256}: {'OK' if hash_ok else ('SKIPPED' if hash_ok is None else 'MISMATCH')})",
+        f"Reference quantization code: {spec.code_source}",
         "Random seeds: none (fully deterministic)",
         f"Runtime: {time.time() - t0:.1f} s",
     ]
@@ -550,31 +609,33 @@ def main() -> int:
         f.write("\n".join(env) + "\n")
 
     # ---- 13. Human-readable summary -------------------------------------------
-    write_summary(out, model_summary, by_module, dot_rows, expected_terms, mem_rows, traffic, acc_rows, stats, by_layer, ops, ctx, dead_rows)
+    write_summary(out, spec, model_summary, by_module, dot_rows, expected_terms, mem_rows, traffic, acc_rows, stats, by_layer, ops, ctx, dead_rows, n_tensors)
     print("\n".join(env))
     print(f"\nwrote outputs to {out}")
     return 0
 
 
-def write_summary(out, ms, by_module, dot_rows, expected_terms, mem_rows, traffic, acc_rows, stats, by_layer, ops, ctx, dead_rows):
-    g = ms["global_ternary_distribution"]; p = ms["parameters"]; o = ms["operation_summary"]; dc = ms["dead_channels"]
+def write_summary(out, spec, ms, by_module, dot_rows, expected_terms, mem_rows, traffic, acc_rows, stats, by_layer, ops, ctx, dead_rows, n_tensors):
+    g = ms["global_ternary_distribution"]; p = ms["parameters"]; o = ms["operation_summary"]; dc = ms["dead_channels"]; hd_ = ms["head"]
+    tied = ms["tie_word_embeddings"]
     lines = []
     A = lines.append
-    A("# Workload profile — BitNet b1.58 2B4T (generated; do not hand-edit)")
+    A(f"# Workload profile — {spec.family}: {ms['model_id']} (generated; do not hand-edit)")
     A("")
-    A(f"Model `{ms['model_id']}` revision `{ms['revision'][:12]}`, {ms['license']}. Generated by `analysis/ternary_model_profile.py`; see `environment.txt`.")
+    A(f"Model `{ms['model_id']}` revision `{ms['revision'][:12]}`, {ms['license']}. Generated by `analysis/ternary_model_profile.py --model {spec.slug}`; see `environment.txt`.")
     A("")
     A("Labels: MEASURED = counted from the checkpoint; INFERRED = computed from measured dimensions/format; HYPOTHETICAL = not what the model does.")
     A("")
     A("## 1. Model (from config.json, MEASURED)")
     A("")
     A("| Field | Value |"); A("|---|---|")
-    for k in ("num_hidden_layers", "hidden_size", "intermediate_size", "num_attention_heads", "num_key_value_heads", "head_dim",
-              "gqa_group_size", "vocab_size", "max_position_embeddings", "hidden_act", "tie_word_embeddings", "rope_theta", "rms_norm_eps"):
+    for k in ("family", "architectures", "model_type", "num_hidden_layers", "hidden_size", "intermediate_size", "num_attention_heads", "num_key_value_heads", "head_dim",
+              "gqa_group_size", "vocab_size", "max_position_embeddings", "hidden_act", "tie_word_embeddings", "rope_theta", "rms_norm_eps", "norms_per_layer"):
         A(f"| {k} | {ms[k]} |")
     A(f"| normalization | {ms['normalization']} |")
     A(f"| attention | {ms['attention']} |")
     A(f"| mlp | {ms['mlp']} |")
+    A(f"| native ternary claim | {ms['native_ternary_claim']} |")
     A("")
     A("## 2. Parameters (MEASURED from tensor shapes)")
     A("")
@@ -582,7 +643,9 @@ def write_summary(out, ms, by_module, dot_rows, expected_terms, mem_rows, traffi
     A(f"| Ternary linear weights | {p['ternary_linear']:,} | {p['pct_ternary']:.1f}% |")
     A(f"| ├ attention projections (q,k,v,o) | {p['attention_proj_ternary']:,} | {100*p['attention_proj_ternary']/p['total']:.1f}% |")
     A(f"| └ MLP (gate,up,down) | {p['mlp_ternary']:,} | {100*p['mlp_ternary']/p['total']:.1f}% |")
-    A(f"| Embedding BF16, tied as lm_head | {p['embedding_bf16_tied_lm_head']:,} | {p['pct_embedding']:.1f}% |")
+    A(f"| Embedding BF16{' (tied: also lm_head)' if tied else ''} | {p['embedding_bf16']:,} | {100*p['embedding_bf16']/p['total']:.1f}% |")
+    if not tied:
+        A(f"| lm_head BF16 (untied) | {p['lm_head_bf16_untied']:,} | {100*p['lm_head_bf16_untied']/p['total']:.1f}% |")
     A(f"| Norm weights BF16 | {p['norm_bf16']:,} | {100*p['norm_bf16']/p['total']:.3f}% |")
     A(f"| Weight scales BF16 | {p['weight_scales_bf16']:,} | ~0% |")
     A(f"| **Total** | **{p['total']:,}** | 100% |")
@@ -599,7 +662,9 @@ def write_summary(out, ms, by_module, dot_rows, expected_terms, mem_rows, traffi
     A("")
     A(f"Per-tensor zero rate: min {g['tensor_zero_rate_min_pct']:.2f}%, median {g['tensor_zero_rate_median_pct']:.2f}%, max {g['tensor_zero_rate_max_pct']:.2f}%, std {g['tensor_zero_rate_std_pct']:.2f} pts, size-weighted mean {g['tensor_zero_rate_size_weighted_mean_pct']:.2f}%.")
     A(f"Most sparse: `{g['most_sparse_tensor']}`. Least sparse: `{g['least_sparse_tensor']}`.")
-    A(f"weight_scale range across all 210 tensors: {g['weight_scale_min']:.5f} .. {g['weight_scale_max']:.5f} (BF16, one per tensor, multiplies the output; equals absmean β).")
+    conv = ("multiplies the output; equals absmean β" if spec.scale_convention == "multiply"
+            else "divides the output; equals 1/β where β = absmean")
+    A(f"weight_scale range across all {n_tensors} tensors: {g['weight_scale_min']:.5f} .. {g['weight_scale_max']:.5f} (BF16, one per tensor, {conv}).")
     A("")
     A("### By module type")
     A("")
@@ -637,10 +702,10 @@ def write_summary(out, ms, by_module, dot_rows, expected_terms, mem_rows, traffi
     A("")
     A("## 4. Dot-product lengths (MEASURED shapes)")
     A("")
-    A("| K | Modules | Tensors | Dot products per token (all layers) | Weights | % of ternary | % zero | Expected nonzero terms per dot |")
-    A("|---:|---|---:|---:|---:|---:|---:|---:|")
+    A("| K | Modules | Tensors | Dot products per token (all layers) | Weights | % of ternary | % zero | Expected nonzero terms per dot | ÷64 | ÷128 | ÷256 | ÷512 |")
+    A("|---:|---|---:|---:|---:|---:|---:|---:|---|---|---|---|")
     for r in dot_rows:
-        A(f"| {r['K']} | {r['modules']} | {r['tensors']} | {r['dot_products_per_token']:,} | {r['weights']:,} | {r['pct_of_ternary_weights']:.1f}% | {r['pct_zero']:.2f}% | {r['expected_nonzero_terms']:,.0f} |")
+        A(f"| {r['K']} | {r['modules']} | {r['tensors']} | {r['dot_products_per_token']:,} | {r['weights']:,} | {r['pct_of_ternary_weights']:.1f}% | {r['pct_zero']:.2f}% | {r['expected_nonzero_terms']:,.0f} | {'yes' if r['div_64'] else 'no'} | {'yes' if r['div_128'] else 'no'} | {'yes' if r['div_256'] else 'no'} | {'yes' if r['div_512'] else 'no'} |")
     A("")
     A("Expected terms per representative dot product (INFERRED from measured rates):")
     A("")
@@ -653,7 +718,7 @@ def write_summary(out, ms, by_module, dot_rows, expected_terms, mem_rows, traffi
     A(f"- Weights: {ms['weight_quantization']}")
     A(f"- Activations: {ms['activation_quantization']}")
     A("- Scale granularity: weight scale per tensor (1 value per linear); activation scale per token per linear input (dynamic, computed at runtime).")
-    A("- Scale application: one BF16 multiply per output element (weight_scale) and one divide per output element (activation scale), both after accumulation. Never inside the dot product.")
+    A(f"- Scale application: one BF16 {'multiply' if spec.scale_convention == 'multiply' else 'divide'} per output element (weight_scale) and one divide per output element (activation scale), both after accumulation. Never inside the dot product.")
     A("")
     A(f"## 6. Operation mix per transformer block (INFERRED, static counts, context {ctx})")
     A("")
@@ -662,7 +727,7 @@ def write_summary(out, ms, by_module, dot_rows, expected_terms, mem_rows, traffi
     for r in ops:
         A(f"| {r['operation']} | {r['class']} | {r['domain']} | {r['count_per_block']} | {r['K']} | {r['N']} | {r['macs_or_ops_per_token_per_block']:,} | {r['notes']} |")
     A("")
-    A(f"Totals per token: ternary linear MACs {o['ternary_macs_per_token_total']:,} ({o['pct_linear_macs_ternary']:.1f}% of linear MACs); tied BF16 lm_head MACs {o['lm_head_bf16_macs_per_token']:,} ({o['pct_linear_macs_lm_head_bf16']:.1f}%); attention score MACs at context {ctx}: {o['attention_score_macs_per_token_total_at_context']:,}.")
+    A(f"Totals per token: ternary linear MACs {o['ternary_macs_per_token_total']:,} ({o['pct_linear_macs_ternary']:.1f}% of linear MACs); BF16 lm_head MACs {o['lm_head_bf16_macs_per_token']:,} ({o['pct_linear_macs_lm_head_bf16']:.1f}%); attention score MACs at context {ctx}: {o['attention_score_macs_per_token_total_at_context']:,}.")
     A("")
     A("## 7. Weight storage (MEASURED file / THEORETICAL / HYPOTHETICAL)")
     A("")
@@ -670,14 +735,16 @@ def write_summary(out, ms, by_module, dot_rows, expected_terms, mem_rows, traffi
     for r in mem_rows:
         A(f"| {r['representation']} | {r['scope']} | {fmt_bytes(r['bytes'])} | {r['note']} |")
     A("")
-    A(f"## 8. Batch-1 decode weight traffic (INFERRED / ANALYTICAL MODEL, context {ctx})")
+    A(f"Output head: `{hd_['tensor']}` {hd_['dtype']}, {hd_['params']:,} params, {fmt_bytes(hd_['bytes'])} = {hd_['pct_of_file_bytes']:.1f}% of file bytes; {'tied to the embedding' if tied else 'separate from the embedding (untied)'}; not ternary.")
     A("")
-    A("Assumes every weight byte is streamed from memory exactly once per generated token, no on-chip residency, no batching, no compression. KV-cache read column assumes the full BF16 cache at the stated context is read once per token.")
+    A(f"## 8. Batch-1 decode weight traffic (INFERRED / ANALYTICAL MODEL, context {ctx}; max context {ms['max_position_embeddings']})")
     A("")
-    A("| Scenario | Ternary layers | Head | Norms+scales | Weight bytes/token | % head | KV read/token | Total/token |")
-    A("|---|---:|---:|---:|---:|---:|---:|---:|")
+    A("Assumes every weight byte is streamed from memory exactly once per generated token, no on-chip residency, no batching, no compression. KV-cache read columns assume the full BF16 cache at the stated context is read once per token.")
+    A("")
+    A("| Scenario | Ternary layers | Head | Norms+scales | Weight bytes/token | % head | KV read/token @ctx | Total/token @ctx | KV read @max ctx | Total @max ctx |")
+    A("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
     for r in traffic:
-        A(f"| {r['scenario']} | {fmt_bytes(r['ternary_layer_bytes_per_token'])} | {fmt_bytes(r['head_bytes_per_token'])} | {fmt_bytes(r['norm_and_scale_bytes_per_token'])} | {fmt_bytes(r['weight_bytes_per_token'])} | {r['pct_head']:.0f}% | {fmt_bytes(r['kv_cache_read_bytes_per_token_at_context'])} | {fmt_bytes(r['total_bytes_per_token_at_context'])} |")
+        A(f"| {r['scenario']} | {fmt_bytes(r['ternary_layer_bytes_per_token'])} | {fmt_bytes(r['head_bytes_per_token'])} | {fmt_bytes(r['norm_and_scale_bytes_per_token'])} | {fmt_bytes(r['weight_bytes_per_token'])} | {r['pct_head']:.0f}% | {fmt_bytes(r['kv_cache_read_bytes_per_token_at_context'])} | {fmt_bytes(r['total_bytes_per_token_at_context'])} | {fmt_bytes(r['kv_cache_read_bytes_per_token_at_max_context'])} | {fmt_bytes(r['total_bytes_per_token_at_max_context'])} |")
     A("")
     A("Invalidated by: on-chip SRAM residency of any part of the model, batching (weights amortized over tokens), weight reuse across heads/queries, compression, multi-chip sharding, speculative decoding, or a quantized head.")
     A("")

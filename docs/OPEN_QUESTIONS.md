@@ -52,25 +52,32 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **Status:** Open. Deferred.
 
 ### Q-018
-**Question:** Do the EXP-0002 findings (42% zeros, dead early-layer MLP channels, two dot lengths, per-tensor scale, INT8 per-token activations) hold for other native ternary models?
-**Why it matters:** Every workload-driven hardware decision currently rests on one model.
-**Current evidence:** One model only.
-**What would answer it:** Re-running `analysis/ternary_model_profile.py` (generalized for other layouts) on a second native ternary release when one exists.
-**Status:** Open.
+**Question:** Do the EXP-0002 findings hold for other native ternary models?
+**Why it matters:** Every workload-driven hardware decision rested on one model.
+**Current evidence:** EXP-0002B (MEASURED) across TII Falcon-E 1B and 3B: **generalize** — ternary {-1,0,+1} stored 2-bit; per-tensor scale applied after accumulation; INT8 per-token absmax activations with -128 unreachable; ±1 balanced within 0.1 pt; 39.7–42.2% zeros, unstructured along K; two dot lengths per model, all divisible by 256; BF16 non-ternary output head; q/k sparser than v/o. **Microsoft-specific** — dead MLP channels (4.76% vs 0 and 0), tied head, head dominating traffic (56% vs 25%/16%), exact K values, ReLU², sub-norms, stored-scale convention (β vs 1/β).
+**What would answer it further:** A third independent family. Two families are evidence, not proof.
+**Status:** Partially answered across two independent families; broader generalization remains open.
 
 ### Q-019
-**Question:** Is the non-ternary BF16 output head (328 M parameters, 657 MB, 13.6% of linear MACs) in FlexTern's scope, or an accepted fixed cost handled elsewhere?
-**Why it matters:** Under a stream-once decode model it is the single largest weight stream per token, bigger than all ternary layers combined. Quantizing it to INT8/INT4 is a model-quality question FlexTern cannot answer alone.
-**Current evidence:** EXP-0002 traffic model (INFERRED).
+**Question:** Is the non-ternary BF16 output head in FlexTern's scope, or an accepted fixed cost handled elsewhere?
+**Why it matters:** Under a stream-once decode model it can be the single largest weight stream per token.
+**Current evidence:** EXP-0002/EXP-0002B (INFERRED traffic model): the head is BF16 in both families, but its share of weight bytes is vocabulary-driven: 56% for BitNet (128k vocab, tied), 25% for Falcon-E 1B and 16% for 3B (32k vocab, untied). Head *precision* generalizes; head *dominance* does not. At 32k context, Falcon's KV-cache read (805 MB/token for 1B) exceeds its weight stream.
 **What would answer it:** Founder decision on scope; a quality study if quantizing the head is considered.
-**Status:** Open — founder-level.
+**Status:** Open — founder-level; the scope question now includes the KV cache at long context.
 
 ### Q-020
-**Question:** Can channel-level dead sparsity (whole-row zeros) be exploited at the compiler/packing level rather than in hardware, and does that make per-element zero-skipping unnecessary?
-**Why it matters:** EXP-0002 shows the only structured sparsity is dead channels, which a compiler can simply drop (2.44% of weights, up to 43.6% of MLP channels in one layer).
-**Current evidence:** EXP-0002 (MEASURED counts; no exploitation tried).
-**What would answer it:** A packing/scheduling experiment, not RTL.
-**Status:** Open.
+**Question:** Can channel-level dead sparsity be exploited at the compiler/packing level rather than in hardware?
+**Why it matters:** EXP-0002 found whole dead MLP channels in BitNet (4.76%, 43.6% in layer 1).
+**Current evidence:** EXP-0002B: Falcon-E 1B and 3B have **zero** all-zero rows in any tensor. Dead channels are a BitNet-specific artifact (ReLU² and/or training recipe), not a ternary property. Any exploitation would be model-conditional.
+**What would answer it:** Nothing further needed for hardware; a compiler may handle it opportunistically if ever relevant.
+**Status:** Open, deprioritized — evidence says do not build hardware for it.
+
+### Q-021
+**Question:** Should the Youssouf Architecture support parameterized activation precision rather than hard-coding INT8?
+**Why it matters:** Both production-like native ternary families today use INT8 per-token absmax activations (EXP-0002, EXP-0002B), and Y-Core v0.1 matches them. Published research directions explore 4-bit (or lower) activations for ternary-weight models. If that becomes the production norm, a fixed-INT8 datapath wastes accumulator width, activation bandwidth, and (for popcount-style execution) half the bit-planes.
+**Current evidence:** INT8 in both families (MEASURED from reference code). No lower-precision native release has been inspected; compatibility of lower-precision methods with these checkpoints is **not verified**.
+**What would answer it:** A native ternary release with sub-8-bit activations, or a quality study on these checkpoints. Until then, treat activation width as an architectural parameter in analyses (roofline inputs, accumulator widths) and keep INT8 as the first implementation precision.
+**Status:** Open — tracked risk. No redesign now.
 
 ## Strategic (founder-only; not for agents to decide)
 

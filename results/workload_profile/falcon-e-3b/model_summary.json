@@ -1,0 +1,145 @@
+{
+  "model_id": "tiiuae/Falcon-E-3B-Base",
+  "revision": "ad18b0713c10a8696144b1112accf4ccd28af6d3",
+  "family": "TII Falcon-E (Falcon-Edge)",
+  "source": "huggingface_hub: tiiuae/Falcon-E-3B-Base @ ad18b0713c10a8696144b1112accf4ccd28af6d3",
+  "license": "Falcon-LLM License (TII), Apache-2.0-based with Acceptable Use Policy; Hugging Face tag license:other",
+  "paper": "Falcon-Edge release blog, https://falcon-lm.github.io/blog/falcon-edge/",
+  "native_ternary_claim": "as falcon-e-1b",
+  "architectures": [
+    "LlamaForCausalLM"
+  ],
+  "model_type": "llama",
+  "num_hidden_layers": 32,
+  "hidden_size": 2048,
+  "intermediate_size": 13312,
+  "num_attention_heads": 16,
+  "num_key_value_heads": 2,
+  "head_dim": 128,
+  "gqa_group_size": 8,
+  "vocab_size": 32768,
+  "embedding_dim": 2048,
+  "max_position_embeddings": 32768,
+  "rope_theta": 1000000,
+  "rms_norm_eps": 1e-05,
+  "hidden_act": "silu",
+  "tie_word_embeddings": false,
+  "torch_dtype": "bfloat16",
+  "quantization_config": {
+    "modules_to_not_convert": [
+      "lm_head"
+    ],
+    "quant_method": "bitnet"
+  },
+  "norms_per_layer": 2,
+  "norm_names": [
+    "input_layernorm",
+    "post_attention_layernorm"
+  ],
+  "normalization": "RMSNorm x2 per layer (input_layernorm, post_attention_layernorm) plus final model.norm; no sub-norms",
+  "attention": "Llama GQA, RoPE on q/k, no bias",
+  "mlp": "down_proj(silu(gate_proj(x)) * up_proj(x))  (SwiGLU)",
+  "weight_quantization": "absmean ternary (scale=1/mean|W|, round, clamp[-1,1]); stored packed 2-bit (code = q+1) 4 per uint8 along dim 0; one BF16 weight_scale per tensor; scale convention: divide (weight_scale = 1/beta, output / weight_scale); checkpoint rounding: as falcon-e-1b",
+  "activation_quantization": "per-token (last dim) absmax symmetric int8: scale = 127/absmax, clamp[-128,127]; effective range [-127,127] (-128 unreachable); rounding: as falcon-e-1b; source: as falcon-e-1b",
+  "scale_convention": "divide",
+  "config_source": "config.json at the pinned revision",
+  "code_source": "as falcon-e-1b (transformers BitLinear @ d6abd1333078195535f461589b64f112b53688b2; onebitllms @ 9be8e4f377bd7fa0e86fc0e3083f7785dc805201)",
+  "file_size_bytes": 998568704,
+  "file_size_matches_expected": true,
+  "file_sha256": "25dbd87d68cf853de3bea1ae4615bf2fa027f252b77ec2137a07e94c1a1a6ba2",
+  "file_sha256_matches_hf_etag": true,
+  "header_len": 57656,
+  "tensor_count": 515,
+  "tensor_classes": {
+    "lm_head": 1,
+    "embedding": 1,
+    "norm": 65,
+    "weight_scale": 224,
+    "packed_ternary": 224,
+    "unclassified": 0
+  },
+  "parameters": {
+    "ternary_linear": 2919235584,
+    "embedding_bf16": 67108864,
+    "lm_head_bf16_untied": 67108864,
+    "head_is_tied_to_embedding": false,
+    "norm_bf16": 133120,
+    "weight_scales_bf16": 224,
+    "total": 3053586656,
+    "pct_ternary": 95.60022075234009,
+    "pct_embedding_and_head": 4.3954124483834525,
+    "attention_proj_ternary": 301989888,
+    "mlp_ternary": 2617245696,
+    "pct_of_ternary_attention": 10.344827586206897,
+    "pct_of_ternary_mlp": 89.65517241379311
+  },
+  "global_ternary_distribution": {
+    "total_ternary_weights": 2919235584,
+    "count_neg": 879826492,
+    "count_zero": 1158714778,
+    "count_pos": 880694314,
+    "pct_neg": 30.138934206688543,
+    "pct_zero": 39.69240387280782,
+    "pct_pos": 30.168661920503638,
+    "pct_sum": 100.0,
+    "tensor_zero_rate_min_pct": 32.59113385127141,
+    "tensor_zero_rate_max_pct": 58.68568420410156,
+    "tensor_zero_rate_median_pct": 40.24727527911847,
+    "tensor_zero_rate_mean_unweighted_pct": 41.509178264455485,
+    "tensor_zero_rate_size_weighted_mean_pct": 39.69240387280782,
+    "tensor_zero_rate_std_pct": 4.678700563139787,
+    "most_sparse_tensor": "model.layers.14.self_attn.k_proj.weight",
+    "least_sparse_tensor": "model.layers.0.mlp.up_proj.weight",
+    "weight_scale_min": 5.40625,
+    "weight_scale_max": 58.0,
+    "reserved_code3_count": 0
+  },
+  "operation_summary": {
+    "ternary_macs_per_token_per_block": 91226112,
+    "ternary_macs_per_token_total": 2919235584,
+    "attention_score_macs_per_token_per_block_at_context": 16777216,
+    "attention_score_macs_per_token_total_at_context": 536870912,
+    "lm_head_bf16_macs_per_token": 67108864,
+    "context": 4096,
+    "pct_linear_macs_ternary": 97.75280898876404,
+    "pct_linear_macs_lm_head_bf16": 2.247191011235955
+  },
+  "dead_channels": {
+    "total_allzero_rows_all_tensors": 0,
+    "total_allzero_cols_all_tensors": 280,
+    "mlp_intermediate_channels_dead_total": 0,
+    "mlp_intermediate_channels_total": 425984,
+    "pct_mlp_intermediate_channels_dead": 0.0,
+    "weights_in_dead_rows_or_cols": 0,
+    "pct_ternary_weights_in_dead_rows": 0.0
+  },
+  "head": {
+    "tensor": "lm_head.weight",
+    "dtype": "BF16",
+    "params": 67108864,
+    "bytes": 134217728,
+    "pct_of_file_bytes": 13.441010865087156,
+    "ternary": false,
+    "tied": false
+  },
+  "dot_lengths": [
+    {
+      "K": 2048,
+      "modules": "gate_proj+k_proj+o_proj+q_proj+up_proj+v_proj",
+      "pct_of_ternary_weights": 70.11494252873563,
+      "div_64": true,
+      "div_128": true,
+      "div_256": true,
+      "div_512": true
+    },
+    {
+      "K": 13312,
+      "modules": "down_proj",
+      "pct_of_ternary_weights": 29.885057471264368,
+      "div_64": true,
+      "div_128": true,
+      "div_256": true,
+      "div_512": true
+    }
+  ]
+}

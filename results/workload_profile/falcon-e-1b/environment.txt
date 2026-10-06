@@ -1,0 +1,12 @@
+FlexTern workload profile environment — falcon-e-1b
+Generated: 2026-10-06 06:20:47 +0300
+Command: python analysis\ternary_model_profile.py --model falcon-e-1b
+Python: 3.12.10 (Windows-11-10.0.26200-SP0)
+numpy: 2.5.3   huggingface_hub: 2.1.1
+Model: tiiuae/Falcon-E-1B-Base  revision f4001b8b1c26d28a717d79a8ece14901816d92e8
+Model file: C:\Users\liban\.cache\huggingface\hub\models--tiiuae--Falcon-E-1B-Base\snapshots\f4001b8b1c26d28a717d79a8ece14901816d92e8\model.safetensors
+File size: 665041488 (expected 665041488: OK)
+SHA-256: f62c270b5640c9fce1dedf1ffe84aa8f138443ad1b065e90c7508a0eebc7c79d  (expected f62c270b5640c9fce1dedf1ffe84aa8f138443ad1b065e90c7508a0eebc7c79d: OK)
+Reference quantization code: huggingface/transformers integrations/bitnet.py @ d6abd1333078195535f461589b64f112b53688b2 (BitLinear; config has quant_method=bitnet and no linear_class) + tiiuae/onebitllms @ 9be8e4f377bd7fa0e86fc0e3083f7785dc805201 (kernels/activation_quant.py, kernels/weight_quant.py, utils/quantization_utils.py)
+Random seeds: none (fully deterministic)
+Runtime: 30.0 s

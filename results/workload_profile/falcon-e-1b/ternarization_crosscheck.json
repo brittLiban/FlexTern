@@ -1,0 +1,71 @@
+{
+  "packed_repo": "tiiuae/Falcon-E-1B-Base",
+  "packed_revision": "f4001b8b1c26d28a717d79a8ece14901816d92e8",
+  "latent_repo": "tiiuae/Falcon-E-1B-Base",
+  "latent_revision": "ff68bcdd17933f7cf06a147360018c2f60e57be8",
+  "latent_note": "'prequantized' branch: BF16 latent weights for fine-tuning, the input of onebitllms.quantize_to_1bit. The separate 'bfloat16' branch is a different non-ternary model from the same run and is NOT used.",
+  "method": "absmean ternarization: scale=1/mean|W|, q=round(W*scale).clamp(-1,1), round-half-even; reported twice: float32 math, and with BF16 emulation (mean, reciprocal and product each rounded to BF16, as a model loaded in torch.bfloat16 would compute)",
+  "scale_convention": "divide",
+  "tensors": [
+    {
+      "tensor": "model.layers.0.self_attn.q_proj.weight",
+      "shape": [
+        2048,
+        2048
+      ],
+      "bf16_mean_abs": 0.057505153119564056,
+      "packed_weight_scale": 17.375,
+      "scale_convention": "divide",
+      "expected_stored_scale": 17.389745888004356,
+      "stored_scale_times_mean_abs": 0.9991520354524255,
+      "scale_convention_confirmed_to_bf16_precision": true,
+      "agreement_pct_float32_math": 99.82924461364746,
+      "mismatches_float32_math": 7162,
+      "agreement_pct_bf16_emulated": 100.0,
+      "mismatches_bf16_emulated": 0,
+      "elements": 4194304,
+      "zero_pct_from_latent": 34.34417247772217,
+      "zero_pct_packed": 34.51492786407471
+    },
+    {
+      "tensor": "model.layers.0.self_attn.k_proj.weight",
+      "shape": [
+        256,
+        2048
+      ],
+      "bf16_mean_abs": 0.11578209698200226,
+      "packed_weight_scale": 8.625,
+      "scale_convention": "divide",
+      "expected_stored_scale": 8.636913875859797,
+      "stored_scale_times_mean_abs": 0.9986205864697695,
+      "scale_convention_confirmed_to_bf16_precision": true,
+      "agreement_pct_float32_math": 99.853515625,
+      "mismatches_float32_math": 768,
+      "agreement_pct_bf16_emulated": 100.0,
+      "mismatches_bf16_emulated": 0,
+      "elements": 524288,
+      "zero_pct_from_latent": 31.223487854003906,
+      "zero_pct_packed": 31.369972229003906
+    },
+    {
+      "tensor": "model.layers.12.mlp.down_proj.weight",
+      "shape": [
+        2048,
+        9216
+      ],
+      "bf16_mean_abs": 0.07589615136384964,
+      "packed_weight_scale": 13.1875,
+      "scale_convention": "divide",
+      "expected_stored_scale": 13.175898672463035,
+      "stored_scale_times_mean_abs": 1.0008804961107671,
+      "scale_convention_confirmed_to_bf16_precision": true,
+      "agreement_pct_float32_math": 100.0,
+      "mismatches_float32_math": 0,
+      "agreement_pct_bf16_emulated": 100.0,
+      "mismatches_bf16_emulated": 0,
+      "elements": 18874368,
+      "zero_pct_from_latent": 40.41691356235081,
+      "zero_pct_packed": 40.41691356235081
+    }
+  ]
+}

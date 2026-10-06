@@ -74,6 +74,13 @@ Impact:           Anyone deriving ternary statistics from the BF16 repo would
                   get numbers that differ by ~1-2 percentage points from the
                   deployed packed weights. EXP-0002 uses the packed repo only.
 Workaround:       Treat the packed repo as authoritative. Do not mix the two.
+Update 2026-10-06 (EXP-0002B): emulating BF16 arithmetic in the ternarization
+                  (as a bf16-loaded model would compute) makes the TII Falcon-E
+                  1B packed branch reproduce from its 'prequantized' branch at
+                  exactly 100.000% on all tensors checked, but makes the
+                  Microsoft agreement worse (94.8-98.8%). The Microsoft gap is
+                  therefore a snapshot difference, not an arithmetic artifact.
+                  Falcon-E has no such issue.
 ```
 
 ### Template

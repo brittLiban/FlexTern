@@ -1,0 +1,9 @@
+scenario,ternary_layer_bytes_per_token,head_bytes_per_token,norm_and_scale_bytes_per_token,weight_bytes_per_token,pct_head,kv_cache_read_bytes_per_token_at_context,total_bytes_per_token_at_context,kv_cache_read_bytes_per_token_at_max_context,total_bytes_per_token_at_max_context,note
+As stored: 2-bit packed layers + BF16 head (untied lm_head),729808896,134217728,266688,864293312,15.529187387718673,134217728,998511040,1073741824,1938035136,matches checkpoint
+BF16 layers + BF16 head (untied lm_head) (dense reference),5838471168,134217728,266688,5972955584,2.2470906758378466,134217728,6107173312,1073741824,7046697408,what a BF16 model of this shape would stream
+INT8 layers + BF16 head (untied lm_head),2919235584,134217728,266688,3053720000,4.395220517925678,134217728,3187937728,1073741824,4127461824,
+INT4 layers + BF16 head (untied lm_head),1459617792.0,134217728,266688,1594102208.0,8.419643817468447,134217728,1728319936.0,1073741824,2667844032.0,
+2-bit layers + INT8 head,729808896,67108864,266688,797184448,8.418235474658934,134217728,931402176,1073741824,1870926272,HYPOTHETICAL head quantization
+2-bit layers + INT4 head,729808896,33554432.0,266688,763630016.0,4.3940692870826075,134217728,897847744.0,1073741824,1837371840.0,HYPOTHETICAL head quantization
+1.6-bit (5 trits/byte) layers + INT4 head,583847116.8,33554432.0,266688,617668236.8,5.432436055614249,134217728,751885964.8,1073741824,1691410060.8,HYPOTHETICAL
+2-bit layers only (head cached on-chip / excluded),729808896,0,266688,730075584,0.0,134217728,864293312,1073741824,1803817408,if the head were resident or handled elsewhere

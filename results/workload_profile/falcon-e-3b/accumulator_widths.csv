@@ -1,0 +1,8 @@
+K,modules,format_range,format_sum_min,format_sum_max,format_signed_bits,model_range,model_sum_min,model_sum_max,model_signed_bits,max_nonzero_in_any_row,data_bounded_sum_max,data_bounded_signed_bits,note
+2048,gate_proj+k_proj+o_proj+q_proj+up_proj+v_proj,"[-128,127]",-262144,262144,20,"[-127,127]",-260096,260096,19,2028,257556,19,"format: INT8 [-128,127] with ternary -1 giving +128; model: activation_quant cannot produce -128; data-bounded: INFERRED from this checkpoint only"
+13312,down_proj,"[-128,127]",-1703936,1703936,22,"[-127,127]",-1690624,1690624,22,13206,1677162,22,"format: INT8 [-128,127] with ternary -1 giving +128; model: activation_quant cannot produce -128; data-bounded: INFERRED from this checkpoint only"
+16,"(tile size, not a model K)","[-128,127]",-2048,2048,13,"[-127,127]",-2032,2032,12,,,,partial-sum tile
+64,"(tile size, not a model K)","[-128,127]",-8192,8192,15,"[-127,127]",-8128,8128,14,,,,partial-sum tile
+256,"(tile size, not a model K)","[-128,127]",-32768,32768,17,"[-127,127]",-32512,32512,16,,,,partial-sum tile
+512,"(tile size, not a model K)","[-128,127]",-65536,65536,18,"[-127,127]",-65024,65024,17,,,,partial-sum tile
+1024,"(tile size, not a model K)","[-128,127]",-131072,131072,19,"[-127,127]",-130048,130048,18,,,,partial-sum tile

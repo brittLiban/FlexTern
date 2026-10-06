@@ -1,0 +1,145 @@
+{
+  "model_id": "tiiuae/Falcon-E-1B-Base",
+  "revision": "f4001b8b1c26d28a717d79a8ece14901816d92e8",
+  "family": "TII Falcon-E (Falcon-Edge)",
+  "source": "huggingface_hub: tiiuae/Falcon-E-1B-Base @ f4001b8b1c26d28a717d79a8ece14901816d92e8",
+  "license": "Falcon-LLM License (TII), Apache-2.0-based with Acceptable Use Policy; Hugging Face tag license:other; https://falconllm.tii.ae/falcon-terms-and-conditions.html",
+  "paper": "Falcon-Edge release blog, https://falcon-lm.github.io/blog/falcon-edge/ (no arXiv report at time of analysis)",
+  "native_ternary_claim": "Blog: pre-training 'simultaneously yields both non-quantized and quantized model variants'; ~1.5T tokens; BitNet b1.58 architecture with BitNet-internal layer norms removed; weights absmean-ternarized and activations int8 per-token absmax in TII's Triton training kernels.",
+  "architectures": [
+    "LlamaForCausalLM"
+  ],
+  "model_type": "llama",
+  "num_hidden_layers": 24,
+  "hidden_size": 2048,
+  "intermediate_size": 9216,
+  "num_attention_heads": 16,
+  "num_key_value_heads": 2,
+  "head_dim": 128,
+  "gqa_group_size": 8,
+  "vocab_size": 32768,
+  "embedding_dim": 2048,
+  "max_position_embeddings": 32768,
+  "rope_theta": 1000000,
+  "rms_norm_eps": 1e-05,
+  "hidden_act": "silu",
+  "tie_word_embeddings": false,
+  "torch_dtype": "bfloat16",
+  "quantization_config": {
+    "modules_to_not_convert": [
+      "lm_head"
+    ],
+    "quant_method": "bitnet"
+  },
+  "norms_per_layer": 2,
+  "norm_names": [
+    "input_layernorm",
+    "post_attention_layernorm"
+  ],
+  "normalization": "RMSNorm (LlamaRMSNorm) x2 per layer: input_layernorm, post_attention_layernorm; plus final model.norm. No sub-norms (BitNet-internal norms removed per blog).",
+  "attention": "Llama GQA, RoPE on q/k, no bias",
+  "mlp": "down_proj(silu(gate_proj(x)) * up_proj(x))  (SwiGLU)",
+  "weight_quantization": "absmean ternary (scale=1/mean|W|, round, clamp[-1,1]); stored packed 2-bit (code = q+1) 4 per uint8 along dim 0; one BF16 weight_scale per tensor; scale convention: divide (weight_scale = 1/beta, output / weight_scale); checkpoint rounding: onebitllms quantize_to_1bit: torch round (half-to-even); training kernel floor(x+0.5)",
+  "activation_quantization": "per-token (last dim) absmax symmetric int8: scale = 127/absmax, clamp[-128,127]; effective range [-127,127] (-128 unreachable); rounding: training kernel floor(x+0.5) (half-up); inference torch round (half-to-even); clamp [-128,127]; source: onebitllms kernels/activation_quant.py (training): scale = 127/row_absmax (min 1e-5), floor(x*scale+0.5), clamp [-128,127]; transformers BitLinear.activation_quant (inference)",
+  "scale_convention": "divide",
+  "config_source": "config.json at the pinned revision",
+  "code_source": "huggingface/transformers integrations/bitnet.py @ d6abd1333078195535f461589b64f112b53688b2 (BitLinear; config has quant_method=bitnet and no linear_class) + tiiuae/onebitllms @ 9be8e4f377bd7fa0e86fc0e3083f7785dc805201 (kernels/activation_quant.py, kernels/weight_quant.py, utils/quantization_utils.py)",
+  "file_size_bytes": 665041488,
+  "file_size_matches_expected": true,
+  "file_sha256": "f62c270b5640c9fce1dedf1ffe84aa8f138443ad1b065e90c7508a0eebc7c79d",
+  "file_sha256_matches_hf_etag": true,
+  "header_len": 43256,
+  "tensor_count": 387,
+  "tensor_classes": {
+    "lm_head": 1,
+    "embedding": 1,
+    "norm": 49,
+    "weight_scale": 168,
+    "packed_ternary": 168,
+    "unclassified": 0
+  },
+  "parameters": {
+    "ternary_linear": 1585446912,
+    "embedding_bf16": 67108864,
+    "lm_head_bf16_untied": 67108864,
+    "head_is_tied_to_embedding": false,
+    "norm_bf16": 100352,
+    "weight_scales_bf16": 168,
+    "total": 1719765160,
+    "pct_ternary": 92.18973316100903,
+    "pct_embedding_and_head": 7.8044218549002355,
+    "attention_proj_ternary": 226492416,
+    "mlp_ternary": 1358954496,
+    "pct_of_ternary_attention": 14.285714285714286,
+    "pct_of_ternary_mlp": 85.71428571428571
+  },
+  "global_ternary_distribution": {
+    "total_ternary_weights": 1585446912,
+    "count_neg": 466488444,
+    "count_zero": 651159306,
+    "count_pos": 467799162,
+    "pct_neg": 29.423151318989103,
+    "pct_zero": 41.07102553049723,
+    "pct_pos": 29.505823150513663,
+    "pct_sum": 100.0,
+    "tensor_zero_rate_min_pct": 31.369972229003906,
+    "tensor_zero_rate_max_pct": 59.39483642578125,
+    "tensor_zero_rate_median_pct": 40.684401988983154,
+    "tensor_zero_rate_mean_unweighted_pct": 41.966591830606816,
+    "tensor_zero_rate_size_weighted_mean_pct": 41.07102553049723,
+    "tensor_zero_rate_std_pct": 5.0149321814215515,
+    "most_sparse_tensor": "model.layers.21.self_attn.k_proj.weight",
+    "least_sparse_tensor": "model.layers.0.self_attn.k_proj.weight",
+    "weight_scale_min": 5.03125,
+    "weight_scale_max": 63.0,
+    "reserved_code3_count": 0
+  },
+  "operation_summary": {
+    "ternary_macs_per_token_per_block": 66060288,
+    "ternary_macs_per_token_total": 1585446912,
+    "attention_score_macs_per_token_per_block_at_context": 16777216,
+    "attention_score_macs_per_token_total_at_context": 402653184,
+    "lm_head_bf16_macs_per_token": 67108864,
+    "context": 4096,
+    "pct_linear_macs_ternary": 95.93908629441624,
+    "pct_linear_macs_lm_head_bf16": 4.060913705583756
+  },
+  "dead_channels": {
+    "total_allzero_rows_all_tensors": 0,
+    "total_allzero_cols_all_tensors": 168,
+    "mlp_intermediate_channels_dead_total": 0,
+    "mlp_intermediate_channels_total": 221184,
+    "pct_mlp_intermediate_channels_dead": 0.0,
+    "weights_in_dead_rows_or_cols": 0,
+    "pct_ternary_weights_in_dead_rows": 0.0
+  },
+  "head": {
+    "tensor": "lm_head.weight",
+    "dtype": "BF16",
+    "params": 67108864,
+    "bytes": 134217728,
+    "pct_of_file_bytes": 20.1818578873383,
+    "ternary": false,
+    "tied": false
+  },
+  "dot_lengths": [
+    {
+      "K": 2048,
+      "modules": "gate_proj+k_proj+o_proj+q_proj+up_proj+v_proj",
+      "pct_of_ternary_weights": 71.42857142857143,
+      "div_64": true,
+      "div_128": true,
+      "div_256": true,
+      "div_512": true
+    },
+    {
+      "K": 9216,
+      "modules": "down_proj",
+      "pct_of_ternary_weights": 28.571428571428573,
+      "div_64": true,
+      "div_128": true,
+      "div_256": true,
+      "div_512": true
+    }
+  ]
+}
