@@ -2,7 +2,7 @@
 
 Status: Complete
 Date: 2026-10-06
-Commit: the EXP-0002B commit ("research: validate FlexTern workload assumptions across Falcon-E"); results generated from that tree.
+Commit: 73dc205 ("research: validate FlexTern workload assumptions across Falcon-E"). Results in `results/workload_profile/` were generated from exactly that tree before the commit existed.
 
 Primary data: `results/workload_profile/cross_model/comparison.md` (generated) and the per-model directories `results/workload_profile/falcon-e-1b/`, `falcon-e-3b/`, and the unchanged EXP-0002 outputs in `results/workload_profile/`. This record interprets them. Labels as in `AGENTS.md` §7.
 

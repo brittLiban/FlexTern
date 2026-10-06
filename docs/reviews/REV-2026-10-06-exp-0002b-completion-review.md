@@ -2,7 +2,7 @@
 
 Reviewer: Fable 5.1 (advisor role, consulted by the implementing Claude agent)
 Date: 2026-10-06
-Scope: EXP-0002B and its artifacts (`analysis/`, `tests/test_analysis_cross_model.py`, `results/workload_profile/{falcon-e-1b,falcon-e-3b,cross_model}/`, the regenerated BitNet outputs, ADR-0004, updated canonical docs, the handoff), as they stood immediately before the EXP-0002B commit. The founder asked for attacks on eight specific points; each has a verdict below.
+Scope: EXP-0002B and its artifacts (`analysis/`, `tests/test_analysis_cross_model.py`, `results/workload_profile/{falcon-e-1b,falcon-e-3b,cross_model}/`, the regenerated BitNet outputs, ADR-0004, updated canonical docs, the handoff), as they stood immediately before the EXP-0002B commit (73dc205). The founder asked for attacks on eight specific points; each has a verdict below.
 
 ## Overall Assessment
 

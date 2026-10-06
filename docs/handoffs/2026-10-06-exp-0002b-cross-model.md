@@ -2,7 +2,7 @@
 
 Date: 2026-10-06
 Agent: Claude (Claude Code, model Fable 5.1), implementation role
-Current commit: the EXP-0002B commit ("research: validate FlexTern workload assumptions across Falcon-E")
+Current commit: 73dc205 (EXP-0002B), followed by a docs-only fixup commit recording this hash
 
 ## Objective
 
