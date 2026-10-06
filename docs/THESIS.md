@@ -51,6 +51,8 @@ These are external facts, not FlexTern results.
 
 H1 has been tested at the generic-logic level (EXP-0001). H3 and H4 have workload evidence from two independent model families (EXP-0002, EXP-0002B) but no hardware evidence. EXP-0001 also showed the per-element advantage shrinking as accumulation is added, which bears on H2. The mixed-precision framing (ternary blocks plus non-ternary head, norms, attention, KV cache) is confirmed in both families; what differs is which non-ternary stream is largest.
 
+EXP-0003 (ANALYTICAL) bounds the whole thesis from above: with the non-ternary parts unchanged, ternary specialization alone can at most deliver an end-to-end decode speedup equal to total bytes over non-ternary bytes in the memory-bound regime. That ceiling is below 1.8× for BitNet 2B4T at any context (BF16 head), above 3× for Falcon-E at short context (≤ ~2.6k for 1B, ≤ ~7k for 3B), and below 1.6× for every model at 32k context. The thesis therefore depends on the system-level scope in ADR-0005: the ternary datapath is necessary but cannot carry multi-fold gains alone outside short-context, batch-1, modest-vocabulary decode. In bytes, the advantage 2-bit storage already realizes over an INT4-weight system with the same head and KV is 1.3–1.8×; over BF16-weight systems 3–7× (EXP-0003, bytes only, compute and energy unmodeled).
+
 ## Unknowns and risks
 
 - Ternary model adoption may remain limited. If the model ecosystem stays at 4-bit and above, the hardware target shrinks.

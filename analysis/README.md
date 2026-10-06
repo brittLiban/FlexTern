@@ -9,6 +9,8 @@ Workload-characterization tooling. Phase 2 (EXP-0002, EXP-0002B) analyzes real t
 | `safetensors_reader.py` | Minimal safetensors header parser + memmap reader, BF16 decode, and the BitNet 2-bit unpack/pack routines transcribed from `transformers/integrations/bitnet.py`. |
 | `ternarization_crosscheck.py` | HTTP-range fetches a few BF16 latent tensors, applies absmean ternarization (float32 and BF16-emulated), compares with the packed codes, and checks the stored scale against the spec's convention. |
 | `cross_model_compare.py` | Joins the per-model outputs into `results/workload_profile/cross_model/comparison.{md,json}`. |
+| `roofline_models.py` | EXP-0003 library: per-token stage model (ternary linears, head, attention+KV, other), overlap bounds, Amdahl ceilings, analytical crossovers and break-even equations, residency policies, tiles, accumulator widths, prefill. ANALYTICAL only. |
+| `flextern_roofline.py` | EXP-0003 driver: loads the three canonical `model_summary.json` files, verifies invariants, runs the sweeps, writes `results/roofline/`. Run via `scripts\run_roofline.ps1`. |
 
 ## Run
 

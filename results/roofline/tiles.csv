@@ -1,0 +1,16 @@
+K,tile,tiles,tail_utilization,partial_sums,divisible,models
+2048,128,16,1,16,True,falcon-e-1b+falcon-e-3b
+2048,256,8,1,8,True,falcon-e-1b+falcon-e-3b
+2048,512,4,1,4,True,falcon-e-1b+falcon-e-3b
+2560,128,20,1,20,True,bitnet-2b4t
+2560,256,10,1,10,True,bitnet-2b4t
+2560,512,5,1,5,True,bitnet-2b4t
+6912,128,54,1,54,True,bitnet-2b4t
+6912,256,27,1,27,True,bitnet-2b4t
+6912,512,14,0.964286,14,False,bitnet-2b4t
+9216,128,72,1,72,True,falcon-e-1b
+9216,256,36,1,36,True,falcon-e-1b
+9216,512,18,1,18,True,falcon-e-1b
+13312,128,104,1,104,True,falcon-e-3b
+13312,256,52,1,52,True,falcon-e-3b
+13312,512,26,1,26,True,falcon-e-3b

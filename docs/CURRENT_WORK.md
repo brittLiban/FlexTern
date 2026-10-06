@@ -6,7 +6,7 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 **Objective ID:** FT-CURRENT
 
-**Title:** EXP-0002B — Validate the EXP-0002 workload findings against an independent native ternary family (TII Falcon-E 1B/3B) before any Youssouf Architecture decision hardens around BitNet-specific numbers.
+**Title:** EXP-0003 — Analytical compute-vs-memory bottleneck model: how much end-to-end benefit ternary specialization can deliver across the measured BitNet/Falcon-E envelope before non-ternary work (KV cache, output head, attention, other) caps it.
 
 **Status:** Complete. Awaiting founder/ChatGPT review. No next implementation objective has been set.
 
@@ -17,58 +17,55 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 ## Why we are doing this
 
-Every workload-driven conclusion in EXP-0002 (dot lengths, zero rate, dead channels, scale placement, INT8 activations, head dominance, 256-divisibility, accumulator widths) came from one Microsoft checkpoint. Hardware decisions must not overfit to it.
+FlexTern's thesis treats multi-fold end-to-end gains as important. EXP-0002/EXP-0002B showed that non-ternary streams can exceed the ternary stream. Before building any datapath or memory-feed hardware, the project needed to know where ternary specialization has system-level headroom and where it does not.
 
 ## Question we are trying to answer
 
-Which hardware-relevant workload properties are model-specific, and which look stable enough across independent ternary families to inform the first architecture?
+Across three reference workloads and sweeps of context, batch, bandwidth, ternary throughput, packing, activation precision, head/KV precision, and residency: which component limits decode, and what is the Amdahl ceiling on end-to-end speedup from ternary specialization alone?
 
 ## Scope
 
-- Generalize the Phase 2 profiler to a per-model spec table; no model constants in the analysis code.
-- Fully profile Falcon-E-1B-Base and Falcon-E-3B-Base (packed `main` branches, pinned); cross-check ternarization and scale convention on the 1B `prequantized` latents.
-- Regression-check that the Microsoft EXP-0002 numeric outputs are unchanged after the refactor.
-- Produce a cross-model comparison and classify each property as LIKELY GENERALIZING / MODEL-SPECIFIC / UNCERTAIN.
-- Document implications for Y-Core/Y-Architecture and for the planned roofline experiment's input space.
+Analytical model only (`analysis/roofline_models.py`, `analysis/flextern_roofline.py`), consuming the three canonical `model_summary.json` files; component-level stage model with optimistic and conservative overlap bounds; analytical crossovers verified against numerical sweeps; ternary-only ceilings; 2×/3× feasibility regions; residency, packing, activation and KV precision sensitivities; tile utilization; a concise prefill treatment; tests; EXP-0003 record; ADR-0005; Q-019 reframe.
 
 ## Explicitly out of scope
 
-Any RTL change, Y-Array, accumulator variants, roofline model, zero skipping, 256-wide hardware, compiler, ASIC, FPGA, accelerator comparisons, tokens/sec claims.
+Any RTL, Y-Array, accumulator trees, KV quantization, attention hardware, compiler, runtime, FPGA synthesis, ASIC estimates, tile selection, clock claims, measured tokens/sec, model training or quantization, competitor benchmarks.
 
 ## Definition of done
 
-All met; evidence in `experiments/EXP-0002B-cross-model-validation.md`.
+All met; evidence in `experiments/EXP-0003-compute-memory-roofline.md` and `../results/roofline/`.
 
-- [x] Canonical docs read first; Falcon-E provenance recorded (ADR-0004).
-- [x] Falcon-E 1B and 3B fully characterized; 1B cross-checked on latents (100% with BF16 emulation).
-- [x] Architecture comparison, real K values, divisibility table.
-- [x] Activation quantization, scale semantics, ternary encoding verified from reference code and data.
-- [x] Weight distribution, sparsity structure, output head, accumulator widths for every observed K.
-- [x] Microsoft EXP-0002 results reproduce: 10,929 numeric values identical.
-- [x] Invariants classified; Y-Core and roofline implications documented.
-- [x] Advisor plan and completion reviews persisted in `reviews/`.
-- [x] No hardware implemented; one next objective recommended.
+- [x] Canonical docs read; three workload summaries consumed programmatically with identity asserts.
+- [x] Ternary compute/traffic, head, attention, KV, and other modeled separately.
+- [x] Context, batch, bandwidth, ternary-compute, clock, non-ternary-rate sweeps complete.
+- [x] 2-bit and 5-trit packing; INT8 and hypothetical 4-bit activations; BF16 and hypothetical INT8/INT4 head and KV.
+- [x] Residency policies over 0–1 GB; optimistic and conservative overlap bounds.
+- [x] Break-even and crossover equations derived and confirmed by sweep transitions.
+- [x] Ternary-only ceilings, context crossovers, 2×/3× regions; edge hypothesis evaluated.
+- [x] 26 tests pass covering the twenty required validations.
+- [x] Advisor plan and completion reviews persisted; ADR-0005; Q-019 reframed; Q-022 added.
+- [x] One next objective recommended; nothing started.
 
 ## Required validation
 
-Met: 37 unit tests (`tests/test_analysis.py`, `tests/test_analysis_cross_model.py`), in-tool reconciliation asserts on all three checkpoints, programmatic regression diff on BitNet outputs.
+Met: `tests/test_roofline.py` (26 tests), in-driver asserts (identity, revisions, KV reproduction, terms/byte).
 
 ## Relevant files
 
-`analysis/`, `tests/test_analysis*.py`, `scripts/run_workload_profile.ps1`, `results/workload_profile/` (BitNet canonical, `falcon-e-1b/`, `falcon-e-3b/`, `cross_model/`).
+`analysis/roofline_models.py`, `analysis/flextern_roofline.py`, `tests/test_roofline.py`, `scripts/run_roofline.ps1`, `results/roofline/`.
 
 ## Relevant ADRs
 
-ADR-0002 (assumptions under test), ADR-0003 (superseded), ADR-0004 (reference workload set).
+ADR-0002, ADR-0004, ADR-0005.
 
 ## Relevant experiments
 
-EXP-0001, EXP-0002, EXP-0002B.
+EXP-0001, EXP-0002, EXP-0002B, EXP-0003.
 
 ## Known uncertainties
 
-Two families are evidence, not proof (Q-018). Both inference activation quantizers share transformers' code; independent evidence is TII's training kernel. INT8 persistence is a tracked risk (Q-021).
+All hardware rates are abstract. The non-ternary compute rate has no evidence (Q-022). Ceilings are upper bounds on an impossible ideal, not achievable speedups.
 
 ## Questions requiring founder decision
 
-None block this objective. See the EXP-0002B handoff.
+None block this objective. See the EXP-0003 handoff.

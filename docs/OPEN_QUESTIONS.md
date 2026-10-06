@@ -58,12 +58,12 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **What would answer it further:** A third independent family. Two families are evidence, not proof.
 **Status:** Partially answered across two independent families; broader generalization remains open.
 
-### Q-019
-**Question:** Is the non-ternary BF16 output head in FlexTern's scope, or an accepted fixed cost handled elsewhere?
-**Why it matters:** Under a stream-once decode model it can be the single largest weight stream per token.
-**Current evidence:** EXP-0002/EXP-0002B (INFERRED traffic model): the head is BF16 in both families, but its share of weight bytes is vocabulary-driven: 56% for BitNet (128k vocab, tied), 25% for Falcon-E 1B and 16% for 3B (32k vocab, untied). Head *precision* generalizes; head *dominance* does not. At 32k context, Falcon's KV-cache read (805 MB/token for 1B) exceeds its weight stream.
-**What would answer it:** Founder decision on scope; a quality study if quantizing the head is considered.
-**Status:** Open — founder-level; the scope question now includes the KV cache at long context.
+### Q-019 (reframed 2026-10-06 per ADR-0005)
+**Question:** Which non-ternary components (output head, attention, KV cache, other) must eventually be optimized to preserve a material end-to-end advantage in the target workload? (Scope is settled: ternary blocks are core; head, attention, KV are system-level FlexTern scope; FlexTern is ternary-first, not ternary-only.)
+**Why it matters:** End-to-end gain is capped by whatever is not improved. EXP-0003 quantifies the cap per workload region.
+**Current evidence (EXP-0003, ANALYTICAL):** With BF16 head and KV at batch 1, the ideal ternary-only ceiling is below 1.8× for BitNet at every context (the 657 MB BF16 head alone exceeds the 521 MB ternary stream), while Falcon-E 1B/3B stay above 3× to roughly 2.6k/7k context and above 2× to roughly 10.7k/18k, then fall to 1.42×/1.60× at 32k as KV reads dominate. Head precision is the gating component for 128k-vocabulary models at any context; KV traffic is the gating component for every model beyond roughly 8–18k context and for any batched decode. Hypothetical INT8 head restores >2× for BitNet to ~2.5k context; hypothetical INT4 KV extends Falcon-E 1B's 2× region from ~10.7k context to beyond its supported 32k in the memory-bound regime, but only if attention compute keeps pace.
+**What would answer it further:** Whether the head can be quantized without quality loss (model-side question), and the real cost of attention compute at long context, which this model treats as an abstract rate.
+**Status:** Partially answered analytically; founder/ChatGPT to decide which component to pursue for which market.
 
 ### Q-020
 **Question:** Can channel-level dead sparsity be exploited at the compiler/packing level rather than in hardware?
@@ -77,7 +77,14 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **Why it matters:** Both production-like native ternary families today use INT8 per-token absmax activations (EXP-0002, EXP-0002B), and Y-Core v0.1 matches them. Published research directions explore 4-bit (or lower) activations for ternary-weight models. If that becomes the production norm, a fixed-INT8 datapath wastes accumulator width, activation bandwidth, and (for popcount-style execution) half the bit-planes.
 **Current evidence:** INT8 in both families (MEASURED from reference code). No lower-precision native release has been inspected; compatibility of lower-precision methods with these checkpoints is **not verified**.
 **What would answer it:** A native ternary release with sub-8-bit activations, or a quality study on these checkpoints. Until then, treat activation width as an architectural parameter in analyses (roofline inputs, accumulator widths) and keep INT8 as the first implementation precision.
-**Status:** Open — tracked risk. No redesign now.
+**Status:** Open — tracked risk. No redesign now. EXP-0003 note: at the bandwidth-bound operating points studied, 4-bit activations change nothing in the token model (activations are on-chip); they would matter for accumulator width (K = 2048: 20 → 16 bits) and for any bit-serial engine's throughput, both only relevant once the ternary stage is compute-limited.
+
+### Q-022
+**Question:** What is the real cost of non-ternary compute (attention QKᵀ/AV, softmax, head MACs, norms) on a FlexTern system?
+**Why it matters:** EXP-0003 models it as one abstract rate (1e12 op-eq/s default) with no evidence behind it. In the memory-bound regime it does not affect conclusions, but at ≥1 TB/s or with hypothetically compressed KV it becomes the limiter: Falcon-E 1B's ideal ceiling at 4k context drops from 2.69× (100 GB/s) to 1.73× (1 TB/s) purely because attention compute at the assumed rate takes over.
+**Current evidence:** None; abstract parameter only.
+**What would answer it:** A decision on how attention and the head execute in a FlexTern system (which engine, what precision), then a measurement or a defensible model of that engine.
+**Status:** Open.
 
 ## Strategic (founder-only; not for agents to decide)
 

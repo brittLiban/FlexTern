@@ -1,0 +1,11 @@
+K,act_bits,format_sum_max,format_bits,model_sum_max,model_bits,models
+2048,8,262144,20,260096,19,falcon-e-1b+falcon-e-3b
+2048,4,16384,16,14336,15,falcon-e-1b+falcon-e-3b
+2560,8,327680,20,325120,20,bitnet-2b4t
+2560,4,20480,16,17920,16,bitnet-2b4t
+6912,8,884736,21,877824,21,bitnet-2b4t
+6912,4,55296,17,48384,17,bitnet-2b4t
+9216,8,1179648,22,1170432,22,falcon-e-1b
+9216,4,73728,18,64512,17,falcon-e-1b
+13312,8,1703936,22,1690624,22,falcon-e-3b
+13312,4,106496,18,93184,18,falcon-e-3b
