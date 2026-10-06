@@ -50,7 +50,7 @@ Custom silicon, if justified by evidence
 
 Alongside the hardware phases, a model-side track asks what numerical representation the hardware should be optimized for, one uncertainty at a time, on the pinned reference checkpoints. Its outputs are candidate formats, not requirements, until validated by a quality evaluation and recorded in an ADR. It is not a second roadmap; it has one objective at a time like everything else.
 
-First result (EXP-0004, 2026-10-06, MEASURED on one checkpoint): Falcon-E 1B tolerates an INT4 output head and a 4-bit KV cache at small, measured perplexity cost. A candidate format exists in `../results/model_precision/candidate_format.md`; adopting it as a hardware assumption is a founder decision not yet taken.
+Gate 1 of the co-design program (EXP-0005, 2026-10-07): a packed ternary consumer exists in RTL (streaming and bank-local), generically synthesized; physical validation (Fmax, utilization, bandwidth) waits for an FPGA. First model-side result (EXP-0004, 2026-10-06, MEASURED on one checkpoint): Falcon-E 1B tolerates an INT4 output head and a 4-bit KV cache at small, measured perplexity cost. A candidate format exists in `../results/model_precision/candidate_format.md`; adopting it as a hardware assumption is a founder decision not yet taken.
 
 ## How phases advance
 

@@ -6,57 +6,55 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 **Objective ID:** FT-CURRENT
 
-**Title:** EXP-0004 — Low-precision output head and KV-cache feasibility for native ternary inference: can `tiiuae/Falcon-E-1B-Base` (ADR-0004 revision) preserve acceptable language-model quality with an INT4 output head, a ~4-bit KV cache, and both together?
+**Title:** EXP-0005 — Packed ternary hardware consumer: streaming baseline vs banked near-memory dataflow (Gate 1 of the model–hardware co-design program).
 
 **Status:** Complete. Awaiting founder/ChatGPT review. No next objective has been started.
 
 **Owner / agent:** Claude (implementation)
 
-**Started:** 2026-10-06
-**Completed:** 2026-10-06
+**Started:** 2026-10-07
+**Completed:** 2026-10-07
 
 ## Why we are doing this
 
-EXP-0003 showed the ternary engine does not touch the two largest non-ternary streams of Falcon-E 1B (134 MB BF16 head per token; up to 805 MB BF16 KV reads per token at 32k context). Lower precision for those components must be validated against real model behaviour before it can become a hardware requirement. This is the first model-side experiment of FlexTern's model–hardware co-design direction (ternary-first, not ternary-only; ADR-0005, ADR-0006).
+EXP-0004 showed that a compressed representation only helps if the consumer operates on it without expanding it first; the stock runtime unpacks 2-bit ternary weights to BF16 every forward. Every EXP-0003 ceiling assumes a ternary engine that consumes packed 2-bit bytes at the bandwidth bound. Neither the datapath nor the dataflow had been built. The founder has no FPGA and does not expect one for months, so this was intentionally an RTL + simulation + generic synthesis + analytical data-movement experiment.
 
 ## Question we are trying to answer
 
-Can the non-ternary memory footprint of an existing native ternary model be substantially reduced while preserving its useful language-model behaviour, and what does the real representation (packing, metadata, dequantization, cache semantics) look like?
+Gate 1A: can a hardware datapath consume the real checkpoint packing directly, at initiation interval 1, without a persistent full-weight expansion? Gate 1B: does keeping packed weights local to memory banks and computing there materially reduce global weight movement once activation broadcast, output and partial-sum traffic and capacity are counted?
 
-## Outcome (one paragraph; details in EXP-0004)
+## Outcome (one paragraph; details in EXP-0005)
 
-MEASURED on one checkpoint at pilot scale: an INT4 RTN g128 head costs +0.67% WikiText-2 perplexity and no task accuracy outside one standard error (134 MB → 35 MB logical); a 4-bit KIVI-style KV cache costs +0.17–1.07% teacher-forced perplexity at 2k–4k depending on grouping (per-token grouping is the good one) and stores 3.5× fewer bytes; both together are additive. Resident memory shrinks, but on this runtime attention still reads BF16 and prefill is 4–8× slower. Candidate format written (`results/model_precision/candidate_format.md`), not adopted. Both techniques are category A (any GPU can use them).
+**Gate 1A: PASS at the structural/cycle level.** The checkpoint packing (four output rows per byte at one K position, code = q+1) is consumed directly by a row-quad engine; decode is a 2-bit decrement; II = 1 at every canonical K with 333 flip-flops of state at 256 terms/cycle; 25,466 generic cells, no multiplier (INT4 structural baseline: 69,526). Absolute Fmax and bandwidth UNMEASURED (no FPGA). **Gate 1B: PASS at the dataflow/global-traffic level.** A bank-local engine with bit-identical results removes the ternary weight stream from the global path (Falcon-E 1B: 399 MB → 2.8 MB per token) at the cost of whole-model residency (396–730 MB), NB × K activation delivery per matvec with 13 KB buffers per bank (or a broadcast equal to the weight bytes without them), and a collector; the global limiter becomes the head and KV cache. The gain in global bytes is format-neutral (INT4 gets it too); ternary's specific contribution is half the local bytes and capacity and 2.7× fewer cells per term. Physical energy, cost and memory technology INCONCLUSIVE.
 
 ## Scope (as executed)
 
-- Feasibility audit; five configurations (baseline, A INT4 head, B/B1 4-bit KV in two groupings, C both); head RTN asymmetric g128 with explicit packing; KV via transformers `QuantizedCache` (hqq backend; quanto unusable, KI-006).
-- Quality: lm-eval (WikiText-2, HellaSwag PILOT 2,000, PIQA, ARC-E/C, WinoGrande) for head configurations plus a KV-invariance control; teacher-forced incremental perplexity through the real cache at 2k and 4k; greedy generation at 11/1,500/6,144-token prompts.
-- Memory sweep 128–16,384 (32k did not fit); latency with warmups and repeats; candidate-format report; EXP-0003 re-evaluation with measured bits.
+See EXP-0005 Setup and Method. 14 synthesis points (Yosys 0.52 native in WSL; KI-008), 26 tests, five checkpoint slices from all three models, four-level traffic model, capacity sweeps, required clocks for 100/250/500 GB/s labeled UNMEASURED, EXP-0003/0004 reconnection.
 
 ## Explicitly out of scope
 
-Training, fine-tuning, any RTL or FPGA work, compilers, compute-in-memory hardware, overwriting the canonical checkpoint, committing weights, selecting the final FlexTern format, performance claims from byte counts, competitor claims.
+FPGA board selection or toolchains, physical timing, power claims, analog/true compute-in-memory, INT4 head or 4-bit attention engines, freezing the model format, ISA, compiler, ASIC node, memory technology choice, competitor claims, EXP-0006.
 
 ## Required validation
 
-`tests/test_model_precision.py` (11 tests, all executed with the model loaded under `FLEXTERN_SLOW_TESTS=1`; 3 of them are gated behind that flag by default); all earlier suites (82 tests) still pass; executed evaluations recorded in `results/model_precision/manifest_*.json`.
+`tests/test_hardware_gate.py` (26 tests, all pass in foreground runs), the two RTL testbenches, existing suites (82 host tests, 11 model-precision tests) still pass.
 
 ## Relevant files
 
-`analysis/model_precision/`, `tests/test_model_precision.py`, `scripts/run_model_precision.ps1`, `results/model_precision/`.
+`rtl/`, `tests/`, `analysis/hardware_gate/`, `synth/exp0005/`, `scripts/run_exp0005.ps1`, `results/hardware_gate/`.
 
 ## Relevant ADRs
 
-ADR-0004 (checkpoint), ADR-0005 (system scope), ADR-0006 (model-side track).
+ADR-0002 (encoding, baseline, generic synthesis), ADR-0004 (checkpoints), ADR-0005 (system scope), ADR-0006 (model-side track). No new ADR: nothing is frozen.
 
 ## Relevant experiments
 
-EXP-0002B (workload), EXP-0003 (bottlenecks), EXP-0004 (this).
+EXP-0001 (primitive), EXP-0002/0002B (packing, K values, zeros), EXP-0003 (break-even), EXP-0004 (compression is not enough), EXP-0005 (this).
 
 ## Known uncertainties
 
-One checkpoint; KV quality at pilot scale and ≤ 4k context; greedy-only generation; no path that reads 4-bit K/V directly, so traffic savings remain hypothetical (Q-022).
+No physical target; single-cycle adder trees unpipelined; near-memory top synthesized at NB = 4 only; Yosys 0.69 cross-check incomplete; memory technology for residency unchosen.
 
 ## Questions requiring founder decision
 
-Acceptable-loss threshold; whether the candidate format becomes an ADR-level hardware assumption now or after a second checkpoint; whether FlexTern owns an attention/head engine that consumes compressed operands (Q-022). See the handoff `handoffs/2026-10-06-exp-0004-model-precision.md`.
+Whether to pursue the near-memory direction (and therefore a memory-technology question) or a streaming engine fed by external memory; whether FlexTern owns the head/KV consumer (Q-022); whether the canonical synthesis tool moves to native Yosys. See the handoff `handoffs/2026-10-07-exp-0005-hardware-gate.md`.

@@ -1,0 +1,113 @@
+==== FlexTern generic synthesis: bank_b32 (y_memory_bank {'BYTES': 32}) ====
+==== STAGE 1: coarse-grain cells (after proc/flatten/opt_clean) ====
+
+11. Printing statistics.
+
+=== bank_b32 ===
+
+   Number of wires:               2160
+   Number of wire bits:          25112
+   Number of public wires:        1473
+   Number of public wire bits:   20233
+   Number of ports:                 17
+   Number of port bits:            728
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1148
+     $add                          147
+     $adff                          35
+     $and                            4
+     $eq                           390
+     $ge                             4
+     $logic_and                      6
+     $logic_not                      4
+     $lt                             1
+     $mux                           68
+     $neg                          128
+     $not                            1
+     $or                            98
+     $pmux                         129
+     $reduce_bool                    3
+     $reduce_or                      1
+     $sub                          129
+
+==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+
+13. Printing statistics.
+
+=== bank_b32 ===
+
+   Number of wires:              15340
+   Number of wire bits:          20084
+   Number of public wires:         329
+   Number of public wire bits:    4784
+   Number of ports:                 17
+   Number of port bits:            728
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              16728
+     $_ANDNOT_                    6609
+     $_AND_                        264
+     $_DFFE_PN0N_                   74
+     $_DFFE_PN0P_                 1339
+     $_DFF_PN0_                     63
+     $_MUX_                        375
+     $_NAND_                       175
+     $_NOR_                        371
+     $_NOT_                        533
+     $_ORNOT_                      837
+     $_OR_                        2951
+     $_XNOR_                       792
+     $_XOR_                       2345
+
+==== LTP: longest topological path, flip-flops excluded (generic gates, not timing) ====
+
+14. Executing LTP pass (find longest path).
+
+Longest topological path in bank_b32 (length=42):
+    0: \rd_ptr [0]
+    1: $abc$35327$new_n2265 (via $abc$35327$auto$blifparse.cc:396:parse_blif$35565)
+    2: $abc$35327$new_n3575 (via $abc$35327$auto$blifparse.cc:396:parse_blif$36875)
+    3: $abc$35327$new_n3576 (via $abc$35327$auto$blifparse.cc:396:parse_blif$36876)
+    4: $abc$35327$new_n3578 (via $abc$35327$auto$blifparse.cc:396:parse_blif$36878)
+    5: $abc$35327$new_n3579 (via $abc$35327$auto$blifparse.cc:396:parse_blif$36879)
+    6: $abc$35327$new_n9213 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42461)
+    7: $abc$35327$new_n9214 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42462)
+    8: $abc$35327$new_n9215 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42463)
+    9: $abc$35327$new_n9216 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42464)
+   10: $abc$35327$new_n9224 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42472)
+   11: $abc$35327$new_n9593 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42841)
+   12: $abc$35327$new_n9594 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42842)
+   13: $abc$35327$new_n9611 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42859)
+   14: $abc$35327$new_n9612 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42860)
+   15: $abc$35327$new_n9613 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42861)
+   16: $abc$35327$new_n9614 (via $abc$35327$auto$blifparse.cc:396:parse_blif$42862)
+   17: $abc$35327$new_n10157 (via $abc$35327$auto$blifparse.cc:396:parse_blif$43405)
+   18: $abc$35327$new_n10158 (via $abc$35327$auto$blifparse.cc:396:parse_blif$43406)
+   19: $abc$35327$new_n10159 (via $abc$35327$auto$blifparse.cc:396:parse_blif$43407)
+   20: $abc$35327$new_n10494 (via $abc$35327$auto$blifparse.cc:396:parse_blif$43742)
+   21: $abc$35327$new_n10495 (via $abc$35327$auto$blifparse.cc:396:parse_blif$43743)
+   22: $abc$35327$new_n10496 (via $abc$35327$auto$blifparse.cc:396:parse_blif$43744)
+   23: $abc$35327$new_n10851 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44099)
+   24: $abc$35327$new_n10852 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44100)
+   25: $abc$35327$new_n10853 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44101)
+   26: $abc$35327$new_n11217 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44465)
+   27: $abc$35327$new_n11218 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44466)
+   28: $abc$35327$new_n11219 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44467)
+   29: $abc$35327$new_n11476 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44724)
+   30: $abc$35327$new_n11477 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44725)
+   31: $abc$35327$new_n11478 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44726)
+   32: $abc$35327$new_n11627 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44875)
+   33: $abc$35327$new_n11628 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44876)
+   34: $abc$35327$new_n11629 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44877)
+   35: $abc$35327$new_n11726 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44974)
+   36: $abc$35327$new_n11727 (via $abc$35327$auto$blifparse.cc:396:parse_blif$44975)
+   37: $abc$35327$new_n11836 (via $abc$35327$auto$blifparse.cc:396:parse_blif$45084)
+   38: $abc$35327$new_n11837 (via $abc$35327$auto$blifparse.cc:396:parse_blif$45085)
+   39: $abc$35327$new_n11840 (via $abc$35327$auto$blifparse.cc:396:parse_blif$45088)
+   40: $abc$35327$new_n11865 (via $abc$35327$auto$blifparse.cc:396:parse_blif$45113)
+   41: $abc$35327$new_n11866 (via $abc$35327$auto$blifparse.cc:396:parse_blif$45114)
+   42: \u_engine.chunk_sum[3] [13] (via $abc$35327$auto$blifparse.cc:396:parse_blif$45115)
+   ff: \u_engine.s1_sum[3] [13] (via $auto$ff.cc:266:slice$1779)

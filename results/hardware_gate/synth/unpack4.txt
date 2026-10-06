@@ -1,0 +1,52 @@
+==== FlexTern generic synthesis: unpack4 (ternary_unpack4 {}) ====
+==== STAGE 1: coarse-grain cells (after proc/flatten/opt_clean) ====
+
+6. Printing statistics.
+
+=== unpack4 ===
+
+   Number of wires:                  9
+   Number of wire bits:             23
+   Number of public wires:           3
+   Number of public wire bits:      17
+   Number of ports:                  3
+   Number of port bits:             17
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 11
+     $eq                             4
+     $or                             3
+     $sub                            4
+
+==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+
+8. Printing statistics.
+
+=== unpack4 ===
+
+   Number of wires:                  9
+   Number of wire bits:             23
+   Number of public wires:           3
+   Number of public wire bits:      17
+   Number of ports:                  3
+   Number of port bits:             17
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 15
+     $_AND_                          4
+     $_NOT_                          4
+     $_OR_                           3
+     $_XNOR_                         4
+
+==== LTP: longest topological path, flip-flops excluded (generic gates, not timing) ====
+
+9. Executing LTP pass (find longest path).
+
+Longest topological path in unpack4 (length=4):
+    0: \byte_in [3]
+    1: $abc$247$new_n23 (via $abc$247$auto$blifparse.cc:396:parse_blif$253)
+    2: $abc$247$new_n24 (via $abc$247$auto$blifparse.cc:396:parse_blif$254)
+    3: $abc$247$new_n26 (via $abc$247$auto$blifparse.cc:396:parse_blif$256)
+    4: \reserved (via $abc$247$auto$blifparse.cc:396:parse_blif$258)

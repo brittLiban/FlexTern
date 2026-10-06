@@ -1,0 +1,119 @@
+==== FlexTern generic synthesis: int4_b128 (int4_stream_baseline {'BYTES': 128}) ====
+==== STAGE 1: coarse-grain cells (after proc/flatten/opt_clean) ====
+
+8. Printing statistics.
+
+=== int4_b128 ===
+
+   Number of wires:               2377
+   Number of wire bits:          49962
+   Number of public wires:        2330
+   Number of public wire bits:   49365
+   Number of ports:                 16
+   Number of port bits:           2171
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                578
+     $add                          262
+     $adff                          16
+     $and                            3
+     $ge                             2
+     $logic_and                      3
+     $logic_not                      1
+     $mul                          256
+     $mux                           32
+     $not                            1
+     $or                             1
+     $reduce_bool                    1
+
+==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+
+10. Printing statistics.
+
+=== int4_b128 ===
+
+   Number of wires:              71514
+   Number of wire bits:         118675
+   Number of public wires:        2328
+   Number of public wire bits:   49363
+   Number of ports:                 16
+   Number of port bits:           2171
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              69526
+     $_ANDNOT_                   24419
+     $_AND_                       5336
+     $_DFFE_PN0N_                   56
+     $_DFFE_PN0P_                  157
+     $_DFF_PN0_                     18
+     $_MUX_                        107
+     $_NAND_                      3413
+     $_NOR_                        943
+     $_NOT_                       1363
+     $_ORNOT_                     1000
+     $_OR_                        8716
+     $_XNOR_                      3961
+     $_XOR_                      20037
+
+==== LTP: longest topological path, flip-flops excluded (generic gates, not timing) ====
+
+11. Executing LTP pass (find longest path).
+
+Longest topological path in int4_b128 (length=53):
+    0: \w_data [5]
+    1: $abc$133352$new_n5642 (via $abc$133352$auto$blifparse.cc:396:parse_blif$136565)
+    2: $abc$133352$new_n5643 (via $abc$133352$auto$blifparse.cc:396:parse_blif$136566)
+    3: $abc$133352$new_n7716 (via $abc$133352$auto$blifparse.cc:396:parse_blif$138639)
+    4: $abc$133352$new_n7717 (via $abc$133352$auto$blifparse.cc:396:parse_blif$138640)
+    5: $abc$133352$new_n7718 (via $abc$133352$auto$blifparse.cc:396:parse_blif$138641)
+    6: $abc$133352$new_n10427 (via $abc$133352$auto$blifparse.cc:396:parse_blif$141350)
+    7: $abc$133352$new_n10428 (via $abc$133352$auto$blifparse.cc:396:parse_blif$141351)
+    8: $abc$133352$new_n10429 (via $abc$133352$auto$blifparse.cc:396:parse_blif$141352)
+    9: $abc$133352$new_n13685 (via $abc$133352$auto$blifparse.cc:396:parse_blif$144608)
+   10: $abc$133352$new_n13686 (via $abc$133352$auto$blifparse.cc:396:parse_blif$144609)
+   11: $abc$133352$new_n13687 (via $abc$133352$auto$blifparse.cc:396:parse_blif$144610)
+   12: $abc$133352$new_n16942 (via $abc$133352$auto$blifparse.cc:396:parse_blif$147865)
+   13: $abc$133352$new_n16943 (via $abc$133352$auto$blifparse.cc:396:parse_blif$147866)
+   14: $abc$133352$new_n16944 (via $abc$133352$auto$blifparse.cc:396:parse_blif$147867)
+   15: $abc$133352$new_n20124 (via $abc$133352$auto$blifparse.cc:396:parse_blif$151047)
+   16: $abc$133352$new_n20125 (via $abc$133352$auto$blifparse.cc:396:parse_blif$151048)
+   17: $abc$133352$new_n20126 (via $abc$133352$auto$blifparse.cc:396:parse_blif$151049)
+   18: $abc$133352$new_n23292 (via $abc$133352$auto$blifparse.cc:396:parse_blif$154215)
+   19: $abc$133352$new_n23293 (via $abc$133352$auto$blifparse.cc:396:parse_blif$154216)
+   20: $abc$133352$new_n23294 (via $abc$133352$auto$blifparse.cc:396:parse_blif$154217)
+   21: $abc$133352$new_n26346 (via $abc$133352$auto$blifparse.cc:396:parse_blif$157269)
+   22: $abc$133352$new_n26347 (via $abc$133352$auto$blifparse.cc:396:parse_blif$157270)
+   23: $abc$133352$new_n26348 (via $abc$133352$auto$blifparse.cc:396:parse_blif$157271)
+   24: $abc$133352$new_n29236 (via $abc$133352$auto$blifparse.cc:396:parse_blif$160159)
+   25: $abc$133352$new_n29237 (via $abc$133352$auto$blifparse.cc:396:parse_blif$160160)
+   26: $abc$133352$new_n29238 (via $abc$133352$auto$blifparse.cc:396:parse_blif$160161)
+   27: $abc$133352$new_n31853 (via $abc$133352$auto$blifparse.cc:396:parse_blif$162776)
+   28: $abc$133352$new_n31854 (via $abc$133352$auto$blifparse.cc:396:parse_blif$162777)
+   29: $abc$133352$new_n31855 (via $abc$133352$auto$blifparse.cc:396:parse_blif$162778)
+   30: $abc$133352$new_n33979 (via $abc$133352$auto$blifparse.cc:396:parse_blif$164902)
+   31: $abc$133352$new_n33980 (via $abc$133352$auto$blifparse.cc:396:parse_blif$164903)
+   32: $abc$133352$new_n33981 (via $abc$133352$auto$blifparse.cc:396:parse_blif$164904)
+   33: $abc$133352$new_n35446 (via $abc$133352$auto$blifparse.cc:396:parse_blif$166369)
+   34: $abc$133352$new_n35447 (via $abc$133352$auto$blifparse.cc:396:parse_blif$166370)
+   35: $abc$133352$new_n35448 (via $abc$133352$auto$blifparse.cc:396:parse_blif$166371)
+   36: $abc$133352$new_n36442 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167365)
+   37: $abc$133352$new_n36443 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167366)
+   38: $abc$133352$new_n36444 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167367)
+   39: $abc$133352$new_n37050 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167973)
+   40: $abc$133352$new_n37051 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167974)
+   41: $abc$133352$new_n37052 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167975)
+   42: $abc$133352$new_n37058 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167981)
+   43: $abc$133352$new_n37062 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167985)
+   44: $abc$133352$new_n37065 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167988)
+   45: $abc$133352$new_n37069 (via $abc$133352$auto$blifparse.cc:396:parse_blif$167992)
+   46: $abc$133352$new_n37374 (via $abc$133352$auto$blifparse.cc:396:parse_blif$168297)
+   47: $abc$133352$new_n37377 (via $abc$133352$auto$blifparse.cc:396:parse_blif$168300)
+   48: $abc$133352$new_n37380 (via $abc$133352$auto$blifparse.cc:396:parse_blif$168303)
+   49: $abc$133352$new_n37381 (via $abc$133352$auto$blifparse.cc:396:parse_blif$168304)
+   50: $abc$133352$new_n37382 (via $abc$133352$auto$blifparse.cc:396:parse_blif$168305)
+   51: $abc$133352$new_n37714 (via $abc$133352$auto$blifparse.cc:396:parse_blif$168637)
+   52: $abc$133352$new_n37715 (via $abc$133352$auto$blifparse.cc:396:parse_blif$168638)
+   53: \chunk_sum[1] [18] (via $abc$133352$auto$blifparse.cc:396:parse_blif$168639)
+   ff: \s1_sum[1] [18] (via $auto$ff.cc:266:slice$4466)

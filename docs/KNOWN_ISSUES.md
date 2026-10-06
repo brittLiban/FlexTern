@@ -142,6 +142,28 @@ Workaround:       analysis/model_precision/run_experiment.py saves after each
                   records each chunk's arguments.
 ```
 
+```
+KI-008
+Status:           Workaround
+Severity:         Minor
+First observed:   2026-10-07
+Relevant commit:  EXP-0005 commit
+Description:      The canonical YoWASP Yosys 0.69 asserts
+                  (`modules_.count(module->name) == 0`, rtlil_bufnorm.cc:681)
+                  in `hierarchy -check -top <m> -chparam ...` when the design
+                  contains recursively instantiated parameterized modules
+                  (rtl/sum_tree.sv). It is also roughly 20x slower than the
+                  native Yosys 0.52 in WSL on the EXP-0005 engines (ABC under
+                  WebAssembly).
+Impact:           Parameter points cannot be set with hierarchy -chparam in the
+                  canonical tool; large sweeps are impractical in it.
+Workaround:       synth/exp0005/*.ys use `chparam -set ... <module>`,
+                  `hierarchy -check -auto-top`, `rename -top <point>`. The
+                  EXP-0005 sweep ran on Yosys 0.52 (WSL, native) with the
+                  256-term streaming point cross-checked on Yosys 0.69; the
+                  tool version is a column in results/hardware_gate/synthesis.csv.
+```
+
 ### Template
 
 ```

@@ -1,0 +1,112 @@
+==== FlexTern generic synthesis: nearmem_nb4_b16 (y_near_memory_engine {'NB': 4, 'BYTES': 16}) ====
+==== STAGE 1: coarse-grain cells (after proc/flatten/opt_clean) ====
+
+12. Printing statistics.
+
+=== nearmem_nb4_b16 ===
+
+   Number of wires:               4763
+   Number of wire bits:          53739
+   Number of public wires:        3116
+   Number of public wire bits:   41444
+   Number of ports:                 17
+   Number of port bits:           1333
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               2680
+     $add                          333
+     $adff                         140
+     $and                           16
+     $eq                           804
+     $ge                            20
+     $logic_and                     37
+     $logic_not                     25
+     $lt                             8
+     $mux                          288
+     $neg                          256
+     $not                            4
+     $or                           200
+     $pmux                         263
+     $reduce_bool                   12
+     $reduce_or                      6
+     $sub                          268
+
+==== STAGE 2: generic gate-level cells (after synth -flatten) ====
+
+14. Printing statistics.
+
+=== nearmem_nb4_b16 ===
+
+   Number of wires:              35231
+   Number of wire bits:          48134
+   Number of public wires:         832
+   Number of public wire bits:   13039
+   Number of ports:                 17
+   Number of port bits:           1333
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              38983
+     $_ANDNOT_                   14308
+     $_AND_                        820
+     $_DFFE_PN0N_                  280
+     $_DFFE_PN0P_                 3217
+     $_DFF_PN0_                    252
+     $_MUX_                       1150
+     $_NAND_                       680
+     $_NOR_                       1931
+     $_NOT_                       1506
+     $_ORNOT_                     1628
+     $_OR_                        6284
+     $_XNOR_                      2819
+     $_XOR_                       4108
+
+==== LTP: longest topological path, flip-flops excluded (generic gates, not timing) ====
+
+15. Executing LTP pass (find longest path).
+
+Longest topological path in nearmem_nb4_b16 (length=41):
+    0: \n_rowq [3]
+    1: $abc$77059$new_n6076 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77265)
+    2: $abc$77059$new_n6077 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77266)
+    3: $abc$77059$new_n6134 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77323)
+    4: $abc$77059$new_n6135 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77324)
+    5: $abc$77059$new_n6136 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77325)
+    6: $abc$77059$new_n6588 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77777)
+    7: $abc$77059$new_n6590 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77779)
+    8: $abc$77059$new_n6591 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77780)
+    9: $abc$77059$new_n6592 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77781)
+   10: $abc$77059$new_n6593 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77782)
+   11: $abc$77059$new_n6608 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77797)
+   12: $abc$77059$new_n6630 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77819)
+   13: $abc$77059$new_n6631 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77820)
+   14: $abc$77059$new_n6632 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77821)
+   15: $abc$77059$new_n6633 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77822)
+   16: \base[3] [11] (via $abc$77059$auto$blifparse.cc:396:parse_blif$77823)
+   17: $abc$77059$new_n6636 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77825)
+   18: $abc$77059$new_n6642 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77831)
+   19: $abc$77059$new_n6658 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77847)
+   20: $abc$77059$new_n6709 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77898)
+   21: $abc$77059$new_n6710 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77899)
+   22: $abc$77059$new_n6721 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77910)
+   23: $abc$77059$new_n6722 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77911)
+   24: $abc$77059$new_n6723 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77912)
+   25: $abc$77059$new_n6725 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77914)
+   26: $abc$77059$new_n6728 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77917)
+   27: $abc$77059$new_n6729 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77918)
+   28: $abc$77059$new_n6730 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77919)
+   29: $abc$77059$new_n6731 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77920)
+   30: $abc$77059$new_n6761 (via $abc$77059$auto$blifparse.cc:396:parse_blif$77950)
+   31: $abc$77059$new_n6815 (via $abc$77059$auto$blifparse.cc:396:parse_blif$78004)
+   32: $abc$77059$new_n6864 (via $abc$77059$auto$blifparse.cc:396:parse_blif$78053)
+   33: \g_bank[3].u_bank.n_rowq [15] (via $abc$77059$auto$blifparse.cc:396:parse_blif$78054)
+   34: $abc$77059$new_n14468 (via $abc$77059$auto$blifparse.cc:396:parse_blif$85653)
+   35: $abc$77059$new_n14469 (via $abc$77059$auto$blifparse.cc:396:parse_blif$85654)
+   36: $abc$77059$new_n14470 (via $abc$77059$auto$blifparse.cc:396:parse_blif$85655)
+   37: $abc$77059$new_n14471 (via $abc$77059$auto$blifparse.cc:396:parse_blif$85656)
+   38: $abc$77059$new_n14557 (via $abc$77059$auto$blifparse.cc:396:parse_blif$85742)
+   39: $abc$77059$new_n14679 (via $abc$77059$auto$blifparse.cc:396:parse_blif$85864)
+   40: $abc$77059$new_n14680 (via $abc$77059$auto$blifparse.cc:396:parse_blif$85865)
+   41: $abc$77059$flatten\g_bank[3].u_bank.$0\ag_active[0:0] (via $abc$77059$auto$blifparse.cc:396:parse_blif$85866)
+   ff: \g_bank[3].u_bank.ag_active (via $auto$ff.cc:266:slice$17842)

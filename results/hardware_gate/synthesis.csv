@@ -1,0 +1,15 @@
+point,kind,module,params,terms_per_cycle,packed_bytes_per_cycle,total_generic_cells,mul_inferred,dff_cells,cells_excluding_dff,cells_per_term,ltp_gates_noff,coarse_add,coarse_sub,coarse_neg,coarse_pmux,coarse_eq,coarse_mux,coarse_mul,coarse_mem,gate_xor_xnor,gate_mux,tool,yosys_version,seconds
+unpack4,decode,ternary_unpack4,{},4,1,15,0,0,15,3.75,4,0,4,0,0,4,0,0,0,4,0,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),0.3
+stream_b16_r1,stream,y_stream_engine,"{""BYTES"": 16, ""ROWQ"": 1}",64,16,7371,0,327,7044,115.17,32,73,64,64,64,192,45,0,0,1565,36,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),4.5
+stream_b64_r1,stream,y_stream_engine,"{""BYTES"": 64, ""ROWQ"": 1}",256,64,25466,0,333,25133,99.48,42,265,256,256,256,768,45,0,0,5877,36,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),26.8
+stream_b128_r1,stream,y_stream_engine,"{""BYTES"": 128, ""ROWQ"": 1}",512,128,49769,0,336,49433,97.21,46,521,512,512,512,1536,45,0,0,11639,36,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),28.1
+stream_b256_r1,stream,y_stream_engine,"{""BYTES"": 256, ""ROWQ"": 1}",1024,256,98472,0,339,98133,96.16,51,1033,1024,1024,1024,3072,45,0,0,23169,36,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),61.4
+stream_b16_r4,stream-multirow,y_stream_engine,"{""BYTES"": 16, ""ROWQ"": 4}",256,64,27286,0,1017,26269,106.59,32,280,256,256,256,768,108,0,0,5754,34,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),14.7
+stream_b1_r64,stream-output-parallel,y_stream_engine,"{""BYTES"": 1, ""ROWQ"": 64}",256,64,77242,0,13797,63445,301.73,16,580,256,256,256,768,1368,0,0,12567,30,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),30.2
+bank_b16,bank,y_memory_bank,"{""BYTES"": 16}",64,16,9450,0,962,8488,147.66,37,83,65,64,65,198,68,0,0,1714,247,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),4.8
+bank_b32,bank,y_memory_bank,"{""BYTES"": 32}",128,32,16728,0,1476,15252,130.69,42,147,129,128,129,390,68,0,0,3137,375,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),7.9
+bank_b64,bank,y_memory_bank,"{""BYTES"": 64}",256,64,31387,0,2502,28885,122.61,47,275,257,256,257,774,68,0,0,6020,631,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),16.6
+nearmem_nb4_b16,near-memory-top,y_near_memory_engine,"{""NB"": 4, ""BYTES"": 16}",256,64,38983,0,3749,35234,152.28,41,333,268,256,263,804,288,0,0,6927,1150,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),21.7
+nearmem_nb4_b64,near-memory-top,y_near_memory_engine,"{""NB"": 4, ""BYTES"": 64}",1024,256,126877,0,9909,116968,123.9,47,1101,1036,1024,1031,3108,288,0,0,24151,2686,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),79.9
+int4_b128,int4-baseline,int4_stream_baseline,"{""BYTES"": 128}",256,128,69526,256,231,69295,271.59,53,262,0,0,0,0,32,256,0,23998,107,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),24.3
+int4_b64,int4-baseline,int4_stream_baseline,"{""BYTES"": 64}",128,64,35096,128,230,34866,274.19,49,134,0,0,0,0,32,128,0,12027,77,wsl,Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90),11.8

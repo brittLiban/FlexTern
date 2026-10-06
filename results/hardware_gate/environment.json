@@ -1,0 +1,97 @@
+{
+ "date": "2026-10-07",
+ "commit": "334d886",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.12.10",
+ "iverilog": "Icarus Verilog version 12.0 (devel) (s20150603-1539-g2693dd32b)",
+ "yosys_yowasp": "Yosys 0.69 (git sha1 9f75ca1f9, Release, Clang /workspace/YoWASP/yosys/wasi-sdk-33.0-x86_64-linux/share/cmake/../..//bin/clang++ 22.1.0)",
+ "yosys_wsl": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+ "synthesis_runs": {
+  "unpack4": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 0.3,
+   "returncode": 0
+  },
+  "stream_b16_r1": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 4.5,
+   "returncode": 0
+  },
+  "stream_b128_r1": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 28.1,
+   "returncode": 0
+  },
+  "stream_b256_r1": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 61.4,
+   "returncode": 0
+  },
+  "stream_b16_r4": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 14.7,
+   "returncode": 0
+  },
+  "stream_b1_r64": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 30.2,
+   "returncode": 0
+  },
+  "bank_b16": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 4.8,
+   "returncode": 0
+  },
+  "bank_b32": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 7.9,
+   "returncode": 0
+  },
+  "bank_b64": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 16.6,
+   "returncode": 0
+  },
+  "nearmem_nb4_b16": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 21.7,
+   "returncode": 0
+  },
+  "nearmem_nb4_b64": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 79.9,
+   "returncode": 0
+  },
+  "int4_b128": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 24.3,
+   "returncode": 0
+  },
+  "int4_b64": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 11.8,
+   "returncode": 0
+  },
+  "stream_b64_r1": {
+   "tool": "wsl",
+   "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+   "seconds": 26.8,
+   "returncode": 0,
+   "note": "timed run before the sweep"
+  }
+ },
+ "fpga_target": "none (founder has no FPGA; physical timing, utilization and bandwidth UNMEASURED by design)"
+}

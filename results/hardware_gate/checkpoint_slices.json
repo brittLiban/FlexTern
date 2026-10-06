@@ -1,0 +1,106 @@
+{
+ "note": "Provenance of the checkpoint slices used as RTL test vectors. Bytes live in build/ (ignored); nothing from a checkpoint is committed.",
+ "seed": 20261007,
+ "slices": {
+  "ckpt_f1b_k_proj": {
+   "k": 2048,
+   "n": 256,
+   "rows": 64,
+   "ops": 2,
+   "packed_bytes": 131072,
+   "acc_w": 22,
+   "reserved": false,
+   "sha256_packed": "4e3fd259fc2cf45f9cf3e41a077fe976a78bfbf5ec2f5d7917c5b441f340a3b3",
+   "kind": "checkpoint",
+   "model_id": "tiiuae/Falcon-E-1B-Base",
+   "revision": "f4001b8b1c26d28a717d79a8ece14901816d92e8",
+   "tensor": "model.layers.0.self_attn.k_proj.weight",
+   "full_packed_shape": [
+    64,
+    2048
+   ],
+   "slice_rows": 64,
+   "file_sha256_expected": "f62c270b5640c9fce1dedf1ffe84aa8f138443ad1b065e90c7508a0eebc7c79d"
+  },
+  "ckpt_f1b_down": {
+   "k": 9216,
+   "n": 32,
+   "rows": 8,
+   "ops": 2,
+   "packed_bytes": 73728,
+   "acc_w": 22,
+   "reserved": false,
+   "sha256_packed": "cf6b75cd64f1ef7a21cd5edf921268481f13cda89bf73c2df872314436d43184",
+   "kind": "checkpoint",
+   "model_id": "tiiuae/Falcon-E-1B-Base",
+   "revision": "f4001b8b1c26d28a717d79a8ece14901816d92e8",
+   "tensor": "model.layers.0.mlp.down_proj.weight",
+   "full_packed_shape": [
+    512,
+    9216
+   ],
+   "slice_rows": 8,
+   "file_sha256_expected": "f62c270b5640c9fce1dedf1ffe84aa8f138443ad1b065e90c7508a0eebc7c79d"
+  },
+  "ckpt_f3b_down": {
+   "k": 13312,
+   "n": 32,
+   "rows": 8,
+   "ops": 2,
+   "packed_bytes": 106496,
+   "acc_w": 22,
+   "reserved": false,
+   "sha256_packed": "7c69aea883a335e1db5f5202a300e383db2b8935bcffce8fcc46f5dd79d230c8",
+   "kind": "checkpoint",
+   "model_id": "tiiuae/Falcon-E-3B-Base",
+   "revision": "ad18b0713c10a8696144b1112accf4ccd28af6d3",
+   "tensor": "model.layers.0.mlp.down_proj.weight",
+   "full_packed_shape": [
+    512,
+    13312
+   ],
+   "slice_rows": 8,
+   "file_sha256_expected": "25dbd87d68cf853de3bea1ae4615bf2fa027f252b77ec2137a07e94c1a1a6ba2"
+  },
+  "ckpt_bn_q_proj": {
+   "k": 2560,
+   "n": 32,
+   "rows": 8,
+   "ops": 2,
+   "packed_bytes": 20480,
+   "acc_w": 22,
+   "reserved": false,
+   "sha256_packed": "c8a3d6e4a71de0f08e0961b43a39345c7d60d4c7b2952d03913ea9b8994c70ae",
+   "kind": "checkpoint",
+   "model_id": "microsoft/bitnet-b1.58-2B-4T",
+   "revision": "04c3b9ad9361b824064a1f25ea60a8be9599b127",
+   "tensor": "model.layers.0.self_attn.q_proj.weight",
+   "full_packed_shape": [
+    640,
+    2560
+   ],
+   "slice_rows": 8,
+   "file_sha256_expected": "8143ae115ed6babe5e5ada8fb8c5b769d8f417802b2db042ad98b4f7ed73975b"
+  },
+  "ckpt_bn_down": {
+   "k": 6912,
+   "n": 32,
+   "rows": 8,
+   "ops": 2,
+   "packed_bytes": 55296,
+   "acc_w": 22,
+   "reserved": false,
+   "sha256_packed": "0a9b53f694566bb9ddf4e2133a7739b4587f97692ebc919dd05f7f4cd677b35c",
+   "kind": "checkpoint",
+   "model_id": "microsoft/bitnet-b1.58-2B-4T",
+   "revision": "04c3b9ad9361b824064a1f25ea60a8be9599b127",
+   "tensor": "model.layers.0.mlp.down_proj.weight",
+   "full_packed_shape": [
+    640,
+    6912
+   ],
+   "slice_rows": 8,
+   "file_sha256_expected": "8143ae115ed6babe5e5ada8fb8c5b769d8f417802b2db042ad98b4f7ed73975b"
+  }
+ }
+}
