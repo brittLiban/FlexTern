@@ -2,7 +2,7 @@
 
 Reviewer: Fable 5.1 (advisor role, consulted by the implementing Claude agent)
 Date: 2026-10-06
-Scope: EXP-0002 and its artifacts in `results/workload_profile/`, `analysis/`, `tests/test_analysis.py`, the updated canonical docs, and the Phase 2 handoff, as they stood immediately before the Phase 2 commit.
+Scope: EXP-0002 and its artifacts in `results/workload_profile/`, `analysis/`, `tests/test_analysis.py`, the updated canonical docs, and the Phase 2 handoff, as they stood immediately before the Phase 2 commit (dd27adb).
 
 ## Overall Assessment
 

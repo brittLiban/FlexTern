@@ -2,7 +2,7 @@
 
 Date: 2026-10-06
 Agent: Claude (Claude Code, model Fable 5.1), implementation role
-Current commit: the Phase 2 commit ("research: characterize real ternary transformer workload")
+Current commit: dd27adb (Phase 2), followed by a docs-only fixup commit recording this hash
 
 ## Objective
 

@@ -62,7 +62,7 @@ KI-004
 Status:           Open (informational)
 Severity:         Minor
 First observed:   2026-10-06
-Relevant commit:  Phase 2 commit
+Relevant commit:  dd27adb
 Description:      Applying the official absmean ternarization (WeightQuant) to
                   the BF16 latent repo microsoft/bitnet-b1.58-2B-4T-bf16
                   reproduces the packed repo's 2-bit codes at 98.0-99.4%, not

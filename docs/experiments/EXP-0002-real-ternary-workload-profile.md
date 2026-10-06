@@ -2,7 +2,7 @@
 
 Status: Complete
 Date: 2026-10-06
-Commit: the Phase 2 commit ("research: characterize real ternary transformer workload"); results generated from that tree.
+Commit: dd27adb ("research: characterize real ternary transformer workload"). Results in `results/workload_profile/` were generated from exactly that tree before the commit existed.
 
 All tables below are copied from the generated `results/workload_profile/workload_summary.md`. That file and the CSV/JSON beside it are the primary record; this document interprets them. Labels: KNOWN (external fact / reference code), MEASURED (counted from the checkpoint), INFERRED (computed from measured dimensions and format), HYPOTHESIZED, SPECULATIVE.
 
