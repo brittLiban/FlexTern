@@ -1,0 +1,68 @@
+{
+  "baseline": {
+    "wall_s": 101.56647753715515,
+    "limit": 20,
+    "max_length": 2048,
+    "batch_size": 4,
+    "tasks": {
+      "wikitext": {
+        "word_perplexity,none": 21.94499719958448,
+        "word_perplexity_stderr,none": "N/A",
+        "byte_perplexity,none": 1.784931940882038,
+        "byte_perplexity_stderr,none": "N/A",
+        "bits_per_byte,none": 0.8358690656135331,
+        "bits_per_byte_stderr,none": "N/A",
+        "n_samples": 20
+      },
+      "hellaswag": {
+        "acc,none": 0.25,
+        "acc_stderr,none": 0.09933992677987828,
+        "acc_norm,none": 0.35,
+        "acc_norm_stderr,none": 0.1094243309804831,
+        "n_samples": 20
+      },
+      "piqa": {
+        "acc,none": 0.7,
+        "acc_stderr,none": 0.10513149660756936,
+        "acc_norm,none": 0.7,
+        "acc_norm_stderr,none": 0.10513149660756936,
+        "n_samples": 20
+      },
+      "arc_easy": {
+        "acc,none": 0.75,
+        "acc_stderr,none": 0.09933992677987828,
+        "acc_norm,none": 0.6,
+        "acc_norm_stderr,none": 0.11239029738980327,
+        "n_samples": 20
+      },
+      "arc_challenge": {
+        "acc,none": 0.35,
+        "acc_stderr,none": 0.1094243309804831,
+        "acc_norm,none": 0.35,
+        "acc_norm_stderr,none": 0.1094243309804831,
+        "n_samples": 20
+      },
+      "winogrande": {
+        "acc,none": 0.65,
+        "acc_stderr,none": 0.1094243309804831,
+        "n_samples": 20
+      }
+    },
+    "versions": {
+      "arc_challenge": 1.0,
+      "arc_easy": 1.0,
+      "hellaswag": 1.0,
+      "piqa": 1.0,
+      "wikitext": 2.0,
+      "winogrande": 1.0
+    },
+    "config": {
+      "model": "tiiuae/Falcon-E-1B-Base",
+      "model_args": null,
+      "batch_size": null,
+      "limit": 20
+    },
+    "head": "bf16",
+    "kv_note": "loglikelihood scoring uses one forward pass; KV cache setting has no effect"
+  }
+}

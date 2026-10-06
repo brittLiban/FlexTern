@@ -1,0 +1,84 @@
+{
+  "args": {
+    "phases": "latency",
+    "configs": "B1,C",
+    "limit": null,
+    "tasks": "wikitext,hellaswag,piqa,arc_easy,arc_challenge,winogrande",
+    "batch_size": 4,
+    "hellaswag_limit": 2000,
+    "windows": 8,
+    "ctx": 2048,
+    "prefill": 128,
+    "group_size": 128,
+    "contexts": "128,512,2048,4096,8192,16384",
+    "new_tokens": 64,
+    "cache_unpacked": true
+  },
+  "configs": {
+    "baseline": [
+      "bf16",
+      "dynamic"
+    ],
+    "A": [
+      "int4",
+      "dynamic"
+    ],
+    "B": [
+      "bf16",
+      "int4"
+    ],
+    "B1": [
+      "bf16",
+      "int4_ax1"
+    ],
+    "C": [
+      "int4",
+      "int4_ax1"
+    ],
+    "C0": [
+      "int4",
+      "int4"
+    ]
+  },
+  "checkpoint": {
+    "path": "/mnt/c/Users/liban/.cache/huggingface/hub/models--tiiuae--Falcon-E-1B-Base/snapshots/f4001b8b1c26d28a717d79a8ece14901816d92e8/model.safetensors",
+    "size": 665041488,
+    "sha256": "f62c270b5640c9fce1dedf1ffe84aa8f138443ad1b065e90c7508a0eebc7c79d",
+    "matches_adr_0004": true,
+    "model_id": "tiiuae/Falcon-E-1B-Base",
+    "revision": "f4001b8b1c26d28a717d79a8ece14901816d92e8"
+  },
+  "env": {
+    "generated": "2026-10-06 20:33:58 +0300",
+    "python": "3.14.4",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "torch": "2.11.0+cu128",
+    "torch_cuda": "12.8",
+    "cuda_available": true,
+    "transformers": "5.18.0",
+    "numpy": "2.5.3",
+    "seed": 20261006,
+    "TORCHDYNAMO_DISABLE": "1",
+    "model_id": "tiiuae/Falcon-E-1B-Base",
+    "revision": "f4001b8b1c26d28a717d79a8ece14901816d92e8",
+    "expected_sha256": "f62c270b5640c9fce1dedf1ffe84aa8f138443ad1b065e90c7508a0eebc7c79d",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "gpu_total_mem_bytes": 8546484224,
+    "gpu_capability": "12.0",
+    "optimum.quanto": "present",
+    "hqq": "0.2.8.post1",
+    "lm_eval": "0.4.13",
+    "datasets": "5.1.0",
+    "accelerate": "1.15.0"
+  },
+  "phases_run": [
+    "latency"
+  ],
+  "ternary_unpack_cache": {
+    "modules": 168,
+    "packed_bytes": 396361728,
+    "unpacked_resident_bytes": 3170893824,
+    "note": "ternary weights unpacked once to BF16 for decode speed; outputs identical (see unpack_cache_check.json); ternary bytes are reported from the packed size"
+  },
+  "finished": "2026-10-06 20:37:49 +0300"
+}

@@ -1,0 +1,197 @@
+{
+  "baseline": {
+    "head": "bf16",
+    "kv_note": "loglikelihood scoring uses one forward pass; KV cache setting has no effect",
+    "tasks": {
+      "wikitext": {
+        "word_perplexity,none": 21.253531935955948,
+        "word_perplexity_stderr,none": "N/A",
+        "byte_perplexity,none": 1.7710721481671547,
+        "byte_perplexity_stderr,none": "N/A",
+        "bits_per_byte,none": 0.8246229843556783,
+        "bits_per_byte_stderr,none": "N/A",
+        "n_samples": 62,
+        "wall_s": 217.51173186302185,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 2.0
+      },
+      "piqa": {
+        "acc,none": 0.6996735582154516,
+        "acc_stderr,none": 0.010695225308183266,
+        "acc_norm,none": 0.6980413492927094,
+        "acc_norm_stderr,none": 0.010711732891588133,
+        "n_samples": 1838,
+        "wall_s": 256.85360980033875,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      },
+      "arc_easy": {
+        "acc,none": 0.6725589225589226,
+        "acc_stderr,none": 0.009629415859100505,
+        "acc_norm,none": 0.61489898989899,
+        "acc_norm_stderr,none": 0.009985214798737324,
+        "n_samples": 2376,
+        "wall_s": 474.09629464149475,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      },
+      "arc_challenge": {
+        "acc,none": 0.371160409556314,
+        "acc_stderr,none": 0.01411797190114269,
+        "acc_norm,none": 0.38822525597269625,
+        "acc_norm_stderr,none": 0.014241614207414086,
+        "n_samples": 1172,
+        "wall_s": 269.8005015850067,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      },
+      "winogrande": {
+        "acc,none": 0.5714285714285714,
+        "acc_stderr,none": 0.01390835381460673,
+        "n_samples": 1267,
+        "wall_s": 159.44901084899902,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      },
+      "hellaswag": {
+        "acc,none": 0.379,
+        "acc_stderr,none": 0.01085073127418573,
+        "acc_norm,none": 0.489,
+        "acc_norm_stderr,none": 0.011180429374603654,
+        "n_samples": 2000,
+        "wall_s": 435.16302728652954,
+        "limit": 2000,
+        "pilot_subset": true,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      }
+    }
+  },
+  "A": {
+    "head": "int4",
+    "kv_note": "loglikelihood scoring uses one forward pass; KV cache setting has no effect",
+    "tasks": {
+      "wikitext": {
+        "word_perplexity,none": 21.39592600664227,
+        "word_perplexity_stderr,none": "N/A",
+        "byte_perplexity,none": 1.7732850933254036,
+        "byte_perplexity_stderr,none": "N/A",
+        "bits_per_byte,none": 0.8264244988210032,
+        "bits_per_byte_stderr,none": "N/A",
+        "n_samples": 62,
+        "wall_s": 125.24058675765991,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 2.0
+      },
+      "piqa": {
+        "acc,none": 0.6996735582154516,
+        "acc_stderr,none": 0.010695225308183266,
+        "acc_norm,none": 0.6964091403699674,
+        "acc_norm_stderr,none": 0.010728079893076493,
+        "n_samples": 1838,
+        "wall_s": 224.2662479877472,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      },
+      "arc_easy": {
+        "acc,none": 0.6683501683501684,
+        "acc_stderr,none": 0.00966073378092379,
+        "acc_norm,none": 0.6136363636363636,
+        "acc_norm_stderr,none": 0.009991296778159724,
+        "n_samples": 2376,
+        "wall_s": 474.3394818305969,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      },
+      "arc_challenge": {
+        "acc,none": 0.3720136518771331,
+        "acc_stderr,none": 0.014124597881844359,
+        "acc_norm,none": 0.3924914675767918,
+        "acc_norm_stderr,none": 0.014269634635670669,
+        "n_samples": 1172,
+        "wall_s": 257.58048820495605,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      },
+      "winogrande": {
+        "acc,none": 0.580110497237569,
+        "acc_stderr,none": 0.013870943986310596,
+        "n_samples": 1267,
+        "wall_s": 161.96773886680603,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      },
+      "hellaswag": {
+        "acc,none": 0.3785,
+        "acc_stderr,none": 0.010847935926107253,
+        "acc_norm,none": 0.493,
+        "acc_norm_stderr,none": 0.011182040020027864,
+        "n_samples": 2000,
+        "wall_s": 406.4456298351288,
+        "limit": 2000,
+        "pilot_subset": true,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 1.0
+      }
+    }
+  },
+  "B": {
+    "head": "bf16",
+    "kv_note": "loglikelihood scoring uses one forward pass; KV cache setting has no effect",
+    "tasks": {
+      "wikitext": {
+        "word_perplexity,none": 21.253531935955948,
+        "word_perplexity_stderr,none": "N/A",
+        "byte_perplexity,none": 1.7710721481671547,
+        "byte_perplexity_stderr,none": "N/A",
+        "bits_per_byte,none": 0.8246229843556783,
+        "bits_per_byte_stderr,none": "N/A",
+        "n_samples": 62,
+        "wall_s": 100.03119802474976,
+        "limit": null,
+        "pilot_subset": false,
+        "max_length": 2048,
+        "batch_size": 4,
+        "version": 2.0
+      }
+    }
+  },
+  "B1": {
+    "note": "identical to its head-equivalent by construction (no incremental cache in loglikelihood scoring); not re-run"
+  },
+  "C": {
+    "note": "identical to its head-equivalent by construction (no incremental cache in loglikelihood scoring); not re-run"
+  }
+}

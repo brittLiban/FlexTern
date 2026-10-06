@@ -40,6 +40,8 @@ Downloads each pinned checkpoint into the Hugging Face cache on first run (never
 
 **EXP-0002B** repeated the profile on an independent native ternary family, TII Falcon-E 1B and 3B, with the same tool, to separate what generalizes from what was Microsoft-specific. Comparison: [`results/workload_profile/cross_model/comparison.md`](results/workload_profile/cross_model/comparison.md); record: [`docs/experiments/EXP-0002B-cross-model-validation.md`](docs/experiments/EXP-0002B-cross-model-validation.md).
 
+**EXP-0004** is the first model-side experiment: it quantizes Falcon-E 1B's BF16 output head to INT4 and its KV cache to ~4 bits, and measures quality (lm-eval tasks, teacher-forced incremental perplexity through the real cache), memory, and latency on a local GPU. Runs under WSL2 (`scripts\run_model_precision.ps1 -Wsl`); record: [`docs/experiments/EXP-0004-low-precision-head-kv.md`](docs/experiments/EXP-0004-low-precision-head-kv.md); outputs in [`results/model_precision/`](results/model_precision/).
+
 **EXP-0003** is an analytical compute-vs-memory bottleneck model over all three workloads: where ternary specialization has end-to-end headroom and where the output head, KV cache, or attention cap it. Everything in it is modeled, not measured. Run with `scripts\run_roofline.ps1`; outputs in [`results/roofline/`](results/roofline/); record: [`docs/experiments/EXP-0003-compute-memory-roofline.md`](docs/experiments/EXP-0003-compute-memory-roofline.md).
 
 ## Repository layout

@@ -83,6 +83,65 @@ Update 2026-10-06 (EXP-0002B): emulating BF16 arithmetic in the ternarization
                   Falcon-E has no such issue.
 ```
 
+```
+KI-005
+Status:           Workaround
+Severity:         Major (blocks any PyTorch work on the Windows host)
+First observed:   2026-10-06
+Relevant commit:  EXP-0004 commit
+Description:      Windows Smart App Control blocks PyTorch's unsigned DLLs
+                  (shm.dll, torch_cpu.dll, c10.dll, torch_cuda.dll are all
+                  NotSigned) at `import torch` with WinError 4551, even for the
+                  official cu128 wheel. Same policy that blocked Yosys (KI-002).
+Impact:           EXP-0004 cannot run natively on Windows. pip install succeeds;
+                  import fails.
+Workaround:       Run under WSL2 Ubuntu, which sees the RTX 5060 through the
+                  Windows driver (/usr/lib/wsl/lib/libcuda.so) and reuses the
+                  Windows Hugging Face cache via /mnt/c. scripts/
+                  run_model_precision.ps1 -Wsl does this. The Windows PyTorch
+                  install is left in place but unusable.
+```
+
+```
+KI-006
+Status:           Workaround
+Severity:         Minor
+First observed:   2026-10-06
+Relevant commit:  EXP-0004 commit
+Description:      optimum-quanto 0.2.7 registers CUDA/C++ extensions at import
+                  whenever CUDA is visible and JIT-builds them on first use with
+                  torch.utils.cpp_extension.load, which needs nvcc/CUDA_HOME.
+                  The WSL environment has the NVIDIA driver but no CUDA toolkit,
+                  so transformers' QuantizedCache(backend="quanto") fails at the
+                  first dequantize with "CUDA_HOME environment variable is not
+                  set". Unregistering the extensions does not help because the
+                  op implementations are already bound.
+Impact:           The quanto KV backend cannot be used here.
+Workaround:       EXP-0004 uses backend="hqq" (pure PyTorch) for the same
+                  KIVI-style QuantizedCache. FLEXTERN_KV_BACKEND=quanto re-enables
+                  quanto on a machine with a CUDA toolkit.
+```
+
+```
+KI-007
+Status:           Workaround
+Severity:         Minor
+First observed:   2026-10-06
+Relevant commit:  EXP-0004 commit
+Description:      Long single-process GPU runs under WSL2 (memory capped at
+                  6 GB by .wslconfig on a 15 GB host) were killed by host
+                  memory pressure twice during EXP-0004 (a 73-minute lm-eval
+                  run and an 18-minute incremental-decode run), losing all
+                  unsaved results.
+Impact:           scripts/run_model_precision.ps1 -Wsl, which chains every
+                  phase, may not finish in one invocation on this machine.
+Workaround:       analysis/model_precision/run_experiment.py saves after each
+                  (config, task) and skips completed cells on rerun; run one
+                  phase (or one config) per invocation, close memory-heavy
+                  host applications, and keep the WSL cap. manifest_*.json
+                  records each chunk's arguments.
+```
+
 ### Template
 
 ```

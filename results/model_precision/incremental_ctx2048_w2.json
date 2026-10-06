@@ -1,0 +1,198 @@
+{
+  "windows": {
+    "dataset": "Salesforce/wikitext wikitext-2-raw-v1 test",
+    "total_tokens": 366305,
+    "ctx": 2048,
+    "n_windows": 2,
+    "window_starts": [
+      0,
+      2048
+    ],
+    "coverage_fraction": 0.011181938548477361
+  },
+  "prefill": 128,
+  "single_forward_bf16_head": {
+    "mean_nll": 2.0582242329915363,
+    "ppl": 7.832049559199177,
+    "tokens_scored": 3840,
+    "per_window_nll": [
+      1.7345393896102905,
+      2.3819093704223633
+    ]
+  },
+  "baseline": {
+    "cache_kind": "dynamic",
+    "prefill": 128,
+    "ctx": 2048,
+    "mean_nll": 2.05689206195894,
+    "ppl": 7.821622876255048,
+    "tokens_scored": 3840,
+    "per_window_nll": [
+      1.732745707055792,
+      2.3810384168620886
+    ],
+    "nll_by_position_bucket": {
+      "0": 2.7998230749135473,
+      "256": 2.1648222710334153,
+      "512": 2.1068039097067555,
+      "768": 1.6680057932531502,
+      "1024": 1.9920243437766203,
+      "1280": 1.8608325551572342,
+      "1536": 1.8001821001872411,
+      "1792": 2.4341079541208615
+    },
+    "last_window_cache_bytes": {
+      "residual_bytes": 50307072,
+      "quantized_bytes": 0,
+      "total_bytes": 50307072
+    },
+    "peak_cuda": {
+      "allocated_bytes": 3844645888,
+      "reserved_bytes": 4043309056,
+      "max_allocated_bytes": 3896084992
+    },
+    "wall_s": 296.8308916091919,
+    "decode_steps": 3840,
+    "head": "bf16"
+  },
+  "A": {
+    "cache_kind": "dynamic",
+    "prefill": 128,
+    "ctx": 2048,
+    "mean_nll": 2.0618259413724433,
+    "ppl": 7.86030917864096,
+    "tokens_scored": 3840,
+    "per_window_nll": [
+      1.737368296615775,
+      2.386283586129112
+    ],
+    "nll_by_position_bucket": {
+      "0": 2.805118064956332,
+      "256": 2.1729398769652164,
+      "512": 2.1096935280663445,
+      "768": 1.6675497844601948,
+      "1024": 1.9990249649623735,
+      "1280": 1.870325362577546,
+      "1536": 1.8032304620411477,
+      "1792": 2.4383715487423387
+    },
+    "last_window_cache_bytes": {
+      "residual_bytes": 50307072,
+      "quantized_bytes": 0,
+      "total_bytes": 50307072
+    },
+    "peak_cuda": {
+      "allocated_bytes": 3745555456,
+      "reserved_bytes": 4559208448,
+      "max_allocated_bytes": 4402009088
+    },
+    "wall_s": 334.47695994377136,
+    "decode_steps": 3840,
+    "head": "int4"
+  },
+  "B": {
+    "cache_kind": "int4",
+    "prefill": 128,
+    "ctx": 2048,
+    "mean_nll": 2.0633412619386586,
+    "ppl": 7.872229095763074,
+    "tokens_scored": 3840,
+    "per_window_nll": [
+      1.7387559066830116,
+      2.387926617194305
+    ],
+    "nll_by_position_bucket": {
+      "0": 2.7823258448061097,
+      "256": 2.179238830760454,
+      "512": 2.1113570948195246,
+      "768": 1.6692858804268909,
+      "1024": 1.993048370623562,
+      "1280": 1.8669232196336445,
+      "1536": 1.8004944986838218,
+      "1792": 2.4635486471889863
+    },
+    "last_window_cache_bytes": {
+      "residual_bytes": 3121152,
+      "quantized_bytes": 13271040,
+      "total_bytes": 16392192
+    },
+    "peak_cuda": {
+      "allocated_bytes": 3844645888,
+      "reserved_bytes": 3992977408,
+      "max_allocated_bytes": 3875051520
+    },
+    "wall_s": 361.2792236804962,
+    "decode_steps": 3840,
+    "head": "bf16"
+  },
+  "B1": {
+    "cache_kind": "int4_ax1",
+    "prefill": 128,
+    "ctx": 2048,
+    "mean_nll": 2.058608092296963,
+    "ppl": 7.835056541395164,
+    "tokens_scored": 3840,
+    "per_window_nll": [
+      1.7373735527673542,
+      2.379842631826572
+    ],
+    "nll_by_position_bucket": {
+      "0": 2.786745896127286,
+      "256": 2.170544036907927,
+      "512": 2.106851008981522,
+      "768": 1.6686989342940404,
+      "1024": 1.9917497083891789,
+      "1280": 1.8663048621108675,
+      "1536": 1.8037714549218915,
+      "1792": 2.438267738558153
+    },
+    "last_window_cache_bytes": {
+      "residual_bytes": 3121152,
+      "quantized_bytes": 13271040,
+      "total_bytes": 16392192
+    },
+    "peak_cuda": {
+      "allocated_bytes": 3844645888,
+      "reserved_bytes": 3992977408,
+      "max_allocated_bytes": 3875051520
+    },
+    "wall_s": 352.7117190361023,
+    "decode_steps": 3840,
+    "head": "bf16"
+  },
+  "C": {
+    "cache_kind": "int4_ax1",
+    "prefill": 128,
+    "ctx": 2048,
+    "mean_nll": 2.063340601885444,
+    "ppl": 7.872223899674667,
+    "tokens_scored": 3840,
+    "per_window_nll": [
+      1.7413775394994555,
+      2.385303664271432
+    ],
+    "nll_by_position_bucket": {
+      "0": 2.7911883310734993,
+      "256": 2.177871771162728,
+      "512": 2.1108785104905365,
+      "768": 1.667031676319688,
+      "1024": 1.9992963199916218,
+      "1280": 1.8765008976198043,
+      "1536": 1.8057623543703656,
+      "1792": 2.442118818649334
+    },
+    "last_window_cache_bytes": {
+      "residual_bytes": 3121152,
+      "quantized_bytes": 13271040,
+      "total_bytes": 16392192
+    },
+    "peak_cuda": {
+      "allocated_bytes": 3745555456,
+      "reserved_bytes": 4540334080,
+      "max_allocated_bytes": 4368094208
+    },
+    "wall_s": 372.26180505752563,
+    "decode_steps": 3840,
+    "head": "int4"
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "baseline": {
+    "head": "bf16",
+    "kv": "dynamic",
+    "prompt128": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 128,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 0.07197237014770508,
+      "prefill_s_min": 0.06837987899780273,
+      "ttft_s_median": 0.07197237014770508,
+      "decode_s_median": 4.400665998458862,
+      "decode_tokens_per_s_median": 14.316014899122758,
+      "latency_per_token_ms_median": 69.85184124537876,
+      "peak_cuda": {
+        "allocated_bytes": 3844499456,
+        "reserved_bytes": 3974103040,
+        "max_allocated_bytes": 3857149952
+      }
+    },
+    "prompt2048": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 2048,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 0.3340470790863037,
+      "prefill_s_min": 0.33304762840270996,
+      "ttft_s_median": 0.3340470790863037,
+      "decode_s_median": 4.519542455673218,
+      "decode_tokens_per_s_median": 13.939464142198373,
+      "latency_per_token_ms_median": 71.73876913767012,
+      "peak_cuda": {
+        "allocated_bytes": 3844514816,
+        "reserved_bytes": 4127195136,
+        "max_allocated_bytes": 4046914560
+      }
+    }
+  },
+  "A": {
+    "head": "int4",
+    "kv": "dynamic",
+    "prompt128": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 128,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 0.08159494400024414,
+      "prefill_s_min": 0.07217597961425781,
+      "ttft_s_median": 0.08159494400024414,
+      "decode_s_median": 4.456296443939209,
+      "decode_tokens_per_s_median": 14.13730006352769,
+      "latency_per_token_ms_median": 70.73486418951126,
+      "peak_cuda": {
+        "allocated_bytes": 3745409024,
+        "reserved_bytes": 4563402752,
+        "max_allocated_bytes": 4356250112
+      }
+    },
+    "prompt2048": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 2048,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 0.3439157009124756,
+      "prefill_s_min": 0.3400535583496094,
+      "ttft_s_median": 0.3439157009124756,
+      "decode_s_median": 4.434271335601807,
+      "decode_tokens_per_s_median": 14.207520296330676,
+      "latency_per_token_ms_median": 70.38525929526678,
+      "peak_cuda": {
+        "allocated_bytes": 3745424384,
+        "reserved_bytes": 4611637248,
+        "max_allocated_bytes": 4410221568
+      }
+    }
+  },
+  "B": {
+    "head": "bf16",
+    "kv": "int4",
+    "prompt128": {
+      "cache_kind": "int4",
+      "prompt_tokens": 128,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 0.5729007720947266,
+      "prefill_s_min": 0.5445148944854736,
+      "ttft_s_median": 0.5729007720947266,
+      "decode_s_median": 5.145017385482788,
+      "decode_tokens_per_s_median": 12.244856582557171,
+      "latency_per_token_ms_median": 81.66694262671092,
+      "peak_cuda": {
+        "allocated_bytes": 3879626752,
+        "reserved_bytes": 4016046080,
+        "max_allocated_bytes": 3890016256
+      }
+    },
+    "prompt2048": {
+      "cache_kind": "int4",
+      "prompt_tokens": 2048,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 1.334991455078125,
+      "prefill_s_min": 1.2489194869995117,
+      "ttft_s_median": 1.334991455078125,
+      "decode_s_median": 5.097815275192261,
+      "decode_tokens_per_s_median": 12.358235165283425,
+      "latency_per_token_ms_median": 80.91770278082953,
+      "peak_cuda": {
+        "allocated_bytes": 3879642112,
+        "reserved_bytes": 4156555264,
+        "max_allocated_bytes": 4045865984
+      }
+    }
+  },
+  "B1": {
+    "head": "bf16",
+    "kv": "int4_ax1",
+    "prompt128": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 128,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 0.5764615535736084,
+      "prefill_s_min": 0.5187082290649414,
+      "ttft_s_median": 0.5764615535736084,
+      "decode_s_median": 4.958069562911987,
+      "decode_tokens_per_s_median": 12.706558308754076,
+      "latency_per_token_ms_median": 78.69951687161884,
+      "peak_cuda": {
+        "allocated_bytes": 3844499456,
+        "reserved_bytes": 3972005888,
+        "max_allocated_bytes": 3854888960
+      }
+    },
+    "prompt2048": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 2048,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 1.308382272720337,
+      "prefill_s_min": 1.294189691543579,
+      "ttft_s_median": 1.308382272720337,
+      "decode_s_median": 5.088622093200684,
+      "decode_tokens_per_s_median": 12.380561740707638,
+      "latency_per_token_ms_median": 80.77177925715371,
+      "peak_cuda": {
+        "allocated_bytes": 3844514816,
+        "reserved_bytes": 4112515072,
+        "max_allocated_bytes": 4010738688
+      }
+    }
+  },
+  "C": {
+    "head": "int4",
+    "kv": "int4_ax1",
+    "prompt128": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 128,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 0.6373412609100342,
+      "prefill_s_min": 0.6037533283233643,
+      "ttft_s_median": 0.6373412609100342,
+      "decode_s_median": 5.079007387161255,
+      "decode_tokens_per_s_median": 12.403998497669402,
+      "latency_per_token_ms_median": 80.61916487557548,
+      "peak_cuda": {
+        "allocated_bytes": 3745409024,
+        "reserved_bytes": 4498391040,
+        "max_allocated_bytes": 4353989120
+      }
+    },
+    "prompt2048": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 2048,
+      "new_tokens": 64,
+      "warmup": 3,
+      "repeats": 5,
+      "prefill_s_median": 1.29618239402771,
+      "prefill_s_min": 1.243884801864624,
+      "ttft_s_median": 1.29618239402771,
+      "decode_s_median": 5.188131332397461,
+      "decode_tokens_per_s_median": 12.1431004659798,
+      "latency_per_token_ms_median": 82.35129099043588,
+      "peak_cuda": {
+        "allocated_bytes": 3745424384,
+        "reserved_bytes": 4534042624,
+        "max_allocated_bytes": 4374045696
+      }
+    }
+  }
+}

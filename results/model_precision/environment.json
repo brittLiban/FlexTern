@@ -1,0 +1,23 @@
+{
+  "generated": "2026-10-06 20:57:59 +0300",
+  "python": "3.14.4",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "torch": "2.11.0+cu128",
+  "torch_cuda": "12.8",
+  "cuda_available": true,
+  "transformers": "5.18.0",
+  "numpy": "2.5.3",
+  "seed": 20261006,
+  "TORCHDYNAMO_DISABLE": "1",
+  "model_id": "tiiuae/Falcon-E-1B-Base",
+  "revision": "f4001b8b1c26d28a717d79a8ece14901816d92e8",
+  "expected_sha256": "f62c270b5640c9fce1dedf1ffe84aa8f138443ad1b065e90c7508a0eebc7c79d",
+  "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+  "gpu_total_mem_bytes": 8546484224,
+  "gpu_capability": "12.0",
+  "optimum.quanto": "present",
+  "hqq": "0.2.8.post1",
+  "lm_eval": "0.4.13",
+  "datasets": "5.1.0",
+  "accelerate": "1.15.0"
+}

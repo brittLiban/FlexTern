@@ -1,0 +1,312 @@
+{
+  "baseline": {
+    "short": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 11,
+      "new_tokens": 64,
+      "text": " the telephone, the automobile, and the television. The telephone was the first of these inventions. It was the first time that people could communicate with each other over long distances. The automobile was the second invention. It was the first time that people could travel long distances. The television was the third invention.",
+      "prefill_s": 1.7531445026397705,
+      "decode_s": 4.78089451789856,
+      "decode_tokens_per_s": 13.177450321094227,
+      "ttft_s": 1.7531445026397705,
+      "cache_bytes": {
+        "residual_bytes": 1818624,
+        "quantized_bytes": 0,
+        "total_bytes": 1818624
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3846383616,
+        "reserved_bytes": 3969908736,
+        "max_allocated_bytes": 3846459904
+      }
+    },
+    "medium": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 1500,
+      "new_tokens": 64,
+      "text": " 2008 episode of the television series Waking the Dead , followed by a role in the 2009 theatre production of How to Curse directed by Josie Rourke . Boulter starred in the 2011 film Mercenaries directed by Paris",
+      "prefill_s": 0.2678079605102539,
+      "decode_s": 4.546849012374878,
+      "decode_tokens_per_s": 13.855749295509218,
+      "ttft_s": 0.2678079605102539,
+      "cache_bytes": {
+        "residual_bytes": 38412288,
+        "quantized_bytes": 0,
+        "total_bytes": 38412288
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3882989056,
+        "reserved_bytes": 4116709376,
+        "max_allocated_bytes": 3992753152
+      }
+    },
+    "long": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 6144,
+      "new_tokens": 64,
+      "text": " language \" . \n \n The l\u01dcshi form is a type of poetry that is not only a technical exercise , but also a means of expressing the poet's personal feelings . The form is a \" \" \" \" \" \" \" \" \"",
+      "prefill_s": 1.1880908012390137,
+      "decode_s": 4.689162492752075,
+      "decode_tokens_per_s": 13.435234990763824,
+      "ttft_s": 1.1880908012390137,
+      "cache_bytes": {
+        "residual_bytes": 152543232,
+        "quantized_bytes": 0,
+        "total_bytes": 152543232
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3997156864,
+        "reserved_bytes": 4578082816,
+        "max_allocated_bytes": 4451746816
+      }
+    }
+  },
+  "A": {
+    "short": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 11,
+      "new_tokens": 64,
+      "text": " the telephone, the automobile, and the television. The telephone was the first of these inventions. It was the first time that people could communicate with each other over long distances. The automobile was the second invention. It was the first time that people could travel long distances without having to stop. The television was",
+      "prefill_s": 0.11994123458862305,
+      "decode_s": 5.181813478469849,
+      "decode_tokens_per_s": 12.157905772132006,
+      "ttft_s": 0.11994123458862305,
+      "cache_bytes": {
+        "residual_bytes": 1818624,
+        "quantized_bytes": 0,
+        "total_bytes": 1818624
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3747293184,
+        "reserved_bytes": 4494196736,
+        "max_allocated_bytes": 4353374208
+      }
+    },
+    "medium": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 1500,
+      "new_tokens": 64,
+      "text": " 2008 episode of the television series Waking the Dead , followed by a role in the 2009 theatre production of How to Curse directed by Josie Rourke . Boulter starred in the 2011 film Mercenaries directed by Paris",
+      "prefill_s": 0.27178120613098145,
+      "decode_s": 5.235248327255249,
+      "decode_tokens_per_s": 12.033813118666297,
+      "ttft_s": 0.27178120613098145,
+      "cache_bytes": {
+        "residual_bytes": 38412288,
+        "quantized_bytes": 0,
+        "total_bytes": 38412288
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3783898624,
+        "reserved_bytes": 4649385984,
+        "max_allocated_bytes": 4486694400
+      }
+    },
+    "long": {
+      "cache_kind": "dynamic",
+      "prompt_tokens": 6144,
+      "new_tokens": 64,
+      "text": " language \" . \n \n The l\u01dcshi form is a \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \"",
+      "prefill_s": 1.194493293762207,
+      "decode_s": 5.542589902877808,
+      "decode_tokens_per_s": 11.366527400356523,
+      "ttft_s": 1.194493293762207,
+      "cache_bytes": {
+        "residual_bytes": 152543232,
+        "quantized_bytes": 0,
+        "total_bytes": 152543232
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3898066432,
+        "reserved_bytes": 5110759424,
+        "max_allocated_bytes": 4905211392
+      }
+    }
+  },
+  "B": {
+    "short": {
+      "cache_kind": "int4",
+      "prompt_tokens": 11,
+      "new_tokens": 64,
+      "text": " the telephone, the automobile, and the airplane. The telephone was the first of these inventions. It was invented by Alexander Graham Bell in 1876. The telephone was the first of the three inventions that changed the world. It was the first of the three inventions that changed the",
+      "prefill_s": 0.5876762866973877,
+      "decode_s": 5.3457067012786865,
+      "decode_tokens_per_s": 11.785158356131001,
+      "ttft_s": 0.5876762866973877,
+      "cache_bytes": {
+        "residual_bytes": 1548288,
+        "quantized_bytes": 76032,
+        "total_bytes": 1624320
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3881363456,
+        "reserved_bytes": 3992977408,
+        "max_allocated_bytes": 3881501184
+      }
+    },
+    "medium": {
+      "cache_kind": "int4",
+      "prompt_tokens": 1500,
+      "new_tokens": 64,
+      "text": " 2008 episode of the television series Waking the Dead , followed by an appearance on the television series Survivors in November 2008 . Boulter starred in the 2011 film Mercenaries directed by Paris Leonti . Boulter",
+      "prefill_s": 1.127676010131836,
+      "decode_s": 5.406205177307129,
+      "decode_tokens_per_s": 11.653275806927619,
+      "ttft_s": 1.127676010131836,
+      "cache_bytes": {
+        "residual_bytes": 1548288,
+        "quantized_bytes": 10368000,
+        "total_bytes": 11916288
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3891648000,
+        "reserved_bytes": 4112515072,
+        "max_allocated_bytes": 4001412096
+      }
+    },
+    "long": {
+      "cache_kind": "int4",
+      "prompt_tokens": 6144,
+      "new_tokens": 64,
+      "text": " language \" . \n \n The l\u01dcshi form is a type of poetry that is not only a technical exercise , but also a means of expressing the poet's own feelings . The form is a \" \" \" \" \" \" \" \" \"",
+      "prefill_s": 2.007556200027466,
+      "decode_s": 5.2965638637542725,
+      "decode_tokens_per_s": 11.894503987976988,
+      "ttft_s": 2.007556200027466,
+      "cache_bytes": {
+        "residual_bytes": 1548288,
+        "quantized_bytes": 42467328,
+        "total_bytes": 44015616
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3923756544,
+        "reserved_bytes": 4559208448,
+        "max_allocated_bytes": 4378346496
+      }
+    }
+  },
+  "B1": {
+    "short": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 11,
+      "new_tokens": 64,
+      "text": " the telephone, the automobile, and the airplane. The telephone was the first of these inventions. It was the first time that people could communicate with each other over long distances. The automobile was the second invention. It was the first time that people could travel long distances. The airplane was the third",
+      "prefill_s": 0.49683308601379395,
+      "decode_s": 5.878985166549683,
+      "decode_tokens_per_s": 10.716135219809386,
+      "ttft_s": 0.49683308601379395,
+      "cache_bytes": {
+        "residual_bytes": 1548288,
+        "quantized_bytes": 76032,
+        "total_bytes": 1624320
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3881363456,
+        "reserved_bytes": 3992977408,
+        "max_allocated_bytes": 3881501184
+      }
+    },
+    "medium": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 1500,
+      "new_tokens": 64,
+      "text": " 2008 episode of the television series Survivors , as \" Josh \" . Boulter starred in the 2009 film Mercenaries directed by Paris Leonti . Boulter played \" Josh \" in the 20",
+      "prefill_s": 1.1915419101715088,
+      "decode_s": 5.278901100158691,
+      "decode_tokens_per_s": 11.934302008064922,
+      "ttft_s": 1.1915419101715088,
+      "cache_bytes": {
+        "residual_bytes": 1548288,
+        "quantized_bytes": 10368000,
+        "total_bytes": 11916288
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3891648000,
+        "reserved_bytes": 4110417920,
+        "max_allocated_bytes": 4001412096
+      }
+    },
+    "long": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 6144,
+      "new_tokens": 64,
+      "text": " language \" . \n \n Du Fu 's l\u01dcshi are often described as \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \"",
+      "prefill_s": 1.9560039043426514,
+      "decode_s": 5.240792989730835,
+      "decode_tokens_per_s": 12.02108156598562,
+      "ttft_s": 1.9560039043426514,
+      "cache_bytes": {
+        "residual_bytes": 1548288,
+        "quantized_bytes": 42467328,
+        "total_bytes": 44015616
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3923756544,
+        "reserved_bytes": 4559208448,
+        "max_allocated_bytes": 4378346496
+      }
+    }
+  },
+  "C": {
+    "short": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 11,
+      "new_tokens": 64,
+      "text": " the telephone, the automobile, and the television. The telephone was the first truly global communication device. The automobile was the first truly global transportation device. The television was the first truly global media device.\nThe telephone was the first truly global communication device. The automobile was the first truly global transportation device.",
+      "prefill_s": 0.6023447513580322,
+      "decode_s": 5.668402194976807,
+      "decode_tokens_per_s": 11.114243102902789,
+      "ttft_s": 0.6023447513580322,
+      "cache_bytes": {
+        "residual_bytes": 1548288,
+        "quantized_bytes": 76032,
+        "total_bytes": 1624320
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3747145728,
+        "reserved_bytes": 4496293888,
+        "max_allocated_bytes": 4353226752
+      }
+    },
+    "medium": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 1500,
+      "new_tokens": 64,
+      "text": " 2008 episode of the television series Survivors , as \" Josh \" . Boulter starred in the 2011 film Mercenaries directed by Paris Leonti . Boulter played a character named \" Josh \" in the",
+      "prefill_s": 1.205716848373413,
+      "decode_s": 5.775806188583374,
+      "decode_tokens_per_s": 10.907568215243723,
+      "ttft_s": 1.205716848373413,
+      "cache_bytes": {
+        "residual_bytes": 1548288,
+        "quantized_bytes": 10368000,
+        "total_bytes": 11916288
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3757430272,
+        "reserved_bytes": 4613734400,
+        "max_allocated_bytes": 4460226048
+      }
+    },
+    "long": {
+      "cache_kind": "int4_ax1",
+      "prompt_tokens": 6144,
+      "new_tokens": 64,
+      "text": " language \" . \n \n The l\u01dcshi form is a \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \" \"",
+      "prefill_s": 2.038747787475586,
+      "decode_s": 6.0873496532440186,
+      "decode_tokens_per_s": 10.349331579208133,
+      "ttft_s": 2.038747787475586,
+      "cache_bytes": {
+        "residual_bytes": 1548288,
+        "quantized_bytes": 42467328,
+        "total_bytes": 44015616
+      },
+      "peak_cuda": {
+        "allocated_bytes": 3789538816,
+        "reserved_bytes": 5167382528,
+        "max_allocated_bytes": 4796683776
+      }
+    }
+  }
+}

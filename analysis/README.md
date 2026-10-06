@@ -11,6 +11,7 @@ Workload-characterization tooling. Phase 2 (EXP-0002, EXP-0002B) analyzes real t
 | `cross_model_compare.py` | Joins the per-model outputs into `results/workload_profile/cross_model/comparison.{md,json}`. |
 | `roofline_models.py` | EXP-0003 library: per-token stage model (ternary linears, head, attention+KV, other), overlap bounds, Amdahl ceilings, analytical crossovers and break-even equations, residency policies, tiles, accumulator widths, prefill. ANALYTICAL only. |
 | `flextern_roofline.py` | EXP-0003 driver: loads the three canonical `model_summary.json` files, verifies invariants, runs the sweeps, writes `results/roofline/`. Run via `scripts\run_roofline.ps1`. |
+| `model_precision/` | EXP-0004 (GPU, WSL2): `common.py` (pinned checkpoint, environment, caches, byte accounting, one-time unpack cache), `head_quantization.py` (INT4 RTN head with explicit packing), `evaluate.py` (lm-eval wrapper, teacher-forced incremental perplexity, generation), `benchmark.py` (KV memory sweep, latency), `audit.py`, `run_experiment.py` (resumable phases), `roofline_reconnect.py`, `report.py`, `bench_unpack.py`. Needs torch+CUDA, transformers ≥ 5, hqq, lm_eval, datasets. |
 
 ## Run
 

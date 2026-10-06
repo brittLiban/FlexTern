@@ -1,0 +1,18 @@
+{
+  "stock": {
+    "tokens_per_s": 6.925040793525078,
+    "ms_per_token": 144.40348148345947,
+    "allocated_bytes": 674924544
+  },
+  "cached_unpacked": {
+    "tokens_per_s": 12.607445774290625,
+    "ms_per_token": 79.31820750236511,
+    "allocated_bytes": 3846080512
+  },
+  "unpack_info": {
+    "modules": 168,
+    "packed_bytes": 396361728,
+    "unpacked_resident_bytes": 3170893824
+  },
+  "max_abs_logit_diff": 0.0
+}

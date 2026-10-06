@@ -1,0 +1,212 @@
+{
+  "checkpoint": {
+    "path": "/mnt/c/Users/liban/.cache/huggingface/hub/models--tiiuae--Falcon-E-1B-Base/snapshots/f4001b8b1c26d28a717d79a8ece14901816d92e8/model.safetensors",
+    "size": 665041488,
+    "sha256": "f62c270b5640c9fce1dedf1ffe84aa8f138443ad1b065e90c7508a0eebc7c79d",
+    "matches_adr_0004": true,
+    "model_id": "tiiuae/Falcon-E-1B-Base",
+    "revision": "f4001b8b1c26d28a717d79a8ece14901816d92e8"
+  },
+  "load_s": 13.09785270690918,
+  "memory_after_load": {
+    "allocated_bytes": 665084928,
+    "reserved_bytes": 725614592,
+    "max_allocated_bytes": 665084928
+  },
+  "q_proj_class": "BitLinear",
+  "q_proj_weight": {
+    "dtype": "torch.uint8",
+    "shape": [
+      512,
+      2048
+    ]
+  },
+  "q_proj_weight_scale": {
+    "dtype": "torch.bfloat16",
+    "value": 17.375
+  },
+  "lm_head": {
+    "class": "Linear",
+    "dtype": "torch.bfloat16",
+    "shape": [
+      32768,
+      2048
+    ],
+    "bytes": 134217728,
+    "tied_to_embedding": false
+  },
+  "embed_tokens": {
+    "dtype": "torch.bfloat16",
+    "shape": [
+      32768,
+      2048
+    ]
+  },
+  "config": {
+    "num_hidden_layers": 24,
+    "hidden_size": 2048,
+    "intermediate_size": 9216,
+    "num_attention_heads": 16,
+    "num_key_value_heads": 2,
+    "head_dim": 128,
+    "vocab_size": 32768,
+    "max_position_embeddings": 32768,
+    "tie_word_embeddings": false,
+    "hidden_act": "silu",
+    "model_type": "llama"
+  },
+  "quantization_config": "BitNetQuantConfig(quant_method=<QuantizationMethod.BITNET: 'bitnet'>)",
+  "attn_implementation": "sdpa",
+  "packed_ternary_bytes_resident": 396361728,
+  "default_cache": {
+    "cache_class": "DynamicCache",
+    "layer_class": "DynamicLayer",
+    "keys_dtype": "torch.bfloat16",
+    "keys_shape": [
+      1,
+      2,
+      6,
+      128
+    ],
+    "values_dtype": "torch.bfloat16",
+    "values_shape": [
+      1,
+      2,
+      6,
+      128
+    ],
+    "bytes_after_prefill": {
+      "residual_bytes": 147456,
+      "quantized_bytes": 0,
+      "total_bytes": 147456
+    }
+  },
+  "greedy_sample": "The Technology Innovation Institute is a non-profit organization that provides a variety of services to the public and private sector. The Institute is a member of",
+  "quantized_cache_settings": {
+    "backend": "hqq",
+    "nbits": 4,
+    "axis_key": 0,
+    "axis_value": 0,
+    "q_group_size": 64,
+    "residual_length": 128
+  },
+  "quantized_cache_layer0_internals": {
+    "class": "HQQQuantizedLayer",
+    "nbits": 4,
+    "q_group_size": 64,
+    "residual_length": 128,
+    "axis_key": 0,
+    "cumulative_length": 381,
+    "residual_keys": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        1,
+        2,
+        44,
+        128
+      ]
+    },
+    "residual_values": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        1,
+        2,
+        44,
+        128
+      ]
+    },
+    "_quantized_keys": {
+      "type": "hqq (packed tensor, meta)",
+      "shape": [
+        1,
+        2,
+        337,
+        128
+      ],
+      "_data": {
+        "dtype": "torch.uint8",
+        "shape": [
+          32,
+          1348
+        ],
+        "bytes": 43136
+      },
+      "packing": "4bit_u8",
+      "nbits": 4,
+      "group_size": 64,
+      "axis": 0,
+      "_scale": {
+        "dtype": "torch.bfloat16",
+        "shape": [
+          1,
+          1348
+        ],
+        "bytes": 2696
+      },
+      "_zero": {
+        "dtype": "torch.bfloat16",
+        "shape": [
+          1,
+          1348
+        ],
+        "bytes": 2696
+      },
+      "elements": 86272,
+      "payload_bytes": 48528,
+      "effective_bits_per_element": 4.5
+    },
+    "_quantized_values": {
+      "type": "hqq (packed tensor, meta)",
+      "shape": [
+        1,
+        2,
+        337,
+        128
+      ],
+      "_data": {
+        "dtype": "torch.uint8",
+        "shape": [
+          32,
+          1348
+        ],
+        "bytes": 43136
+      },
+      "packing": "4bit_u8",
+      "nbits": 4,
+      "group_size": 64,
+      "axis": 0,
+      "_scale": {
+        "dtype": "torch.bfloat16",
+        "shape": [
+          1,
+          1348
+        ],
+        "bytes": 2696
+      },
+      "_zero": {
+        "dtype": "torch.bfloat16",
+        "shape": [
+          1,
+          1348
+        ],
+        "bytes": 2696
+      },
+      "elements": 86272,
+      "payload_bytes": 48528,
+      "effective_bits_per_element": 4.5
+    }
+  },
+  "quantized_cache_bytes": {
+    "residual_bytes": 1081344,
+    "quantized_bytes": 2329344,
+    "total_bytes": 3410688
+  },
+  "quantized_cache_tokens": 382,
+  "quantized_cache_bf16_equivalent_bytes": 9388032,
+  "quantized_cache_effective_bits_per_element_incl_residual": 5.81282722513089,
+  "peak_memory_during_audit": {
+    "allocated_bytes": 677285376,
+    "reserved_bytes": 809500672,
+    "max_allocated_bytes": 774110208
+  }
+}

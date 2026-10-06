@@ -1,0 +1,21 @@
+{
+  "method": "RTN asymmetric groupwise, fp16 scale, 4-bit zero (stored uint8), codes packed 2/byte along K; dequantize-to-BF16 per forward",
+  "group_size": 128,
+  "rows": 32768,
+  "cols": 2048,
+  "max_abs_error": 0.03125,
+  "mean_abs_error": 0.005403848364949226,
+  "rel_fro_error": 0.10569021105766296,
+  "max_error_over_half_scale": 1.0730538368225098,
+  "original_bytes": 134217728,
+  "data_bytes": 33554432,
+  "metadata_bytes": 1310720,
+  "total_bytes": 34865152,
+  "effective_bits_per_element": 4.15625,
+  "groups": 524288,
+  "packed_bytes": 33554432,
+  "scale_bytes": 1048576,
+  "zero_bytes_stored": 524288,
+  "total_resident_bytes": 35127296,
+  "dequant_temporary_bytes_per_forward": 134217728
+}
