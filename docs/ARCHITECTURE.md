@@ -75,7 +75,7 @@ MEASURED (EXP-0005): see `../results/hardware_gate/summary.md`. `rtl/int4_stream
 
 **Status: Exploratory** (EXP-0005 built the first two dataflows; nothing is frozen)
 
-Memory organization for the bank-local form (EXP-0006, ANALYTICAL/INFERRED, no decision): the public evidence supports tens of banks of several MB each on one SRAM-heavy die for 1B–3B ternary models (404–648 mm² for Falcon-E 1B at 0.68–1.09 MB/mm², inside the Graphcore 900 MB / 823 mm² envelope), with activation delivery ≤ 12% of weight bytes up to 128 banks and the EXP-0005 collector bounding useful bank counts. Larger models need SRAM chiplets or DRAM-class capacity; compute inside DRAM stacks does not change the weight-read energy class. No memory technology is chosen (Q-023).
+Memory organization for the bank-local form (EXP-0006, ANALYTICAL/INFERRED, no decision): the public evidence supports tens of banks of several MB each on one SRAM-heavy die for 1B–3B ternary models (404–648 mm² for Falcon-E 1B at 0.68–1.09 MB/mm², inside the Graphcore 900 MB / 823 mm² envelope), with activation delivery ≤ 12% of weight bytes up to 128 banks and the EXP-0005 collector bounding useful bank counts. Larger models need SRAM chiplets or DRAM-class capacity; compute inside DRAM stacks does not change the weight-read energy class. No memory technology is chosen (Q-023). Distributed residency across pipeline stages (EXP-0007, ANALYTICAL) is feasible at 7B–400B (40–126 stages, < 0.1% interconnect bytes) but its weight reuse is the microbatch, which loses to a tensor-parallel HBM node from batch ~4; the architecture's datacenter form is not supported beyond small-batch interactive serving.
 
 ```
 Y-Dot16
@@ -117,6 +117,7 @@ Signed INT8 × INT8 via `*`, 16-bit product; 16-element dot with 20-bit accumula
 
 ## Change log for this document
 
+- 2026-10-07 — §4: distributed-residency note from EXP-0007 (exploratory, negative result).
 - 2026-10-07 — §4: memory-organization note from EXP-0006 (exploratory, no decision).
 - 2026-10-07 — Added §3 packed ternary consumers (streaming engine, memory bank, near-memory engine) as Implemented/experimental after EXP-0005; sections renumbered. No ADR; nothing frozen.
 - 2026-10-06 — Workload-fit note under Y-Core extended to Falcon-E (EXP-0002B): K range 2048–13312, both checkpoint encodings, scale conventions. No design change.

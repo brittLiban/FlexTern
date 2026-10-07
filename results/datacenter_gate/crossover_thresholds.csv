@@ -1,0 +1,165 @@
+threshold,model,context,kv,value,note
+batch at which C's conservative movement-energy advantage over A falls below 4x,falcon-e-1b,2048,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,falcon-e-1b,2048,fp8,8,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,falcon-e-1b,2048,fp8,16,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,falcon-e-1b,2048,fp8,32,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,falcon-e-1b,2048,fp8,64,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,falcon-e-1b,2048,fp8,0.026,batch 1
+KV share of System A bytes per sequence-token,falcon-e-1b,2048,fp8,0.302,batch 16
+KV share of System A bytes per sequence-token,falcon-e-1b,2048,fp8,0.776,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,falcon-e-1b,8192,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,falcon-e-1b,8192,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,falcon-e-1b,8192,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,falcon-e-1b,8192,fp8,8,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,falcon-e-1b,8192,fp8,16,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,falcon-e-1b,8192,fp8,0.098,batch 1
+KV share of System A bytes per sequence-token,falcon-e-1b,8192,fp8,0.634,batch 16
+KV share of System A bytes per sequence-token,falcon-e-1b,8192,fp8,0.933,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,falcon-e-1b,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,falcon-e-1b,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,falcon-e-1b,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,falcon-e-1b,32768,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,falcon-e-1b,32768,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,falcon-e-1b,32768,fp8,0.302,batch 1
+KV share of System A bytes per sequence-token,falcon-e-1b,32768,fp8,0.874,batch 16
+KV share of System A bytes per sequence-token,falcon-e-1b,32768,fp8,0.982,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,falcon-e-1b,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,falcon-e-1b,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,falcon-e-1b,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,falcon-e-1b,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,falcon-e-1b,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,falcon-e-1b,131072,fp8,0.634,batch 1
+KV share of System A bytes per sequence-token,falcon-e-1b,131072,fp8,0.965,batch 16
+KV share of System A bytes per sequence-token,falcon-e-1b,131072,fp8,0.995,batch 128
+context at which KV exceeds 50% of System A bytes (batch 16),falcon-e-1b,,bf16,8192,
+context at which KV exceeds 50% of System A bytes (batch 16),falcon-e-1b,,fp8,8192,
+context at which KV exceeds 50% of System A bytes (batch 16),falcon-e-1b,,candidate_4p5,32768,
+tile count ratio INT4 / ternary,falcon-e-1b,,,1.67,tile cap 256 MB: 3 vs 5 tiles
+tile count ratio INT4 / ternary,falcon-e-1b,,,1.5,tile cap 512 MB: 2 vs 3 tiles
+tile count ratio INT4 / ternary,falcon-e-1b,,,1.0,tile cap 1000 MB: 2 vs 2 tiles
+tile count ratio INT4 / ternary,falcon-e-1b,,,1.0,tile cap 2000 MB: 2 vs 2 tiles
+"interconnect pJ/bit at which C's activation movement equals its weight-energy saving vs A (batch 16, ctx 8k)",falcon-e-1b,8192,fp8,n/a (single stage),C interconnect 0 B/seq-token over 1 stages; tiers 1.3 (package) / 3-6 (board) / 3-8 (rack)
+"System A GPUs needed: by HBM capacity vs by HBM bandwidth at 1,000 aggregate tok/s (batch 64, ctx 8k)",falcon-e-1b,8192,fp8,capacity 1 vs bandwidth 0.02,capacity dominates when the first exceeds the second
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-7B,2048,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-7B,2048,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-7B,2048,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-7B,2048,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-7B,2048,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-7B,2048,fp8,0.126,batch 1
+KV share of System A bytes per sequence-token,hyp-7B,2048,fp8,0.698,batch 16
+KV share of System A bytes per sequence-token,hyp-7B,2048,fp8,0.949,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-7B,8192,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-7B,8192,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-7B,8192,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-7B,8192,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-7B,8192,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-7B,8192,fp8,0.366,batch 1
+KV share of System A bytes per sequence-token,hyp-7B,8192,fp8,0.902,batch 16
+KV share of System A bytes per sequence-token,hyp-7B,8192,fp8,0.987,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-7B,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-7B,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-7B,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-7B,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-7B,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-7B,32768,fp8,0.698,batch 1
+KV share of System A bytes per sequence-token,hyp-7B,32768,fp8,0.974,batch 16
+KV share of System A bytes per sequence-token,hyp-7B,32768,fp8,0.997,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-7B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-7B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-7B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-7B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-7B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-7B,131072,fp8,0.902,batch 1
+KV share of System A bytes per sequence-token,hyp-7B,131072,fp8,0.993,batch 16
+KV share of System A bytes per sequence-token,hyp-7B,131072,fp8,0.997,batch 128
+context at which KV exceeds 50% of System A bytes (batch 16),hyp-7B,,bf16,2048,
+context at which KV exceeds 50% of System A bytes (batch 16),hyp-7B,,fp8,2048,
+context at which KV exceeds 50% of System A bytes (batch 16),hyp-7B,,candidate_4p5,2048,
+tile count ratio INT4 / ternary,hyp-7B,,,1.89,tile cap 256 MB: 9 vs 17 tiles
+tile count ratio INT4 / ternary,hyp-7B,,,1.8,tile cap 512 MB: 5 vs 9 tiles
+tile count ratio INT4 / ternary,hyp-7B,,,2.0,tile cap 1000 MB: 3 vs 6 tiles
+tile count ratio INT4 / ternary,hyp-7B,,,2.0,tile cap 2000 MB: 2 vs 4 tiles
+"interconnect pJ/bit at which C's activation movement equals its weight-energy saving vs A (batch 16, ctx 8k)",hyp-7B,8192,fp8,18619.83,C interconnect 12288 B/seq-token over 4 stages; tiers 1.3 (package) / 3-6 (board) / 3-8 (rack)
+"System A GPUs needed: by HBM capacity vs by HBM bandwidth at 1,000 aggregate tok/s (batch 64, ctx 8k)",hyp-7B,8192,fp8,capacity 1 vs bandwidth 0.39,capacity dominates when the first exceeds the second
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-70B,2048,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-70B,2048,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-70B,2048,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-70B,2048,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-70B,2048,fp8,8,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-70B,2048,fp8,0.009,batch 1
+KV share of System A bytes per sequence-token,hyp-70B,2048,fp8,0.121,batch 16
+KV share of System A bytes per sequence-token,hyp-70B,2048,fp8,0.524,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-70B,8192,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-70B,8192,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-70B,8192,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-70B,8192,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-70B,8192,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-70B,8192,fp8,0.033,batch 1
+KV share of System A bytes per sequence-token,hyp-70B,8192,fp8,0.355,batch 16
+KV share of System A bytes per sequence-token,hyp-70B,8192,fp8,0.814,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-70B,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-70B,32768,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-70B,32768,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-70B,32768,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-70B,32768,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-70B,32768,fp8,0.121,batch 1
+KV share of System A bytes per sequence-token,hyp-70B,32768,fp8,0.687,batch 16
+KV share of System A bytes per sequence-token,hyp-70B,32768,fp8,0.946,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-70B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-70B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-70B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-70B,131072,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-70B,131072,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-70B,131072,fp8,0.355,batch 1
+KV share of System A bytes per sequence-token,hyp-70B,131072,fp8,0.898,batch 16
+KV share of System A bytes per sequence-token,hyp-70B,131072,fp8,0.958,batch 128
+context at which KV exceeds 50% of System A bytes (batch 16),hyp-70B,,bf16,8192,
+context at which KV exceeds 50% of System A bytes (batch 16),hyp-70B,,fp8,32768,
+context at which KV exceeds 50% of System A bytes (batch 16),hyp-70B,,candidate_4p5,32768,
+tile count ratio INT4 / ternary,hyp-70B,,,2.93,tile cap 256 MB: 83 vs 243 tiles
+tile count ratio INT4 / ternary,hyp-70B,,,3.86,tile cap 512 MB: 42 vs 162 tiles
+tile count ratio INT4 / ternary,hyp-70B,,,3.86,tile cap 1000 MB: 21 vs 81 tiles
+tile count ratio INT4 / ternary,hyp-70B,,,2.55,tile cap 2000 MB: 11 vs 28 tiles
+"interconnect pJ/bit at which C's activation movement equals its weight-energy saving vs A (batch 16, ctx 8k)",hyp-70B,8192,fp8,-58833.78,C interconnect 319488 B/seq-token over 40 stages; tiers 1.3 (package) / 3-6 (board) / 3-8 (rack)
+"System A GPUs needed: by HBM capacity vs by HBM bandwidth at 1,000 aggregate tok/s (batch 64, ctx 8k)",hyp-70B,8192,fp8,capacity 1 vs bandwidth 0.35,capacity dominates when the first exceeds the second
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-400B,2048,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-400B,2048,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-400B,2048,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-400B,2048,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-400B,2048,fp8,8,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-400B,2048,fp8,0.002,batch 1
+KV share of System A bytes per sequence-token,hyp-400B,2048,fp8,0.036,batch 16
+KV share of System A bytes per sequence-token,hyp-400B,2048,fp8,0.229,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-400B,8192,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-400B,8192,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-400B,8192,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-400B,8192,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-400B,8192,fp8,8,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-400B,8192,fp8,0.009,batch 1
+KV share of System A bytes per sequence-token,hyp-400B,8192,fp8,0.13,batch 16
+KV share of System A bytes per sequence-token,hyp-400B,8192,fp8,0.543,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-400B,32768,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-400B,32768,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-400B,32768,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-400B,32768,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-400B,32768,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-400B,32768,fp8,0.036,batch 1
+KV share of System A bytes per sequence-token,hyp-400B,32768,fp8,0.373,batch 16
+KV share of System A bytes per sequence-token,hyp-400B,32768,fp8,0.704,batch 128
+batch at which C's conservative movement-energy advantage over A falls below 4x,hyp-400B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 3x,hyp-400B,131072,fp8,1,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 2x,hyp-400B,131072,fp8,2,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.5x,hyp-400B,131072,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+batch at which C's conservative movement-energy advantage over A falls below 1.2x,hyp-400B,131072,fp8,4,"A at the low end of its energy range, C at the high end; compute energy excluded"
+KV share of System A bytes per sequence-token,hyp-400B,131072,fp8,0.13,batch 1
+KV share of System A bytes per sequence-token,hyp-400B,131072,fp8,0.704,batch 16
+KV share of System A bytes per sequence-token,hyp-400B,131072,fp8,0.826,batch 128
+context at which KV exceeds 50% of System A bytes (batch 16),hyp-400B,,bf16,32768,
+context at which KV exceeds 50% of System A bytes (batch 16),hyp-400B,,fp8,131072,
+context at which KV exceeds 50% of System A bytes (batch 16),hyp-400B,,candidate_4p5,131072,
+tile count ratio INT4 / ternary,hyp-400B,,,1.99,tile cap 256 MB: 510 vs 1014 tiles
+tile count ratio INT4 / ternary,hyp-400B,,,1.99,tile cap 512 MB: 255 vs 507 tiles
+tile count ratio INT4 / ternary,hyp-400B,,,1.98,tile cap 1000 MB: 128 vs 254 tiles
+tile count ratio INT4 / ternary,hyp-400B,,,1.98,tile cap 2000 MB: 64 vs 127 tiles
+"interconnect pJ/bit at which C's activation movement equals its weight-energy saving vs A (batch 16, ctx 8k)",hyp-400B,8192,fp8,-17354.09,C interconnect 6176768 B/seq-token over 126 stages; tiers 1.3 (package) / 3-6 (board) / 3-8 (rack)
+"System A GPUs needed: by HBM capacity vs by HBM bandwidth at 1,000 aggregate tok/s (batch 64, ctx 8k)",hyp-400B,8192,fp8,capacity 3 vs bandwidth 1.01,capacity dominates when the first exceeds the second

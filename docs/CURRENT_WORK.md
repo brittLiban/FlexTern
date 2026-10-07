@@ -6,7 +6,7 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 **Objective ID:** FT-CURRENT
 
-**Title:** EXP-0006 — Model-resident memory feasibility for the Youssouf Architecture (Gate 2 of the co-design program).
+**Title:** EXP-0007 — Datacenter thesis falsification: does ternary model-resident inference survive batching, HBM, KV and rack-scale reality? (Gate 3 of the co-design program.)
 
 **Status:** Complete. Awaiting founder/ChatGPT review. No next objective has been started.
 
@@ -17,31 +17,31 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 ## Why we are doing this
 
-EXP-0005 showed that bank-local consumption removes the ternary weight stream from the global path only if the whole packed model (396–730 MB for the reference checkpoints) stays resident close to compute. The project had no evidence that such residency can be built at acceptable capacity, bandwidth, area, energy, packaging and cost.
+Every FlexTern result before this was batch 1 against a BF16 reference. The datacenter form of the thesis had never faced a conventional accelerator with FP4 weights, HBM, native low-bit KV, continuous batching and current interconnect.
 
 ## Question we are trying to answer
 
-Gate 2A: is there a technically credible, publicly evidenced memory organization that holds the packed ternary weights near compute with enough local bandwidth for the EXP-0005 dataflow? Gate 2B: does 2-bit ternary materially improve that feasibility versus INT4 in the same architecture?
+Gate 3A: does the resident ternary advantage survive weight amortization across batch? Gate 3B: can 7B–400B residency be distributed across tiles without interconnect, activation, pipeline or capacity costs erasing it? Gate 3C: which regimes, if any, keep structural headroom against a strong baseline?
 
-## Outcome (one paragraph; details in EXP-0006)
+## Outcome (one paragraph; details in EXP-0007)
 
-**Gate 2A: PASS at the published-technology envelope for Falcon-E 1B, marginal PASS for Falcon-E 3B and BitNet 2B4T (BitNet within 7 mm² of the reticle at low density; its tied 657 MB head stays external); residency is of the ternary weights only, head and KV remain external** (one monolithic SRAM-heavy die of the Graphcore/Dojo class: 404–648 mm² for 440 MB at 0.68–1.09 MB/mm², inside the demonstrated 900 MB / 823 mm²; local bandwidth exceeds need by orders of magnitude; activation delivery ≤ 12% of weight bytes up to 128 banks); **FAIL for on-die residency at ≥ 7B; INCONCLUSIVE for DRAM-class near-memory** (capacity trivial, compute-in-stack evidence is one research prototype, weight-read energy class unchanged). **Gate 2B: PASS structurally at 1B–3B** (2-bit keeps every canonical model inside one reticle where INT4 moves 3B outside one reticle at every whole-die anchor (cache-only-die anchor: only with ≤ 5% margin and no compute) and 1B to a marginal fit; local bandwidth, bank capacity and local-read energy halve), **FAIL as a technology-class change at ≥ 7B**. Bandwidth never forces residency at these sizes (one LPDDR5X channel streams ~120 tok/s of Falcon-E 1B); the resident form is an energy/latency choice resting on an unmeasured modern-node SRAM read energy. After residency the head and KV cache are 88–99.7% of global bytes.
+**Gate 3A: FAIL beyond small batch.** A tensor-parallel FP4 HBM node reads each weight once per step for the whole batch; a resident pipeline reads each stage's weights once per microbatch (B/stages), so at 70B (40 stages) the resident movement-energy advantage is 5× at batch 1, 2.7× at batch 2, 1.3× at batch 4, and below 1× from batch 8 to 256; single-tile 1B keeps ≥ 2× only to batch 8 at 2k (2 at 8k). **Gate 3B: INCONCLUSIVE leaning FAIL.** Distribution is feasible (42–255 tiles, < 0.1% interconnect bytes, 2-bit halves tiles versus INT4) but KV must live in per-tile DRAM and, at the TARGET compute density, the resident 70B/400B systems deliver 2–4× lower aggregate throughput than one HBM node. **Gate 3C: PASS only for small-batch (1–2 at 7B–400B, ≤ 8 for single-tile 1B), short-context (≤ 8k) interactive serving with no latency advantage, and for ternary streaming on conventional HBM hardware (2–3× fewer weight bytes at small batch); FAIL as a general datacenter architecture.** Prefill on resident tiles at the TARGET density is 17–550× slower than the baseline. Movement-only energy; no tokens/MW claimed. Q-023 (modern SRAM read energy) remains unresolved and load-bearing for the edge/resident path.
 
 ## Scope (as executed)
 
-22 sources with provenance and 8 explicit assumptions; capacity at 2/4/8/16 bits with head and metadata separate and 5–30% margins; hypothetical 7B–70B scaling; residency policies (full, layer, tiled, hot set); 16–256 banks with the EXP-0005 collector law; bandwidth at 10–250 tok/s with 50–80% utilization; area ranges by density tier and tier crossings against the 858 mm² reticle; energy ranges per movement; seven package organizations; economics proxies; INT4 fairness; sensitivity thresholds; EXP-0003/0004/0005 reconnection at 128/2k/8k/32k context.
+Four systems (A FP4 HBM node sourced to B200/MI355X class with native FP8/NVFP4 KV; B ternary streaming; C ternary resident; D INT4 resident, same topology); 1B/3B canonical and 7B/70B/400B hypothetical shapes; batch 1–256; context 128–131k; prefill and decode; three KV and three head precisions, 32k/128k vocab; tile capacities 256 MB–2 GB; two pipeline modes; serving utilizations; KV-capacity gates; crossover thresholds; MLPerf sanity anchor (baseline within 16% of measured); 16 tests; provenance tests.
 
 ## Explicitly out of scope
 
-Buying hardware, FPGA flows, analog compute-in-memory as the subject, head/KV engines, new model architectures, training, freezing a memory technology (no ADR), product pricing models, EXP-0007.
+New RTL, adder-tree pipelining, FPGA, ASIC process, training, native low-bit attention or head engines, model-format freeze, rack/PCB/interposer/protocol design, tokens/MW claims, competitor-superiority claims, EXP-0008.
 
 ## Required validation
 
-`tests/test_memory_residency.py` (17 tests) and the existing non-RTL suites (98 tests) pass; RTL untouched.
+`tests/test_datacenter_gate.py` (16 tests) and the existing non-RTL suites (115 tests) pass; RTL untouched.
 
 ## Relevant files
 
-`analysis/memory_residency/`, `results/memory_residency/`, `tests/test_memory_residency.py`.
+`analysis/datacenter_gate/`, `results/datacenter_gate/`, `tests/test_datacenter_gate.py`.
 
 ## Relevant ADRs
 
@@ -49,12 +49,12 @@ ADR-0002, ADR-0004, ADR-0005, ADR-0006. No new ADR.
 
 ## Relevant experiments
 
-EXP-0003 (byte accounting), EXP-0004 (candidate head/KV bits), EXP-0005 (dataflow, traffic, collector bound), EXP-0006 (this).
+EXP-0003 (batch-1 bytes reproduced), EXP-0004 (candidate KV/head), EXP-0005 (local reads reproduced), EXP-0006 (capacities reproduced), EXP-0007 (this).
 
 ## Known uncertainties
 
-Modern-node SRAM read energy unmeasured; Y-Core bank area unmeasured; eDRAM availability and multi-die SRAM stacking assumed from absence of evidence; no cost or latency model.
+Compute energy unsourced; resident compute density is a TARGET; serving utilization and link tiers are assumptions; modern SRAM read energy unresolved (Q-023).
 
 ## Questions requiring founder decision
 
-Whether an energy/latency advantage justifies 400–650 mm² of SRAM-heavy silicon when LPDDR5X streaming already serves 100 tok/s at 1B; target model size (couples to Q-015); whether Q-022 is next. See the handoff `handoffs/2026-10-07-exp-0006-memory-residency.md`.
+Whether to pursue any datacenter form (only the batch-1–2 interactive regime and ternary-as-a-format on conventional hardware survive at 7B+) or concentrate on the edge/resident 1B–3B form; whether Q-023 is now the commercialization-critical measurement. See the handoff `handoffs/2026-10-07-exp-0007-datacenter-gate.md`.

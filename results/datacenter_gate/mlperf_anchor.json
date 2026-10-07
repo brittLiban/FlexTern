@@ -1,0 +1,7 @@
+{
+ "mlperf_8xB200_offline_tok_s": 102725,
+ "model_A_bound_tok_s_batch128_ctx1300": 10799,
+ "gpus_in_model": 1,
+ "ratio_model_over_measured": 0.84,
+ "note": "sanity only (D04); model is a bound from peak x utilization, measured is FP4 Llama 2 70B offline"
+}
