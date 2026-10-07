@@ -166,7 +166,7 @@ KI-009
 Status:           Workaround
 Severity:         Minor
 First observed:   2026-10-07
-Relevant commit:  EXP-0009
+Relevant commit:  899976e
 Description:      The Debian/Ubuntu ngspice package (45.2) is built without the
                   BSIM-CMG FinFET model (MOS levels 1-6, 8-10, 14, 49, 54-58, 60,
                   68, 73 only), so the ASAP7 predictive PDK model cards

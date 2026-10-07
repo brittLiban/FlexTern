@@ -2,7 +2,7 @@
 
 Reviewer: Fable 5.1 (advisor role, consulted by the implementing Claude agent with a review brief that differed from the implementation prompt: attack the twenty-six points below, recompute, require corrections before commit)
 Date: 2026-10-07
-Scope: EXP-0009 and its artifacts (`analysis/sram_retention/`, `tests/test_sram_retention.py`, `results/sram_retention/`, the EXP-0009 record, the handoff, and the canonical-doc wording) as they stood immediately before the EXP-0009 commit. Everything below was applied before the commit; the "as submitted" state is described so the correction is traceable.
+Scope: EXP-0009 and its artifacts (`analysis/sram_retention/`, `tests/test_sram_retention.py`, `results/sram_retention/`, the EXP-0009 record, the handoff, and the canonical-doc wording) as they stood immediately before the EXP-0009 commit (899976e). Everything below was applied before the commit; the "as submitted" state is described so the correction is traceable.
 
 ## Overall Assessment
 

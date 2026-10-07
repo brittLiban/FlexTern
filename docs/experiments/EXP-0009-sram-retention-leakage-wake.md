@@ -2,7 +2,7 @@
 
 Status: Complete (awaiting founder/ChatGPT review)
 Date: 2026-10-07
-Commit: TBD ("research: evaluate SRAM retention for model residency (EXP-0009)"); results generated from that tree. The hash is recorded by a docs-only fixup commit.
+Commit: 899976e ("research: evaluate SRAM retention for model residency (EXP-0009)"); results generated from that tree. The hash is recorded by a docs-only fixup commit.
 
 Primary data: `results/sram_retention/` (`summary.md`, `sources.csv`, `assumptions.csv`, `retention_evidence.csv`, `asap7_cell_leakage.csv`, `hold_snm.csv`, `leakage_temperature.csv`, `retention_voltage.csv`, `wake_latency_energy.csv`, `wake_slack_sweep.csv`, `voltage_domain_sweep.csv`, `layer_schedule.csv`, `retention_policy_sweep.csv`, `token_rate_sweep.csv`, `duty_cycle_sweep.csv`, `session_sweep.csv`, `temperature_sweep.csv`, `int4_comparison.csv`, `mode_sensitivity.csv`, `break_even.csv`, `system_reconnect.csv`, `exp0008_reconnect.csv`, `primary_comparison.csv`, `falcon_e_1b_walkthrough.csv`, `environment.json`). Model: `analysis/sram_retention/{retention_evidence,retention,wake,layer_schedule,policy,compare,report}.py` plus the Tier-2 SPICE decks in `analysis/sram_retention/spice/`. Tests: `tests/test_sram_retention.py` (21 tests).
 
