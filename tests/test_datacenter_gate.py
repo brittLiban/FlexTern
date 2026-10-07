@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.join(_ROOT, "analysis", "memory_residency"))
 sys.path.insert(0, os.path.join(_ROOT, "analysis", "datacenter_gate"))
 os.chdir(_ROOT)
 
-import sources as src  # noqa: E402
+import dc_sources as src  # noqa: E402
 import systems as sy  # noqa: E402
 import workloads as wl  # noqa: E402
 from model_specs import SPECS  # noqa: E402
@@ -130,7 +130,7 @@ class TestResident(unittest.TestCase):
 class TestProvenance(unittest.TestCase):
     def test_20_23_constants_tagged_and_peaks_labeled(self):
         ids = {s["source_id"] for s in src.SOURCES} | {a["source_id"] for a in src.ASSUMPTIONS}
-        txt = open(os.path.join("analysis", "datacenter_gate", "sources.py"), encoding="utf-8").read()
+        txt = open(os.path.join("analysis", "datacenter_gate", "dc_sources.py"), encoding="utf-8").read()
         block = txt.split("# ----------------------------------------------------------------------------- constants (every number tagged)")[1]
         for line in block.splitlines():
             unq = re.sub(r'"[^"]*"', '""', line)

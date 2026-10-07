@@ -1,0 +1,7 @@
+model,load_bytes,provisioned_MB,load_GBps,load_time_s,one_time_energy_mJ,equivalent_tokens_of_lpddr_streaming,note
+falcon-e-1b,396361728,440.4,1.0,0.396,13.2,1.04,volatile SRAM: paid at every power-up; nonvolatile storage not chosen here (A10)
+falcon-e-1b,396361728,440.4,4.0,0.099,13.2,1.04,volatile SRAM: paid at every power-up; nonvolatile storage not chosen here (A10)
+falcon-e-3b,729808896,810.9,1.0,0.73,24.2,1.04,volatile SRAM: paid at every power-up; nonvolatile storage not chosen here (A10)
+falcon-e-3b,729808896,810.9,4.0,0.182,24.2,1.04,volatile SRAM: paid at every power-up; nonvolatile storage not chosen here (A10)
+bitnet-2b4t,521011200,578.9,1.0,0.521,17.3,1.04,volatile SRAM: paid at every power-up; nonvolatile storage not chosen here (A10)
+bitnet-2b4t,521011200,578.9,4.0,0.13,17.3,1.04,volatile SRAM: paid at every power-up; nonvolatile storage not chosen here (A10)

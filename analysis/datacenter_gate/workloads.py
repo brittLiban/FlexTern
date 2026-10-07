@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.join(_HERE, ".."))
 sys.path.insert(0, _HERE)
 from model_specs import SPECS  # noqa: E402
 from roofline_models import Workload  # noqa: E402
-from sources import ACT_BYTES  # noqa: E402
+from dc_sources import ACT_BYTES  # noqa: E402
 
 
 @dataclass(frozen=True)

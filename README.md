@@ -42,6 +42,8 @@ Downloads each pinned checkpoint into the Hugging Face cache on first run (never
 
 **EXP-0004** is the first model-side experiment: it quantizes Falcon-E 1B's BF16 output head to INT4 and its KV cache to ~4 bits, and measures quality (lm-eval tasks, teacher-forced incremental perplexity through the real cache), memory, and latency on a local GPU. Runs under WSL2 (`scripts\run_model_precision.ps1 -Wsl`); record: [`docs/experiments/EXP-0004-low-precision-head-kv.md`](docs/experiments/EXP-0004-low-precision-head-kv.md); outputs in [`results/model_precision/`](results/model_precision/).
 
+**EXP-0008** replaces the 45 nm SRAM energy anchor with 5–7 nm macro measurements and a Micron LPDDR5X datasheet, and counts leakage for the first time: modern SRAM reads are roughly 10× cheaper per bit than LPDDR5X streaming, but 440–811 MB of always-on SRAM leaks enough that residency wins total memory power only above ~23 tok/s continuous or ~85% duty (planning leakage; the modern-node figure is unmeasured). Record: [`docs/experiments/EXP-0008-modern-sram-energy-latency.md`](docs/experiments/EXP-0008-modern-sram-energy-latency.md); outputs in [`results/sram_validation/`](results/sram_validation/).
+
 **EXP-0007** tries to kill the datacenter form of the thesis: four analytical systems (a sourced FP4/HBM node with native low-bit KV and continuous batching, ternary streaming, ternary resident tiles, INT4 resident tiles) across 1B–400B, batch 1–256 and context 128–131k, prefill and decode, with KV-capacity gates, pipeline reuse, interconnect and movement-energy ranges. Record: [`docs/experiments/EXP-0007-datacenter-thesis-falsification.md`](docs/experiments/EXP-0007-datacenter-thesis-falsification.md); outputs in [`results/datacenter_gate/`](results/datacenter_gate/).
 
 **EXP-0006** asks whether the hundreds of megabytes of packed weights that EXP-0005's bank-local dataflow needs can physically live near compute: a source-backed capacity, bandwidth, area, energy and packaging analysis across on-die SRAM, stacked SRAM, eDRAM, HBM/PIM and chiplet organizations, with an INT4 fairness comparison and larger-model scaling. Pure Python; record: [`docs/experiments/EXP-0006-model-resident-memory-feasibility.md`](docs/experiments/EXP-0006-model-resident-memory-feasibility.md); outputs in [`results/memory_residency/`](results/memory_residency/).
@@ -61,7 +63,7 @@ docs/              Canonical project documentation. Start at docs/INDEX.md.
   experiments/     Experiment records, including negative results
   reviews/         Independent reviewer critiques
   handoffs/        Agent-to-agent handoff notes
-analysis/          Workload profiler (EXP-0002), roofline (EXP-0003), model_precision/ (EXP-0004), hardware_gate/ (EXP-0005), memory_residency/ (EXP-0006), datacenter_gate/ (EXP-0007)
+analysis/          Workload profiler (EXP-0002), roofline (EXP-0003), model_precision/ (EXP-0004), hardware_gate/ (EXP-0005), memory_residency/ (EXP-0006), datacenter_gate/ (EXP-0007), sram_validation/ (EXP-0008)
 reference/         ternary_op.py — Python golden reference the RTL is checked against
 rtl/               y_core.sv, y_dot16.sv, int8 baselines; EXP-0005: ternary_unpack4, sum_tree, y_stream_engine, y_memory_bank, y_near_memory_engine, int4_stream_baseline
 tests/             Python unit tests and SystemVerilog testbenches

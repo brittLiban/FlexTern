@@ -1,0 +1,5 @@
+quantity,ns,source
+macro_access,0.82,E02/E03 (A8)
+cycle,0.25,E02/E03 (A8)
+lpddr_device_first_access,38.0,E12/A8
+lpddr_soc_loaded,90.0,E12/A8

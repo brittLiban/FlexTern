@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.join(ROOT, "analysis"))
 sys.path.insert(0, _HERE)
 os.chdir(ROOT)
 
-import sources as src  # noqa: E402
+import dc_sources as src  # noqa: E402
 import systems as sy  # noqa: E402
 import workloads as wl  # noqa: E402
 

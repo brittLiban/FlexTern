@@ -1,0 +1,10 @@
+model,target_tok_s,token_budget_ms,lpddr_first_access_ns,sram_first_access_ns,first_word_advantage_ns,first_word_advantage_as_fraction_of_token,bytes_in_flight_to_hide_lpddr_latency,prefetch_bytes_assumed,latency_hideable,lpddr_bandwidth_floor_ms_per_token_one_channel,sram_bandwidth_floor_ms_per_token,lpddr_bandwidth_bound_at_target,layers_sequential_stalls,verdict
+falcon-e-1b,10,100.0,90.0,0.82,89.2,9e-07,1536,4096,True,33.17,0.0495,False,none after the first chunk when prefetch >= bytes in flight,latency hidden; bandwidth decides
+falcon-e-1b,25,40.0,90.0,0.82,89.2,2.25e-06,1536,4096,True,33.17,0.0495,False,none after the first chunk when prefetch >= bytes in flight,latency hidden; bandwidth decides
+falcon-e-1b,100,10.0,90.0,0.82,89.2,9e-06,1536,4096,True,33.17,0.0495,True,none after the first chunk when prefetch >= bytes in flight,latency hidden; bandwidth decides
+falcon-e-3b,10,100.0,90.0,0.82,89.2,9e-07,1536,4096,True,61.08,0.0912,False,none after the first chunk when prefetch >= bytes in flight,latency hidden; bandwidth decides
+falcon-e-3b,25,40.0,90.0,0.82,89.2,2.25e-06,1536,4096,True,61.08,0.0912,True,none after the first chunk when prefetch >= bytes in flight,latency hidden; bandwidth decides
+falcon-e-3b,100,10.0,90.0,0.82,89.2,9e-06,1536,4096,True,61.08,0.0912,True,none after the first chunk when prefetch >= bytes in flight,latency hidden; bandwidth decides
+bitnet-2b4t,10,100.0,90.0,0.82,89.2,9e-07,1536,4096,True,43.6,0.0651,False,none after the first chunk when prefetch >= bytes in flight,latency hidden; bandwidth decides
+bitnet-2b4t,25,40.0,90.0,0.82,89.2,2.25e-06,1536,4096,True,43.6,0.0651,True,none after the first chunk when prefetch >= bytes in flight,latency hidden; bandwidth decides
+bitnet-2b4t,100,10.0,90.0,0.82,89.2,9e-06,1536,4096,True,43.6,0.0651,True,none after the first chunk when prefetch >= bytes in flight,latency hidden; bandwidth decides

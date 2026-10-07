@@ -1,0 +1,31 @@
+model,threshold,value,unit,level
+falcon-e-1b,token rate (continuous) at which SRAM dynamic savings exceed SRAM leakage minus DRAM power-down,22.93,tok/s,planning
+falcon-e-1b,"duty cycle at which resident beats LPDDR in average memory power (25 tok/s active, idle retention x1.0)",0.8506,fraction,planning
+falcon-e-1b,"duty cycle at which resident beats LPDDR in average memory power (25 tok/s active, idle retention x0.2)",0.5106,fraction,planning
+falcon-e-1b,"duty cycle at which resident beats LPDDR in average memory power (25 tok/s active, idle retention x0.1)",0.3162,fraction,planning
+falcon-e-1b,SRAM total pJ/bit at which residency no longer wins on dynamic energy,4.0,pJ/bit,planning
+falcon-e-1b,SRAM leakage mW/MB at which residency no longer wins total memory power at 5 tok/s continuous,0.14,mW/MB,planning
+falcon-e-1b,SRAM leakage mW/MB at which residency no longer wins total memory power at 25 tok/s continuous,0.653,mW/MB,planning
+falcon-e-1b,SRAM leakage mW/MB at which residency no longer wins total memory power at 100 tok/s continuous,2.575,mW/MB,planning
+falcon-e-1b,local-wire pJ/bit that erases the dynamic advantage (macro + bank overhead + wire = LPDDR),3.81,pJ/bit (= about 25 mm at 0.15 pJ/bit/mm),planning
+falcon-e-1b,LPDDR pJ/bit at which streaming becomes preferable on dynamic energy,0.44,pJ/bit,planning
+falcon-e-3b,token rate (continuous) at which SRAM dynamic savings exceed SRAM leakage minus DRAM power-down,23.15,tok/s,planning
+falcon-e-3b,"duty cycle at which resident beats LPDDR in average memory power (25 tok/s active, idle retention x1.0)",0.8808,fraction,planning
+falcon-e-3b,"duty cycle at which resident beats LPDDR in average memory power (25 tok/s active, idle retention x0.2)",0.5853,fraction,planning
+falcon-e-3b,"duty cycle at which resident beats LPDDR in average memory power (25 tok/s active, idle retention x0.1)",0.3991,fraction,planning
+falcon-e-3b,SRAM total pJ/bit at which residency no longer wins on dynamic energy,4.0,pJ/bit,planning
+falcon-e-3b,SRAM leakage mW/MB at which residency no longer wins total memory power at 5 tok/s continuous,0.135,mW/MB,planning
+falcon-e-3b,SRAM leakage mW/MB at which residency no longer wins total memory power at 25 tok/s continuous,0.647,mW/MB,planning
+falcon-e-3b,SRAM leakage mW/MB at which residency no longer wins total memory power at 100 tok/s continuous,2.57,mW/MB,planning
+falcon-e-3b,local-wire pJ/bit that erases the dynamic advantage (macro + bank overhead + wire = LPDDR),3.81,pJ/bit (= about 25 mm at 0.15 pJ/bit/mm),planning
+falcon-e-3b,LPDDR pJ/bit at which streaming becomes preferable on dynamic energy,0.44,pJ/bit,planning
+bitnet-2b4t,token rate (continuous) at which SRAM dynamic savings exceed SRAM leakage minus DRAM power-down,23.05,tok/s,planning
+bitnet-2b4t,"duty cycle at which resident beats LPDDR in average memory power (25 tok/s active, idle retention x1.0)",0.86,fraction,planning
+bitnet-2b4t,"duty cycle at which resident beats LPDDR in average memory power (25 tok/s active, idle retention x0.2)",0.5351,fraction,planning
+bitnet-2b4t,"duty cycle at which resident beats LPDDR in average memory power (25 tok/s active, idle retention x0.1)",0.3451,fraction,planning
+bitnet-2b4t,SRAM total pJ/bit at which residency no longer wins on dynamic energy,4.0,pJ/bit,planning
+bitnet-2b4t,SRAM leakage mW/MB at which residency no longer wins total memory power at 5 tok/s continuous,0.137,mW/MB,planning
+bitnet-2b4t,SRAM leakage mW/MB at which residency no longer wins total memory power at 25 tok/s continuous,0.65,mW/MB,planning
+bitnet-2b4t,SRAM leakage mW/MB at which residency no longer wins total memory power at 100 tok/s continuous,2.572,mW/MB,planning
+bitnet-2b4t,local-wire pJ/bit that erases the dynamic advantage (macro + bank overhead + wire = LPDDR),3.81,pJ/bit (= about 25 mm at 0.15 pJ/bit/mm),planning
+bitnet-2b4t,LPDDR pJ/bit at which streaming becomes preferable on dynamic energy,0.44,pJ/bit,planning

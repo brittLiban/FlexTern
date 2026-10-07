@@ -1,0 +1,4 @@
+distance,mm,pJ_per_bit_low,pJ_per_bit_high,source
+short_bank,0.5,0.077,0.095,E04 wire x A5 distances
+medium_tile,2.0,0.25,0.32,E04 wire x A5 distances
+long_global,8.0,0.94,1.22,E04 wire x A5 distances

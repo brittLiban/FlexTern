@@ -6,9 +6,9 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 **Objective ID:** FT-CURRENT
 
-**Title:** EXP-0007 — Datacenter thesis falsification: does ternary model-resident inference survive batching, HBM, KV and rack-scale reality? (Gate 3 of the co-design program.)
+**Title:** EXP-0008 — Modern SRAM energy and latency validation for the edge / model-resident FlexTern architecture (resolves or narrows Q-023).
 
-**Status:** Complete. Awaiting founder/ChatGPT review. No next objective has been started.
+**Status:** Complete (awaiting founder/ChatGPT review). No next objective has been set.
 
 **Owner / agent:** Claude (implementation and research)
 
@@ -17,44 +17,44 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 ## Why we are doing this
 
-Every FlexTern result before this was batch 1 against a BF16 reference. The datacenter form of the thesis had never faced a conventional accelerator with FP4 weights, HBM, native low-bit KV, continuous batching and current interconnect.
+Every surviving FlexTern advantage after EXP-0007 is a memory-movement energy claim whose SRAM side rested on a 45 nm tutorial figure (EXP-0006 planning 1.6 pJ/bit). Leakage of hundreds of megabytes of always-on SRAM was never modeled. The edge/resident 1B–3B form cannot be judged on that basis.
 
 ## Question we are trying to answer
 
-Gate 3A: does the resident ternary advantage survive weight amortization across batch? Gate 3B: can 7B–400B residency be distributed across tiles without interconnect, activation, pipeline or capacity costs erasing it? Gate 3C: which regimes, if any, keep structural headroom against a strong baseline?
+Gate 4A: do modern multi-bank SRAM reads still beat LPDDR5X streaming on dynamic energy for batch-1 edge decode? Gate 4B: after leakage, does residency keep a total memory-power advantage at realistic duty cycles? Gate 4C: does residency buy latency once streaming is prefetched? Gate 4D: is the 1B–3B resident form still promising enough for continued hardware work?
 
-## Outcome (one paragraph; details in EXP-0007)
+## Scope
 
-**Gate 3A: FAIL beyond small batch.** A tensor-parallel FP4 HBM node reads each weight once per step for the whole batch; a resident pipeline reads each stage's weights once per microbatch (B/stages), so at 70B (40 stages) the resident movement-energy advantage is 5× at batch 1, 2.7× at batch 2, 1.3× at batch 4, and below 1× from batch 8 to 256; single-tile 1B keeps ≥ 2× only to batch 8 at 2k (2 at 8k). **Gate 3B: INCONCLUSIVE leaning FAIL.** Distribution is feasible (42–255 tiles, < 0.1% interconnect bytes, 2-bit halves tiles versus INT4) but KV must live in per-tile DRAM and, at the TARGET compute density, the resident 70B/400B systems deliver 2–4× lower aggregate throughput than one HBM node. **Gate 3C: PASS only for small-batch (1–2 at 7B–400B, ≤ 8 for single-tile 1B), short-context (≤ 8k) interactive serving with no latency advantage, and for ternary streaming on conventional HBM hardware (2–3× fewer weight bytes at small batch); FAIL as a general datacenter architecture.** Prefill on resident tiles at the TARGET density is 17–550× slower than the baseline. Movement-only energy; no tokens/MW claimed. Q-023 (modern SRAM read energy) remains unresolved and load-bearing for the edge/resident path.
-
-## Scope (as executed)
-
-Four systems (A FP4 HBM node sourced to B200/MI355X class with native FP8/NVFP4 KV; B ternary streaming; C ternary resident; D INT4 resident, same topology); 1B/3B canonical and 7B/70B/400B hypothetical shapes; batch 1–256; context 128–131k; prefill and decode; three KV and three head precisions, 32k/128k vocab; tile capacities 256 MB–2 GB; two pipeline modes; serving utilizations; KV-capacity gates; crossover thresholds; MLPerf sanity anchor (baseline within 16% of measured); 16 tests; provenance tests.
+Primary-source SRAM macro energy/latency at 5–7 nm and Intel 18A; LPDDR5X datasheet IDD arithmetic (device read, self-refresh, power-down, idle) plus PHY bracket; wire energy; a 28 nm measured leakage anchor with a modern-node range; bank decomposition and read-width sweep; token-rate and duty-cycle sweeps with retention factors; break-even thresholds; latency with prefetch; cold start; INT4 fairness; head/KV external cases; EXP-0006/0007 reconnection; provenance tests.
 
 ## Explicitly out of scope
 
-New RTL, adder-tree pipelining, FPGA, ASIC process, training, native low-bit attention or head engines, model-format freeze, rack/PCB/interposer/protocol design, tokens/MW claims, competitor-superiority claims, EXP-0008.
+New RTL, attention/KV hardware, MRAM/RRAM, rack design, foundry or node selection, model changes, hardware purchases, chip TDP or J/token claims, EXP-0009.
+
+## Definition of done
+
+Done: see `experiments/EXP-0008-modern-sram-energy-latency.md` (Gate 4A PASS at order of magnitude; 4B INCONCLUSIVE; 4C FAIL as a latency claim; 4D INCONCLUSIVE for hardware commitment; Q-023 narrowed) and `handoffs/2026-10-07-exp-0008-sram-validation.md`.
 
 ## Required validation
 
-`tests/test_datacenter_gate.py` (16 tests) and the existing non-RTL suites (115 tests) pass; RTL untouched.
+`tests/test_sram_validation.py` (15 OK); all non-RTL suites pass in one process after the `datacenter_gate/sources.py` → `dc_sources.py` rename.
 
 ## Relevant files
 
-`analysis/datacenter_gate/`, `results/datacenter_gate/`, `tests/test_datacenter_gate.py`.
+`analysis/sram_validation/`, `results/sram_validation/`, `tests/test_sram_validation.py`.
 
 ## Relevant ADRs
 
-ADR-0002, ADR-0004, ADR-0005, ADR-0006. No new ADR.
+ADR-0002, ADR-0004, ADR-0005, ADR-0006.
 
 ## Relevant experiments
 
-EXP-0003 (batch-1 bytes reproduced), EXP-0004 (candidate KV/head), EXP-0005 (local reads reproduced), EXP-0006 (capacities reproduced), EXP-0007 (this).
+EXP-0004 (candidate head/KV), EXP-0005 (bank organization), EXP-0006 (residency capacities, old energy ranges), EXP-0007 (small-batch regime).
 
 ## Known uncertainties
 
-Compute energy unsourced; resident compute density is a TARGET; serving utilization and link tiers are assumptions; modern SRAM read energy unresolved (Q-023).
+No modern-node measured leakage per MB was found (assumption A4 spans the Gate 4B verdict); retention factors are hypotheses; the E02 read width, bank-composition overhead, wire distances, LPDDR typical-device factor and PHY bracket are assumptions.
 
 ## Questions requiring founder decision
 
-Whether to pursue any datacenter form (only the batch-1–2 interactive regime and ternary-as-a-format on conventional hardware survive at 7B+) or concentrate on the edge/resident 1B–3B form; whether Q-023 is now the commercialization-critical measurement. See the handoff `handoffs/2026-10-07-exp-0007-datacenter-gate.md`.
+1. What duty cycle and token rate does the target edge product run at? 2. Does the EXP-0004 candidate head/KV become the edge baseline? 3. Is a predictive-PDK modeled leakage figure acceptable as T2 evidence if no published modern-node standby figure exists?

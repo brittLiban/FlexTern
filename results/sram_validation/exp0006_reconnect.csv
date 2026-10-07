@@ -1,0 +1,4 @@
+model,exp0006_resident_planning_mJ,exp0006_lpddr_mJ_range,exp0006_ratio_range,exp0008_resident_mJ_low_planning_high,exp0008_lpddr_mJ_low_planning_high,exp0008_dynamic_ratio_planning,exp0008_dynamic_ratio_conservative_to_optimistic,note
+falcon-e-1b,5.07,15.9-47.6,3.1-9.4,1.06 / 1.40 / 1.97,11.1 / 12.7 / 19.3,9.1,5.6-18.3,dynamic weight movement only; leakage changes the total (duty-cycle tables)
+falcon-e-3b,9.34,29.2-87.6,3.1-9.4,1.95 / 2.57 / 3.63,20.4 / 23.4 / 35.6,9.1,5.6-18.3,dynamic weight movement only; leakage changes the total (duty-cycle tables)
+bitnet-2b4t,6.67,20.8-62.5,3.1-9.4,1.39 / 1.84 / 2.59,14.6 / 16.7 / 25.4,9.1,5.6-18.3,dynamic weight movement only; leakage changes the total (duty-cycle tables)

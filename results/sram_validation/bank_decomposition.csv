@@ -1,0 +1,5 @@
+logical_bank_MB,macro_bytes,macros_per_bank,provisioned_MB,macros_active_per_access,active_fraction,capacity_conserved,note
+6.19,256000,25,6.4,1,0.04,True,only the addressed macro switches; the others leak only (A9)
+6.19,512000,13,6.66,1,0.0769,True,only the addressed macro switches; the others leak only (A9)
+6.19,1000000,7,7.0,1,0.1429,True,only the addressed macro switches; the others leak only (A9)
+6.19,2000000,4,8.0,1,0.25,True,only the addressed macro switches; the others leak only (A9)

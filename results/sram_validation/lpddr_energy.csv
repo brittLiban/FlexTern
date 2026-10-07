@@ -1,0 +1,10 @@
+boundary,pJ_per_bit,source,mW
+device_max,3.59,"E06 (device IDD4R arithmetic), E07/E04 (PHY), A6",
+device_typ,2.5,"E06 (device IDD4R arithmetic), E07/E04 (PHY), A6",
+low,3.5,"E06 (device IDD4R arithmetic), E07/E04 (PHY), A6",
+planning,4.0,"E06 (device IDD4R arithmetic), E07/E04 (PHY), A6",
+high,6.1,"E06 (device IDD4R arithmetic), E07/E04 (PHY), A6",
+background_self_refresh_25C,,E06 IDD6/IDD2P/IDD2N per x16 channel,0.77
+background_self_refresh_85C,,E06 IDD6/IDD2P/IDD2N per x16 channel,9.8
+background_power_down,,E06 IDD6/IDD2P/IDD2N per x16 channel,5.4
+background_idle_standby,,E06 IDD6/IDD2P/IDD2N per x16 channel,32.1

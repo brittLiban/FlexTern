@@ -1,0 +1,4 @@
+level,mW_per_MB,retention_factors,source
+low,0.05,"(1.0, 0.2, 0.1)",A4 (E11 T3 FinFET cell current; E05 28 nm T1 as context only); retention factors 0.2/0.1 HYPOTHESIZED
+planning,0.6,"(1.0, 0.2, 0.1)",A4 (E11 T3 FinFET cell current; E05 28 nm T1 as context only); retention factors 0.2/0.1 HYPOTHESIZED
+high,1.0,"(1.0, 0.2, 0.1)",A4 (E11 T3 FinFET cell current; E05 28 nm T1 as context only); retention factors 0.2/0.1 HYPOTHESIZED
