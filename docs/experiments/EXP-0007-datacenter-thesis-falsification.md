@@ -2,7 +2,7 @@
 
 Status: Complete (awaiting founder/ChatGPT review)
 Date: 2026-10-07
-Commit: the EXP-0007 commit ("research: stress-test FlexTern datacenter inference thesis"); results generated from that tree.
+Commit: 925510b ("research: stress-test FlexTern datacenter inference thesis (EXP-0007)"); results generated from that tree.
 
 Primary data: `results/datacenter_gate/` (`summary.md`, `sources.csv`, `assumptions.csv`, `scenario_matrix.csv`, `batch_sweep.csv`, `context_sweep.csv`, `kv_sweep.csv`, `head_sweep.csv`, `model_scale_sweep.csv`, `topology_sweep.csv`, `pipeline_results.csv`, `pipeline_mode_sweep.csv`, `interconnect_results.csv`, `capacity_comparison.csv`, `traffic_comparison.csv`, `crossover_thresholds.csv`, `energy_ranges.csv`, `economic_proxies.csv`, `primary_comparison.csv`, `mlperf_anchor.json`, `environment.json`). Labels as in `AGENTS.md` §7. **Everything here is analytical: throughputs are bounds from peak × utilization, energies are movement-only INFERRED ranges (compute excluded), 7B/70B/400B properties are HYPOTHESIZED shapes with no quality claim. No tokens/MW is claimed.** Decimal units. Three gates are scored separately at the end.
 

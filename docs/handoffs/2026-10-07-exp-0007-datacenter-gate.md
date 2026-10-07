@@ -2,7 +2,7 @@
 
 Date: 2026-10-07
 Agent: Claude (Claude Code, model Fable 5.1), implementation and research role
-Current commit: the EXP-0007 commit ("research: stress-test FlexTern datacenter inference thesis"), followed by a docs-only fixup commit recording this hash
+Current commit: 925510b (EXP-0007), followed by a docs-only fixup commit recording this hash
 
 ## Objective
 
