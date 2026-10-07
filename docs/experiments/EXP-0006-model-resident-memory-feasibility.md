@@ -2,7 +2,7 @@
 
 Status: Complete (awaiting founder/ChatGPT review)
 Date: 2026-10-07
-Commit: the EXP-0006 commit ("research: evaluate model-resident memory feasibility"); results generated from that tree.
+Commit: 32b954b ("research: evaluate model-resident memory feasibility (EXP-0006)"); results generated from that tree.
 
 Primary data: `results/memory_residency/` (`summary.md`, `sources.csv`, `assumptions.csv`, `source_notes.md`, `capacity_comparison.csv`, `model_scaling.csv`, `residency_policies.csv`, `bank_sweep.csv`, `bandwidth_requirements.csv`, `streaming_limits.csv`, `area_ranges.csv`, `technology_comparison.csv`, `energy_ranges.csv`, `package_options.csv`, `economics_proxy.csv`, `int4_comparison.csv`, `system_reconnect.csv`, `sensitivity.csv`, `primary_comparison.csv`, `environment.json`). Labels as in `AGENTS.md` §7. **This is a research and analytical-modeling experiment on public technology evidence. No FlexTern silicon exists; nothing here is an ASIC PPA figure, a sustained bandwidth, a chip energy per token, or a product cost.** Decimal units (1 MB = 10⁶ B). Gate 2A and Gate 2B are scored separately at the end.
 
