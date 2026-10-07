@@ -14,7 +14,8 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **Current evidence:** EXP-0002 (INFERRED, analytical): for BitNet 2B4T batch-1 decode with weights streamed once, the 2-bit ternary layers are 521 MB/token but the BF16 tied output head is 657 MB/token and the KV cache at 4k context another 315 MB/token. Ternary arithmetic is 86% of linear MACs but only 35% of weight-plus-KV bytes. Not measured on any hardware.
 **What would answer it:** A hardware experiment that models or measures the memory stream, not just the datapath.
 **EXP-0005 evidence (MEASURED generic synthesis + ANALYTICAL traffic):** a 256-term packed consumer is 25.5k generic cells of which the Y-Cores are ~8.4k (33 cells each) and accumulation/decode/control the rest; the INT4 structural baseline at the same terms per cycle is 69.5k cells (2.7×). On the memory side, moving the consumer next to resident weights removes the 396 MB/token ternary stream from Falcon-E 1B's global path and leaves 2.8 MB/token of activations and outputs, but every weight byte is still read locally and whole-model residency (396–730 MB) is the price. Arithmetic is cheap either way; the memory stream is what the architecture decision is about.
-**Status:** Open; evidence points toward memory, now from both sides.
+**EXP-0006 evidence (ANALYTICAL on public data):** at 1B–3B, memory bandwidth does not force the choice either way (one LPDDR5X channel streams ~120 tok/s of Falcon-E 1B ternary weights); what separates streaming from residency is the weight-read energy class, DRAM 3.9–15 pJ/bit versus multi-MB on-die SRAM at ~1.6 pJ/bit (top of a 45 nm anchor range), i.e. 7–43 mJ/token for Falcon-E 1B. Arithmetic is not the deciding cost at any point.
+**Status:** Open; evidence points toward memory movement and now specifically to its energy, which is unmeasured at modern nodes.
 
 ### Q-006
 **Question:** How much exploitable sparsity (weight = 0) exists in target ternary models?
@@ -53,7 +54,8 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **Question:** What is the best physical encoding/packing for ternary weights in memory?
 **Current evidence:** EXP-0002: the reference checkpoint uses 2 bits/weight (4 per byte along the output dimension); 5-trits-per-byte would cut ternary bytes by 20% (521 → 417 MB) at the cost of a base-3 decoder. Whether that decoder is cheaper than the bandwidth it saves is unmeasured.
 **EXP-0005 evidence (MEASURED):** the checkpoint packing as stored is directly consumable: decode is a 2-bit decrement per weight (15 generic cells per byte, 4-gate depth) and no repack or transpose is needed by either engine. Any denser packing (5 trits/byte) must beat that decoder, not an unpack-to-INT8 stage.
-**Status:** Open. Deferred; the 2-bit layout is now known to be hardware-native.
+**EXP-0006 evidence (INFERRED):** the 2-bit layout is what keeps the canonical models inside one reticle-limited SRAM-heavy die at demonstrated densities (Falcon-E 1B 404–648 mm², 3B 744–1,192 mm² at 0.68–1.09 MB/mm²); INT4 storage moves 3B outside one reticle at every anchor. Physical packing is therefore a capacity-tier question as much as a traffic one.
+**Status:** Open. Deferred; the 2-bit layout is hardware-native and tier-relevant.
 
 ### Q-018
 **Question:** Do the EXP-0002 findings hold for other native ternary models?
@@ -89,16 +91,24 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **Question:** What is the real cost of non-ternary compute (attention QKᵀ/AV, softmax, head MACs, norms) on a FlexTern system?
 **Why it matters:** EXP-0003 models it as one abstract rate (1e12 op-eq/s default) with no evidence behind it. In the memory-bound regime it does not affect conclusions, but at ≥1 TB/s or with hypothetically compressed KV it becomes the limiter: Falcon-E 1B's ideal ceiling at 4k context drops from 2.69× (100 GB/s) to 1.73× (1 TB/s) purely because attention compute at the assumed rate takes over.
 **Current evidence:** None; abstract parameter only.
+**EXP-0006 note (ANALYTICAL):** with the weights resident, the head and KV cache are 88–99.7% of the remaining global bytes for every canonical model and context (BitNet's tied BF16 head, 657 MB, exceeds its 521 MB of ternary weights), so the non-ternary consumer is the dominant external traffic of any resident design.
 **EXP-0005 note (ANALYTICAL):** once the ternary stream is consumed in place, the global path of Falcon-E 1B at 100 GB/s is left with the head (134 MB BF16 / 35 MB at the EXP-0004 candidate bits) and the KV cache (50 MB at 2k, 805 MB at 32k BF16 / 227 MB at 4.5 bits). The non-ternary consumer therefore becomes the global limiter at every context, which raises the priority of this question.
 **What would answer it:** A decision on how attention and the head execute in a FlexTern system (which engine, what precision), then a measurement or a defensible model of that engine.
 **Status:** Open.
+
+### Q-023
+**Question:** Which memory technology, if any, makes model-resident inference economical: on-die SRAM at an advanced node, 3D-stacked SRAM cache dies, SRAM chiplets, eDRAM (if offered), or none (stream from LPDDR/HBM)?
+**Why it matters:** EXP-0006 shows capacity and bandwidth are feasible for 1B–3B on demonstrated SRAM-heavy dies, so the decision rests on energy and cost, for which the repository has only a 45 nm SRAM energy anchor and area proxies.
+**Current evidence:** EXP-0006 `results/memory_residency/` (areas INFERRED, energies INFERRED ranges, no cost model).
+**What would answer it:** a modern-node SRAM read energy per bit (published macro measurement), a latency model, and a founder decision on the target model size and product form (Q-015).
+**Status:** Open (opened 2026-10-07 by EXP-0006).
 
 ## Strategic (founder-only; not for agents to decide)
 
 ### Q-012 — Final ASIC process node. Open. Deferred to Phase 7.
 ### Q-013 — Final instruction set / programming model. Open. Deferred to Phase 5.
 ### Q-014 — Compiler architecture. Open. Deferred to Phase 5.
-### Q-015 — Product form: cloud service, add-in card, or IP licensing. Open. Deferred to Phase 6.
+### Q-015 — Product form: cloud service, add-in card, or IP licensing. Open. Deferred to Phase 6. *Context from EXP-0006 (not a decision): on-die residency fits 1B–3B ternary models on one reticle-limited die and nothing larger; ≥7B needs multi-die SRAM (d-Matrix class) or DRAM-class capacity. The product form question is therefore coupled to the target model size.*
 ### Q-016 — Training architecture, if any. Open. Not currently in scope.
 ### Q-017 — IP / open-source posture for RTL, tools, and documentation. Open. Agents must ask before publishing or licensing anything.
 

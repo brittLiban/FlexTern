@@ -1,0 +1,7 @@
+model,weight_bits,bytes_per_token_streaming,lpddr5x_64bit_max_tok_s,lpddr5x_128bit_max_tok_s,hbm3e_one_stack_max_tok_s,utilization,label
+falcon-e-1b,2,399138816,119.7,239.4,2104.5,0.7,ANALYTICAL; batch 1; peak x utilization
+falcon-e-1b,4,795500544,60.1,120.1,1055.9,0.7,ANALYTICAL; batch 1; peak x utilization
+falcon-e-3b,2,734691328,65.0,130.1,1143.3,0.7,ANALYTICAL; batch 1; peak x utilization
+falcon-e-3b,4,1464500224,32.6,65.3,573.6,0.7,ANALYTICAL; batch 1; peak x utilization
+bitnet-2b4t,2,524183040,91.2,182.3,1602.5,0.7,ANALYTICAL; batch 1; peak x utilization
+bitnet-2b4t,4,1045194240,45.7,91.4,803.7,0.7,ANALYTICAL; batch 1; peak x utilization

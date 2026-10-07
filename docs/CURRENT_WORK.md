@@ -6,55 +6,55 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 **Objective ID:** FT-CURRENT
 
-**Title:** EXP-0005 — Packed ternary hardware consumer: streaming baseline vs banked near-memory dataflow (Gate 1 of the model–hardware co-design program).
+**Title:** EXP-0006 — Model-resident memory feasibility for the Youssouf Architecture (Gate 2 of the co-design program).
 
 **Status:** Complete. Awaiting founder/ChatGPT review. No next objective has been started.
 
-**Owner / agent:** Claude (implementation)
+**Owner / agent:** Claude (implementation and research)
 
 **Started:** 2026-10-07
 **Completed:** 2026-10-07
 
 ## Why we are doing this
 
-EXP-0004 showed that a compressed representation only helps if the consumer operates on it without expanding it first; the stock runtime unpacks 2-bit ternary weights to BF16 every forward. Every EXP-0003 ceiling assumes a ternary engine that consumes packed 2-bit bytes at the bandwidth bound. Neither the datapath nor the dataflow had been built. The founder has no FPGA and does not expect one for months, so this was intentionally an RTL + simulation + generic synthesis + analytical data-movement experiment.
+EXP-0005 showed that bank-local consumption removes the ternary weight stream from the global path only if the whole packed model (396–730 MB for the reference checkpoints) stays resident close to compute. The project had no evidence that such residency can be built at acceptable capacity, bandwidth, area, energy, packaging and cost.
 
 ## Question we are trying to answer
 
-Gate 1A: can a hardware datapath consume the real checkpoint packing directly, at initiation interval 1, without a persistent full-weight expansion? Gate 1B: does keeping packed weights local to memory banks and computing there materially reduce global weight movement once activation broadcast, output and partial-sum traffic and capacity are counted?
+Gate 2A: is there a technically credible, publicly evidenced memory organization that holds the packed ternary weights near compute with enough local bandwidth for the EXP-0005 dataflow? Gate 2B: does 2-bit ternary materially improve that feasibility versus INT4 in the same architecture?
 
-## Outcome (one paragraph; details in EXP-0005)
+## Outcome (one paragraph; details in EXP-0006)
 
-**Gate 1A: PASS at the structural/cycle level.** The checkpoint packing (four output rows per byte at one K position, code = q+1) is consumed directly by a row-quad engine; decode is a 2-bit decrement; II = 1 at every canonical K with 333 flip-flops of state at 256 terms/cycle; 25,466 generic cells, no multiplier (INT4 structural baseline: 69,526). Absolute Fmax and bandwidth UNMEASURED (no FPGA). **Gate 1B: PASS at the dataflow/global-traffic level.** A bank-local engine with bit-identical results removes the ternary weight stream from the global path (Falcon-E 1B: 399 MB → 2.8 MB per token) at the cost of whole-model residency (396–730 MB), NB × K activation delivery per matvec with 13 KB buffers per bank (or a broadcast equal to the weight bytes without them), and a collector; the global limiter becomes the head and KV cache. The gain in global bytes is format-neutral (INT4 gets it too); ternary's specific contribution is half the local bytes and capacity and 2.7× fewer cells per term. Physical energy, cost and memory technology INCONCLUSIVE.
+**Gate 2A: PASS at the published-technology envelope for Falcon-E 1B, marginal PASS for Falcon-E 3B and BitNet 2B4T (BitNet within 7 mm² of the reticle at low density; its tied 657 MB head stays external); residency is of the ternary weights only, head and KV remain external** (one monolithic SRAM-heavy die of the Graphcore/Dojo class: 404–648 mm² for 440 MB at 0.68–1.09 MB/mm², inside the demonstrated 900 MB / 823 mm²; local bandwidth exceeds need by orders of magnitude; activation delivery ≤ 12% of weight bytes up to 128 banks); **FAIL for on-die residency at ≥ 7B; INCONCLUSIVE for DRAM-class near-memory** (capacity trivial, compute-in-stack evidence is one research prototype, weight-read energy class unchanged). **Gate 2B: PASS structurally at 1B–3B** (2-bit keeps every canonical model inside one reticle where INT4 moves 3B outside one reticle at every whole-die anchor (cache-only-die anchor: only with ≤ 5% margin and no compute) and 1B to a marginal fit; local bandwidth, bank capacity and local-read energy halve), **FAIL as a technology-class change at ≥ 7B**. Bandwidth never forces residency at these sizes (one LPDDR5X channel streams ~120 tok/s of Falcon-E 1B); the resident form is an energy/latency choice resting on an unmeasured modern-node SRAM read energy. After residency the head and KV cache are 88–99.7% of global bytes.
 
 ## Scope (as executed)
 
-See EXP-0005 Setup and Method. 14 synthesis points (Yosys 0.52 native in WSL; KI-008), 26 tests, five checkpoint slices from all three models, four-level traffic model, capacity sweeps, required clocks for 100/250/500 GB/s labeled UNMEASURED, EXP-0003/0004 reconnection.
+22 sources with provenance and 8 explicit assumptions; capacity at 2/4/8/16 bits with head and metadata separate and 5–30% margins; hypothetical 7B–70B scaling; residency policies (full, layer, tiled, hot set); 16–256 banks with the EXP-0005 collector law; bandwidth at 10–250 tok/s with 50–80% utilization; area ranges by density tier and tier crossings against the 858 mm² reticle; energy ranges per movement; seven package organizations; economics proxies; INT4 fairness; sensitivity thresholds; EXP-0003/0004/0005 reconnection at 128/2k/8k/32k context.
 
 ## Explicitly out of scope
 
-FPGA board selection or toolchains, physical timing, power claims, analog/true compute-in-memory, INT4 head or 4-bit attention engines, freezing the model format, ISA, compiler, ASIC node, memory technology choice, competitor claims, EXP-0006.
+Buying hardware, FPGA flows, analog compute-in-memory as the subject, head/KV engines, new model architectures, training, freezing a memory technology (no ADR), product pricing models, EXP-0007.
 
 ## Required validation
 
-`tests/test_hardware_gate.py` (26 tests, all pass in foreground runs), the two RTL testbenches, existing suites (82 host tests, 11 model-precision tests) still pass.
+`tests/test_memory_residency.py` (17 tests) and the existing non-RTL suites (98 tests) pass; RTL untouched.
 
 ## Relevant files
 
-`rtl/`, `tests/`, `analysis/hardware_gate/`, `synth/exp0005/`, `scripts/run_exp0005.ps1`, `results/hardware_gate/`.
+`analysis/memory_residency/`, `results/memory_residency/`, `tests/test_memory_residency.py`.
 
 ## Relevant ADRs
 
-ADR-0002 (encoding, baseline, generic synthesis), ADR-0004 (checkpoints), ADR-0005 (system scope), ADR-0006 (model-side track). No new ADR: nothing is frozen.
+ADR-0002, ADR-0004, ADR-0005, ADR-0006. No new ADR.
 
 ## Relevant experiments
 
-EXP-0001 (primitive), EXP-0002/0002B (packing, K values, zeros), EXP-0003 (break-even), EXP-0004 (compression is not enough), EXP-0005 (this).
+EXP-0003 (byte accounting), EXP-0004 (candidate head/KV bits), EXP-0005 (dataflow, traffic, collector bound), EXP-0006 (this).
 
 ## Known uncertainties
 
-No physical target; single-cycle adder trees unpipelined; near-memory top synthesized at NB = 4 only; Yosys 0.69 cross-check incomplete; memory technology for residency unchosen.
+Modern-node SRAM read energy unmeasured; Y-Core bank area unmeasured; eDRAM availability and multi-die SRAM stacking assumed from absence of evidence; no cost or latency model.
 
 ## Questions requiring founder decision
 
-Whether to pursue the near-memory direction (and therefore a memory-technology question) or a streaming engine fed by external memory; whether FlexTern owns the head/KV consumer (Q-022); whether the canonical synthesis tool moves to native Yosys. See the handoff `handoffs/2026-10-07-exp-0005-hardware-gate.md`.
+Whether an energy/latency advantage justifies 400–650 mm² of SRAM-heavy silicon when LPDDR5X streaming already serves 100 tok/s at 1B; target model size (couples to Q-015); whether Q-022 is next. See the handoff `handoffs/2026-10-07-exp-0006-memory-residency.md`.

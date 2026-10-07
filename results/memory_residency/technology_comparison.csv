@@ -1,0 +1,15 @@
+model,weight_bits,kind,physical_MB,area_mm2_chip_tier_min,area_mm2_chip_tier_max,area_mm2_cache_die_tier_min,area_mm2_cache_die_tier_max,vcache_class_dies_41mm2,graphcore_class_dies_900MB,hbm3e_stacks_36GB_for_capacity,memory_organization_class,label
+falcon-e-1b,2,canonical (MEASURED counts),440.4,404,648,237,269,7,1,1,one monolithic SRAM-heavy die (Graphcore/Dojo class),INFERRED tier crossing; densities A1; margin 10%
+falcon-e-1b,4,canonical (MEASURED counts),880.8,808,1295,474,537,14,1,1,one reticle only at the top of the density range (marginal),INFERRED tier crossing; densities A1; margin 10%
+falcon-e-3b,2,canonical (MEASURED counts),810.9,744,1192,436,494,13,1,1,one reticle only at the top of the density range (marginal),INFERRED tier crossing; densities A1; margin 10%
+falcon-e-3b,4,canonical (MEASURED counts),1621.8,1488,2385,872,989,25,2,1,multi-die SRAM (chiplets or stacked) required,INFERRED tier crossing; densities A1; margin 10%
+bitnet-2b4t,2,canonical (MEASURED counts),578.9,531,851,311,353,9,1,1,one monolithic SRAM-heavy die (Graphcore/Dojo class),INFERRED tier crossing; densities A1; margin 10%
+bitnet-2b4t,4,canonical (MEASURED counts),1157.8,1062,1703,622,706,18,2,1,exceeds one reticle at any whole-die density; fits only as compute die + cache-only die(s) or multiple dies,INFERRED tier crossing; densities A1; margin 10%
+hyp-7B,2,hypothetical (A5),1847.2,1695,2717,993,1126,28,3,1,multi-die SRAM (chiplets or stacked) required,INFERRED tier crossing; densities A1; margin 10%
+hyp-7B,4,hypothetical (A5),3694.4,3389,5433,1986,2253,56,5,1,wafer-scale or DRAM-class (HBM/LPDDR) capacity required,INFERRED tier crossing; densities A1; margin 10%
+hyp-13B,2,hypothetical (A5),3430.6,3147,5045,1844,2092,52,4,1,multi-die SRAM (chiplets or stacked) required,INFERRED tier crossing; densities A1; margin 10%
+hyp-13B,4,hypothetical (A5),6861.1,6295,10090,3689,4184,103,8,1,wafer-scale or DRAM-class (HBM/LPDDR) capacity required,INFERRED tier crossing; densities A1; margin 10%
+hyp-30B,2,hypothetical (A5),7916.7,7263,11642,4256,4827,118,9,1,wafer-scale or DRAM-class (HBM/LPDDR) capacity required,INFERRED tier crossing; densities A1; margin 10%
+hyp-30B,4,hypothetical (A5),15833.3,14526,23284,8513,9654,236,18,1,wafer-scale or DRAM-class (HBM/LPDDR) capacity required,INFERRED tier crossing; densities A1; margin 10%
+hyp-70B,2,hypothetical (A5),18472.2,16947,27165,9931,11264,276,21,1,wafer-scale or DRAM-class (HBM/LPDDR) capacity required,INFERRED tier crossing; densities A1; margin 10%
+hyp-70B,4,hypothetical (A5),36944.4,33894,54330,19863,22527,551,42,2,wafer-scale or DRAM-class (HBM/LPDDR) capacity required,INFERRED tier crossing; densities A1; margin 10%

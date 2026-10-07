@@ -1,0 +1,67 @@
+model,weight_bits,policy,resident_capacity_bytes,preload_bytes_once,global_weight_bytes_per_token,local_weight_bytes_per_token,activation_injected_bytes_per_token,output_bytes_per_token,global_total_bytes_per_token,global_reduction_vs_streaming,exp0005_advantage_surviving
+falcon-e-1b,2,streaming (reference),0,396361728,396361728,0,368640,2408448,399138816,1.0,none: baseline
+falcon-e-1b,2,"full residency (steady state, preload excluded; EXP-0005 convention)",396361728,396361728,0,396361728,368640,2408448,2777088,143.73,all: global weight stream removed; local reads remain
+falcon-e-1b,2,"full residency (preload amortized over 1000 tokens, A10)",396361728,396361728,396361,396361728,368640,2408448,3173449,125.77,all: global weight stream removed; local reads remain
+falcon-e-1b,2,layer-at-a-time residency (reload every layer every token),16515072,396361728,396361728,396361728,368640,2408448,399138816,1.0,"none: reload traffic equals streaming, plus the local read"
+falcon-e-1b,2,tiled residency (1 layers resident at a time),16515072,396361728,396361728,396361728,368640,2408448,399138816,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-1b,2,tiled residency (2 layers resident at a time),33030144,396361728,396361728,396361728,368640,2408448,399138816,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-1b,2,tiled residency (4 layers resident at a time),66060288,396361728,396361728,396361728,368640,2408448,399138816,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-1b,2,tiled residency (8 layers resident at a time),132120576,396361728,396361728,396361728,368640,2408448,399138816,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-1b,2,hot-set residency (25% of weights resident forever),99090432,396361728,297271296,99090432,368640,2408448,300048384,1.33,proportional: 25% of the global weight stream removed
+falcon-e-1b,2,hot-set residency (50% of weights resident forever),198180864,396361728,198180864,198180864,368640,2408448,200957952,1.99,proportional: 50% of the global weight stream removed
+falcon-e-1b,2,hot-set residency (75% of weights resident forever),297271296,396361728,99090432,297271296,368640,2408448,101867520,3.92,proportional: 75% of the global weight stream removed
+falcon-e-1b,4,streaming (reference),0,792723456,792723456,0,368640,2408448,795500544,1.0,none: baseline
+falcon-e-1b,4,"full residency (steady state, preload excluded; EXP-0005 convention)",792723456,792723456,0,792723456,368640,2408448,2777088,286.45,all: global weight stream removed; local reads remain
+falcon-e-1b,4,"full residency (preload amortized over 1000 tokens, A10)",792723456,792723456,792723,792723456,368640,2408448,3569811,222.84,all: global weight stream removed; local reads remain
+falcon-e-1b,4,layer-at-a-time residency (reload every layer every token),33030144,792723456,792723456,792723456,368640,2408448,795500544,1.0,"none: reload traffic equals streaming, plus the local read"
+falcon-e-1b,4,tiled residency (1 layers resident at a time),33030144,792723456,792723456,792723456,368640,2408448,795500544,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-1b,4,tiled residency (2 layers resident at a time),66060288,792723456,792723456,792723456,368640,2408448,795500544,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-1b,4,tiled residency (4 layers resident at a time),132120576,792723456,792723456,792723456,368640,2408448,795500544,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-1b,4,tiled residency (8 layers resident at a time),264241152,792723456,792723456,792723456,368640,2408448,795500544,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-1b,4,hot-set residency (25% of weights resident forever),198180864,792723456,594542592,198180864,368640,2408448,597319680,1.33,proportional: 25% of the global weight stream removed
+falcon-e-1b,4,hot-set residency (50% of weights resident forever),396361728,792723456,396361728,396361728,368640,2408448,399138816,1.99,proportional: 50% of the global weight stream removed
+falcon-e-1b,4,hot-set residency (75% of weights resident forever),594542592,792723456,198180864,594542592,368640,2408448,200957952,3.96,proportional: 75% of the global weight stream removed
+falcon-e-3b,2,streaming (reference),0,729808896,729808896,0,622592,4259840,734691328,1.0,none: baseline
+falcon-e-3b,2,"full residency (steady state, preload excluded; EXP-0005 convention)",729808896,729808896,0,729808896,622592,4259840,4882432,150.48,all: global weight stream removed; local reads remain
+falcon-e-3b,2,"full residency (preload amortized over 1000 tokens, A10)",729808896,729808896,729808,729808896,622592,4259840,5612240,130.91,all: global weight stream removed; local reads remain
+falcon-e-3b,2,layer-at-a-time residency (reload every layer every token),22806528,729808896,729808896,729808896,622592,4259840,734691328,1.0,"none: reload traffic equals streaming, plus the local read"
+falcon-e-3b,2,tiled residency (1 layers resident at a time),22806528,729808896,729808896,729808896,622592,4259840,734691328,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-3b,2,tiled residency (2 layers resident at a time),45613056,729808896,729808896,729808896,622592,4259840,734691328,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-3b,2,tiled residency (4 layers resident at a time),91226112,729808896,729808896,729808896,622592,4259840,734691328,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-3b,2,tiled residency (8 layers resident at a time),182452224,729808896,729808896,729808896,622592,4259840,734691328,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-3b,2,hot-set residency (25% of weights resident forever),182452224,729808896,547356672,182452224,622592,4259840,552239104,1.33,proportional: 25% of the global weight stream removed
+falcon-e-3b,2,hot-set residency (50% of weights resident forever),364904448,729808896,364904448,364904448,622592,4259840,369786880,1.99,proportional: 50% of the global weight stream removed
+falcon-e-3b,2,hot-set residency (75% of weights resident forever),547356672,729808896,182452224,547356672,622592,4259840,187334656,3.92,proportional: 75% of the global weight stream removed
+falcon-e-3b,4,streaming (reference),0,1459617792,1459617792,0,622592,4259840,1464500224,1.0,none: baseline
+falcon-e-3b,4,"full residency (steady state, preload excluded; EXP-0005 convention)",1459617792,1459617792,0,1459617792,622592,4259840,4882432,299.95,all: global weight stream removed; local reads remain
+falcon-e-3b,4,"full residency (preload amortized over 1000 tokens, A10)",1459617792,1459617792,1459617,1459617792,622592,4259840,6342049,230.92,all: global weight stream removed; local reads remain
+falcon-e-3b,4,layer-at-a-time residency (reload every layer every token),45613056,1459617792,1459617792,1459617792,622592,4259840,1464500224,1.0,"none: reload traffic equals streaming, plus the local read"
+falcon-e-3b,4,tiled residency (1 layers resident at a time),45613056,1459617792,1459617792,1459617792,622592,4259840,1464500224,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-3b,4,tiled residency (2 layers resident at a time),91226112,1459617792,1459617792,1459617792,622592,4259840,1464500224,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-3b,4,tiled residency (4 layers resident at a time),182452224,1459617792,1459617792,1459617792,622592,4259840,1464500224,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-3b,4,tiled residency (8 layers resident at a time),364904448,1459617792,1459617792,1459617792,622592,4259840,1464500224,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+falcon-e-3b,4,hot-set residency (25% of weights resident forever),364904448,1459617792,1094713344,364904448,622592,4259840,1099595776,1.33,proportional: 25% of the global weight stream removed
+falcon-e-3b,4,hot-set residency (50% of weights resident forever),729808896,1459617792,729808896,729808896,622592,4259840,734691328,1.99,proportional: 50% of the global weight stream removed
+falcon-e-3b,4,hot-set residency (75% of weights resident forever),1094713344,1459617792,364904448,1094713344,622592,4259840,369786880,3.96,proportional: 75% of the global weight stream removed
+bitnet-2b4t,2,streaming (reference),0,521011200,521011200,0,437760,2734080,524183040,1.0,none: baseline
+bitnet-2b4t,2,"full residency (steady state, preload excluded; EXP-0005 convention)",521011200,521011200,0,521011200,437760,2734080,3171840,165.26,all: global weight stream removed; local reads remain
+bitnet-2b4t,2,"full residency (preload amortized over 1000 tokens, A10)",521011200,521011200,521011,521011200,437760,2734080,3692851,141.95,all: global weight stream removed; local reads remain
+bitnet-2b4t,2,layer-at-a-time residency (reload every layer every token),17367040,521011200,521011200,521011200,437760,2734080,524183040,1.0,"none: reload traffic equals streaming, plus the local read"
+bitnet-2b4t,2,tiled residency (1 layers resident at a time),17367040,521011200,521011200,521011200,437760,2734080,524183040,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+bitnet-2b4t,2,tiled residency (2 layers resident at a time),34734080,521011200,521011200,521011200,437760,2734080,524183040,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+bitnet-2b4t,2,tiled residency (4 layers resident at a time),69468160,521011200,521011200,521011200,437760,2734080,524183040,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+bitnet-2b4t,2,tiled residency (8 layers resident at a time),138936320,521011200,521011200,521011200,437760,2734080,524183040,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+bitnet-2b4t,2,hot-set residency (25% of weights resident forever),130252800,521011200,390758400,130252800,437760,2734080,393930240,1.33,proportional: 25% of the global weight stream removed
+bitnet-2b4t,2,hot-set residency (50% of weights resident forever),260505600,521011200,260505600,260505600,437760,2734080,263677440,1.99,proportional: 50% of the global weight stream removed
+bitnet-2b4t,2,hot-set residency (75% of weights resident forever),390758400,521011200,130252800,390758400,437760,2734080,133424640,3.93,proportional: 75% of the global weight stream removed
+bitnet-2b4t,4,streaming (reference),0,1042022400,1042022400,0,437760,2734080,1045194240,1.0,none: baseline
+bitnet-2b4t,4,"full residency (steady state, preload excluded; EXP-0005 convention)",1042022400,1042022400,0,1042022400,437760,2734080,3171840,329.52,all: global weight stream removed; local reads remain
+bitnet-2b4t,4,"full residency (preload amortized over 1000 tokens, A10)",1042022400,1042022400,1042022,1042022400,437760,2734080,4213862,248.04,all: global weight stream removed; local reads remain
+bitnet-2b4t,4,layer-at-a-time residency (reload every layer every token),34734080,1042022400,1042022400,1042022400,437760,2734080,1045194240,1.0,"none: reload traffic equals streaming, plus the local read"
+bitnet-2b4t,4,tiled residency (1 layers resident at a time),34734080,1042022400,1042022400,1042022400,437760,2734080,1045194240,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+bitnet-2b4t,4,tiled residency (2 layers resident at a time),69468160,1042022400,1042022400,1042022400,437760,2734080,1045194240,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+bitnet-2b4t,4,tiled residency (4 layers resident at a time),138936320,1042022400,1042022400,1042022400,437760,2734080,1045194240,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+bitnet-2b4t,4,tiled residency (8 layers resident at a time),277872640,1042022400,1042022400,1042022400,437760,2734080,1045194240,1.0,none per token (reload bytes unchanged); only the reload granularity changes
+bitnet-2b4t,4,hot-set residency (25% of weights resident forever),260505600,1042022400,781516800,260505600,437760,2734080,784688640,1.33,proportional: 25% of the global weight stream removed
+bitnet-2b4t,4,hot-set residency (50% of weights resident forever),521011200,1042022400,521011200,521011200,437760,2734080,524183040,1.99,proportional: 50% of the global weight stream removed
+bitnet-2b4t,4,hot-set residency (75% of weights resident forever),781516800,1042022400,260505600,781516800,437760,2734080,263677440,3.96,proportional: 75% of the global weight stream removed

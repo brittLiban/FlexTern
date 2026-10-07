@@ -1,0 +1,7 @@
+{
+ "date": "2026-10-07",
+ "commit": "3711041",
+ "python": "3.12.10",
+ "inputs": "results/workload_profile/* via roofline_models.Workload; analysis/hardware_gate traffic_model/workload_mapping",
+ "sources": "results/memory_residency/sources.csv + assumptions.csv"
+}

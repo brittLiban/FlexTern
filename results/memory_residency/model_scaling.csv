@@ -1,0 +1,9 @@
+model,weight_bits,params_total,ternary_fraction,ternary_params,transformer_weight_bytes,transformer_MB,head_MB_bf16,head_MB_candidate,nominal_physical_transformer_MB,label
+hyp-7B,2,7000000000.0,0.95,6650000000,1662500000,1662.5,268.4,69.7,1847.2,HYPOTHESIZED memory-capacity scaling only; no quality claim; shapes are conventions (A5)
+hyp-7B,4,7000000000.0,0.95,6650000000,3325000000,3325.0,268.4,69.7,3694.4,HYPOTHESIZED memory-capacity scaling only; no quality claim; shapes are conventions (A5)
+hyp-13B,2,13000000000.0,0.95,12350000000,3087500000,3087.5,335.5,87.2,3430.6,HYPOTHESIZED memory-capacity scaling only; no quality claim; shapes are conventions (A5)
+hyp-13B,4,13000000000.0,0.95,12350000000,6175000000,6175.0,335.5,87.2,6861.1,HYPOTHESIZED memory-capacity scaling only; no quality claim; shapes are conventions (A5)
+hyp-30B,2,30000000000.0,0.95,28500000000,7125000000,7125.0,436.2,113.3,7916.7,HYPOTHESIZED memory-capacity scaling only; no quality claim; shapes are conventions (A5)
+hyp-30B,4,30000000000.0,0.95,28500000000,14250000000,14250.0,436.2,113.3,15833.3,HYPOTHESIZED memory-capacity scaling only; no quality claim; shapes are conventions (A5)
+hyp-70B,2,70000000000.0,0.95,66500000000,16625000000,16625.0,536.9,139.5,18472.2,HYPOTHESIZED memory-capacity scaling only; no quality claim; shapes are conventions (A5)
+hyp-70B,4,70000000000.0,0.95,66500000000,33250000000,33250.0,536.9,139.5,36944.4,HYPOTHESIZED memory-capacity scaling only; no quality claim; shapes are conventions (A5)
