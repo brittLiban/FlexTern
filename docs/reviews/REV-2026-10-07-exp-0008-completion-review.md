@@ -2,7 +2,7 @@
 
 Reviewer: Fable 5.1 (advisor role, consulted by the implementing Claude agent with a review brief that differed from the implementation prompt: attack the twenty-four points below, recompute, require corrections before commit)
 Date: 2026-10-07
-Scope: EXP-0008 and its artifacts (`analysis/sram_validation/`, `tests/test_sram_validation.py`, `results/sram_validation/`, the EXP-0008 record, the handoff, and the OPEN_QUESTIONS / PROJECT_STATE / THESIS wording) as they stood immediately before the EXP-0008 commit. Everything below was applied before the commit; the "as submitted" numbers are kept so the correction is traceable.
+Scope: EXP-0008 and its artifacts (`analysis/sram_validation/`, `tests/test_sram_validation.py`, `results/sram_validation/`, the EXP-0008 record, the handoff, and the OPEN_QUESTIONS / PROJECT_STATE / THESIS wording) as they stood immediately before the EXP-0008 commit (b48237f). Everything below was applied before the commit; the "as submitted" numbers are kept so the correction is traceable.
 
 ## Overall Assessment
 

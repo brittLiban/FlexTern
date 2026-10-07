@@ -2,7 +2,7 @@
 
 Date: 2026-10-07
 Agent: Claude (Claude Code, model Fable 5.1), implementation and research role
-Current commit: TBD (EXP-0008), followed by a docs-only fixup commit recording this hash
+Current commit: b48237f (EXP-0008), followed by a docs-only fixup commit recording this hash
 
 ## Objective
 

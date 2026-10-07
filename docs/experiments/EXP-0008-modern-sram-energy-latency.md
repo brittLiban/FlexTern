@@ -2,7 +2,7 @@
 
 Status: Complete (awaiting founder/ChatGPT review)
 Date: 2026-10-07
-Commit: TBD ("research: validate modern SRAM energy and latency (EXP-0008)"); results generated from that tree. The hash is recorded by a docs-only fixup commit.
+Commit: b48237f ("research: validate modern SRAM energy and latency (EXP-0008)"); results generated from that tree. The hash is recorded by a docs-only fixup commit.
 
 Primary data: `results/sram_validation/` (`summary.md`, `sources.csv`, `assumptions.csv`, `modern_sram_macros.csv`, `macro_energy_scaling.csv`, `bank_decomposition.csv`, `macro_latency.csv`, `leakage_ranges.csv`, `local_wire_ranges.csv`, `lpddr_energy.csv`, `dynamic_energy.csv`, `token_rate_sweep.csv`, `duty_cycle_sweep.csv`, `break_even.csv`, `latency_comparison.csv`, `cold_start.csv`, `int4_comparison.csv`, `system_reconnect.csv`, `exp0006_reconnect.csv`, `primary_comparison.csv`, `environment.json`). Model: `analysis/sram_validation/{evidence,model,report}.py`. Tests: `tests/test_sram_validation.py` (15 tests).
 
