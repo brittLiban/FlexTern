@@ -162,6 +162,22 @@ Workaround:       synth/exp0005/*.ys use `chparam -set ... <module>`,
                   EXP-0005 sweep ran on Yosys 0.52 (WSL, native) with the
                   256-term streaming point cross-checked on Yosys 0.69; the
                   tool version is a column in results/hardware_gate/synthesis.csv.
+KI-009
+Status:           Workaround
+Severity:         Minor
+First observed:   2026-10-07
+Relevant commit:  EXP-0009
+Description:      The Debian/Ubuntu ngspice package (45.2) is built without the
+                  BSIM-CMG FinFET model (MOS levels 1-6, 8-10, 14, 49, 54-58, 60,
+                  68, 73 only), so the ASAP7 predictive PDK model cards
+                  (`level = 72`) cannot be loaded directly.
+Impact:           A Tier-2 SPICE check of FinFET SRAM cell leakage needs an
+                  extra compile step.
+Workaround:       Compile BSIM-CMG 110 from Verilog-A with OpenVAF 23.5.0 into
+                  an OSDI module, load it with `pre_osdi`, and rewrite the model
+                  cards to `.model <name> bsimcmg devtype=1|0` (drop
+                  `version = 107`); see analysis/sram_retention/spice/README.md.
+                  `coremod`/`capmod` are reported as unrecognized and ignored.
 ```
 
 ### Template
