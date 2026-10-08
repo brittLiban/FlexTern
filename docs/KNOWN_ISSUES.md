@@ -200,7 +200,7 @@ KI-010
 Status:           Closed (2026-10-08, EXP-0009A)
 Severity:         Major (affected EXP-0009's wake-energy and idle-policy conclusions)
 First observed:   2026-10-08
-Relevant commit:  899976e (defect); fixed in the EXP-0009A commit
+Relevant commit:  899976e (defect); fixed in 8ab0a24 (EXP-0009A)
 Description:      EXP-0009 assumption B7 stated E = 4 nF/MB x 0.75 V x 0.40 V
                   = 1.2 nJ/MB but the model applied 1.2 uJ/MB (and derived its
                   PLANNING 0.15 / LOW 0.02 uJ/MB from it): a 1000x unit error

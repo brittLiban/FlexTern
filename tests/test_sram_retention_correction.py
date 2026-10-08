@@ -217,7 +217,10 @@ class TestReproduction(unittest.TestCase):
             self.assertAlmostEqual(o.session(256, 25, 10.0, "P0", idle_mode="shutdown", backing="unbacked_superseded")["resident_avg_mW"], float(px["resident_total_mW"]), delta=0.05)
         be = _csv(os.path.join(SUPERSEDED, "break_even.csv"))
         r11 = next(r for r in be if r["model"] == "falcon-e-1b" and r["temp_c"] == "25" and r["threshold"].startswith("11."))
-        self.assertAlmostEqual(Scenario(S1, "planning", 25, "RETENTION_VRET").shutdown_break_even_gap_closed_form_s("unbacked_superseded") , float(r11["value"]), delta=0.05)
+        sc = Scenario(S1, "planning", 25, "RETENTION_VRET")
+        self.assertAlmostEqual(sc.e_reload_superseded / (sc.p_all_retained() - sc.p_shutdown), float(r11["value"]), delta=0.002)   # the 899976e formula
+        orig = {r["threshold"]: r["value"] for r in C._thresholds_with_model(S1, 25, "exp0009_original")}
+        self.assertAlmostEqual(orig["11. idle gap above which shutdown + reload beats retention (s)"], float(r11["value"]), delta=0.002)
 
     def test_13_unaffected_results_unchanged(self):
         # P0 (no wake, no reload) and the leakage table are byte-identical to the 899976e artifacts

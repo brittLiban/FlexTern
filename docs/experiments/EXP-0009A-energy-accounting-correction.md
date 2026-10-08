@@ -2,7 +2,7 @@
 
 Status: Complete (awaiting founder/ChatGPT review). Correction addendum to EXP-0009; supersedes EXP-0009's wake-energy and shutdown-and-reload figures and the energy half of its Gate 5B verdict. EXP-0009's tables are left as generated at 899976e and are marked by a banner.
 Date: 2026-10-08
-Commit: recorded by a docs-only fixup commit after the EXP-0009A commit; corrected results generated from the EXP-0009A tree.
+Commit: 8ab0a24 ("research: audit and correct EXP-0009 wake energy and reload accounting (EXP-0009A)"); the four review corrections, this hash and the regenerated commit stamp are in the docs fixup commit that follows. Corrected results generated from the 8ab0a24 tree plus those corrections (numbers unchanged).
 
 Primary data: `results/sram_retention/` (corrected run of every EXP-0009 artifact plus `wake_components.csv`, `reload_economics.csv`, `correction_comparison.csv`); `results/sram_retention/superseded_899976e/` (the 25 artifacts of the 899976e run, unmodified). Model: `analysis/sram_retention/{retention_evidence,wake,policy,compare,report}.py`. Tests: `tests/test_sram_retention_correction.py` (15), `tests/test_sram_retention.py` (21, unchanged and still passing).
 
@@ -44,7 +44,7 @@ Sequencer 10 pJ per macro unchanged; sleep entry 0 (stored charge is dissipated,
 
 ## Hardware / Software Environment
 
-Python 3.12.10 on the host; `pypdf` in the WSL venv to read the three PDFs (not committed). No hardware; the Tier-2 SPICE was not re-run (unaffected).
+Python 3.12.10 on the host; pypdf 6.19.0 under Python 3.14.4 in the WSL venv to read the three PDFs (not committed). No hardware; the Tier-2 SPICE was not re-run (unaffected).
 
 ## Baseline
 
@@ -90,7 +90,7 @@ Suspected limitations, not defects: B18 (retention-rail supply scheme) and B19 (
 | Reload energy | | 13.2 mJ | 14.3 mJ (DRAM) / 296 mJ (flash; 147–543) | D2 |
 | First-token latency after shutdown | | 0.1–0.4 s | 33 ms (DRAM) / 0.10–0.40 s (flash) | D2 |
 | Backing standby while idle (gap ≥ 1 s) | 25 / 85 | 0 | DRAM 0.77 / 9.8 mW; flash 0.43 mW (0–0.58) | D2 |
-| Threshold 11, gap above which shutdown beats retention (64-token P0 session) | 25 | 1.2 s | 2.8 s (DRAM) / 28.7 s (flash) | D2 |
+| Threshold 11, gap above which shutdown beats retention (64-token P0 session; the 899976e column uses EXP-0009's formula E_reload / (P_ret − P_residual), the corrected one the session solver) | 25 | 1.2 s | 2.8 s (DRAM) / 28.7 s (flash) | D2 |
 | Threshold 11 | 85 | 0.08 s | 0.18 s (DRAM) / 1.83 s (flash) | D2 |
 | Threshold 12 (new), gaps over which shutdown beats the LPDDR baseline, P0 session | 25 | n/a | DRAM: up to ~1,300 s; flash: always | D2 |
 | Threshold 12, P0 session | 85 | n/a (PX 1.63× at 300 s) | DRAM: never (best 0.87×); flash: beyond ~166 s | D2 |

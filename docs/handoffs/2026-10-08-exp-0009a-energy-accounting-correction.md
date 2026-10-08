@@ -2,7 +2,7 @@
 
 Date: 2026-10-08
 Agent: Claude (Claude Code, model Fable 5.1), implementation and research role
-Current commit: recorded by a docs-only fixup commit after the EXP-0009A commit
+Current commit: 8ab0a24 (EXP-0009A), followed by a docs-only fixup commit applying the review's four corrections and recording this hash
 
 ## Objective
 

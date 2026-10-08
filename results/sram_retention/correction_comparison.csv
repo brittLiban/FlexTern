@@ -21,7 +21,7 @@ P2 LPDDR/resident at 100 tok/s,25,6.0553,8.0255,ratio,B7
 PT0 resident total at 100 tok/s,25,204.238,151.515,mW,B7
 PT0 LPDDR/resident at 100 tok/s,25,6.3674,8.583,ratio,B7
 P0 resident total at 25 tok/s (no wake term),25,180.2512,180.2512,mW,unaffected
-threshold 11. idle gap above which shutdown + reload beats retention (s),25,1.174,PX-DRAM 2.812 / PX-FLASH 28.706,,B14/B16/B17
+threshold 11. idle gap above which shutdown + reload beats retention (s),25,1.223,PX-DRAM 2.812 / PX-FLASH 28.706,,B14/B16/B17
 threshold 4. wake energy per MB at which P2 stops beating P0 at 100 tok/s,25,2795.03,2795.03,,B7
 threshold 4. wake energy per MB at which P2 stops beating P0 at 25 tok/s,25,11180.13,11180.13,,B7
 threshold 4. wake energy per MB at which P2 stops beating P0 at 250 tok/s,25,1118.01,1118.01,,B7
@@ -84,7 +84,7 @@ P2 LPDDR/resident at 100 tok/s,85,3.2345,3.7227,ratio,B7
 PT0 resident total at 100 tok/s,85,359.3244,306.6014,mW,B7
 PT0 LPDDR/resident at 100 tok/s,85,3.6192,4.2415,ratio,B7
 P0 resident total at 25 tok/s (no wake term),85,744.2001,744.2001,mW,unaffected
-threshold 11. idle gap above which shutdown + reload beats retention (s),85,0.078,PX-DRAM 0.179 / PX-FLASH 1.827,,B14/B16/B17
+threshold 11. idle gap above which shutdown + reload beats retention (s),85,0.081,PX-DRAM 0.179 / PX-FLASH 1.827,,B14/B16/B17
 threshold 4. wake energy per MB at which P2 stops beating P0 at 100 tok/s,85,11347.6,11347.6,,B7
 threshold 4. wake energy per MB at which P2 stops beating P0 at 25 tok/s,85,45390.41,45390.41,,B7
 threshold 4. wake energy per MB at which P2 stops beating P0 at 250 tok/s,85,4539.04,4539.04,,B7

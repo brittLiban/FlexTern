@@ -427,7 +427,8 @@ def _thresholds_with_model(s: dict, temp: int, wake_model: str) -> list[dict]:
             val = round(hi, 4)
         rows.append({"threshold": f"9. duty cycle at 25 tok/s above which {'P2+S' if pol == 'window' else pol} beats LPDDR", "value": val})
     if wake_model == "exp0009_original":
-        rows.append({"threshold": "11. idle gap above which shutdown + reload beats retention (s)", "value": round(sc.shutdown_break_even_gap_s("unbacked_superseded"), 3)})
+        # the 899976e formula: E_reload / (P_ret - P_residual), no backing standby and no session-wake term (prints 1.223 s at 25 C)
+        rows.append({"threshold": "11. idle gap above which shutdown + reload beats retention (s)", "value": round(sc.e_reload_superseded / (sc.p_all_retained() - sc.p_shutdown), 3)})
     else:
         rows.append({"threshold": "11. idle gap above which shutdown + reload beats retention (s)", "value": "PX-DRAM %.3f / PX-FLASH %.3f" % (sc.shutdown_break_even_gap_s("dram"), sc.shutdown_break_even_gap_s("flash"))})
     return rows
