@@ -195,4 +195,34 @@ Workaround:
 
 ## Closed
 
-None.
+```
+KI-010
+Status:           Closed (2026-10-08, EXP-0009A)
+Severity:         Major (affected EXP-0009's wake-energy and idle-policy conclusions)
+First observed:   2026-10-08
+Relevant commit:  899976e (defect); fixed in the EXP-0009A commit
+Description:      EXP-0009 assumption B7 stated E = 4 nF/MB x 0.75 V x 0.40 V
+                  = 1.2 nJ/MB but the model applied 1.2 uJ/MB (and derived its
+                  PLANNING 0.15 / LOW 0.02 uJ/MB from it): a 1000x unit error
+                  that would have required ~2 A of in-rush per 256 KB macro.
+                  Assumption B14 priced shutdown-and-reload with no standby
+                  cost for the weights' persistent copy, at LPDDR read energy
+                  but flash-class bandwidth. P2+S sessions charged one extra
+                  whole-model wake per session.
+Impact:           Wake energy per token 0.53 mJ (38% of read energy) -> 1.3 uJ
+                  (< 0.1%); P2 ratio at 25 tok/s 4.90x -> 6.03x (25 C),
+                  1.34x -> 1.41x (85 C); shutdown-vs-retention break-even
+                  1.2 s / 0.08 s -> 2.8 s / 0.18 s (DRAM-backed) or 29 s /
+                  1.8 s (flash-backed); hot long-idle "shutdown wins" became
+                  backing-store dependent. Gate verdicts: 5B energy half
+                  INCONCLUSIVE -> bounded PASS (unmeasured); 5A/5C/5D unchanged
+                  in kind. Leakage, P0, latency, EXP-0008 reconciliation
+                  unaffected (byte-identical artifacts).
+Resolution:       wake.py rebuilt from rail capacitances with a dimensional
+                  test and in-rush check; policy.py prices PX-DRAM (B16) and
+                  PX-FLASH (B17) with backing standby, reload energy and
+                  latency; tests/test_sram_retention_correction.py (15 tests);
+                  original artifacts kept in
+                  results/sram_retention/superseded_899976e/; record
+                  docs/experiments/EXP-0009A-energy-accounting-correction.md.
+```

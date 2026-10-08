@@ -1,0 +1,127 @@
+quantity,temp_c,exp0009_original,corrected,unit,cause
+"wake energy per MB (RETENTION_VRET exit, planning)",25,1200.0,2.844,nJ/MB,B7 unit error (1.2 uJ applied for 1.2 nJ); component model
+layer wake energy (largest layer),25,22.0208,0.0529,uJ,B7
+whole-model wake energy,25,528.4995,1.2697,uJ,B7
+P2 transition energy per token at 5 tok/s,25,528.4996,1.2698,uJ/token,B7
+P2 wake share of resident dynamic read energy at 5 tok/s,25,0.3784,0.0009,fraction,B7
+P2 resident total at 5 tok/s,25,31.8651,29.2289,mW,B7
+P2 LPDDR/resident at 5 tok/s,25,2.2986,2.5059,ratio,B7
+PT0 resident total at 5 tok/s,25,20.708,18.0719,mW,B7
+PT0 LPDDR/resident at 5 tok/s,25,3.5371,4.0531,ratio,B7
+P2 transition energy per token at 25 tok/s,25,528.4996,1.2698,uJ/token,B7
+P2 wake share of resident dynamic read energy at 25 tok/s,25,0.3784,0.0009,fraction,B7
+P2 resident total at 25 tok/s,25,70.3699,57.1892,mW,B7
+P2 LPDDR/resident at 25 tok/s,25,4.8974,6.0262,ratio,B7
+PT0 resident total at 25 tok/s,25,59.3459,46.1651,mW,B7
+PT0 LPDDR/resident at 25 tok/s,25,5.8072,7.4652,ratio,B7
+P2 transition energy per token at 100 tok/s,25,528.4996,1.2698,uJ/token,B7
+P2 wake share of resident dynamic read energy at 100 tok/s,25,0.3784,0.0009,fraction,B7
+P2 resident total at 100 tok/s,25,214.763,162.04,mW,B7
+P2 LPDDR/resident at 100 tok/s,25,6.0553,8.0255,ratio,B7
+PT0 resident total at 100 tok/s,25,204.238,151.515,mW,B7
+PT0 LPDDR/resident at 100 tok/s,25,6.3674,8.583,ratio,B7
+P0 resident total at 25 tok/s (no wake term),25,180.2512,180.2512,mW,unaffected
+threshold 11. idle gap above which shutdown + reload beats retention (s),25,1.174,PX-DRAM 2.812 / PX-FLASH 28.706,,B14/B16/B17
+threshold 4. wake energy per MB at which P2 stops beating P0 at 100 tok/s,25,2795.03,2795.03,,B7
+threshold 4. wake energy per MB at which P2 stops beating P0 at 25 tok/s,25,11180.13,11180.13,,B7
+threshold 4. wake energy per MB at which P2 stops beating P0 at 250 tok/s,25,1118.01,1118.01,,B7
+threshold 4. wake energy per MB at which P2 stops beating P0 at 5 tok/s,25,55900.65,55900.65,,B7
+threshold 4h. headroom = threshold 4 at 25 tok/s over the model's wake energy per MB,25,9.3,3931.1,,B14/B16/B17
+threshold 7. idle time after which whole-model retention saves energy,25,3935.682,9.455,,B7
+threshold 8. token rate above which P0 beats LPDDR (tok/s),25,11.496,11.496,,B7
+threshold 8. token rate above which P2 beats LPDDR (tok/s),25,1.446,1.383,,B7
+threshold 8. token rate above which PT0 beats LPDDR (tok/s),25,0.485,0.464,,B7
+threshold 9. duty cycle at 25 tok/s above which P0 beats LPDDR,25,0.4679,0.4679,,B7
+threshold 9. duty cycle at 25 tok/s above which P2+S beats LPDDR,25,0.0361,0.0345,,B7
+threshold 9. duty cycle at 25 tok/s above which PS beats LPDDR,25,0.0588,0.0588,,B7
+"PS(P0) resident average, 64 tokens + 1 s retained",25,132.8708,132.7227,mW,B7 (one model wake per session)
+"PX resident average, 64 tokens + 1 s shut down: superseded unbacked -> PX-DRAM",25,133.3955,137.8071,mW,B14/B16 backing standby + write path
+"PX resident average, 64 tokens + 1 s shut down: superseded unbacked -> PX-FLASH",25,133.3955,213.1008,mW,B14/B17 flash read energy + standby
+"PX LPDDR/resident, 64 tokens + 1 s: superseded -> PX-DRAM",25,1.8594,1.7999,ratio,B16
+"PX LPDDR/resident, 64 tokens + 1 s: superseded -> PX-FLASH",25,1.8594,1.164,ratio,B17
+"P2+S session wake charged, 64 tokens + 1 s",25,0.0,0.0,uJ,transition double count removed (B7 model wake also)
+"PS(P0) resident average, 64 tokens + 10 s retained",25,45.5778,45.5358,mW,B7 (one model wake per session)
+"PX resident average, 64 tokens + 10 s shut down: superseded unbacked -> PX-DRAM",25,38.0178,39.82,mW,B14/B16 backing standby + write path
+"PX resident average, 64 tokens + 10 s shut down: superseded unbacked -> PX-FLASH",25,38.0178,60.9176,mW,B14/B17 flash read energy + standby
+"PX LPDDR/resident, 64 tokens + 10 s: superseded -> PX-DRAM",25,1.8638,1.7794,ratio,B16
+"PX LPDDR/resident, 64 tokens + 10 s: superseded -> PX-FLASH",25,1.8638,1.1632,ratio,B17
+"P2+S session wake charged, 64 tokens + 10 s",25,0.0,0.0,uJ,transition double count removed (B7 model wake also)
+"PS(P0) resident average, 64 tokens + 60 s retained",25,17.9809,17.9724,mW,B7 (one model wake per session)
+"PX resident average, 64 tokens + 60 s shut down: superseded unbacked -> PX-DRAM",25,7.865,8.8423,mW,B14/B16 backing standby + write path
+"PX resident average, 64 tokens + 60 s shut down: superseded unbacked -> PX-FLASH",25,7.865,12.8062,mW,B14/B17 flash read energy + standby
+"PX LPDDR/resident, 64 tokens + 60 s: superseded -> PX-DRAM",25,1.887,1.6784,ratio,B16
+"PX LPDDR/resident, 64 tokens + 60 s: superseded -> PX-FLASH",25,1.887,1.1589,ratio,B17
+"P2+S session wake charged, 64 tokens + 60 s",25,0.0,0.0,uJ,transition double count removed (B7 model wake also)
+"PS(P0) resident average, 64 tokens + 300 s retained",25,12.4819,12.4802,mW,B7 (one model wake per session)
+"PX resident average, 64 tokens + 300 s shut down: superseded unbacked -> PX-DRAM",25,1.8568,2.6697,mW,B14/B16 backing standby + write path
+"PX resident average, 64 tokens + 300 s shut down: superseded unbacked -> PX-FLASH",25,1.8568,3.2196,mW,B14/B17 flash read energy + standby
+"PX LPDDR/resident, 64 tokens + 300 s: superseded -> PX-DRAM",25,1.9816,1.3782,ratio,B16
+"PX LPDDR/resident, 64 tokens + 300 s: superseded -> PX-FLASH",25,1.9816,1.1428,ratio,B17
+"P2+S session wake charged, 64 tokens + 300 s",25,0.0,0.0,uJ,transition double count removed (B7 model wake also)
+first-token latency after shutdown: superseded (1 GB/s) -> PX-DRAM,25,0.3964,0.0332,s,B16 bandwidth
+first-token latency after shutdown: superseded (1 GB/s) -> PX-FLASH,25,0.3964,0.1982,s,B17 bandwidth
+reload energy: superseded -> PX-DRAM,25,13.1543,14.2657,mJ,B16 write path
+reload energy: superseded -> PX-FLASH,25,13.1543,296.4752,mJ,B17 flash read energy
+"wake energy per MB (RETENTION_VRET exit, planning)",85,1200.0,2.844,nJ/MB,B7 unit error (1.2 uJ applied for 1.2 nJ); component model
+layer wake energy (largest layer),85,22.0208,0.0529,uJ,B7
+whole-model wake energy,85,528.4995,1.2697,uJ,B7
+P2 transition energy per token at 5 tok/s,85,528.4996,1.2698,uJ/token,B7
+P2 wake share of resident dynamic read energy at 5 tok/s,85,0.3784,0.0009,fraction,B7
+P2 resident total at 5 tok/s,85,219.1572,216.5211,mW,B7
+P2 LPDDR/resident at 5 tok/s,85,0.3342,0.3383,ratio,B7
+PT0 resident total at 5 tok/s,85,173.8604,171.2243,mW,B7
+PT0 LPDDR/resident at 5 tok/s,85,0.4213,0.4278,ratio,B7
+P2 transition energy per token at 25 tok/s,85,528.4996,1.2698,uJ/token,B7
+P2 wake share of resident dynamic read energy at 25 tok/s,85,0.3784,0.0009,fraction,B7
+P2 resident total at 25 tok/s,85,257.6621,244.4813,mW,B7
+P2 LPDDR/resident at 25 tok/s,85,1.3375,1.4096,ratio,B7
+PT0 resident total at 25 tok/s,85,212.9055,199.7247,mW,B7
+PT0 LPDDR/resident at 25 tok/s,85,1.6187,1.7255,ratio,B7
+P2 transition energy per token at 100 tok/s,85,528.4996,1.2698,uJ/token,B7
+P2 wake share of resident dynamic read energy at 100 tok/s,85,0.3784,0.0009,fraction,B7
+P2 resident total at 100 tok/s,85,402.0551,349.3322,mW,B7
+P2 LPDDR/resident at 100 tok/s,85,3.2345,3.7227,ratio,B7
+PT0 resident total at 100 tok/s,85,359.3244,306.6014,mW,B7
+PT0 LPDDR/resident at 100 tok/s,85,3.6192,4.2415,ratio,B7
+P0 resident total at 25 tok/s (no wake term),85,744.2001,744.2001,mW,unaffected
+threshold 11. idle gap above which shutdown + reload beats retention (s),85,0.078,PX-DRAM 0.179 / PX-FLASH 1.827,,B14/B16/B17
+threshold 4. wake energy per MB at which P2 stops beating P0 at 100 tok/s,85,11347.6,11347.6,,B7
+threshold 4. wake energy per MB at which P2 stops beating P0 at 25 tok/s,85,45390.41,45390.41,,B7
+threshold 4. wake energy per MB at which P2 stops beating P0 at 250 tok/s,85,4539.04,4539.04,,B7
+threshold 4. wake energy per MB at which P2 stops beating P0 at 5 tok/s,85,226952.03,226952.03,,B7
+threshold 4h. headroom = threshold 4 at 25 tok/s over the model's wake energy per MB,85,37.8,15960.1,,B14/B16/B17
+threshold 7. idle time after which whole-model retention saves energy,85,969.399,2.329,,B7
+threshold 8. token rate above which P0 beats LPDDR (tok/s),85,59.997,59.997,,B7
+threshold 8. token rate above which P2 beats LPDDR (tok/s),85,17.531,16.772,,B7
+threshold 8. token rate above which PT0 beats LPDDR (tok/s),85,13.661,13.068,,B7
+threshold 9. duty cycle at 25 tok/s above which P0 beats LPDDR,85,never,never,,B7
+threshold 9. duty cycle at 25 tok/s above which P2+S beats LPDDR,85,0.646,0.6131,,B7
+threshold 9. duty cycle at 25 tok/s above which PS beats LPDDR,85,never,never,,B7
+"PS(P0) resident average, 64 tokens + 1 s retained",85,581.3989,581.2508,mW,B7 (one model wake per session)
+"PX resident average, 64 tokens + 1 s shut down: superseded unbacked -> PX-DRAM",85,539.2486,546.1968,mW,B14/B16 backing standby + write path
+"PX resident average, 64 tokens + 1 s shut down: superseded unbacked -> PX-FLASH",85,539.2486,618.9539,mW,B14/B17 flash read energy + standby
+"PX LPDDR/resident, 64 tokens + 1 s: superseded -> PX-DRAM",85,0.4647,0.4588,ratio,B16
+"PX LPDDR/resident, 64 tokens + 1 s: superseded -> PX-FLASH",85,0.4647,0.4048,ratio,B17
+"P2+S session wake charged, 64 tokens + 1 s",85,0.0,0.0,uJ,transition double count removed (B7 model wake also)
+"PS(P0) resident average, 64 tokens + 10 s retained",85,282.3784,282.3364,mW,B7 (one model wake per session)
+"PX resident average, 64 tokens + 10 s shut down: superseded unbacked -> PX-DRAM",85,153.8608,162.8525,mW,B14/B16 backing standby + write path
+"PX resident average, 64 tokens + 10 s shut down: superseded unbacked -> PX-FLASH",85,153.8608,176.7606,mW,B14/B17 flash read energy + standby
+"PX LPDDR/resident, 64 tokens + 10 s: superseded -> PX-DRAM",85,0.5072,0.4792,ratio,B16
+"PX LPDDR/resident, 64 tokens + 10 s: superseded -> PX-FLASH",85,0.5072,0.4415,ratio,B17
+"P2+S session wake charged, 64 tokens + 10 s",85,0.0,0.0,uJ,transition double count removed (B7 model wake also)
+"PS(P0) resident average, 64 tokens + 60 s retained",85,187.8458,187.8373,mW,B7 (one model wake per session)
+"PX resident average, 64 tokens + 60 s shut down: superseded unbacked -> PX-DRAM",85,32.024,41.6617,mW,B14/B16 backing standby + write path
+"PX resident average, 64 tokens + 60 s shut down: superseded unbacked -> PX-FLASH",85,32.024,36.9652,mW,B14/B17 flash read energy + standby
+"PX LPDDR/resident, 64 tokens + 60 s: superseded -> PX-DRAM",85,0.7339,0.5641,ratio,B16
+"PX LPDDR/resident, 64 tokens + 60 s: superseded -> PX-FLASH",85,0.7339,0.6358,ratio,B17
+"P2+S session wake charged, 64 tokens + 60 s",85,0.0,0.0,uJ,transition double count removed (B7 model wake also)
+"PS(P0) resident average, 64 tokens + 300 s retained",85,169.0092,169.0075,mW,B7 (one model wake per session)
+"PX resident average, 64 tokens + 300 s shut down: superseded unbacked -> PX-DRAM",85,7.7468,17.5133,mW,B14/B16 backing standby + write path
+"PX resident average, 64 tokens + 300 s shut down: superseded unbacked -> PX-FLASH",85,7.7468,9.1096,mW,B14/B17 flash read energy + standby
+"PX LPDDR/resident, 64 tokens + 300 s: superseded -> PX-DRAM",85,1.6307,0.7213,ratio,B16
+"PX LPDDR/resident, 64 tokens + 300 s: superseded -> PX-FLASH",85,1.6307,1.3868,ratio,B17
+"P2+S session wake charged, 64 tokens + 300 s",85,0.0,0.0,uJ,transition double count removed (B7 model wake also)
+first-token latency after shutdown: superseded (1 GB/s) -> PX-DRAM,85,0.3964,0.0332,s,B16 bandwidth
+first-token latency after shutdown: superseded (1 GB/s) -> PX-FLASH,85,0.3964,0.1982,s,B17 bandwidth
+reload energy: superseded -> PX-DRAM,85,13.1543,14.2657,mJ,B16 write path
+reload energy: superseded -> PX-FLASH,85,13.1543,296.4752,mJ,B17 flash read energy

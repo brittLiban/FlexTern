@@ -1,0 +1,4 @@
+model,resident_dynamic_mJ_per_token,lpddr_dynamic_mJ_per_token,dynamic_ratio,sram_static_mW_at_0.60,break_even_tok_s,resident_total_mW_25tok,lpddr_total_mW_25tok,duty_be_retention_1x,note
+falcon-e-1b,1.3967,12.6836,9.0808,264.2412,22.933,299.1597,344.6311,0.9994,EXP-0008 A4 planning input (0.60 mW/MB flat); compare results/sram_validation/dynamic_energy.csv and break_even.csv
+falcon-e-3b,2.5718,23.3539,9.0808,486.5393,23.1516,550.8337,615.9471,0.9689,EXP-0008 A4 planning input (0.60 mW/MB flat); compare results/sram_validation/dynamic_energy.csv and break_even.csv
+bitnet-2b4t,1.836,16.6724,9.0808,347.3408,23.0475,393.2407,448.909,0.9897,EXP-0008 A4 planning input (0.60 mW/MB flat); compare results/sram_validation/dynamic_energy.csv and break_even.csv

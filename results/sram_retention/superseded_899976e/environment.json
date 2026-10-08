@@ -1,0 +1,8 @@
+{
+  "commit": "899976e",
+  "date": "2026-10-07",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "spice": "ngspice 45.2 (Debian, WSL) + OpenVAF 23.5.0 compiled BSIM-CMG 110 (dwarning/VA-Models vacode110) + ASAP7 r1p7 models; decks in analysis/sram_retention/spice/",
+  "inputs": "results/workload_profile/*/weight_distribution_by_layer.csv; EXP-0008 evidence.py constants"
+}

@@ -9,7 +9,7 @@ R07,55 nm planar,T2 (old node; mechanism only),STANDBY; RETENTION; SLEEP (shutdo
 R08,65 nm planar,T4 (node) / T1 (mechanism),ACTIVE; DEEP SLEEP (retention),,27 fA per bit retention current (1.2 V supply) = ~1000x below conventional,,"0.00026 mW/MB (array only, 1.2 V)",,,7 ns access from the low-leakage state,,retained (10-year battery retention claim)
 R09,65 nm SOTB (silicon on thin BOX),T4 (node) / T1 (mechanism),"ACTIVE; STANDBY (retention, RBB)",,"13.7 nW/Mbit standby with reverse body bias (data retained), ~1000x reduction",,0.000105 mW/MB,,,,,retained
 R10,22 nm tri-gate (FinFET) / 65 nm,"T1 (mechanism, 22 nm) / T4 (65 nm)",ACTIVE; SLEEP; SHUTOFF,,,"22 nm: per-slice shutoff reduces SRAM leakage (data lost); 65 nm: sleep transistors in array and periphery cut cache leakage > 2x, with wake-up counters balancing switching vs leakage",,,,,,shutoff loses data; 65 nm sleep retains
-R11,32 nm (modeled),T2 (old node),,,,,,,,core wake 5.0-14.2 ns by two-stage switch mode; break-even ~9.5 ns,"core wake energy 1.6-3.3 nJ (rail recharge, Q = C x dV)",
+R11,32 nm and 22 nm (ITRS/McPAT estimates),T2 (old node),,,,,,,,core wake 5.0-14.2 ns by two-stage switch mode; T_min-charge = Q_core / I_limit = 5.08 ns (32 nm HP),"32 nm HP core: C_core 7.53 nF over 2.891 mm2 of logic (4.593 mm2 core), V_dd 1.00 V, total charge 7.53 nC, 'wake-up energy' 3.30 nJ (about 0.44 x Q x V_dd, i.e. the dissipated share, not the supply draw); C_decap = 20% of C_core (1.51 nF); 22 nm HP: 4.58 nF over 1.635 mm2, 2.24 nJ",
 R12,130 nm,T4,STANDBY at DRV,,,,,data retention voltage (DRV) < 300 mV; > 90% leakage saving at DRV; DRV margin ~10 mV over 25-125 C,,,,
 R13,"7 nm FinFET (predictive, not a foundry process)",T2,hold state vs supply voltage and temperature,,,,array only: 0.145 mW/MB at 0.70 V 25 C; 0.709 mW/MB at 0.70 V 85 C (8e6 cells x I x V),hold state converged down to 0.25 V at TT; hold SNM in hold_snm table,25 / 50 / 75 / 85 / 105 C swept,,,
 R14,28 nm planar,T1 (28 nm; not modern),IDLE; RESUME-STANDBY (retention),296 nW/kB at 0.5 V idle,0.23 nW/kB in DRV sleep (~1000x),,0.296 mW/MB idle; 0.00023 mW/MB sleep,0.46 V data-retention sleep,,,,
@@ -17,3 +17,6 @@ R15,FinFET (unspecified),T3,,,,,,,,,,
 R16,3 nm GAA,T1 (no leakage or retention figures in the abstract),,,,,,,,,,
 R17,7 nm FinFET,T1 (no leakage figure in the accessible abstract),,,,,,,,,,
 R18,5 nm FinFET,T3 (unverified; NOT used by the model),,,,,,279 mV (UNVERIFIED: not in the paper's abstract; appeared only in a search-engine summary),,,,
+R19,3D NAND V7 (UFS 3.1 device),T1 (datasheet; device side only),Active; Idle; Hibernate; Sleep; PowerDown; DeepSleep,"Hibernate (Vcc on): 60 uA x 2.5 V + 360 uA x 1.2 V = 0.58 mW (256 GB); Sleep (Vcc off): 0 + 360 uA x 1.2 V = 0.43 mW; PowerDown/DeepSleep: both rails off (host re-init required, time not stated)",,,,,"25 C, max RMS over 100 ms, 'not 100% tested'","sequential read 2,000 MB/s (2 lanes) / 1,000 MB/s (1 lane), QD8, 512 KB chunks",,
+R20,UFS 3.1,T3,Active; Sleep,'VCC x ICC = 2.5 V x 80 uA = 0.200 mW (max)' sleep,,,,,,,,
+R21,NVMe SSD (3D NAND) in a GH200-class server,T3 (secondary derivation),read energy per bit,,,,,,,,,

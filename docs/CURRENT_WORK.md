@@ -6,55 +6,55 @@ There is exactly one active engineering objective at a time. When it completes, 
 
 **Objective ID:** FT-CURRENT
 
-**Title:** EXP-0009 — SRAM retention, leakage and wake feasibility for layer-banked model-resident inference (continues Q-023).
+**Title:** EXP-0009A — Correctness audit and energy-model repair of EXP-0009 (SRAM wake energy B7, shutdown-and-reload economics B14).
 
 **Status:** Complete (awaiting founder/ChatGPT review). No next objective has been set.
 
 **Owner / agent:** Claude (implementation and research)
 
-**Started:** 2026-10-07
-**Completed:** 2026-10-07
+**Started:** 2026-10-08
+**Completed:** 2026-10-08
 
 ## Why we are doing this
 
-EXP-0008 left the edge/resident form hanging on leakage: 440–811 MB of always-on SRAM lost to LPDDR5X below ~23 tok/s or ~85% duty at its planning figure, modern-node leakage was unmeasured, and the retention factors were hypotheses. A transformer runs its layers sequentially, so most banks might sit in a low-leakage retentive state while one or two layers work.
+An external review of the repository found that EXP-0009's wake-energy assumption stated a formula giving 1.2 nJ/MB but reported 1.2 µJ/MB, and that its shutdown-and-reload comparison never said where the weights persist while the SRAM is off. Both feed Gate 5B, 5C and 5D. Before another architectural decision, the project needed to know whether these defects change the EXP-0009 conclusions.
 
 ## Question we are trying to answer
 
-Gate 5A: is modern SRAM retention leakage materially below active standby? Gate 5B: can retained domains wake quickly and cheaply enough during sequential execution? Gate 5C: with leakage, retention, wake energy and head/KV counted, does the resident 1B–3B edge form keep a material memory-power advantage across realistic duty cycles? Gate 5D: is large SRAM residency still the preferred edge memory architecture?
+Is the B7 discrepancy a unit error, an omitted physical term, or a wrong model, and what is the defensible wake energy of a multi-MB retention domain? Where do the weights live during shutdown, and what do that store's standby, reload energy, bandwidth and latency do to the retention-versus-reload comparison? Do Gates 5A–5D change?
 
 ## Scope
 
-Tiered sources on SRAM power modes (3 nm / 7 nm T1 standby, 22 nm FD-SOI retention and wake, old-node temperature data, 7 nm PDK ratios, compiler mode definitions); a Tier-2 ASAP7 cell SPICE corroboration; per-layer schedules from the profiles; leakage by mode versus voltage and temperature; wake latency and energy by domain; P0/P1/P2/P4/P8/PS/PT policies and a shutdown-and-reload comparison; token-rate, duty-cycle, session, temperature, voltage-domain and wake sweeps; INT4 fairness; head/KV; eleven break-even thresholds; EXP-0008 reconciliation; tests.
+Audit of `analysis/sram_retention/` and `results/sram_retention/`; a component wake-energy model in SI units with an in-rush consistency check; DRAM-backed and flash-backed reload accounting on consistent boundaries, with a symmetric option for the streaming baseline; a V_ret supply-implementation sensitivity; regeneration of every affected artifact with the original run preserved; original-versus-corrected comparison; 15 new tests; all non-RTL suites; documentation.
 
 ## Explicitly out of scope
 
-New RTL or a retention controller, physical power gating, an SRAM compiler, foundry or node selection, low-bit attention, training, the 70B rack, freezing the EXP-0004 candidate, battery life, chip TDP, BOM, EXP-0010.
+EXP-0010, any change to the Youssouf Architecture, a retention controller, FPGA/ASIC/foundry/compiler selection, a nonvolatile subsystem design, compiler/runtime work, reopening EXP-0007, new backlog.
 
 ## Definition of done
 
-Done: see `experiments/EXP-0009-sram-retention-leakage-wake.md` (Gate 5A INCONCLUSIVE; 5B PASS on latency, INCONCLUSIVE on energy; 5C INCONCLUSIVE, split by temperature; 5D INCONCLUSIVE; Q-023 narrowed) and `handoffs/2026-10-07-exp-0009-sram-retention.md`.
+Done: see `experiments/EXP-0009A-energy-accounting-correction.md` (B7 explained and corrected: a 1000× unit error plus omitted bitline, periphery and decap terms, now 2.8 nJ/MB planning in a 1.6–7.7 range; B14 corrected: DRAM- and flash-backed variants priced; Gate 5B energy half INCONCLUSIVE → bounded PASS; 5A, 5C, 5D unchanged in kind with the hot continuous case now hinging on the retention-rail supply scheme, B18) and `handoffs/2026-10-08-exp-0009a-energy-accounting-correction.md`.
 
 ## Required validation
 
-`tests/test_sram_retention.py` (21 OK); all non-RTL suites pass in one process.
+`tests/test_sram_retention_correction.py` (15 OK); `tests/test_sram_retention.py` (21 OK); all non-RTL suites pass in one process (182 OK).
 
 ## Relevant files
 
-`analysis/sram_retention/` (incl. `spice/`), `results/sram_retention/`, `tests/test_sram_retention.py`.
+`analysis/sram_retention/{retention_evidence,wake,policy,compare,report}.py`, `results/sram_retention/` (corrected) and `results/sram_retention/superseded_899976e/` (original), `tests/test_sram_retention_correction.py`.
 
 ## Relevant ADRs
 
-ADR-0002, ADR-0004, ADR-0005, ADR-0006.
+ADR-0002, ADR-0004, ADR-0005, ADR-0006. No new ADR.
 
 ## Relevant experiments
 
-EXP-0004 (candidate head/KV), EXP-0005 (bank organization), EXP-0006 (capacities), EXP-0007 (datacenter, not reopened), EXP-0008 (dynamic energy, old leakage planning).
+EXP-0008 (cold start, energies, LPDDR modes), EXP-0009 (the corrected record).
 
 ## Known uncertainties
 
-The hot result rests on a Tier-2 temperature coefficient (ASAP7 ×4.9 at 85 °C) applied to Tier-1 25 °C figures; the deep-retention ratios (0.076 cold / 0.23 hot) are modeled; wake energy of a multi-MB domain is an assumption; the 7 nm standby figure was quoted from a summary page; hold margin has no variation analysis.
+No measured modern-node macro wake charge exists (range 1.6–7.7 nJ/MB, all immaterial); flash reload energy is device-side datasheet maximum (host controller/PHY unmodeled); the retention-rail supply scheme (separate rail versus linear derivation) is unknown and decides the 85 °C continuous verdict; the hot temperature coefficient remains Tier-2.
 
 ## Questions requiring founder decision
 
-1. What junction temperature and duty cycle does the target edge product run at? 2. Can FlexTern obtain a foundry/compiler SRAM datasheet under NDA with sleep-mode leakage versus temperature and wake cycles? 3. Should the edge form plan on shutdown-and-reload from a nonvolatile store for idle gaps rather than retention?
+1. Does the target compiler's retention mode deliver the array rail at V_ret from a separate supply (B4 planning) or derive it linearly from V_dd (B18: half the saving, 85 °C continuous 0.87×)? 2. The EXP-0009 questions stand: product junction temperature and duty cycle; NDA access to compiler sleep-mode data (now including the rail supply scheme and the wake charge).
