@@ -1,60 +1,61 @@
 # Current Work
 
-There is exactly one active engineering objective at a time. When it completes, this file is updated and the next objective is chosen by the founder with ChatGPT. "No active objective" is a valid state.
+There is exactly one active engineering objective at a time. This file is the single active objective. The founder and ChatGPT choose the next objective after review; do not automatically start a backlog item.
 
 ---
 
-**Objective ID:** FT-CURRENT
+**Objective ID:** FT-0010 — Stage A
 
-**Title:** EXP-0009A — Correctness audit and energy-model repair of EXP-0009 (SRAM wake energy B7, shutdown-and-reload economics B14).
+**Title:** Continuous edge-inference baseline integrity (EXP-0010)
 
-**Status:** Complete (awaiting founder/ChatGPT review). No next objective has been set.
+**Status:** Active — protocol created 2026-11-04; implementation and measurements not yet performed.
 
-**Owner / agent:** Claude (implementation and research)
+**Owner / agent:** Claude (implementation); founder + ChatGPT (research direction/review).
 
-**Started:** 2026-10-08
-**Completed:** 2026-10-08
+**Started:** 2026-11-04
 
-## Why we are doing this
+## Why this objective
 
-An external review of the repository found that EXP-0009's wake-energy assumption stated a formula giving 1.2 nJ/MB but reported 1.2 µJ/MB, and that its shutdown-and-reload comparison never said where the weights persist while the SRAM is off. Both feed Gate 5B, 5C and 5D. Before another architectural decision, the project needed to know whether these defects change the EXP-0009 conclusions.
+The founder has elected to investigate industrial edge inference as a *new exploratory commercial/technical branch*. Existing FlexTern RTL generic synthesis and 1B–3B ternary-LM memory analysis do not validate camera-inference power, quality or product economics. The earlier EXP-0007 datacenter negative result and EXP-0008/0009/0009A SRAM leakage/retention sensitivities remain intact.
 
-## Question we are trying to answer
+This is a baseline-reliability task, not an attempt to prove ternary wins. Read experiments/EXP-0010-edge-inference-baseline.md for the preregistered method, controls, caveats and source references.
 
-Is the B7 discrepancy a unit error, an omitted physical term, or a wrong model, and what is the defensible wake energy of a multi-MB retention domain? Where do the weights live during shutdown, and what do that store's standby, reload energy, bandwidth and latency do to the retention-versus-reload comparison? Do Gates 5A–5D change?
+## One question
 
-## Scope
+Can another engineer reproduce a **correct, optimized full-frame continuous-video inference baseline**—with audited data and model class coverage, exact stream timing, end-to-end latency, evaluation and run manifests—before FlexTern claims a new technique improves it?
 
-Audit of `analysis/sram_retention/` and `results/sram_retention/`; a component wake-energy model in SI units with an in-rush consistency check; DRAM-backed and flash-backed reload accounting on consistent boundaries, with a symmetric option for the streaming baseline; a V_ret supply-implementation sensitivity; regeneration of every affected artifact with the original run preserved; original-versus-corrected comparison; 15 new tests; all non-RTL suites; documentation.
+## Scope — Stage A only
+
+1. Audit AI City 2026 Track 1 single-camera RGB clips, per-frame 2D ground truth, dataset rights, scene splits, frame timestamps and class vocabulary. Synthetic warehouse footage is a proxy, not a factory deployment. The 2021 AI City set has a different vehicle-counting target; keep separate.
+2. Select a person-detection task supported by the chosen checkpoint. Start with Torchvision SSDLite320-MobileNetV3-Large COCO if export and label compatibility can be proven. Record any necessary justified substitute.
+3. Implement streaming replay at native temporal rate with the *same* decode/preprocess/postprocess pipeline in PyTorch FP32 reference and optimized ONNX Runtime CPU. Log every frame including late/dropped outputs. Ensure numerical/parity checks happen before performance claims.
+4. Evaluate real ground-truth person-detection quality (AP50, recall/F1), p50/p95/p99 end-to-end latency, memory and stage timing; record complete dataset/model/environment hashes and exact commands.
+5. Repeat on at least two disjoint scenes to show reproducibility and variance. Report explicitly what hardware, physical energy, customer constraints and model classes are **not** covered.
 
 ## Explicitly out of scope
 
-EXP-0010, any change to the Youssouf Architecture, a retention controller, FPGA/ASIC/foundry/compiler selection, a nonvolatile subsystem design, compiler/runtime work, reopening EXP-0007, new backlog.
+Ternary or INT4 training, FPGA/ASIC design, a new Y-Array architecture, activation-cache optimization, claiming power savings without an external meter, large multi-week experiment backlogs, industrial safety certification, overwriting prior LM results, and declaring a business/product from synthetic data.
 
 ## Definition of done
 
-Done: see `experiments/EXP-0009A-energy-accounting-correction.md` (B7 explained and corrected: a 1000× unit error plus omitted bitline, periphery and decap terms, now 2.8 nJ/MB planning in a 1.6–7.7 range; B14 corrected: DRAM- and flash-backed variants priced; Gate 5B energy half INCONCLUSIVE → bounded PASS; 5A, 5C, 5D unchanged in kind with the hot continuous case now hinging on the retention-rail supply scheme, B18) and `handoffs/2026-10-08-exp-0009a-energy-accounting-correction.md`.
+- A runnable, documented, archived baseline pipeline producing identical semantics for the reference and deployment runtimes;
+- rights/ground truth/model-label audit and scene-disjoint data manifest;
+- at least two disjoint camera scenes evaluated end to end at source frame rate;
+- raw predictions/traces, versioned reproducible configuration, parity/quality checks and repeat-run variance;
+- an EXP-0010 results section distinguishing MEASURED from INFERRED and unmeasured;
+- a review of whether event-driven experiments are justified, followed by founder decision **before** starting Stage B.
+
+No speedup or energy advantage is required to complete Stage A.
 
 ## Required validation
 
-`tests/test_sram_retention_correction.py` (15 OK); `tests/test_sram_retention.py` (21 OK); all non-RTL suites pass in one process (182 OK).
-
-## Relevant files
-
-`analysis/sram_retention/{retention_evidence,wake,policy,compare,report}.py`, `results/sram_retention/` (corrected) and `results/sram_retention/superseded_899976e/` (original), `tests/test_sram_retention_correction.py`.
-
-## Relevant ADRs
-
-ADR-0002, ADR-0004, ADR-0005, ADR-0006. No new ADR.
-
-## Relevant experiments
-
-EXP-0008 (cold start, energies, LPDDR modes), EXP-0009 (the corrected record).
+No tests or benchmarks have been run for EXP-0010 as of this status change. Implementer must supply actual commands, output and raw logs; do not invent results. Existing RTL and non-RTL suites should remain unchanged.
 
 ## Known uncertainties
 
-No measured modern-node macro wake charge exists (range 1.6–7.7 nJ/MB, all immaterial); flash reload energy is device-side datasheet maximum (host controller/PHY unmodeled); the retention-rail supply scheme (separate rail versus linear derivation) is unknown and decides the 85 °C continuous verdict; the hot temperature coefficient remains Tier-2.
+Available benchmark hardware; availability/format of selected dataset clips and 2D labels; ONNX export compatibility and postprocessing parity; real-world industrial-camera data access; customer-relevant inference deadline and safety requirements; future gross physical device power measurement.
 
-## Questions requiring founder decision
+## Primary records
 
-1. Does the target compiler's retention mode deliver the array rail at V_ret from a separate supply (B4 planning) or derive it linearly from V_dd (B18: half the saving, 85 °C continuous 0.87×)? 2. The EXP-0009 questions stand: product junction temperature and duty cycle; NDA access to compiler sleep-mode data (now including the rail supply scheme and the wake charge).
+- docs/experiments/EXP-0010-edge-inference-baseline.md — protocol and later evidence.
+- docs/PROJECT_STATE.md — latest verified technical capabilities through EXP-0009A.
