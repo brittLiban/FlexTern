@@ -65,7 +65,7 @@ def require_lock(role=None) -> dict:
     lock = json.loads(LOCK.read_text())
     if lock["protocol_v3_sha256"] != sha256_file(PROTOCOL):
         sys.exit("protocol_v3.json changed after the lock")
-    tracked = subprocess.run(["git", "-C", str(REPO), "ls-files", "--error-unmatch", str(LOCK.relative_to(REPO))], capture_output=True, text=True)
+    tracked = subprocess.run(["git", "-c", "core.autocrlf=true", "-C", str(REPO), "ls-files", "--error-unmatch", str(LOCK.relative_to(REPO))], capture_output=True, text=True)
     if tracked.returncode != 0:
         sys.exit("lock.json is not committed; commit it before touching any fresh clip")
     return provenance.require_clean_code()

@@ -5,6 +5,7 @@ EXP-0010B manifests used `common.git_info`, which reports dirtiness only under a
 HEAD commit, branch, every dirty/untracked path, and a content hash over the tracked diff plus the bytes of untracked files.
 `require_clean_code()` is the guard used before any fresh-holdout run: analysis/ and tests/ must be clean (results/ and docs/
 legitimately change while runs are written). It is a new function; Stage A's `git_info` is unchanged.
+Git is always invoked with `-c core.autocrlf=true` so that WSL and Windows report the same state for the CRLF working tree.
 """
 from __future__ import annotations
 
@@ -17,7 +18,8 @@ CODE_PATHS = ("analysis", "tests")
 
 
 def _git(*args: str, text: bool = True):
-    r = subprocess.run(["git", "-C", str(REPO), *args], capture_output=True, text=text, timeout=60)
+    # core.autocrlf=true: the repo is checked out with CRLF on Windows; git run from WSL without it reports every file as modified
+    r = subprocess.run(["git", "-c", "core.autocrlf=true", "-C", str(REPO), *args], capture_output=True, text=text, timeout=60)
     if r.returncode != 0:
         raise RuntimeError(f"git {' '.join(args)} failed: {r.stderr if text else r.stderr[:200]}")
     return r.stdout
