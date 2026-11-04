@@ -2,7 +2,7 @@
 
 Date: 2026-11-04
 Agent: Claude (Sonnet 5.5), advisor review by Opus 5.5 (plan and completion)
-Current commit: see `git log` (lock commit 97cbd9b; fresh runs executed from it with analysis/ and tests/ clean)
+Current commit: 97cbd9b (lock; fresh runs executed from it, analysis/ and tests/ clean), e9772df (results and records), ce2803d (review fixes); a docs-only commit after them records these hashes
 
 ## Objective
 
@@ -20,7 +20,7 @@ New: `analysis/control_semantics/`, `tests/test_control_semantics.py`, `results/
 
 ## Tests / Validation Run
 
-`python -m unittest tests.test_control_semantics tests.test_control_gate tests.test_edge_inference`: 78 tests OK on host Python (11 skipped: need av/cv2/torch/ijson); the new module's tests are numpy-only. The 182-test non-RTL baseline was not rerun (not affected: no existing code changed).
+`python -m unittest tests.test_control_semantics tests.test_control_gate tests.test_edge_inference`: 83 tests OK on host Python (11 skipped: need av/cv2/torch/ijson); the new module's tests are numpy-only. The 182-test non-RTL baseline was not rerun (not affected: no existing code changed).
 
 ## Actual Results
 

@@ -2,7 +2,7 @@
 
 Status: Complete (2026-11-04). **Result under the preregistered decision rule: CHANGE_WORKLOAD.** Policy B (person-shaped-agent occupancy) passes on one fresh layout and narrowly fails on the other; policy A (human-only) fails on both; no single score threshold meets the gating pair on all six clips (post-hoc). Stage B (temporal execution) is NOT started and is not recommended on this evidence.
 Date: 2026-11-04
-Commit: recorded in the handoff `docs/handoffs/2026-11-04-ft-0010c-control-semantics.md` (lock commit 97cbd9b; fresh runs executed from 97cbd9b with analysis/ and tests/ clean)
+Commit: 97cbd9b (protocol lock), e9772df (results and records), ce2803d (completion-review fixes); fresh runs executed from 97cbd9b with analysis/ and tests/ clean
 Parents: `EXP-0010B-control-adequacy-gate.md` and `EXP-0010-edge-inference-baseline.md` (both preserved unchanged).
 
 ## Research Question
@@ -22,7 +22,7 @@ Neither policy ignores humanoids to raise a score; both are computed on identica
 Cells of 3 m on the floor; positions from the 3D box centre (GT) and the back-projected box bottom-centre (detections); tolerance 0.75 m = rounded maximum 95th-percentile localization error (R2). POS / NEG / DONTCARE as in `gp_metric.py`: NEG requires no positive-class agent (scored or ignored) within the cell grown by 2 x margin (the geometric symmetric counterpart of the prediction tolerance); truncated or small agents are ignored and truncated or small detections are excluded and counted (symmetric rule). Gating pair: **TPR >= 0.90 and false alarms per predicted occupied cell <= 0.10**, plus bootstrap bounds (TPR lower >= 0.85; precision lower >= 0.85) on every fresh layout, plus the real-time bar. Cell-level FPR and balanced accuracy are reported but not gating because FPR is diluted by empty cells (29 to 671 cells across development clips).
 
 ## Method and data roles
-Development (diagnosis, tau, parameters): L10, L11, and L08, L02 (scored once and inspected in EXP-0010B). L09 excluded from zone metrics (geometry rule). **Fresh holdout, chosen from ground truth alone by the locked rule:** L05 (Warehouse_013 Camera_0004) and L03 (Warehouse_011 Camera_0000); L06 and L07 remain unused in reserve. Detector: YOLOX-Tiny 416 letterbox, raw BGR 0-255 (EXP-0010B amendment 1), ORT CPU, 8 threads, no change. Code: `analysis/control_semantics/`; tests `tests/test_control_semantics.py` (16). Raw artifacts: `results/control_semantics/`.
+Development (diagnosis, tau, parameters): L10, L11, and L08, L02 (scored once and inspected in EXP-0010B). L09 excluded from zone metrics (geometry rule). **Fresh holdout, chosen from ground truth alone by the locked rule:** L05 (Warehouse_013 Camera_0004) and L03 (Warehouse_011 Camera_0000); L06 and L07 remain unused in reserve. Detector: YOLOX-Tiny 416 letterbox, raw BGR 0-255 (EXP-0010B amendment 1), ORT CPU, 8 threads, no change. Code: `analysis/control_semantics/`; tests `tests/test_control_semantics.py` (21). Raw artifacts: `results/control_semantics/`.
 
 ## Results
 
