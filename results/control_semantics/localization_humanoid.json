@@ -1,0 +1,58 @@
+{
+ "tau": 0.3,
+ "locked_margin_m": 0.75,
+ "clips": {
+  "hold_L08": {
+   "FourierGR1T2": {
+    "matched": 14838,
+    "p50": 0.19,
+    "p75": 0.26,
+    "p90": 0.352,
+    "p95": 0.477,
+    "frac_beyond_locked_margin": 0.0252
+   },
+   "AgilityDigit": {
+    "matched": 5988,
+    "p50": 0.335,
+    "p75": 0.731,
+    "p90": 1.103,
+    "p95": 1.332,
+    "frac_beyond_locked_margin": 0.2422
+   },
+   "person_reference": {
+    "matched": 27057,
+    "p50": 0.262,
+    "p75": 0.346,
+    "p90": 0.519,
+    "p95": 0.783,
+    "frac_beyond_locked_margin": 0.054
+   }
+  },
+  "hold_L02": {
+   "FourierGR1T2": {
+    "matched": 13310,
+    "p50": 0.169,
+    "p75": 0.247,
+    "p90": 0.451,
+    "p95": 0.684,
+    "frac_beyond_locked_margin": 0.0422
+   },
+   "AgilityDigit": {
+    "matched": 2889,
+    "p50": 0.325,
+    "p75": 0.78,
+    "p90": 1.346,
+    "p95": 1.58,
+    "frac_beyond_locked_margin": 0.2641
+   },
+   "person_reference": {
+    "matched": 41845,
+    "p50": 0.251,
+    "p75": 0.339,
+    "p90": 0.443,
+    "p95": 0.541,
+    "frac_beyond_locked_margin": 0.0222
+   }
+  }
+ }
+}

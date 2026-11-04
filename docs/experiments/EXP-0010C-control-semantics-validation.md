@@ -31,17 +31,21 @@ All MEASURED unless marked; nothing here is an energy measurement.
 ### R1. Residual false alarms of EXP-0010B's metric, attributed by the triggering detection (POST-HOC, development data; `fa_attribution.json`)
 EXP-0010B's image-grid false alarms (reproduced: FPR 0.184 / 0.011 / 0.592 / 0.614 on L10 / L11 / L08 / L02 at tau 0.05), each assigned to the highest-scoring detection that triggered the cell and classified by that detection's own box against all ground-truth classes with one fixed priority order (humanoid, truncated detection, ignored person, person at a zone boundary, person foot mismatch, partial person overlap, other object, low-score clutter, unexplained):
 
-| clip | humanoid | frame-edge truncated detection | person at zone boundary | other object (vehicle/AMR) | low-score clutter | unexplained (score >= 0.3, no overlap) |
+| clip | humanoid | frame-edge truncated detection | person at zone boundary | vehicle/AMR (IoU >= 0.3) | low-score clutter | unexplained (score >= 0.3, no overlap) |
 |---|---|---|---|---|---|---|
-| L08 | 61.8% | 24.6% | 5.3% | 6.2% | 0.3% | **0** |
-| L02 | 70.0% | 10.6% | 10.9% | 6.6% | 0.3% | **0** |
-| L10 | 0 | 15.9% | 28.4% | 1.0% | 46.1% | 0 |
+| L08 | 61.8% | 24.6% | 5.3% | 3.9% | 0.3% | **0** |
+| L02 | 70.0% | 10.6% | 10.9% | 3.6% | 0.3% | **0** |
+| L10 | 0 | 15.9% | 28.4% | 0.3% | 46.1% | 0 |
 | L11 | 0 | 49.5% | 46.3% | 0 | 0.5% | 0 |
 
-**Reading:** the EXP-0010B "residual FPR 0.25-0.31" was mostly humanoid and frame-edge-truncated detections that its projected-foot rescoring failed to neutralize (the advisor's suspicion, confirmed). No confident detection was left unexplained, so there is no evidence of unlabelled people among the false alarms. Genuine detector errors are the small `other object` share on L08/L02 and the low-score clutter on L10 (see R6/R7).
+(Corrected classifier `fa_attribution_v2.json`; the first version, kept in `fa_attribution.json`, lumped partial humanoid/vehicle overlaps into an `other object` bucket of 6.2% / 6.6% / 1.0% / 0 for L08 / L02 / L10 / L11. The remaining shares are person-at-boundary/foot-mismatch/partial, ignored persons, humanoid-partial 2-3% and vehicle-partial under 1% on L08/L02.)
+
+**Reading:** the EXP-0010B "residual FPR 0.25-0.31" was mostly humanoid and frame-edge-truncated detections that its projected-foot rescoring failed to neutralize (the advisor's suspicion, confirmed). No confident detection was left unexplained, so there is no evidence of unlabelled people among the false alarms. Genuine detector errors in this metric are the small vehicle/AMR share on L08/L02 and the low-score clutter on L10 (see R6-R8).
 
 ### R2. Foot localization in metres (POST-HOC; `localization.json`)
 Matched, unoccluded persons (IoU >= 0.5): ground error median / 90th / 95th percentile = 0.37 / 0.65 / 0.70 m (L10), 0.20 / 0.44 / 0.56 m (L11), 0.26 / 0.51 / 0.76 m (L08), 0.25 / 0.44 / 0.52 m (L02); the same foot error in pixels has a median of 8.5-32.8 px across those layouts. The tolerance is therefore physical (0.75 m), not pixel.
+
+**R2b (added after the completion review; POST-HOC, `localization_humanoid.json`).** The 0.75 m margin was derived from Person rows only, but policy B scores humanoids with it. Humanoid ground error (matched, IoU >= 0.5): FourierGR1T2 median 0.17-0.19 m, 95th percentile 0.48 / 0.68 m (L08 / L02), 2.5-4.2% beyond 0.75 m (like persons); **AgilityDigit median 0.33 m, 90th percentile 1.1-1.3 m, 95th percentile 1.3-1.6 m, 24-26% beyond 0.75 m**. The locked margin is unchanged, but it does not hold for AgilityDigit: part of policy B's humanoid position-mismatch false alarms is humanoid geometry/localization noise, not detector error.
 
 ### R3. Is the 3x3 image grid representative? No (MEASURED, `localization.json`)
 The nine image-grid cells cover floor areas from 1.6 x 2.8 m (bottom row) to 12.6 m x 161 m (top row, L10) within one frame, and the same cell differs by up to about 7x between layouts in one dimension (top-row depth 161 m on L10 vs 24 m on L11; bottom-row cell 2.8 x 2.0 m on L10, 4.3 x 4.0 m on L11); one image row is 0.004-0.048 m of floor depending on row and layout, so a fixed 32 px margin is about 0.1-1.5 m vertically. Ground-plane regions are necessary for a tolerance with one physical meaning. The v2 image-grid result is still reported as written below, for comparison only.
@@ -65,17 +69,30 @@ At the locked tau = 0.02 (macro balanced accuracy; both policies chose 0.02) pol
 | L03 | A | 0.950 [0.936, 0.962] | 0.431 (0.569) [0.410, 0.450] | 0.068 | 0.941 | not met |
 
 Detections used / excluded as truncated or short: L05 146,082 / 83,349 (36% of retained-size detections), L03 193,617 / 14,129. Ground-truth agents scored / ignored (B): L05 41,798 / 96,835 (L05 camera 4 is heavily truncated, so its pass rests on a minority of agents in 17 cells); L03 150,885 / 16,936.
+**Coverage (what the metric scores).** Ground-truth agents scored / ignored under B (ignored = truncated at the frame edge, under 32 px, or projected outside the frame): L05 41,798 / 96,835 (**70% ignored**, 17 cells), L03 150,885 / 16,936 (10%); development: L10 10,245 / 8,367 (45%), L11 39,894 / 10,150 (20%), L08 60,648 / 81,601 (57%), L02 113,117 / 60,824 (35%). On L05, 36% of tall detections were excluded as touching the frame edge (L03: 6.8%; the reported count `excluded_truncated_or_short` is tall edge-touching detections only, shorter detections are dropped uncounted). **The metric validates only the image interior; people cut off at the frame edge, often the nearest and most safety-relevant, are DONTCARE. "B passes L05" therefore means: on 17 interior cells and the 30% of agents that are not truncated.**
 **EXP-0010B's v2 image-grid metric as written (tau 0.05):** L05 balanced accuracy 0.715 (TPR 0.998, FPR 0.568), L03 0.883 (TPR 0.971, FPR 0.206). The metric change **flips L05 from fail to pass for B**; it is a metric effect, disclosed, not a detector improvement. Person AP50 (visible boxes): 0.779 (L05), 0.887 (L03).
 
 **Preregistered decision rule applied:** B fails on L03 (precision), so not PROCEED_TEMPORAL; B has TPR >= 0.70 and false alarms <= 0.30 on both fresh layouts (majority), so **CHANGE_WORKLOAD**. Policy A fails on both layouts: the human-only application needs a model objective (human/humanoid discrimination), not a different evaluation.
 
 ### R8. Post-hoc checks after the fresh scoring (they do not change the verdict)
 - **No threshold meets the pair everywhere** (`tau_sweep_posthoc.json`, policy B, tau 0.02-0.8): per clip, taus meeting TPR >= 0.90 and false alarms <= 0.10 exist only for L08 (0.02-0.2) and L05 (0.02-0.3); none for L10, L11, L02, L03; none for all six at once. (L03 reaches false alarms 0.092 at tau 0.05 but then TPR is 0.867.)
-- **What remains of B's false alarms** (`fa_attribution_gp.json`, tau 0.02): `other object` (forklift/pallet-truck/AMR/transporter) 62% (L05), 61% (L08), 25% (L03); low-score clutter 88% (L10), 75% (L02), 63% (L11), 37% (L03), 29% (L05); humanoid position mismatch 24-27% (L08, L03) (a humanoid box whose bottom lands more than the margin from the humanoid's floor position); person position mismatch 2-19%. **Unexplained: 0.0-0.01%** on every clip.
-- Detector confusion on non-person objects and clutter at a low threshold are the genuine detector errors; occlusion/small-person misses are the genuine recall errors (R5).
+- **What remains of B's false alarms, corrected classifier (`fa_attribution_gp_v2.json`, `fa_attribution_v2.json`; supersedes the first version in `fa_attribution_gp.json`, which is kept).** The first classifier lumped partial overlaps with humanoids and vehicles into one `other object` bucket (62% on L05, 61% on L08); the corrected split at the locked tau (share of false-alarm cells):
+
+| clip | vehicle/AMR/transporter (IoU >= 0.3) | vehicle/AMR partial | humanoid partial | humanoid position mismatch | person position mismatch | person partial | low-score clutter | unexplained | FA/pred if both mismatch buckets were label noise |
+|---|---|---|---|---|---|---|---|---|---|
+| L10 | 2% | 4% | 0 | 0 | 3% | 4% | **88%** | 0 | 0.765 |
+| L11 | 0 | 0 | 0 | 0 | 19% | 18% | **63%** | 0 | 0.055 |
+| L08 | 8% | 25% | 28% | 24% | 3% | 3% | 9% | 0 | 0.057 |
+| L02 | 4% | 2% | 6% | 3% | 3% | 8% | **75%** | 0.01% | 0.501 |
+| L05 | **53%** | 5% | 5% | 2% | 5% | 2% | 29% | 0 | 0.039 |
+| L03 | 20% | 1% | 4% | **27%** | 7% | 4% | **37%** | 0 | **0.112** |
+
+  L05 has NovaCarter/Transporter AMRs in every frame (survey), so its 53% is genuine vehicle/AMR confusion. On L03, even if both position-mismatch buckets were label noise, B would still have 0.112 false alarms per predicted cell, above the 0.10 limit, so the verdict does not depend on that noise.
+- **Crop audit on L03 (the clip that decides the verdict; `fp_audit/hold_L03_B_*.jpg`, 12 crops per bucket).** Low-score clutter (scores 0.02-0.15): cardboard boxes on a conveyor belt, genuine detector false positives. Vehicle/AMR bucket: detections on white AMRs, yellow transporters and pallet loads, genuine confusion with non-person objects. Humanoid bucket: detections on the robots themselves whose box bottom does not land at the robot's labelled floor position (torso-only or partly occluded robots); detector category correct, localization or label geometry off (R2b). No crop showed an unlabelled person, so annotation problems are not a major cause of the remaining false alarms on this clip.
+- **Genuine detector errors after the corrections:** low-score clutter on non-person objects (boxes, machinery) at the locked tau 0.02, confusion with AMRs/transporters/pallet loads, and occlusion/small-person misses (R5). **Not detector errors, or only partly:** detections on humanoids (class ambiguity, a policy matter) and the AgilityDigit/humanoid position mismatch (geometry noise).
 
 ### R9. Timing (short interleaved comparison, hold_L05 frames 0-2699; `timing_summary.json`) — ON BATTERY
-The laptop was discharging (77-80%, Balanced plan) during these runs, unlike the AC runs of EXP-0010B, so this is **not comparable** with that timing and is confounded by power state; frequency and thermal state are unobserved under WSL2.
+The laptop was discharging (77-80%, Balanced plan) during these runs. **This is a deviation from protocol_v3**, which specified AC power for timing; it is also unlike the AC runs of EXP-0010B, so the numbers are **not comparable** with that timing and are confounded by power state; frequency and thermal state are unobserved under WSL2. The four 90 s replays can be rerun on AC if the founder plugs in; the quality verdict does not depend on them.
 
 | config | p50 ms | p99 ms | dropped | network ms (mean) | busy cores |
 |---|---|---|---|---|---|
@@ -86,7 +103,7 @@ On battery YOLOX-Tiny at 8 threads misses the p99 <= 100 ms bar in one repeat an
 
 ## Findings and negative results
 1. **No trustworthy control was established** for the tested detector: the preregistered rule gives CHANGE_WORKLOAD (R7), and post-hoc no threshold serves four of six clips (R8). The two layouts where B meets the pair are large-person, humanoid-rich scenes.
-2. **EXP-0010B's residual error was mostly metric, not detector** (R1): humanoids and frame-edge truncation. After the corrections the remaining errors are genuine detector limits: occlusion/small-person misses (R5) and confusion with non-person objects and clutter (R8).
+2. **EXP-0010B's residual error was mostly metric, not detector** (R1): humanoids and frame-edge truncation. After the corrections the remaining errors are genuine detector limits: occlusion/small-person misses (R5) and, at the locked low tau, confusion with AMRs/transporters/pallet loads and clutter such as boxes on a conveyor (R8, crop audit), plus an AgilityDigit localization tail (R2b) that is partly label geometry.
 3. **The human/robot question is the commercial crux.** Under A (humanoids are negatives) a COCO person detector fails everywhere (false alarms 0.57-0.79 on fresh layouts); under B it can pass on easy layouts. Which application is real is a founder decision; the evaluation does not choose.
 4. **Metric changes move verdicts** (R7: v2 vs v3 on L05). The v3 metric is better justified (R2, R3) but the comparison shows how much of EXP-0010B's failure was metric construction.
 5. **My locked threshold rule was flawed** (R6): balanced accuracy chose the lowest tau. Disclosed; not changed after the fact.
@@ -101,7 +118,9 @@ On battery YOLOX-Tiny at 8 threads misses the p99 <= 100 ms bar in one repeat an
 ## Limitations
 - Synthetic data; two fresh layouts (one with 17 cells and mostly truncated agents); one camera per layout; ~5-minute clips; no real footage.
 - The bar is a TARGET without a customer; margin, cell size and policies are my proposal (ADR-0008, Proposed).
-- The ground-plane GT uses the 3D box centre, validated per scene (person rule, and a humanoid rule for the fresh clips) but not independently; L09 fails the person rule and is unused for zones.
+- The ground-plane GT uses the 3D box centre, validated per scene (person rule, and a humanoid rule for the fresh clips) but not independently; L09 fails the person rule and is unused for zones. The 0.75 m margin was measured on persons only and does not hold for AgilityDigit (R2b).
+- The v3 metric scores the image interior only: 70% of B agents on L05 and 35-57% on L08/L02 are DONTCARE (R7 coverage).
+- Every EXP-0010C run manifest produced before the completion review records `command` as `python -m analysis.control_gate.run_cag ...` (the wrapped EXP-0010B builder hard-codes it); the real entry point is `python -m analysis.control_semantics.run_cs` with the same arguments. Those manifests are not rewritten; the wrapper now records the right command for future runs.
 - tau was selected by a rule with a known flaw (R6). Post-hoc R7/R8 analyses used the fresh detections after the one scoring.
 - Timing was measured on battery; energy and power are NOT measured; thermal state and true clock frequency are unobserved; no INT8/FP16, no fused or faster decode/postprocess (production-quality optimization is missing); CPU busy cores are diagnostic only.
 - The EXP-0010C development diagnostics (`fa_attribution`, `localization`, `miss_attribution`, `dev_eval`, `survey`, `select_fresh`) are post-hoc JSON outputs without run manifests; they were produced by the code that is committed in 595ff77 (a small patch to `gp_metric.metrics_for` and `dev_eval` preceded the final `dev_eval` run). Fresh-holdout runs carry the whole-repository state (commit 97cbd9b, `dirty_code_paths` empty).
@@ -116,7 +135,8 @@ On battery YOLOX-Tiny at 8 threads misses the p99 <= 100 ms bar in one repeat an
 Nothing about real industrial footage, a customer requirement, other detectors or training, energy, thermal behavior, INT8/FP16, or any FlexTern advantage; nothing about whether a different detector or a trained model would pass.
 
 ## Recommendation (answering the founder's question)
-**Change the application/workload; do not proceed to temporal execution; do not keep tuning this detector.** Rationale: (1) the preregistered rule yields CHANGE_WORKLOAD; (2) the failures are real detector limits that vary by layout, not label artifacts, so retention experiments against this control would not be interpretable; (3) tuning thresholds, margins or cells further would be the repeated criterion-changing the founder asked to avoid. Concretely: either define the monitoring requirement the detector demonstrably serves and validate it on a new fresh holdout (e.g. a stated minimum person size/visibility, or policy B on near-field cameras), or commission a detector objective (resolution/capacity, a robot class for application A) with its own split before any temporal or energy claim. Stop the branch if that objective also fails a fresh holdout. This is a recommendation for the founder and ChatGPT, not a decision.
+**Change the application/workload; do not proceed to temporal execution; do not keep tuning this detector or this metric.** This is the plain reading of the preregistered decision rule (CHANGE_WORKLOAD), not an escalation to stop and not a softening. Rationale: (1) the locked rule yields CHANGE_WORKLOAD; (2) the failures are real detector limits that vary by layout (recall under occlusion and for small people; precision against AMRs, pallet loads and clutter) plus a human-versus-humanoid ambiguity that a person detector cannot resolve, and no threshold serves four of six clips; (3) retention experiments against this control would not be interpretable; (4) further tuning of thresholds, margins, cells or the person size/visibility range that YOLOX-Tiny happens to handle would be the repeated criterion-changing the founder ruled out, and "near-field cameras" is not a way out because the near-field people are the truncated ones that the metric ignores.
+**What the workload change must be:** it has to come from a product or customer requirement that the founder sets (which application, A or B or another; which person sizes, visibilities and camera ranges matter), not from what this detector passes. Only then can it be (a) validated on a new fresh holdout, or (b) turned into a separate model objective (input resolution or capacity, a humanoid-robot class for application A) with its own development/holdout split. Stop the branch if that objective also fails a fresh holdout. This is a recommendation for the founder and ChatGPT, not a decision.
 
 ## Follow-up Questions
 1. Which application is the product (A human-only, B person-shaped agents, or something else) and what minimum person size/visibility must be monitored?
@@ -125,4 +145,4 @@ Nothing about real industrial footage, a customer requirement, other detectors o
 4. Energy: still no device and meter boundary (Q-026).
 
 ## Artifacts / Logs
-`analysis/control_semantics/` (code, `protocol_v3.json`, README); `results/control_semantics/`: `lock.json`, `survey.json`, `localization.json`, `fa_attribution.json`, `miss_attribution.json`, `dev_policy_scores.json`, `fresh_selection.json`, `fresh_hold_L05_YT.json`, `fresh_hold_L03_YT.json`, `tau_sweep_posthoc.json`, `fa_attribution_gp.json`, `timing_summary.json`, `runs/<role>/<config>/.../{manifest,summary,stage}.json` and replay traces. Review: `docs/reviews/REV-2026-11-04-ft-0010c-control-semantics-review.md`. ADR: `docs/decisions/ADR-0008-edge-control-policies-and-ground-plane-metric.md` (Proposed).
+`analysis/control_semantics/` (code, `protocol_v3.json`, README); `results/control_semantics/`: `lock.json`, `survey.json`, `localization.json`, `fa_attribution.json`, `miss_attribution.json`, `dev_policy_scores.json`, `fresh_selection.json`, `fresh_hold_L05_YT.json`, `fresh_hold_L03_YT.json`, `tau_sweep_posthoc.json`, `fa_attribution_gp.json` (first classifier, kept) and `fa_attribution_gp_v2.json` / `fa_attribution_v2.json` (corrected classifier), `localization_humanoid.json`, `fp_audit/hold_L03_B_*.jpg`, `timing_summary.json`, `runs/<role>/<config>/.../{manifest,summary,stage}.json` and replay traces. Review: `docs/reviews/REV-2026-11-04-ft-0010c-control-semantics-review.md`. ADR: `docs/decisions/ADR-0008-edge-control-policies-and-ground-plane-metric.md` (Proposed).

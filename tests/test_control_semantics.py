@@ -158,6 +158,58 @@ class TestProvenance(unittest.TestCase):
         self.assertIn("dirty_code_paths", st)
 
 
+class FakeClip:
+    def __init__(self):
+        self.foot = np.array([[960.0, 800.0], [960.0, 800.0]])
+        self.vis_h = np.array([200.0, 20.0])
+        self.depth_ok = np.array([True, True])
+
+
+class TestAttributionPriority(unittest.TestCase):
+    """fa_attribution2.classify2: one fixed priority order (EXP-0010C, advisor review)."""
+
+    def setUp(self):
+        from analysis.control_semantics import fa_attribution2 as F
+        self.F = F
+        self.clip = FakeClip()
+
+    def gt(self, boxes, classes):
+        b = np.asarray(boxes, float)
+        return {"x1": b[:, 0], "y1": b[:, 1], "x2": b[:, 2], "y2": b[:, 3], "cls": np.asarray(classes)}
+
+    def cls(self, det, gt, score=0.5, rows=None, row_of=None):
+        rows = list(range(len(gt["cls"]))) if rows is None else rows
+        return self.F.classify2(np.asarray(det, float), score, rows, gt, self.clip, row_of if row_of is not None else {0: 0})
+
+    def test_humanoid_beats_person_and_vehicle(self):
+        g = self.gt([[100, 100, 200, 300], [100, 100, 200, 300], [100, 100, 200, 300]], [4, 0, 1])
+        self.assertEqual(self.cls([100, 100, 200, 300], g), "humanoid")
+
+    def test_truncation_beats_person_and_clutter(self):
+        g = self.gt([[0, 100, 100, 1080]], [0])
+        self.assertEqual(self.cls([0, 500, 100, 1080], g), "truncated_detection")
+
+    def test_person_scored_vs_ignored(self):
+        g = self.gt([[100, 100, 200, 300]], [0])
+        self.assertEqual(self.cls([100, 100, 200, 300], g), "person_scored")
+        self.clip.vis_h = np.array([20.0, 20.0])
+        self.assertEqual(self.cls([100, 100, 200, 300], g), "person_ignored")
+
+    def test_partial_overlaps_are_split_not_lumped(self):
+        # detection overlaps the object at IoU ~0.2: boxes 100x200 vs a box shifted so IoU is in [0.1, 0.3)
+        det = [100, 100, 200, 300]
+        shifted = [160, 100, 260, 300]            # IoU = 40*200/(2*20000-8000) = 0.25
+        self.assertEqual(self.cls(det, self.gt([shifted], [4])), "humanoid_partial")
+        self.assertEqual(self.cls(det, self.gt([shifted], [1])), "vehicle_or_amr_partial")
+        self.assertEqual(self.cls(det, self.gt([shifted], [0])), "person_partial")
+        self.assertEqual(self.cls(det, self.gt([det], [3])), "vehicle_or_amr")
+
+    def test_clutter_vs_unexplained_by_score(self):
+        g = self.gt([[900, 100, 950, 200]], [0])
+        self.assertEqual(self.cls([100, 100, 200, 300], g, score=0.1), "low_score_clutter")
+        self.assertEqual(self.cls([100, 100, 200, 300], g, score=0.6), "unexplained")
+
+
 class TestFreshHoldoutLock(unittest.TestCase):
     def test_lock_required_committed_and_clean(self):
         import tempfile

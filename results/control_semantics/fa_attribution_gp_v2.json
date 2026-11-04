@@ -1,0 +1,161 @@
+{
+ "note": "POST-HOC v2 classifier; policy B, locked tau; run after the fresh scoring",
+ "clips": [
+  {
+   "role": "dev_L10",
+   "tau": 0.02,
+   "policy": "B_person_shaped_agent",
+   "false_alarm_cells": 9202,
+   "predicted_cells_scored": 11694,
+   "fa_per_predicted": 0.7868992645801266,
+   "cause_cells": {
+    "low_score_clutter": 8065,
+    "vehicle_or_amr_partial": 371,
+    "vehicle_or_amr": 183,
+    "person_partial": 326,
+    "person_position_mismatch": 257
+   },
+   "cause_fraction_of_fa": {
+    "low_score_clutter": 0.8764,
+    "vehicle_or_amr_partial": 0.0403,
+    "vehicle_or_amr": 0.0199,
+    "person_partial": 0.0354,
+    "person_position_mismatch": 0.0279
+   },
+   "fa_per_predicted_if_position_mismatch_buckets_were_label_noise": 0.7649221823157175
+  },
+  {
+   "role": "dev_L11",
+   "tau": 0.02,
+   "policy": "B_person_shaped_agent",
+   "false_alarm_cells": 714,
+   "predicted_cells_scored": 10467,
+   "fa_per_predicted": 0.06821438807681283,
+   "cause_cells": {
+    "low_score_clutter": 450,
+    "person_position_mismatch": 136,
+    "person_partial": 127,
+    "person_ignored": 1
+   },
+   "cause_fraction_of_fa": {
+    "low_score_clutter": 0.6303,
+    "person_position_mismatch": 0.1905,
+    "person_partial": 0.1779,
+    "person_ignored": 0.0014
+   },
+   "fa_per_predicted_if_position_mismatch_buckets_were_label_noise": 0.05522117130027706
+  },
+  {
+   "role": "hold_L08",
+   "tau": 0.02,
+   "policy": "B_person_shaped_agent",
+   "false_alarm_cells": 4037,
+   "predicted_cells_scored": 51594,
+   "fa_per_predicted": 0.07824553242625111,
+   "cause_cells": {
+    "vehicle_or_amr_partial": 1022,
+    "vehicle_or_amr": 314,
+    "person_partial": 103,
+    "person_position_mismatch": 129,
+    "low_score_clutter": 346,
+    "humanoid_position_mismatch": 981,
+    "humanoid_partial": 1139,
+    "person_ignored": 3
+   },
+   "cause_fraction_of_fa": {
+    "vehicle_or_amr_partial": 0.2532,
+    "vehicle_or_amr": 0.0778,
+    "person_partial": 0.0255,
+    "person_position_mismatch": 0.032,
+    "low_score_clutter": 0.0857,
+    "humanoid_position_mismatch": 0.243,
+    "humanoid_partial": 0.2821,
+    "person_ignored": 0.0007
+   },
+   "fa_per_predicted_if_position_mismatch_buckets_were_label_noise": 0.05673140287630345
+  },
+  {
+   "role": "hold_L02",
+   "tau": 0.02,
+   "policy": "B_person_shaped_agent",
+   "false_alarm_cells": 98045,
+   "predicted_cells_scored": 184034,
+   "fa_per_predicted": 0.5327548170446765,
+   "cause_cells": {
+    "low_score_clutter": 73305,
+    "vehicle_or_amr": 4113,
+    "person_position_mismatch": 3057,
+    "person_partial": 7899,
+    "humanoid_partial": 5416,
+    "humanoid_position_mismatch": 2715,
+    "vehicle_or_amr_partial": 1532,
+    "unexplained": 8
+   },
+   "cause_fraction_of_fa": {
+    "low_score_clutter": 0.7477,
+    "vehicle_or_amr": 0.042,
+    "person_position_mismatch": 0.0312,
+    "person_partial": 0.0806,
+    "humanoid_partial": 0.0552,
+    "humanoid_position_mismatch": 0.0277,
+    "vehicle_or_amr_partial": 0.0156,
+    "unexplained": 0.0001
+   },
+   "fa_per_predicted_if_position_mismatch_buckets_were_label_noise": 0.501391047306476
+  },
+  {
+   "role": "hold_L05",
+   "tau": 0.02,
+   "policy": "B_person_shaped_agent",
+   "false_alarm_cells": 1414,
+   "predicted_cells_scored": 33477,
+   "fa_per_predicted": 0.04223795441646504,
+   "cause_cells": {
+    "low_score_clutter": 403,
+    "vehicle_or_amr": 743,
+    "vehicle_or_amr_partial": 65,
+    "humanoid_position_mismatch": 29,
+    "person_position_mismatch": 74,
+    "humanoid_partial": 67,
+    "person_partial": 33
+   },
+   "cause_fraction_of_fa": {
+    "low_score_clutter": 0.285,
+    "vehicle_or_amr": 0.5255,
+    "vehicle_or_amr_partial": 0.046,
+    "humanoid_position_mismatch": 0.0205,
+    "person_position_mismatch": 0.0523,
+    "humanoid_partial": 0.0474,
+    "person_partial": 0.0233
+   },
+   "fa_per_predicted_if_position_mismatch_buckets_were_label_noise": 0.039161215162648984
+  },
+  {
+   "role": "hold_L03",
+   "tau": 0.02,
+   "policy": "B_person_shaped_agent",
+   "false_alarm_cells": 25335,
+   "predicted_cells_scored": 147425,
+   "fa_per_predicted": 0.17185009326776327,
+   "cause_cells": {
+    "humanoid_position_mismatch": 6917,
+    "vehicle_or_amr": 4965,
+    "person_position_mismatch": 1861,
+    "humanoid_partial": 1040,
+    "person_partial": 946,
+    "vehicle_or_amr_partial": 259,
+    "low_score_clutter": 9347
+   },
+   "cause_fraction_of_fa": {
+    "humanoid_position_mismatch": 0.273,
+    "vehicle_or_amr": 0.196,
+    "person_position_mismatch": 0.0735,
+    "humanoid_partial": 0.041,
+    "person_partial": 0.0373,
+    "vehicle_or_amr_partial": 0.0102,
+    "low_score_clutter": 0.3689
+   },
+   "fa_per_predicted_if_position_mismatch_buckets_were_label_noise": 0.11230795319654062
+  }
+ ]
+}

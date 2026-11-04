@@ -52,6 +52,8 @@ def register_roles():
         m["environment"]["git"] = {"commit": st["commit"], "dirty": st["dirty"], "scope": st["scope"],
                                    "note": "whole-repository state (EXP-0010C provenance); the Stage A git_info field is not used"}
         m["protocol_v3_sha256"] = sha256_file(PROTOCOL)
+        # the wrapped EXP-0010B manifest builder hard-codes "python -m analysis.control_gate.run_cag ..."; record the real entry point
+        m["command"] = " ".join(["python", "-m", "analysis.control_semantics.run_cs"] + sys.argv[1:])
         return m
 
     run_cag.manifest = manifest
