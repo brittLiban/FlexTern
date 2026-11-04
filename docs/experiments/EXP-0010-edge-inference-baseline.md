@@ -2,7 +2,7 @@
 
 Status: Stage A implemented and measured (2026-11-04). The reference and deployment runtimes agree exactly and the harness is reproducible, but the pretrained detector scores poorly under the frozen IoU 0.5 metric and a post-hoc diagnostic shows the cause is mixed (box-extent mismatch and confusion with non-person objects), so it is not yet a validated control. Stage B is NOT started; awaiting founder + ChatGPT review.
 Date: 2026-11-04
-Commit: recorded in the final commit of the FT-0010 Stage A series (see `git log --grep EXP-0010`)
+Commit: a3c9ce6
 
 ## Research Question
 
@@ -82,7 +82,7 @@ Person AP50 (101-point COCO AP, IoU 0.5, detections >= 0.001); GT person boxes u
 Frame i is released at t0 + pts_i (perf_counter); a feeder thread decodes (PyAV, 2 slice threads) at release; decoded frames enter a FIFO of capacity 2 (oldest dropped when full); a worker runs pre -> network -> post. Latency = output_done − *scheduled* release (so decode, queueing and feeder slip all count). The encoded MP4 is loaded in memory first. 50 untimed warmup inferences. Every frame has exactly one trace row (including dropped ones); trace invariants are validated after every run (no violations in any run). The 100 ms deadline is **illustrative** (≈3 frame periods); no customer deadline is known.
 
 ### Code state of the recorded runs
-Every manifest records git commit `bb30579` with `dirty = true`: the runs executed from an uncommitted working tree (the Stage A code was written during the session and committed afterwards). From the calibration run onward, `pipeline.py`, `evaluate.py`, `replay.py` and `models.py` (other than the torch-free `checkpoint_path` fix above, which changes no computed value) and the frozen `protocol.json` were not modified. After the calibration run these changed: `run_stage_a.py` (`host_state` parsing, a holdout guard) and `report.py`, which affect metadata and reporting only; `diagnose_fp.py` was added. The final Stage A commit contains exactly this code; its hash is in `git log --grep EXP-0010`.
+Every manifest records git commit `bb30579` with `dirty = true`: the runs executed from an uncommitted working tree (the Stage A code was written during the session and committed afterwards). From the calibration run onward, `pipeline.py`, `evaluate.py`, `replay.py` and `models.py` (other than the torch-free `checkpoint_path` fix above, which changes no computed value) and the frozen `protocol.json` were not modified. After the calibration run these changed: `run_stage_a.py` (`host_state` parsing, a holdout guard) and `report.py`, which affect metadata and reporting only; `diagnose_fp.py` was added. The final Stage A commit contains exactly this code; its hash is a3c9ce6.
 
 ### Host (recorded in every manifest)
 AMD Ryzen 7 260 (8C/16T), 15.7 GB RAM (WSL2 capped to 6 GB), WSL2 Ubuntu 26.04 guest (kernel 6.18.33.2-microsoft-standard-WSL2) under Hyper-V on a laptop, Windows "Balanced" plan. Governor, frequency, thermal state and process priority are **not controlled**. AC/battery: see Findings (power-state confound).
