@@ -27,6 +27,10 @@ Code: `analysis/control_gate/` (`gt3d.py` 3D→2D projection; `consistency.py` g
 
 Development screening used every 3rd frame of each clip (stride 3). Operating threshold per candidate = best pooled development balanced accuracy on the geometry-passing clips (L10, L11). Selection rule: among real-time-eligible candidates, highest pooled development balanced accuracy, ties within 0.01 to the cheapest.
 
+## Code state of the recorded runs
+
+Every manifest records `git.commit = b056ace` and `dirty = false`, which is **wrong for this objective**: `common.git_info` checks cleanliness only under `analysis/edge_inference`, and all of `analysis/control_gate/` was untracked and was edited between runs. What changed during the work: `detectors.yolox_pre` (raw BGR 0-255 after the first YOLOX run; regenerated), `parity.py` (reference input, a guard for the incomplete YOLOX-S file), `run_cag.py` (replay/feasibility/select/holdout commands were added after the first detect runs), `zones.py` (the post-hoc `gt_states_tolerant` was appended after all holdout scoring). The preregistered scoring functions (`zones.gt_states`, `det_states`, `cag_eval.evaluate`, `run_cag.cmd_holdout`) were unchanged from the first development scoring through the holdout scoring. The code state is the commit that contains this record. Faulty-YT development artifacts were deleted (see Findings 3).
+
 ## Results
 
 All MEASURED unless marked. No energy was measured.
@@ -64,9 +68,11 @@ S0, S1, S2 pass at 4 threads (0 drops; p99 43 / 49 / 40 ms). YT fails at 4 threa
 **Verdict under the declared rule: no adequate control among the tested configurations.** TPR is high; the failure is false alarms.
 
 ### R6. Post-hoc diagnostics (labelled POST-HOC: run after seeing the holdout results; they do not change the verdict)
-- **Tau does not rescue it.** Best balanced accuracy over every tau on the holdout is only 0.724 (L08, YT) and 0.684 (L02, YT) (`posthoc_tau_sweep.json`).
-- **Most "false alarms" are humanoid robots.** Among YT's confident (score ≥ 0.5) detections that are false alarms under the metric, **82% (L08) and 81% (L02)** overlap the dataset's FourierGR1T2/AgilityDigit humanoid-robot labels (IoU ≥ 0.3); about 18% overlap a labelled Person whose projected foot was more than the margin away; ≤ 0.5% overlap nothing (`posthoc_fa_by_class.json`). The development layouts contain no humanoids (L10/L11 GT classes: Person, vehicles), so development could not reveal this. Stage A's policy treated humanoids as ignore regions; **I did not carry that policy into the zone metric and my layout rule did not screen for humanoid presence** — a methodology gap on my side, found only after the holdout was scored.
-- Re-scoring with humanoid-occupied zones set to DONTCARE (`posthoc_humanoid_dontcare.json`): YT balanced accuracy 0.828 [0.785, 0.869] (L08, FPR 0.34) and 0.794 [0.754, 0.831] (L02, FPR 0.39) at the frozen tau; S0 0.814 and 0.681. Still below the bar (FPR ≥ 0.34). Whether the remaining FPR is real detector error, residual labelling/foot-projection noise, or unlabelled people was not separated.
+- **Tau does not rescue the preregistered metric.** Best balanced accuracy over every tau on the holdout is only 0.724 (L08, YT) and 0.684 (L02, YT) (`posthoc_tau_sweep.json`).
+- **Humanoid robots (operating-point effect).** Setting zones that contain a humanoid foot to DONTCARE moves YT cell-level FPR at the frozen tau from 0.592 to 0.338 (L08) and from 0.614 to 0.387 (L02): roughly 40% of the false-alarm rate, balanced accuracy 0.828 / 0.794 (`posthoc_humanoid_dontcare.json`). (At the detection level the share is larger: of YT confident, score >= 0.5, false-alarm detections, 82% (L08) and 81% (L02) overlap FourierGR1T2/AgilityDigit labels at IoU >= 0.3, `posthoc_fa_by_class.json`; that is a count of detections, not of the cell-level rate.) The development layouts contain no humanoids, so development could not reveal this. Stage A treated humanoids as ignore regions; **I did not carry that policy into the zone metric and my layout rule did not screen humanoids.** An independent advisor review had also advised choosing holdouts "where forklifts are present" without mentioning class mix, which contributed.
+- **Metric construction (found in review).** The preregistered metric gives foot jitter tolerance on the miss side only: a detection counts as occupying a zone if its foot is within 32 px of it, but a zone is NEG only if no GT foot is within the *same* 32 px, so a detection 10 px across a boundary from a nearby person is a false alarm. Persons that are ignored (under 32 px, foot outside the frame, bad depth) also leave their zones NEG. Pinned by `tests.test_control_gate.TestMetricToleranceAsymmetry`. Of the confident false alarms that match a labelled Person, 2,114 of 2,128 (L08) and 1,501 of 1,502 (L02) are persons whose projected foot is **outside the frame** (people cut off at the bottom edge; the detector clips their box to the frame, the metric has no GT foot there).
+- **Ignore-aware, tolerant rescoring (`gt_states_tolerant`, `posthoc_tolerant_metric.json`, `posthoc_tolerant_tau_sweep.json`)**: humanoid feet and all ignored persons make their zones DONTCARE and NEG requires no GT foot within 2x the margin. At the frozen tau, YT: balanced accuracy 0.844 (L08, TPR 0.993, FPR 0.306) and 0.863 (L02, TPR 0.979, FPR 0.253); S0: 0.834 (FPR 0.313) and 0.741 (FPR 0.514). Over all taus YT's best is 0.852 (L08) and 0.863 (L02), with FPR about 0.25-0.31 at TPR >= 0.97 and never below 0.15 at TPR >= 0.67. **Still below the bar (FPR <= 0.10 at TPR >= 0.90).** The source of the remaining FPR at high recall was not isolated (candidates: low-score detections on clutter, residual ground-truth foot noise, unlabelled or ambiguous persons).
+- Development with the tolerant variant: L11 is unchanged (YT 0.926 -> 0.930), L10 improves slightly (0.646 -> 0.686, TPR still 0.48).
 - **Forklift/pallet-truck audit** (30 crops, `results/control_gate/fp_audit/dev_L10_S0_tau0.1_vehicle_fp.jpg`): the "forklift" false positives of S0 on L10 are a static pallet truck at the dock and a blue autonomous mobile robot; no person is on or hidden by them, so they are **detector confusion, not label semantics**. YT produces 22 such detections vs S0's 1,528 on the same clip.
 
 ### R7. Controlled timing (hold_L08 frames 0–2699, AC power, Balanced plan; interleaved S0_t4, YT_t8, S0_t8, YT_t4 x3; `timing_summary.json`)
@@ -80,29 +86,29 @@ S0, S1, S2 pass at 4 threads (0 drops; p99 43 / 49 / 40 ms). YT fails at 4 threa
 
 YT at 8 threads meets the real-time bar only marginally (p99 99.4 ms and 0.78% drops in the third repeat). The third repeat of S0-4, YT-8 and the others is slower while the host reported 3488 MHz at start of some of them: the Windows-reported clock (2499/3488 MHz, `CurrentClockSpeed`) changed between runs, WSL2 cannot observe frequency, and thermal state is unobserved, so run-to-run differences (up to 6 ms in p50, one 197 ms max) are **confounded by boost/thermal/host state and not attributable to the configuration**. No trace violations in any run. CPU busy cores are diagnostic only (ORT threads spin) and are **not** an energy estimate.
 
-### R8. Optimized conventional comparators — what was and was not done
-Measured: ORT FP32 with a 4-vs-8 intra-op thread comparison on two detectors (R7). **Not done:** INT8/FP16 quantization (deferred by protocol because the FP32 control failed, so a quantized control would not have been a valid baseline), a faster decode/resize path, fused in-graph postprocessing, OpenVINO/hardware decode. Postprocess + decode are still 5–12 ms (> network for S0), so the "optimized baseline" remains optimized for the network only. No FlexTern advantage is claimed or tested.
+### R8. Optimized conventional comparators: what was and was not done
+Measured: ORT FP32 with a 4-vs-8 intra-op thread comparison on two detectors (R7). **Not done, as deviations from what protocol_v2 planned:** a faster decode/resize path, fused in-graph postprocessing, OpenVINO/hardware decode (protocol_v2 planned the faster decode/postprocess path unconditionally; I did not get to it, so this is an omission, not a rule-based deferral). INT8/FP16 quantization was conditional on the FP32 control passing and was therefore not run. Decode plus postprocess are still 5-12 ms (more than the network for S0), so the baseline remains optimized for the network only. No FlexTern advantage is claimed or tested.
 
 ## Findings and negative results
 
 1. **No adequate control was found** (R5). The preregistered answer is "no among {S0, YT (selected), also S1/S2/YS untested on the holdout}".
-2. **A stronger detector is not the whole answer, but it helps a lot on boxes**: YOLOX-Tiny AP50 0.62–0.79 on fresh layouts vs 0.11–0.31 for the Stage A detector, and its development zone performance on L11 (0.93) is nearly adequate. The metric's failure on the holdouts is driven by object classes the labels exclude (humanoid robots, R6) and by the L10-style foot/label noise, not by missed people (TPR ≥ 0.98).
-3. **Preprocessing bug caught before the holdout (negative result):** the YOLOX-Tiny weights give person scores ~1e-3 under the release demo's ImageNet mean/std normalization and 0.7–0.8 with raw 0–255 pixels; the first development run therefore scored exactly 0.500 (no detections). My original parity check validated against that same mismatched demo preprocessing and passed trivially (counts equal at zero). Fixed to raw BGR 0–255 (amendment 1), regenerated, and the parity check now compares against a non-trivial reference (15/40 frames non-empty).
+2. **A stronger detector helps a lot on boxes but does not close the zone gap**: YOLOX-Tiny AP50 0.62-0.79 on fresh layouts vs 0.11-0.31 for the Stage A detector, and TPR >= 0.98. The preregistered metric's FPR (0.59 / 0.61) is inflated by its own construction: humanoid robots (about 40% of the cell-level FPR), people cut off at the frame edge and the one-sided boundary tolerance (R6). With those removed (post-hoc) FPR is still 0.25-0.31 at the same recall; its source is unexplained.
+3. **Preprocessing bug caught before the holdout (negative result):** the YOLOX-Tiny weights give person scores ~1e-3 under the release demo ImageNet mean/std normalization and 0.7-0.8 with raw 0-255 pixels; the first development run therefore scored exactly 0.500 (no detections). My original parity check validated against that same mismatched demo preprocessing and passed trivially (counts equal at zero). Fixed to raw BGR 0-255 (amendment 1) and regenerated. The reference input in the parity check is written by me, so it only confirms the code matches my intent; the real evidence that the convention is right is the detector working (AP50 about 0.73 on L10/L11 and 0.62-0.79 on fresh layouts). The faulty first-run development artifacts were deleted; only their summary numbers (4 detections >= 0.05 in 3090 frames, pooled balanced accuracy 0.500) survive in amendment 1.
 4. **My torchvision `fixed_size` mistake:** it is (width, height); my first S1/S2 parity reference ran transposed and reported false disagreements. Pipeline was correct; the check was fixed.
-5. **Methodology gap found after holdout scoring (R6):** the zone metric ignored the humanoid ignore-region policy and the layout rule did not screen humanoids. The one-shot holdout is therefore *spent for this protocol*; any future pass claim needs a **new fresh holdout** and a corrected protocol version.
+5. **Methodology gaps found after holdout scoring (R6):** the zone metric ignored the humanoid ignore-region policy, ignored persons left NEG zones, boundary tolerance was one-sided, and the layout rule did not screen class mix. The one-shot holdout is therefore *spent for this protocol*; any future pass claim needs a **new fresh holdout** and a corrected protocol version.
 6. **L09 fails the geometry check**, so zone metrics exist on two development clips only (L10, L11) and the pooled development score is dominated by whichever of those has more frames.
 7. **Timing is not cleanly separable from host state** (R7).
 
 ## Interpretation
 
-- **INFERRED:** with the metric as preregistered, neither SSDLite variant nor YOLOX-Tiny is an adequate control; with humanoids excluded (post-hoc), YOLOX-Tiny is closer (0.79–0.83) but still not at the bar (FPR 0.34–0.39), and nothing here shows what limit remains.
+- **INFERRED:** with the metric as preregistered, neither SSDLite variant nor YOLOX-Tiny is an adequate control; with the metric corrected post-hoc (humanoids and ignored persons DONTCARE, symmetric tolerance), YOLOX-Tiny is closer (balanced accuracy 0.84-0.86, TPR >= 0.98) but its FPR (0.25-0.31) is still far above the 0.10 target, and what limits it was not isolated.
 - **INFERRED:** squash vs aspect is a smaller effect than detector capacity; S2 (same pixels, correct aspect) improved IoU-0.1 AP over S0 (0.46 vs 0.34 on L11) but not IoU-0.5 AP.
 - **INFERRED:** a real 30 fps single-stream CPU budget on this laptop is about 8 threads for a YOLOX-Tiny-class model; the SSD-class model leaves most of the frame period idle.
-- **HYPOTHESIZED, untested:** the remaining false alarms are residual label/foot-projection mismatch and unlabelled or ambiguous persons; a corrected protocol with a humanoid-aware metric and a new holdout would show whether YOLOX-Tiny clears the bar.
+- **HYPOTHESIZED, untested:** the remaining false alarms are low-score detections on clutter plus residual label/foot-projection mismatch and unlabelled or ambiguous persons; a corrected protocol on a new holdout would show whether YOLOX-Tiny clears the bar. YT tau = 0.05 sits at the lower edge of the grid, so its optimum may lie below it.
 
 ## Surprises
 
-1. 80% of the holdout failures were a COCO "person" detector correctly detecting humanoid robots that the labels deliberately exclude.
+1. About 40% of the holdout false-alarm rate (80% of confident false-alarm detections) came from a COCO "person" detector detecting humanoid robots that the labels deliberately exclude, and more came from the metric's own construction.
 2. The same detector that scores 0.93 zone balanced accuracy on L11 scores 0.65 on L10 and ~0.70 on fresh layouts: layout variance dominates detector choice.
 3. A trivially passing parity check hid a preprocessing bug.
 
@@ -119,7 +125,7 @@ Measured: ORT FP32 with a 4-vs-8 intra-op thread comparison on two detectors (R7
 
 - **MEASURED:** under the preregistered zone-occupancy bar, S0 and the selected YOLOX-Tiny both fail on two fresh synthetic layouts (balanced accuracy 0.62–0.71), mainly through false alarms.
 - **MEASURED:** YOLOX-Tiny is a much better box detector than the Stage A model on this data (AP50 0.62–0.79 vs 0.11–0.31 on fresh layouts) but needs 8 CPU threads for 30 fps (about 2.3x S0's per-frame latency).
-- **MEASURED:** most of the holdout false alarms are on humanoid robots excluded from the labels.
+- **MEASURED (post-hoc):** about 40% of the holdout zone false-alarm rate is on humanoid robots excluded from the labels, and more of the metric's inflation is its one-sided boundary tolerance and people cut off at the frame edge; with all three removed YOLOX-Tiny still has FPR 0.25-0.31.
 
 ## What This Does NOT Prove
 
@@ -127,8 +133,8 @@ Nothing about real industrial footage, a customer's quality requirement, INT8/FP
 
 ## Follow-up Questions
 
-1. Should the application metric treat humanoid robots as persons, ignore them, or report them separately (a customer-semantics question for the founder; ADR-0007 proposes ignoring)?
-2. With a corrected, humanoid-aware protocol and a *new* fresh holdout, does YOLOX-Tiny (or YOLOX-S) clear the bar? Is the remaining FPR (0.34–0.39 post-hoc) label noise or detector error?
+1. Should the application metric treat humanoid robots as persons, ignore them, or report them separately (a customer-semantics question for the founder; ADR-0007 proposes ignoring)? How should people cut off by the frame edge be handled?
+2. With a corrected, humanoid-aware protocol and a *new* fresh holdout, does YOLOX-Tiny (or YOLOX-S) clear the bar? Is the remaining FPR (0.25-0.31 post-hoc) label noise or detector error?
 3. Are the 3x3 image-grid zones and the foot-projection ground truth adequate, or should zones be ground-plane regions?
 4. Is the quality gap worth closing before temporal-execution work, or should temporal experiments proceed against YOLOX-Tiny with the metric caveats stated?
 5. Real footage, a real deadline, and an energy meter (Q-026) remain unavailable.

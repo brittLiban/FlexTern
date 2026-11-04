@@ -8,7 +8,7 @@ There is exactly one active engineering objective at a time. This file is the si
 
 **Title:** Establish a scientifically defensible detection control before any temporal or ternary work
 
-**Status:** Completed 2026-11-04; **awaiting founder + ChatGPT review. No further objective is active. Stage B has NOT been started.** Outcome: **no adequate control among the tested configurations** under the preregistered zone-occupancy bar on two fresh, layout-disjoint holdouts (selected YOLOX-Tiny: balanced accuracy 0.70 / 0.68, TPR ≥ 0.98, FPR 0.59 / 0.61; the Stage A detector 0.71 / 0.62). Post-hoc, about 80% of the confident false alarms are humanoid robots that the labels exclude, a gap in my metric and layout rule (EXP-0010B R6); with those zones set to don't-care YOLOX-Tiny reaches 0.83 / 0.79, still below the bar. See `experiments/EXP-0010B-control-adequacy-gate.md`.
+**Status:** Completed 2026-11-04; **awaiting founder + ChatGPT review. No further objective is active. Stage B has NOT been started.** Outcome: **no adequate control among the tested configurations** under the preregistered zone-occupancy bar on two fresh, layout-disjoint holdouts (selected YOLOX-Tiny: balanced accuracy 0.70 / 0.68, TPR ≥ 0.98, FPR 0.59 / 0.61; the Stage A detector 0.71 / 0.62). Post-hoc, the metric itself inflated false alarms (humanoid robots excluded by the labels, about 40% of the cell-level FPR; people cut off at the frame edge; one-sided boundary tolerance; a gap in my metric and layout rule, EXP-0010B R6); with those corrected YOLOX-Tiny reaches balanced accuracy 0.84 / 0.86 at TPR >= 0.98 but FPR is still 0.31 / 0.25, far from 0.10. See `experiments/EXP-0010B-control-adequacy-gate.md`.
 
 **Owner / agent:** Claude (implementation); founder + ChatGPT (research direction/review).
 
@@ -33,7 +33,7 @@ Is there a detector/input configuration that is an adequate quality control for 
 ## Decision needed from the founder (with ChatGPT)
 
 1. Humanoid-robot semantics for the metric (ignore / person / separate; ADR-0007 proposes ignore).
-2. Whether to spend one more objective on a corrected, humanoid-aware protocol with a **new** fresh holdout (the current holdout is spent), or to start temporal-execution experiments against YOLOX-Tiny with the metric caveats stated. My reading of the evidence: the *quality* question is mostly narrowed but not closed; temporal experiments would currently measure retention against a control whose own false-alarm rate on the holdouts is 0.34–0.6.
+2. Whether to spend one more objective on a corrected, humanoid-aware protocol with a **new** fresh holdout (the current holdout is spent), or to start temporal-execution experiments against YOLOX-Tiny with the metric caveats stated. My recommendation: not yet Stage B. Run one more corrected-gate objective (humanoid- and ignore-aware metric with a tolerant NEG band, scored on a new fresh holdout whose layout rule screens class mix); temporal experiments would otherwise measure retention against a control whose own false-alarm rate is 0.25-0.6.
 
 ## Primary records
 

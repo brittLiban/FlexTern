@@ -192,5 +192,30 @@ class TestHoldoutLock(unittest.TestCase):
         self.assertEqual(len({grp[s] for s in hold}), len(hold))
 
 
+class TestMetricToleranceAsymmetry(unittest.TestCase):
+    """Pins a property of the PREREGISTERED metric found in review: foot-jitter tolerance exists on the miss side only."""
+
+    def test_preregistered_metric_counts_boundary_jitter_as_false_alarm(self):
+        # GT foot 40 px left of the x=640 boundary (zone 0); detection foot 10 px closer to zone 1 (30 px left of boundary)
+        foot = np.array([[600.0, 100.0]])
+        pos, neg = zones.gt_states(1, foot, np.array([0]), np.array([100.0]), np.array([True]))
+        d = {"frame": np.array([0]), "score": np.array([0.9], np.float32), "box": np.array([[580, 0, 620, 100]], np.float32)}
+        d["box"][0] = [610, 0, 650, 100]       # foot x = 630: 10 px from the boundary, within 32 px of zone 1
+        pred = zones.det_states(1, d, 0.5)
+        self.assertTrue(neg[0, 1] and pred[0, 1])          # zone 1: NEG, predicted occupied -> counted as a false alarm
+        self.assertEqual(zones.occupancy_counts(pos, neg, pred)["fp"], 1)
+
+    def test_tolerant_variant_removes_it_and_counts_ignored_objects(self):
+        foot = np.array([[600.0, 100.0]])
+        pos, neg = zones.gt_states_tolerant(1, foot, np.array([0]), np.array([100.0]), np.array([True]))
+        self.assertFalse(neg[0, 1])                          # 40 px from zone 1 < 2*margin: not a clean negative
+        self.assertTrue(neg[0, 8])
+        # an ignored (humanoid) foot deep in zone 4 makes zone 4 non-NEG
+        pos, neg = zones.gt_states_tolerant(1, foot, np.array([0]), np.array([100.0]), np.array([True]),
+                                            ignore_foot=np.array([[960.0, 540.0]]), ignore_frame=np.array([0]))
+        self.assertFalse(neg[0, 4])
+        self.assertFalse(pos[0, 4])
+
+
 if __name__ == "__main__":
     unittest.main()

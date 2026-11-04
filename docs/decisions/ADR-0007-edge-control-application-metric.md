@@ -12,7 +12,8 @@ EXP-0010 Stage A scored a COCO person detector with AP50 at IoU 0.5 against *vis
 1. The primary quality metric for the edge-video control is **zone-occupancy balanced accuracy** on a fixed image-zone grid, with the person's ground-contact point as position, POS/NEG/DONTCARE states with a boundary margin, and a block-bootstrap confidence interval (details: `analysis/control_gate/protocol_v2.json`, `zones.py`). AP50, presence and count are secondary.
 2. Any quality bar is labelled **TARGET** until a customer requirement exists. The EXP-0010B bar (TPR ≥ 0.90, FPR ≤ 0.10, lower CI of balanced accuracy ≥ 0.85) is a stated engineering threshold, not a safety standard.
 3. **Humanoid-robot classes (FourierGR1T2, AgilityDigit) are ignore regions** (DONTCARE zones) in the metric, as in Stage A's AP scoring, unless the founder states that the application must treat them as persons or report them separately.
-4. A fresh layout-disjoint holdout is required for any new tuned configuration, and the layout rule must screen for the class mix (humanoids, vehicles) it will be scored on.
+4. NEG zones require no ground-truth foot (scored or ignored) within a margin larger than the prediction tolerance, and ignored persons (too small, foot outside the frame) make their zones DONTCARE (the preregistered EXP-0010B metric did not, see KI-015).
+5. A fresh layout-disjoint holdout is required for any new tuned configuration, and the layout rule must screen for the class mix (humanoids, vehicles) it will be scored on.
 
 ## Alternatives Considered
 

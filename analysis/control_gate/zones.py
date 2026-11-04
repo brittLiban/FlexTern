@@ -133,3 +133,33 @@ def presence_and_count(gt_cnt: np.ndarray, pr_cnt: np.ndarray) -> dict:
             "count_exact_frac": float((gt_cnt == pr_cnt).mean()),
             "count_within1_frac": float((np.abs(gt_cnt - pr_cnt) <= 1).mean()),
             "const_median_mae": float(np.abs(gt_cnt - np.median(gt_cnt)).mean())}
+
+
+def gt_states_tolerant(n_frames: int, foot: np.ndarray, frame: np.ndarray, height_px: np.ndarray, valid: np.ndarray,
+                       ignore_foot: np.ndarray | None = None, ignore_frame: np.ndarray | None = None,
+                       margin: float = MARGIN, neg_margin: float | None = None, grid: int = GRID):
+    """POST-HOC variant (EXP-0010B R6b; NOT the preregistered metric).
+
+    POS as in gt_states. NEG requires that no GT foot -- scored person, *ignored* person (too small / outside the frame / bad
+    depth) or ignore-class object (humanoid) -- lies within the zone grown by `neg_margin` (default 2*margin). A prediction
+    still counts as occupying a zone if its foot is within `margin` of it, so a false alarm needs a gap of at least
+    (neg_margin - margin) px to any GT foot, which removes the asymmetric tolerance of the preregistered metric.
+    """
+    nm = 2 * margin if neg_margin is None else neg_margin
+    nz = grid * grid
+    keep = valid & (height_px >= SIZE_FLOOR) & (foot[:, 0] >= 0) & (foot[:, 0] < W) & (foot[:, 1] >= 0) & (foot[:, 1] < H)
+    strict = zone_masks(foot, 0.0, grid) & keep[:, None]
+    pos = np.zeros((n_frames, nz), bool)
+    anyg = np.zeros((n_frames, nz), bool)
+    ok = frame < n_frames
+    finite = np.isfinite(foot).all(axis=1)
+    grown_all = zone_masks(np.where(finite[:, None], foot, -1e9), nm, grid) & finite[:, None]   # every person row with a usable foot
+    for z in range(nz):
+        pos[frame[ok & strict[:, z]], z] = True
+        anyg[frame[ok & grown_all[:, z]], z] = True
+    if ignore_foot is not None and len(ignore_foot):
+        g2 = zone_masks(ignore_foot, nm, grid)
+        ok2 = ignore_frame < n_frames
+        for z in range(nz):
+            anyg[ignore_frame[ok2 & g2[:, z]], z] = True
+    return pos, ~anyg

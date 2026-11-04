@@ -21,15 +21,16 @@ New: `analysis/control_gate/`, `tests/test_control_gate.py`, `results/control_ga
 
 ## Tests / Validation Run
 
-`python -m unittest tests.test_control_gate tests.test_edge_inference`: 60 tests OK on host Python (11 skipped: need av/cv2/torch/ijson) and 60 OK in the WSL venv (nothing skipped). A wider non-RTL run is described in the final report if it completed.
+`python -m unittest tests.test_control_gate tests.test_edge_inference`: 62 tests (20 new + 42 Stage A) OK on host Python (11 skipped: need av/cv2/torch/ijson) and in the WSL venv (nothing skipped). The wider non-RTL regression (182 tests in Stage A) was NOT rerun: I started it with a module list I had guessed, stopped it, and do not cite a count.
 
 ## Actual Results
 
-See EXP-0010B. Short form: no tested configuration meets the preregistered bar on the fresh holdouts. YOLOX-Tiny: balanced accuracy 0.701 (L08) / 0.682 (L02), TPR ≥ 0.98, FPR 0.59 / 0.61; Stage A SSDLite320: 0.705 / 0.616. Post-hoc: ~80% of the confident false alarms are humanoid robots excluded by the labels; excluding those zones YOLOX-Tiny reaches 0.828 / 0.794, FPR 0.34 / 0.39. YOLOX-Tiny needs 8 threads for 30 fps (p50 29–38 ms; 4 threads drops 12–20%). No energy was measured.
+See EXP-0010B. Short form: no tested configuration meets the preregistered bar on the fresh holdouts. YOLOX-Tiny: balanced accuracy 0.701 (L08) / 0.682 (L02), TPR ≥ 0.98, FPR 0.59 / 0.61; Stage A SSDLite320: 0.705 / 0.616. Post-hoc: the metric itself inflated false alarms. Humanoid robots excluded by the labels are about 40% of the cell-level FPR (80% of confident false-alarm detections); people cut off at the frame edge and a one-sided boundary tolerance add more. With humanoids/ignored persons DONTCARE and symmetric tolerance YOLOX-Tiny reaches 0.844 / 0.863 (TPR >= 0.98) but FPR is still 0.306 / 0.253.
 
 ## Remaining Problems
 
-- Methodology gap on my side: zone metric ignored the humanoid ignore-region policy and the layout rule did not screen class mix (KI-015). The holdout is spent for this protocol.
+- Methodology gaps on my side (KI-015): the zone metric ignored the humanoid ignore-region policy, left ignored persons as NEG zones, had one-sided boundary tolerance, and the layout rule did not screen class mix. The preregistered verdict was scored as written; the corrected metric is post-hoc only (`gt_states_tolerant`).
+- Run manifests record commit b056ace with dirty=false although `analysis/control_gate` was untracked and edited between runs (git_info only checks analysis/edge_inference); see EXP-0010B Code state.
 - Ground-truth foot-point noise (KI-016) and L09 failing geometry.
 - Timing confounded by host clock/thermal state; one repeat at the real-time bar's edge (p99 99.4 ms).
 - YOLOX-S not evaluated; INT8/FP16 and a faster decode/postprocess path not done.

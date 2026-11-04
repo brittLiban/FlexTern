@@ -281,10 +281,14 @@ Description:      The EXP-0010B zone-occupancy metric (and the layout rule for t
                   holdout) did not carry Stage A's policy of treating humanoid robots
                   (FourierGR1T2, AgilityDigit) as ignore regions. The development layouts
                   contain no humanoids; both fresh holdouts (L08, L02) contain many.
-Impact:           About 80% of YOLOX-Tiny's confident zone false alarms on the holdouts are
-                  detections on humanoids; the preregistered verdict (no adequate control) was
-                  scored as written and is reported unchanged, with a labelled post-hoc
-                  rescoring. The holdout is spent for this protocol.
+                  Review also found one-sided boundary tolerance (detections get a 32 px
+                  margin, NEG uses the same margin) and ignored persons (small, foot outside
+                  the frame) leaving zones NEG.
+Impact:           Humanoid zones are about 40% of YOLOX-Tiny's cell-level FPR on the holdouts
+                  (80% of its confident false-alarm detections); people cut off at the frame
+                  bottom account for nearly all person-matched false alarms. The
+                  preregistered verdict was scored as written and is reported unchanged,
+                  with labelled post-hoc rescoring. The holdout is spent for this protocol.
 Workaround:       none yet. A corrected protocol (ADR-0007 point 3) plus a NEW fresh holdout
                   whose layout rule screens class mix is needed before any pass claim.
 ```
