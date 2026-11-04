@@ -1,0 +1,43 @@
+{
+ "protocol_v3_sha256": "45f9c8afcd15ebe23fe06a9a898cab2be05db08252e34eacda974baf23d2ce53",
+ "tau": {
+  "A_human_only": 0.02,
+  "B_person_shaped_agent": 0.02
+ },
+ "tau_v2_as_written": 0.05,
+ "deployment_threads": 8,
+ "fresh_holdout": [
+  {
+   "layout": "L05",
+   "scene": "Warehouse_013",
+   "camera": "Camera_0004"
+  },
+  {
+   "layout": "L03",
+   "scene": "Warehouse_011",
+   "camera": "Camera_0000"
+  }
+ ],
+ "reserve_layouts_unused": [
+  "L06",
+  "L07"
+ ],
+ "hashes": {
+  "dev_policy_scores.json": "9bd19b33751f28b21ad3c8c021ad22ae2ae23f35118c58f420827ebf8c614577",
+  "fresh_selection.json": "c23660d2237cd186ec231c660d88d063443e2f6265f3de472ef2d0f25908046c",
+  "localization.json": "cd3bbed5e191295ab6a306421580671b01b3184cc37f044c4a17746979b873bb",
+  "survey.json": "30ee33e18989bdfcbcd3e17a0008479ed302d2798d6bbdbf0f357f9f7b0c13ff",
+  "fa_attribution.json": "9a659944cb2f7ce13b00e1e7e213f12752ede162c072dac40ecd509daed948c4",
+  "miss_attribution.json": "3fb3274e5721039590fc60ee5b3b27bdbba1c620009d4cda65337ae02ca58fdf"
+ },
+ "repo_state_at_lock": {
+  "commit": "e90271399fb40b92d9ca8f89a321900abc8dd1dc",
+  "branch": "main",
+  "dirty": false,
+  "n_dirty_paths": 0,
+  "dirty_paths": [],
+  "dirty_code_paths": [],
+  "tree_state_sha256": null,
+  "scope": "whole repository (git status --porcelain --untracked-files=all)"
+ }
+}
