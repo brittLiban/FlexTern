@@ -1,0 +1,110 @@
+{
+ "protocol_sha256": "9a6d5b556996963eb571a0397e1ba3606230fea68db135d2d436bfb234f75c69",
+ "created_utc": "2026-11-04T13:03:24+00:00",
+ "host": {
+  "power_plan": "Balanced",
+  "battery_status_code": 2,
+  "battery_status": "AC power",
+  "battery_charge_pct": 86,
+  "note": "WSL2 guest under Hyper-V on a laptop; CPU governor, frequency, thermal state and Windows process priority are NOT controlled"
+ },
+ "results": {
+  "S0": {
+   "4": {
+    "dropped_fraction": 0.0,
+    "latency_ms": {
+     "mean": 22.883161919444444,
+     "p50": 22.248450499999997,
+     "p95": 31.13274625,
+     "p99": 43.34532453,
+     "max": 51.82823
+    },
+    "passes": true,
+    "stage_ms_mean": {
+     "decode_ms": 5.566257439444445,
+     "pre_ms": 0.9887843638888888,
+     "infer_ms": 10.330840358333333,
+     "post_ms": 5.697194425555556
+    }
+   },
+   "deployment_threads": 4
+  },
+  "S1": {
+   "4": {
+    "dropped_fraction": 0.0,
+    "latency_ms": {
+     "mean": 28.368712108888893,
+     "p50": 26.9797735,
+     "p95": 41.4574283,
+     "p99": 49.297331899999996,
+     "max": 65.010745
+    },
+    "passes": true,
+    "stage_ms_mean": {
+     "decode_ms": 5.110269119444444,
+     "pre_ms": 1.1773095655555554,
+     "infer_ms": 15.757569063888889,
+     "post_ms": 5.648819531666667
+    }
+   },
+   "deployment_threads": 4
+  },
+  "S2": {
+   "4": {
+    "dropped_fraction": 0.0,
+    "latency_ms": {
+     "mean": 20.47672076611111,
+     "p50": 19.608731,
+     "p95": 27.96112535,
+     "p99": 39.91382743,
+     "max": 61.234201
+    },
+    "passes": true,
+    "stage_ms_mean": {
+     "decode_ms": 4.686357203333333,
+     "pre_ms": 0.7731246333333334,
+     "infer_ms": 9.211849727222221,
+     "post_ms": 5.546231272777778
+    }
+   },
+   "deployment_threads": 4
+  },
+  "YT": {
+   "4": {
+    "dropped_fraction": 0.105,
+    "latency_ms": {
+     "mean": 89.20446373308503,
+     "p50": 88.730388,
+     "p95": 108.1460305,
+     "p99": 112.24641330000001,
+     "max": 130.622125
+    },
+    "passes": false,
+    "stage_ms_mean": {
+     "decode_ms": 5.262345349472377,
+     "pre_ms": 1.0568365996275606,
+     "infer_ms": 35.77465753941651,
+     "post_ms": 0.36898342582247057
+    }
+   },
+   "8": {
+    "dropped_fraction": 0.0016666666666666668,
+    "latency_ms": {
+     "mean": 31.154471547022816,
+     "p50": 29.202598,
+     "p95": 44.426027199999986,
+     "p99": 54.06897403999999,
+     "max": 187.43685
+    },
+    "passes": true,
+    "stage_ms_mean": {
+     "decode_ms": 4.981388616583194,
+     "pre_ms": 1.1298636099053978,
+     "infer_ms": 23.690276784641064,
+     "post_ms": 0.42801877796327215
+    }
+   },
+   "deployment_threads": 8
+  }
+ }
+}

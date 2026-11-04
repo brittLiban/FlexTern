@@ -1,0 +1,49 @@
+{
+ "export": {},
+ "parity": [
+  {
+   "config": "S0",
+   "frames": 40,
+   "max_abs_cls_logit_diff_torch_vs_ort": 3.62396240234375e-05,
+   "max_abs_bbox_diff_torch_vs_ort": 4.3511390686035156e-05,
+   "frames_equal_count_at_0.3_vs_official": 40,
+   "max_box_dev_px_vs_official_when_counts_equal": 0.5748291015625,
+   "onnx_sha256": "e668b54dc2f3021fef1d1d5ffc5e2f8216e97b0fef1237ca44f1ef901dca29dc",
+   "anchors_sha256": "bfea495927def833e6902b8ad06099bcc1b88546ff2db7a5494146cc62b55c45",
+   "note": "official path: torchvision SSD with transform.fixed_size=(W,H) (torchvision convention), float torch resize; mine: OpenCV uint8 resize (Stage A showed ~8 px at 1080p from the resize implementation alone)"
+  },
+  {
+   "config": "S1",
+   "frames": 40,
+   "max_abs_cls_logit_diff_torch_vs_ort": 2.9087066650390625e-05,
+   "max_abs_bbox_diff_torch_vs_ort": 4.029273986816406e-05,
+   "frames_equal_count_at_0.3_vs_official": 40,
+   "max_box_dev_px_vs_official_when_counts_equal": 1.2677001953125,
+   "onnx_sha256": "051eb3a603ffc373a82ddaca183044cefb5569fc8aaf479f2afd99617773a1a2",
+   "anchors_sha256": "a76013eae71437dc3ff93e2206d8c2669bde87bc59ab933a577d8547441298a6",
+   "note": "official path: torchvision SSD with transform.fixed_size=(W,H) (torchvision convention), float torch resize; mine: OpenCV uint8 resize (Stage A showed ~8 px at 1080p from the resize implementation alone)"
+  },
+  {
+   "config": "S2",
+   "frames": 40,
+   "max_abs_cls_logit_diff_torch_vs_ort": 2.384185791015625e-05,
+   "max_abs_bbox_diff_torch_vs_ort": 4.172325134277344e-05,
+   "frames_equal_count_at_0.3_vs_official": 40,
+   "max_box_dev_px_vs_official_when_counts_equal": 0.92962646484375,
+   "onnx_sha256": "3774a7e266f4cd2517e1353ee8d35bc7716c81ed7a8d2c8d27acd4d1c955807b",
+   "anchors_sha256": "8634cfbef3dabd230e9d628873f56f4b82134a4198e168dd8393e61f1215d71d",
+   "note": "official path: torchvision SSD with transform.fixed_size=(W,H) (torchvision convention), float torch resize; mine: OpenCV uint8 resize (Stage A showed ~8 px at 1080p from the resize implementation alone)"
+  },
+  {
+   "config": "YT",
+   "frames": 40,
+   "max_abs_preprocess_diff_vs_release_preproc": 0.0,
+   "frames_equal_person_count_at_0.3_vs_release_postprocess": 40,
+   "frames_with_any_person_at_0.3_reference": 15,
+   "max_box_dev_px_when_counts_equal": 0.0,
+   "onnx_sha256": "427cc366d34e27ff7a03e2899b5e3671425c262ea2291f88bb942bc1cc70b0f7",
+   "reference_demo_utils_sha256": "5b9ce8dd92920c7cddb9cf645ede346af6d7b0d2833092615735fab8063c8cbd",
+   "note": "reference NMS uses the +1 pixel area convention; mine does not (sub-pixel effect)"
+  }
+ ]
+}

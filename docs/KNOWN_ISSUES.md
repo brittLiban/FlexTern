@@ -271,6 +271,55 @@ Workaround:       gt.py accepts both key styles; Stage A splits by layout group
                   (results/edge_inference/dataset_audit.json).
 ```
 
+```
+KI-015
+Status:           Open
+Severity:         Major (affects validity of any quality claim on the new fresh holdouts)
+First observed:   2026-11-04
+Relevant commit:  EXP-0010B commit
+Description:      The EXP-0010B zone-occupancy metric (and the layout rule for the fresh
+                  holdout) did not carry Stage A's policy of treating humanoid robots
+                  (FourierGR1T2, AgilityDigit) as ignore regions. The development layouts
+                  contain no humanoids; both fresh holdouts (L08, L02) contain many.
+Impact:           About 80% of YOLOX-Tiny's confident zone false alarms on the holdouts are
+                  detections on humanoids; the preregistered verdict (no adequate control) was
+                  scored as written and is reported unchanged, with a labelled post-hoc
+                  rescoring. The holdout is spent for this protocol.
+Workaround:       none yet. A corrected protocol (ADR-0007 point 3) plus a NEW fresh holdout
+                  whose layout rule screens class mix is needed before any pass claim.
+```
+
+```
+KI-016
+Status:           Open
+Severity:         Minor
+First observed:   2026-11-04
+Relevant commit:  EXP-0010B commit
+Description:      Ground-truth foot points come from projecting the dataset's 3D boxes with
+                  per-scene calibration. The projection reproduces visible boxes on L10/L11 and
+                  both fresh layouts (rule in protocol_v2) but fails on L09 (visible/expected
+                  height median 0.69), and the 3D cuboids are loose (width ~1.5x visible), so a
+                  projected 3D box is not a whole-person label. Foot error tails reach tens of px.
+Impact:           Zone metrics exist for 4 clips only; some zone errors are label noise; the
+                  INFERRED whole-person-box AP is unreliable on L10.
+Workaround:       scenes failing the consistency rule are excluded from zone metrics.
+```
+
+```
+KI-017
+Status:           Open
+Severity:         Minor
+First observed:   2026-11-04
+Relevant commit:  EXP-0010B commit
+Description:      Windows memory protection killed two long background jobs (development
+                  detection loop; L02 holdout run) while WSL held ~1.5 GB used / 4 GB cache and
+                  the host had ~7.8 GB free. A third partial download (YOLOX-S ONNX) stalled at
+                  about 11 of 35.9 MB. Related to KI-007.
+Impact:           Jobs must be run one process at a time and restarted; YOLOX-S was never
+                  evaluated.
+Workaround:       per-process foreground-sized runs; results are saved per run.
+```
+
 ## Closed
 
 ```

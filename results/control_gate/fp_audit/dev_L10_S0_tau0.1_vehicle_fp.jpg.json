@@ -1,0 +1,10 @@
+{
+ "config": "S0",
+ "role": "dev_L10",
+ "tau": 0.1,
+ "false_positives_no_person_iou_ge_0.1": 9096,
+ "of_which_overlap_vehicle_iou_ge_0.3": 1528,
+ "montage": "dev_L10_S0_tau0.1_vehicle_fp.jpg",
+ "n_crops": 30,
+ "legend": "red = detection, green = Person GT, orange = Forklift/PalletTruck GT"
+}

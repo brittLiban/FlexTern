@@ -1,0 +1,230 @@
+{
+ "clip": "hold_L08 frames 0-2699 (90 s)",
+ "conditions": "AC power, Balanced plan, runs interleaved S0_t4, YT_t8, S0_t8, YT_t4 x3, WSL2 on a laptop; host clock sampled before/after (WSL cannot see frequency; thermal state unobserved); energy NOT measured",
+ "configs": {
+  "S0_t4": [
+   {
+    "run": "replay_t4_timing_r0",
+    "p50": 18.857324,
+    "p95": 25.12118835,
+    "p99": 29.417003359999995,
+    "max": 41.643062,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 5.159381844444444,
+     "pre_ms": 0.6799094237037037,
+     "infer_ms": 8.956031692962963,
+     "post_ms": 4.533966563333333
+    },
+    "clock_before_mhz": 2499,
+    "clock_after_mhz": 3488,
+    "trace_violations": 0,
+    "avg_busy_cores": 3.520960478574582
+   },
+   {
+    "run": "replay_t4_timing_r1",
+    "p50": 19.1466275,
+    "p95": 24.859531899999997,
+    "p99": 29.409544879999977,
+    "max": 47.746838,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 5.226170154074074,
+     "pre_ms": 0.6874939544444444,
+     "infer_ms": 8.866417828148148,
+     "post_ms": 4.676741431111111
+    },
+    "clock_before_mhz": null,
+    "clock_after_mhz": 2499,
+    "trace_violations": 0,
+    "avg_busy_cores": 3.693863776640152
+   },
+   {
+    "run": "replay_t4_timing_r2",
+    "p50": 25.3387455,
+    "p95": 32.145157649999994,
+    "p99": 37.597342939999955,
+    "max": 69.099046,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 7.154554011111112,
+     "pre_ms": 1.0980940240740742,
+     "infer_ms": 11.63126973111111,
+     "post_ms": 5.478696408888888
+    },
+    "clock_before_mhz": 3488,
+    "clock_after_mhz": 3488,
+    "trace_violations": 0,
+    "avg_busy_cores": 3.9628965345567733
+   }
+  ],
+  "S0_t8": [
+   {
+    "run": "replay_t8_timing_r0",
+    "p50": 17.4957705,
+    "p95": 21.34496625,
+    "p99": 26.888550309999996,
+    "max": 41.894829,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 5.554866401851852,
+     "pre_ms": 0.6715027940740742,
+     "infer_ms": 6.117748353333333,
+     "post_ms": 5.324934922962963
+    },
+    "clock_before_mhz": 3488,
+    "clock_after_mhz": 2499,
+    "trace_violations": 0,
+    "avg_busy_cores": 7.555768733816946
+   },
+   {
+    "run": "replay_t8_timing_r1",
+    "p50": 17.4772,
+    "p95": 21.703480499999994,
+    "p99": 26.87005991999999,
+    "max": 48.429268,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 5.527677601111111,
+     "pre_ms": 0.665334767037037,
+     "infer_ms": 6.143347736666667,
+     "post_ms": 5.296541080370371
+    },
+    "clock_before_mhz": 2499,
+    "clock_after_mhz": 2499,
+    "trace_violations": 0,
+    "avg_busy_cores": 7.554823331676235
+   },
+   {
+    "run": "replay_t8_timing_r2",
+    "p50": 17.6428425,
+    "p95": 22.305430849999997,
+    "p99": 27.255718509999998,
+    "max": 84.536074,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 5.613730851851852,
+     "pre_ms": 0.6754974759259259,
+     "infer_ms": 6.199059756296297,
+     "post_ms": 5.336830942222223
+    },
+    "clock_before_mhz": 2499,
+    "clock_after_mhz": 2499,
+    "trace_violations": 0,
+    "avg_busy_cores": 7.557396888864251
+   }
+  ],
+  "YT_t4": [
+   {
+    "run": "replay_t4_timing_r0",
+    "p50": 90.93685550000001,
+    "p95": 111.46943304999999,
+    "p99": 116.94919828999998,
+    "max": 149.504729,
+    "dropped_fraction": 0.12148148148148148,
+    "stage_ms_mean": {
+     "decode_ms": 6.612334352866779,
+     "pre_ms": 1.0207571323777405,
+     "infer_ms": 35.79221316231029,
+     "post_ms": 0.9974480986509275
+    },
+    "clock_before_mhz": 3488,
+    "clock_after_mhz": 2499,
+    "trace_violations": 0,
+    "avg_busy_cores": 4.286307379588443
+   },
+   {
+    "run": "replay_t4_timing_r1",
+    "p50": 98.31459699999999,
+    "p95": 120.40669374999999,
+    "p99": 126.71849806999995,
+    "max": 161.708975,
+    "dropped_fraction": 0.19925925925925925,
+    "stage_ms_mean": {
+     "decode_ms": 8.527586644310823,
+     "pre_ms": 1.6185601919518964,
+     "infer_ms": 38.671618134135066,
+     "post_ms": 1.1565989875115634
+    },
+    "clock_before_mhz": 2499,
+    "clock_after_mhz": 2499,
+    "trace_violations": 0,
+    "avg_busy_cores": 4.414975395890723
+   },
+   {
+    "run": "replay_t4_timing_r2",
+    "p50": 92.890389,
+    "p95": 111.741047,
+    "p99": 115.93516991999999,
+    "max": 141.348902,
+    "dropped_fraction": 0.13074074074074074,
+    "stage_ms_mean": {
+     "decode_ms": 6.484469594375798,
+     "pre_ms": 0.9845997848317001,
+     "infer_ms": 36.266128851299534,
+     "post_ms": 0.9899112922880272
+    },
+    "clock_before_mhz": 2499,
+    "clock_after_mhz": 2499,
+    "trace_violations": 0,
+    "avg_busy_cores": 4.27470869900961
+   }
+  ],
+  "YT_t8": [
+   {
+    "run": "replay_t8_timing_r0",
+    "p50": 28.706043,
+    "p95": 34.564326,
+    "p99": 39.14825936999996,
+    "max": 62.970329,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 5.283749764814814,
+     "pre_ms": 0.8765535399999999,
+     "infer_ms": 21.770326689999997,
+     "post_ms": 1.1054604933333334
+    },
+    "clock_before_mhz": 2499,
+    "clock_after_mhz": 2499,
+    "trace_violations": 0,
+    "avg_busy_cores": 7.918662704347996
+   },
+   {
+    "run": "replay_t8_timing_r1",
+    "p50": 28.88767,
+    "p95": 35.53232999999998,
+    "p99": 42.529104939999954,
+    "max": 83.73421,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 5.404285518888889,
+     "pre_ms": 0.907968277037037,
+     "infer_ms": 21.952465156666666,
+     "post_ms": 1.1183662985185185
+    },
+    "clock_before_mhz": null,
+    "clock_after_mhz": 2499,
+    "trace_violations": 0,
+    "avg_busy_cores": 7.931412006728407
+   },
+   {
+    "run": "replay_t8_timing_r2",
+    "p50": 37.798961,
+    "p95": 54.146935799999966,
+    "p99": 99.42936899999998,
+    "max": 196.536975,
+    "dropped_fraction": 0.0077777777777777776,
+    "stage_ms_mean": {
+     "decode_ms": 8.004114740948117,
+     "pre_ms": 1.4708228085106383,
+     "infer_ms": 27.025539204180664,
+     "post_ms": 1.3901558809257186
+    },
+    "clock_before_mhz": 3488,
+    "clock_after_mhz": 3488,
+    "trace_violations": 0,
+    "avg_busy_cores": 8.259571799990512
+   }
+  ]
+ }
+}

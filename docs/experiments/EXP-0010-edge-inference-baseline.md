@@ -1,6 +1,8 @@
 # EXP-0010 — Continuous edge-inference baseline (FT-0010)
 
 Status: Stage A implemented and measured (2026-11-04). The reference and deployment runtimes agree exactly and the harness is reproducible, but the pretrained detector scores poorly under the frozen IoU 0.5 metric and a post-hoc diagnostic shows the cause is mixed (box-extent mismatch and confusion with non-person objects), so it is not yet a validated control. Stage B is NOT started; awaiting founder + ChatGPT review.
+
+Follow-on: `EXP-0010B-control-adequacy-gate.md` (2026-11-04) tested the control-adequacy question; result: no adequate control among the tested configurations. This Stage A record is unchanged, and its holdout (L11) is now a development layout.
 Date: 2026-11-04
 Commit: a3c9ce6
 

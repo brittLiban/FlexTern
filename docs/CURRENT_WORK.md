@@ -4,67 +4,38 @@ There is exactly one active engineering objective at a time. This file is the si
 
 ---
 
-**Objective ID:** FT-0010 — Stage A
+**Objective ID:** FT-0010 — Control Adequacy Gate (EXP-0010B)
 
-**Title:** Continuous edge-inference baseline integrity (EXP-0010)
+**Title:** Establish a scientifically defensible detection control before any temporal or ternary work
 
-**Status:** Stage A implemented and measured 2026-11-04; **awaiting founder + ChatGPT review. Stage B has NOT been started.** Outcome: the measurement/replay pipeline is reproducible and its two runtimes agree exactly, but the pretrained detector scores poorly under the frozen IoU 0.5 metric on the selected synthetic clips (holdout AP50 0.13; 0.34 at IoU 0.1), with mixed causes (box-extent mismatch with visible-extent labels, and class confusion with forklifts), so it is not yet a validated control for temporal-execution comparisons. See EXP-0010.
+**Status:** Completed 2026-11-04; **awaiting founder + ChatGPT review. No further objective is active. Stage B has NOT been started.** Outcome: **no adequate control among the tested configurations** under the preregistered zone-occupancy bar on two fresh, layout-disjoint holdouts (selected YOLOX-Tiny: balanced accuracy 0.70 / 0.68, TPR ≥ 0.98, FPR 0.59 / 0.61; the Stage A detector 0.71 / 0.62). Post-hoc, about 80% of the confident false alarms are humanoid robots that the labels exclude, a gap in my metric and layout rule (EXP-0010B R6); with those zones set to don't-care YOLOX-Tiny reaches 0.83 / 0.79, still below the bar. See `experiments/EXP-0010B-control-adequacy-gate.md`.
 
 **Owner / agent:** Claude (implementation); founder + ChatGPT (research direction/review).
 
-**Started:** 2026-11-04
+**Started / finished:** 2026-11-04
 
-## Why this objective
+## Question answered
 
-The founder has elected to investigate industrial edge inference as a *new exploratory commercial/technical branch*. Existing FlexTern RTL generic synthesis and 1B–3B ternary-LM memory analysis do not validate camera-inference power, quality or product economics. The earlier EXP-0007 datacenter negative result and EXP-0008/0009/0009A SRAM leakage/retention sensitivities remain intact.
+Is there a detector/input configuration that is an adequate quality control for fixed-camera person monitoring (application-level metric, fresh layouts, 30 fps on the CPU baseline)? For the tested configurations: **no**. The measurement/replay pipeline from Stage A is trustworthy for CPU latency baselines; the quality control is not yet trustworthy.
 
-This is a baseline-reliability task, not an attempt to prove ternary wins. Read experiments/EXP-0010-edge-inference-baseline.md for the preregistered method, controls, caveats and source references.
+## What was established (details in EXP-0010B)
 
-## One question
+- Task distinctions and primary metric (zone occupancy; Proposed ADR-0007); quality bar labelled TARGET.
+- 3D+calibration ground truth reproduces visible boxes only in some scenes (rule preregistered; L09 fails).
+- Candidates S0/S1/S2 (SSDLite variants) and YOLOX-Tiny passed parity; YOLOX-Tiny is far better on boxes (AP50 0.62–0.79 vs 0.11–0.31 on fresh layouts) but needs 8 CPU threads for 30 fps.
+- Timing on AC power with interleaved repeats; host clock/thermal state confounds documented. No energy was measured.
+- Not done: INT8/FP16 or other optimized-pipeline comparators (deferred because the FP32 control failed), YOLOX-S, fine-tuning.
 
-Can another engineer reproduce a **correct, optimized full-frame continuous-video inference baseline**—with audited data and model class coverage, exact stream timing, end-to-end latency, evaluation and run manifests—before FlexTern claims a new technique improves it?
+## Validation
 
-## Scope — Stage A only
+`python -m unittest tests.test_control_gate` (18 tests, host Python) and `tests.test_edge_inference` (WSL venv) pass; Stage A artifacts and RTL unchanged. See the handoff for exact counts and commands.
 
-1. Audit AI City 2026 Track 1 single-camera RGB clips, per-frame 2D ground truth, dataset rights, scene splits, frame timestamps and class vocabulary. Synthetic warehouse footage is a proxy, not a factory deployment. The 2021 AI City set has a different vehicle-counting target; keep separate.
-2. Select a person-detection task supported by the chosen checkpoint. Start with Torchvision SSDLite320-MobileNetV3-Large COCO if export and label compatibility can be proven. Record any necessary justified substitute.
-3. Implement streaming replay at native temporal rate with the *same* decode/preprocess/postprocess pipeline in PyTorch FP32 reference and optimized ONNX Runtime CPU. Log every frame including late/dropped outputs. Ensure numerical/parity checks happen before performance claims.
-4. Evaluate real ground-truth person-detection quality (AP50, recall/F1), p50/p95/p99 end-to-end latency, memory and stage timing; record complete dataset/model/environment hashes and exact commands.
-5. Repeat on at least two disjoint scenes to show reproducibility and variance. Report explicitly what hardware, physical energy, customer constraints and model classes are **not** covered.
+## Decision needed from the founder (with ChatGPT)
 
-## Explicitly out of scope
-
-Ternary or INT4 training, FPGA/ASIC design, a new Y-Array architecture, activation-cache optimization, claiming power savings without an external meter, large multi-week experiment backlogs, industrial safety certification, overwriting prior LM results, and declaring a business/product from synthetic data.
-
-## Definition of done
-
-- A runnable, documented, archived baseline pipeline producing identical semantics for the reference and deployment runtimes;
-- rights/ground truth/model-label audit and scene-disjoint data manifest;
-- at least two disjoint camera scenes evaluated end to end at source frame rate;
-- raw predictions/traces, versioned reproducible configuration, parity/quality checks and repeat-run variance;
-- an EXP-0010 results section distinguishing MEASURED from INFERRED and unmeasured;
-- a review of whether event-driven experiments are justified, followed by founder decision **before** starting Stage B.
-
-No speedup or energy advantage is required to complete Stage A.
-
-## Required validation
-
-Run and passing: `python -m unittest tests.test_edge_inference` (42 tests; 31 on host Python, all 42 in the WSL venv; 224 OK in one process together with the 182-test non-RTL baseline); parity, determinism, alignment, 7 offline runs and 14 real-time replays are in `results/edge_inference/` with manifests and per-frame traces. Existing RTL and non-RTL suites are unchanged. Commands: `analysis/edge_inference/README.md`.
-
-## Stage A status against the definition of done
-
-- Runnable, archived baseline with identical semantics for both runtimes — **done** (bit-identical offline repeats; torch-vs-ORT head diff 4e-5; AP50 equal).
-- Rights / ground-truth / label audit and layout-disjoint manifest — **done** (CC-BY-4.0; 12 layout groups; splits by layout, not scene name).
-- At least two disjoint scenes evaluated at source frame rate with repeats — **done** (development L09 and holdout L11, 3 B1 repeats on battery and 3 on AC each; calibration L10 offline only).
-- Raw traces, versioned configuration, parity/quality checks, repeat variance — **done**.
-- EXP-0010 results section separating MEASURED / INFERRED / unmeasured — **done**.
-- Review of whether event-driven experiments are justified, then founder decision — **pending (the founder's step).** Evidence summary: pipeline trustworthy for CPU latency baselines; control quality not yet established (metric semantics and detector adequacy entangled); energy unmeasured. The single next experiment recommended in the handoff is a control-adequacy gate, not Stage B.
-
-## Known uncertainties
-
-Resolved by Stage A: hardware (one laptop CPU under WSL2), dataset availability/format/labels, ONNX export and postprocessing parity. Still open: real-world industrial-camera data access; customer-relevant deadline and safety requirements; physical power measurement (none exists); a detector that is adequate on this data; the cause of rare 100–840 ms stalls; AC/battery/thermal sensitivity of timing.
+1. Humanoid-robot semantics for the metric (ignore / person / separate; ADR-0007 proposes ignore).
+2. Whether to spend one more objective on a corrected, humanoid-aware protocol with a **new** fresh holdout (the current holdout is spent), or to start temporal-execution experiments against YOLOX-Tiny with the metric caveats stated. My reading of the evidence: the *quality* question is mostly narrowed but not closed; temporal experiments would currently measure retention against a control whose own false-alarm rate on the holdouts is 0.34–0.6.
 
 ## Primary records
 
-- docs/experiments/EXP-0010-edge-inference-baseline.md — protocol and later evidence.
-- docs/PROJECT_STATE.md — latest verified technical capabilities through EXP-0009A.
+- `experiments/EXP-0010B-control-adequacy-gate.md` (this objective), `experiments/EXP-0010-edge-inference-baseline.md` (Stage A, preserved).
+- `PROJECT_STATE.md`, `handoffs/2026-11-04-ft-0010-control-adequacy-gate.md`, `reviews/REV-2026-11-04-ft-0010-control-adequacy-gate-review.md`, `decisions/ADR-0007-edge-control-application-metric.md` (Proposed).

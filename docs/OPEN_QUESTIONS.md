@@ -126,7 +126,7 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **Why it matters:** EXP-0010 Stage A found COCO SSDLite320 at AP50 0.13-0.20 at IoU 0.5 (0.34 on the holdout at IoU 0.1) with mixed causes (visible-extent label semantics vs whole-person predictions, forklift confusion); temporal-execution or ternary comparisons against a control whose quality is entangled with the metric would not be clean evidence.
 **Current evidence:** EXP-0010 (MEASURED on three synthetic clips; the cause of the weak recall is not isolated).
 **What would answer it:** the same harness and frozen holdout with one or two more detectors/input configurations under a preregistered AP50/recall bar and acceptable licenses; a customer-representative footage source.
-**Status:** Open (opened 2026-11-04 by EXP-0010).
+**Status:** Narrowed by EXP-0010B (2026-11-04): zone occupancy proposed as primary metric (ADR-0007, Proposed); YOLOX-Tiny is a much better box detector than SSDLite320 but no tested configuration met the preregistered bar on fresh layouts; remaining open parts are Q-027 (humanoid semantics, remaining false alarms) and a customer-representative footage source. Open.
 
 ### Q-026
 **Question:** Which device, power-meter boundary and duty cycle define "gross energy per camera-hour" for the edge-video branch, and is a Linux host with a calibrated meter available?
@@ -134,6 +134,13 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **Current evidence:** none (no power measurement exists).
 **What would answer it:** a dedicated plugged-in host plus an external meter or an established device with a documented measurement boundary; a founder decision on target hardware class.
 **Status:** Open (opened 2026-11-04 by EXP-0010).
+
+### Q-027
+**Question:** Should humanoid robots count as persons for the edge-video control, and after a humanoid-aware protocol and a new fresh holdout, does YOLOX-Tiny (or YOLOX-S) clear a zone-occupancy bar? How much of the remaining post-hoc FPR (0.34–0.39) is label/foot-projection noise versus detector error?
+**Why it matters:** EXP-0010B found about 80% of the holdout false alarms on humanoids that the labels exclude; a retention claim against this control would otherwise inherit that ambiguity.
+**Current evidence:** EXP-0010B R5/R6 (MEASURED / POST-HOC).
+**What would answer it:** founder semantics decision; a corrected protocol version with a layout rule that screens class mix; one new fresh holdout; optionally ground-plane zones.
+**Status:** Open (opened 2026-11-04 by EXP-0010B).
 
 ## Strategic (founder-only; not for agents to decide)
 

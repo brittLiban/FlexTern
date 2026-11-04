@@ -1,0 +1,69 @@
+{
+ "n_frames": 1800,
+ "processed": 1800,
+ "dropped": 0,
+ "drop_fraction": 0.0,
+ "latency_ms": {
+  "mean": 20.47672076611111,
+  "p50": 19.608731,
+  "p95": 27.96112535,
+  "p99": 39.91382743,
+  "max": 61.234201
+ },
+ "deadline_ms": 100.0,
+ "deadline_missed_processed": 0,
+ "on_time_fraction_of_all_frames": 1.0,
+ "queue_wait_ms_p95": 8.039695149999995,
+ "feeder_slip_ms_p99": 2.4321501799999994,
+ "feeder_slip_ms_max": 6.69334,
+ "stage_ms": {
+  "decode_ms": {
+   "mean": 4.686357203333333,
+   "p50": 3.8936655,
+   "p95": 7.06202415,
+   "p99": 21.56755949
+  },
+  "pre_ms": {
+   "mean": 0.7731246333333334,
+   "p50": 0.6872240000000001,
+   "p95": 1.1471293499999997,
+   "p99": 1.39773115
+  },
+  "infer_ms": {
+   "mean": 9.211849727222221,
+   "p50": 8.973017,
+   "p95": 11.782424999999998,
+   "p99": 14.864457019999998
+  },
+  "post_ms": {
+   "mean": 5.546231272777778,
+   "p50": 5.7234905000000005,
+   "p95": 7.1472843,
+   "p99": 8.107862169999999
+  }
+ },
+ "processed_fps": 29.857652690330255,
+ "trace_violations": [],
+ "resources": {
+  "rss_start_mb": 295.515625,
+  "rss_peak_mb": 323.11328125,
+  "process_cpu_s": 224.09000000000003,
+  "wall_s": 60.28605190999997,
+  "avg_busy_cores": 3.7171118840978377
+ },
+ "host_clock_before": {
+  "raw": "CUR=2499 MAX=3801 LOAD="
+ },
+ "host_clock_after": {
+  "cur_mhz": 3488,
+  "max_mhz": 3801,
+  "load_pct": 1
+ },
+ "stage_ms_mean": {
+  "decode_ms": 4.686357203333333,
+  "pre_ms": 0.7731246333333334,
+  "infer_ms": 9.211849727222221,
+  "post_ms": 5.546231272777778
+ },
+ "dropped_fraction": 0.0
+}

@@ -1,0 +1,61 @@
+{
+ "hold_L08": {
+  "gt_object_counts": {
+   "Person": 74858,
+   "Forklift": 9000,
+   "NovaCarter": 13647,
+   "Transporter": 28214,
+   "FourierGR1T2": 28380,
+   "AgilityDigit": 39011
+  },
+  "false_alarm_dets_score>=0.5": 11882,
+  "by_best_overlapping_gt_class(iou>=0.3)": {
+   "FourierGR1T2": 7658,
+   "Person": 2128,
+   "AgilityDigit": 2045,
+   "<0.3 any": 50,
+   "Transporter": 1
+  }
+ },
+ "hold_L02": {
+  "gt_object_counts": {
+   "Person": 108227,
+   "Forklift": 18000,
+   "NovaCarter": 18288,
+   "Transporter": 42791,
+   "FourierGR1T2": 33672,
+   "AgilityDigit": 32042
+  },
+  "false_alarm_dets_score>=0.5": 8203,
+  "by_best_overlapping_gt_class(iou>=0.3)": {
+   "Person": 1502,
+   "NovaCarter": 14,
+   "FourierGR1T2": 5726,
+   "AgilityDigit": 917,
+   "<0.3 any": 43,
+   "Transporter": 1
+  }
+ },
+ "dev_L11": {
+  "gt_object_counts": {
+   "Person": 50044,
+   "NovaCarter": 208,
+   "Transporter": 543
+  },
+  "false_alarm_dets_score>=0.5": 95,
+  "by_best_overlapping_gt_class(iou>=0.3)": {
+   "Person": 95
+  }
+ },
+ "dev_L10": {
+  "gt_object_counts": {
+   "Person": 18612,
+   "Forklift": 6214,
+   "PalletTruck": 9000
+  },
+  "false_alarm_dets_score>=0.5": 626,
+  "by_best_overlapping_gt_class(iou>=0.3)": {
+   "Person": 626
+  }
+ }
+}

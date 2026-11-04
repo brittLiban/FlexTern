@@ -1,0 +1,54 @@
+{
+ "selected": "YT",
+ "reference": "S0",
+ "rule": "protocol_v2.json selection_rule",
+ "table": {
+  "S0": {
+   "pooled_ba": 0.6912494980297763,
+   "tau": 0.1,
+   "pipeline_ms_ex_decode": 16.099682021035598,
+   "deployment_threads": 4,
+   "eligible": true
+  },
+  "S1": {
+   "pooled_ba": 0.7626632539256043,
+   "tau": 0.1,
+   "pipeline_ms_ex_decode": 25.18776020258899,
+   "deployment_threads": 4,
+   "eligible": true
+  },
+  "S2": {
+   "pooled_ba": 0.7395682899669132,
+   "tau": 0.1,
+   "pipeline_ms_ex_decode": 16.725619186731393,
+   "deployment_threads": 4,
+   "eligible": true
+  },
+  "YT": {
+   "pooled_ba": 0.7998111726264493,
+   "tau": 0.05,
+   "pipeline_ms_ex_decode": 40.07110211650485,
+   "deployment_threads": 8,
+   "eligible": true
+  }
+ },
+ "tied_within_0.01": [
+  "YT"
+ ],
+ "tau": {
+  "S0": 0.1,
+  "YT": 0.05
+ },
+ "threads": {
+  "S0": 4,
+  "YT": 8
+ },
+ "protocol_sha256": "9a6d5b556996963eb571a0397e1ba3606230fea68db135d2d436bfb234f75c69",
+ "dev_scores_sha256": "59d5dcd7dbd365b13aed4a137bd778a792da27a505292e95eeff0521361730e1",
+ "feasibility_sha256": "2c40620e0a402199e5a206f9fb354803f09b61a238d97b8661af9c5048c33582",
+ "created_utc": "2026-11-04T13:03:35+00:00",
+ "holdout_clips": [
+  "hold_L08",
+  "hold_L02"
+ ]
+}

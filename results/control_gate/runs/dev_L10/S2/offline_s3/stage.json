@@ -1,0 +1,18 @@
+{
+ "n_processed": 3000,
+ "n_frames": 9000,
+ "stage_ms_mean": {
+  "decode_ms": 7.081254897999999,
+  "pre_ms": 0.9344932260000001,
+  "infer_ms": 10.172041718333334,
+  "post_ms": 4.692053998666667
+ },
+ "pipeline_ms_mean_ex_decode": 15.798588943000002,
+ "resources": {
+  "rss_start_mb": 250.98046875,
+  "rss_peak_mb": 296.890625,
+  "process_cpu_s": 398.02,
+  "wall_s": 95.40167826699997,
+  "avg_busy_cores": 4.172044006249705
+ }
+}

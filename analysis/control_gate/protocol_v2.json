@@ -1,0 +1,81 @@
+{
+  "protocol_id": "EXP-0010-CAG-protocol-v2",
+  "frozen_date": "2026-11-04",
+  "frozen_before": "any inference by a non-Stage-A configuration, any download of a fresh-holdout video, any scoring of a fresh-holdout clip. Geometry-consistency statistics (consistency.py) on the development scenes were computed before this file; no detector output existed for any new configuration. Ground-truth files of candidate holdout layouts were downloaded (no videos) so that the layout rule below can be applied.",
+  "supersedes": "Nothing. analysis/edge_inference/protocol.json (Stage A, frozen) is untouched; Stage A results are preserved unchanged in results/edge_inference/.",
+  "question": "Is there a detector/input configuration that is an adequate quality control for fixed-camera industrial person monitoring, under an application-level metric, on layouts never used for any choice, while sustaining 30 fps on the CPU baseline? The answer is yes or no for the tested configurations only.",
+
+  "tasks": {
+    "person_detection": "boxes with IoU matching (AP50). Needs box-extent agreement with the label convention. Reported, secondary.",
+    "person_presence": "is anyone in view this frame. Degenerate on this data (almost every frame contains a person). Reported, secondary.",
+    "person_count": "number of persons in view. Needs separation of crowded persons; sensitive to occlusion labelling. Reported, secondary.",
+    "zone_occupancy": "for each fixed image zone, is a person standing in it this frame. PRIMARY: it is what a fixed-camera safety/analytics application consumes (exclusion zone, work-cell occupancy), is insensitive to how tight the box is at the top, and has a non-degenerate base rate."
+  },
+  "primary_metric": {
+    "name": "zone_occupancy_balanced_accuracy",
+    "zones": "3x3 equal cells over the 1920x1080 frame (operator-drawn ROI stand-in)",
+    "position": "ground-contact point. GT: projection of the 3D box bottom-centre with the scene calibration, only in scenes that pass the geometry-consistency rule. Detection: bottom-centre of the predicted box.",
+    "scored_persons": "GT person with visible native height >= 32 px and projected foot inside the frame; detections shorter than 32 px are ignored",
+    "margin_px": 32,
+    "states": "per (frame, zone): POS = a scored GT foot strictly inside; NEG = no scored GT foot inside the zone grown by margin; else DONTCARE. A frame-zone is predicted occupied if a detection (score >= tau) has its foot inside the zone grown by margin.",
+    "reported": "TPR over POS, FPR over NEG, balanced accuracy=(TPR+1-FPR)/2, precision, F1; block bootstrap over contiguous 300-frame blocks, 1000 resamples, seed 20261104; per-zone base rates; fraction of GT feet within margin of a zone boundary.",
+    "trivial_predictors": "any constant predictor scores balanced accuracy 0.5 by construction; the per-zone constant and the always-occupied predictor are reported for the record.",
+    "geometry_consistency_rule": "For persons whose visible box is wholly inside the frame, the projection of a 1.75 m person at the 3D box bottom must satisfy: median(visible height / expected height) in [0.9, 1.1] and |median foot-v minus visible-bottom| <= 15 px and |median foot-u minus visible-centre| <= 15 px. A scene that fails is used for no zone metric, only for detection-style metrics, and is labelled."
+  },
+  "quality_bar": {
+    "label": "TARGET. No customer requirement exists; the numbers are a stated engineering threshold chosen BEFORE seeing fresh-holdout results, meant to be a bar a usable monitor could plausibly be asked to clear. They are not derived from a safety standard.",
+    "per_fresh_holdout_layout_all_of": [
+      "zone-occupancy TPR >= 0.90 (point estimate)",
+      "zone-occupancy FPR <= 0.10 (point estimate)",
+      "lower 95% block-bootstrap bound of balanced accuracy >= 0.85"
+    ],
+    "adequate_control": "the selected configuration meets every item on EVERY fresh holdout layout AND meets the real-time bar below",
+    "real_time_bar": "30 fps replay on the stated CPU/threads, dropped frames <= 1.0% in every repeat and p99 end-to-end latency <= 100 ms (illustrative deadline) in every repeat",
+    "failure_outcome": "If the selected configuration fails, the recorded result is: NO ADEQUATE CONTROL AMONG THE TESTED CONFIGURATIONS. No third candidate, no fine-tuning, no threshold re-tuning on the fresh holdout. A later objective may add candidates but then needs another fresh holdout."
+  },
+  "secondary_metrics": [
+    "person AP50 at IoU 0.5 against visible-extent labels (Stage A semantics, 101-pt, size floor 32 px)",
+    "AP at IoU 0.1/0.3",
+    "AP50 against a calibration-derived whole-person box (development, geometry-passing scenes only; labelled INFERRED)",
+    "presence recall / false alarm",
+    "count MAE and exact/within-1 fraction vs constant-median predictor",
+    "TPR split by visible fraction (visible height / expected height)",
+    "quality including dropped frames"
+  ],
+
+  "development": {
+    "role": "diagnosis, candidate selection, operating-threshold selection. All of these are development data because they were inspected: L09 (Warehouse_017 Camera_0001), L10 (Warehouse_019 Camera_0002), L11 (Warehouse_022 Camera_0002; its Stage A 'holdout' status is withdrawn and recorded as spent).",
+    "zone_metric_scenes": "those among L09/L10/L11 passing the geometry-consistency rule (computed before this file: L10 and L11 pass, L09 fails). L09 is used for detection-style metrics only.",
+    "frame_stride": 3,
+    "frame_stride_note": "inference on frames with index % 3 == 0 for candidate screening; quality is a screening statistic, not a latency statistic."
+  },
+
+  "candidates": {
+    "S0": {"model": "SSDLite320-MobileNetV3-Large (torchvision COCO_V1)", "input": "320x320 non-aspect-preserving (Stage A, unchanged)"},
+    "S1": {"model": "same weights", "input": "576x320 (W x H) aspect-preserving 16:9, ~1.8x pixels of S0", "anchors": "recomputed by the torchvision anchor generator at this input; ONNX re-exported; parity checked against the official model with fixed_size set"},
+    "S2": {"model": "same weights", "input": "416x240 aspect-preserving 16:9, ~0.98x pixels of S0 (separates aspect from resolution)", "anchors": "as S1"},
+    "YT": {"model": "YOLOX-Tiny (Megvii, official ONNX of release 0.1.1rc0), COCO", "input": "416x416 letterbox (top-left, pad 114), RGB, /255, ImageNet mean/std exactly as that release's demo preproc", "license": "code Apache-2.0; weights are distributed in the same repository; trained on COCO 2017"},
+    "YS": {"model": "YOLOX-S (same release)", "input": "640x640 letterbox, as YT", "note": "eligible for holdout only if it meets the real-time feasibility rule"},
+    "not_tried": "YOLOv8/YOLO11/YOLOv10 (AGPL-3.0 code and weights: a copyleft/commercial-licence issue for a hardware+software product, not evaluated), fine-tuning, tiling, multi-scale, any larger model"
+  },
+  "real_time_feasibility_rule": "A candidate is eligible for selection only if a 60 s paced replay (frames 0-1799 of the L11 clip, queue 2, 30 fps) with 4 ORT intra-op threads, or failing that 8 threads, shows <= 1.0% dropped frames and p99 <= 100 ms. The smallest passing thread count is the candidate's deployment setting.",
+  "selection_rule": "Among eligible candidates take the one with the highest pooled development balanced accuracy (zone-metric scenes, at that candidate's own best tau). Candidates within 0.01 of the best are tied; the tie goes to the lowest mean per-frame pipeline time. The selected candidate is c*. S0 is always the reference; c* may equal S0.",
+  "operating_threshold": "per candidate, the tau in {0.05,0.10,...,0.95} maximising pooled development balanced accuracy (the one tau is applied to every fresh layout, no re-tuning).",
+
+  "fresh_holdout": {
+    "layout_rule": "Layout groups other than L09, L10, L11 (and not L00, whose scenes include the nominal val set already audited). One representative scene per layout; every camera in that scene is a candidate. A (layout, camera) is eligible if: geometry-consistency passes; median visible person height >= 60 px; forklift/pallet-truck present in >= 20% of frames; at least 3 of the 9 zones have a POS rate in [0.10, 0.90]. Rank eligible by the count of such zones (desc) then by smaller GT file size. Take the top eligible clips from DIFFERENT layouts, up to 2. Chosen from ground-truth statistics alone, before any video is downloaded or any detector run on them.",
+    "clip": "first 9000 frames (5 minutes) of the chosen camera video",
+    "use": "ONE scoring of S0 and c* each at the frozen tau; results are reported whatever they are",
+    "lock": "the scoring command refuses any fresh-holdout clip until dev_selection.json (candidate, tau, hashes, protocol hash) exists"
+  },
+
+  "timing": {
+    "runs": "paced 30 fps replays with the Stage A harness semantics (feeder thread, drop-oldest queue of 2, latency from scheduled release, 50 warmups)",
+    "conditions": "AC power connected and recorded; repeats of different configurations INTERLEAVED (A B C A B C ...) to spread drift; Windows host clock (CurrentClockSpeed/load) sampled before and after each run; WSL2 cannot report true frequency, thermal state is not observable and is recorded as unmeasured.",
+    "metrics": "p50/p95/p99/max end-to-end latency, dropped frames, mean stage times, process CPU seconds (diagnostic only)",
+    "energy": "NOT MEASURED. No energy or power claim is made anywhere."
+  },
+  "optimised_conventional_comparisons": "B1 FP32 ORT with a thread sweep; faster decode/postprocess path (parity-checked against the reference outputs before timing); static INT8 only if the FP32 control passes, and then with its quality measured. No FlexTern advantage is claimed or tested here.",
+  "seeds": {"bootstrap": 20261104, "numpy": 0},
+  "disclosures": "Synthetic data. 3x3 image grid zones are a stand-in for operator ROIs. One camera per layout. Metric choice and bar are the agent's proposal (a Proposed ADR), not a founder decision."
+}

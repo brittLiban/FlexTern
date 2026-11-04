@@ -1,0 +1,3522 @@
+{
+ "rule": "protocol_v2.json fresh_holdout.layout_rule",
+ "protocol_sha256": "9a6d5b556996963eb571a0397e1ba3606230fea68db135d2d436bfb234f75c69",
+ "candidates": [
+  {
+   "scene": "Warehouse_008",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 16468,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.614,
+      1.046,
+      1.1,
+      1.142,
+      1.18
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -13.9,
+      -10.0,
+      -7.2,
+      -5.4,
+      79.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -19.9,
+      -16.0,
+      32.2,
+      51.1,
+      71.2
+     ]
+    },
+    "z0": {
+     "n_interior": 16468,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.612,
+      1.043,
+      1.096,
+      1.139,
+      1.176
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -15.3,
+      -11.6,
+      -8.8,
+      -6.8,
+      77.7
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -19.5,
+      -15.7,
+      31.6,
+      49.9,
+      70.0
+     ]
+    }
+   },
+   "median_person_height_px": 152.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 131685326,
+   "eligible": false,
+   "layout": "L01"
+  },
+  {
+   "scene": "Warehouse_008",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 24824,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.258,
+      1.099,
+      1.15,
+      1.247,
+      1.547
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -40.3,
+      -16.7,
+      -10.1,
+      -6.0,
+      9.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -67.0,
+      -51.9,
+      -30.4,
+      28.7,
+      110.5
+     ]
+    },
+    "z0": {
+     "n_interior": 24824,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.258,
+      1.094,
+      1.146,
+      1.242,
+      1.537
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -41.5,
+      -18.1,
+      -11.6,
+      -7.6,
+      7.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -65.7,
+      -50.8,
+      -29.5,
+      28.2,
+      108.7
+     ]
+    }
+   },
+   "median_person_height_px": 115.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 131685326,
+   "eligible": false,
+   "layout": "L01"
+  },
+  {
+   "scene": "Warehouse_008",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 22401,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.816,
+      1.137,
+      1.177,
+      1.668,
+      1.896
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -39.8,
+      -29.2,
+      -10.5,
+      -5.8,
+      1.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -86.2,
+      6.4,
+      14.0,
+      26.0,
+      99.5
+     ]
+    },
+    "z0": {
+     "n_interior": 22401,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.814,
+      1.134,
+      1.174,
+      1.66,
+      1.886
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -40.4,
+      -29.9,
+      -11.9,
+      -7.2,
+      -0.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -84.6,
+      7.5,
+      13.8,
+      25.5,
+      98.0
+     ]
+    }
+   },
+   "median_person_height_px": 148.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 131685326,
+   "eligible": false,
+   "layout": "L01"
+  },
+  {
+   "scene": "Warehouse_008",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 21455,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.89,
+      1.105,
+      1.154,
+      1.196,
+      1.251
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -34.7,
+      -25.2,
+      -13.8,
+      -5.6,
+      35.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -26.5,
+      -8.3,
+      19.2,
+      31.4,
+      49.0
+     ]
+    },
+    "z0": {
+     "n_interior": 21455,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.888,
+      1.102,
+      1.15,
+      1.192,
+      1.247
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -37.5,
+      -28.0,
+      -16.6,
+      -8.3,
+      32.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -26.1,
+      -8.2,
+      18.9,
+      30.8,
+      48.1
+     ]
+    }
+   },
+   "median_person_height_px": 213.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 131685326,
+   "eligible": false,
+   "layout": "L01"
+  },
+  {
+   "scene": "Warehouse_008",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 32333,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.063,
+      0.982,
+      1.105,
+      1.137,
+      1.199
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -20.2,
+      -11.0,
+      -5.7,
+      5.9,
+      121.5
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -31.7,
+      -12.1,
+      -2.3,
+      12.3,
+      28.8
+     ]
+    },
+    "z0": {
+     "n_interior": 32333,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.063,
+      0.98,
+      1.103,
+      1.135,
+      1.196
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -22.6,
+      -13.4,
+      -7.5,
+      3.6,
+      119.7
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -31.2,
+      -11.9,
+      -2.2,
+      12.1,
+      28.3
+     ]
+    }
+   },
+   "median_person_height_px": 224.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 131685326,
+   "eligible": false,
+   "layout": "L01"
+  },
+  {
+   "scene": "Warehouse_008",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 37103,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.589,
+      1.071,
+      1.119,
+      1.197,
+      1.246
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -21.2,
+      -13.1,
+      -7.9,
+      -0.5,
+      104.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -32.6,
+      -23.0,
+      -10.9,
+      7.5,
+      37.5
+     ]
+    },
+    "z0": {
+     "n_interior": 37103,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.588,
+      1.07,
+      1.117,
+      1.194,
+      1.243
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -23.8,
+      -15.7,
+      -10.2,
+      -2.7,
+      102.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -32.2,
+      -22.5,
+      -10.7,
+      7.4,
+      36.9
+     ]
+    }
+   },
+   "median_person_height_px": 246.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 131685326,
+   "eligible": false,
+   "layout": "L01"
+  },
+  {
+   "scene": "Warehouse_010",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 61912,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.993,
+      1.04,
+      1.086,
+      1.128,
+      1.17
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -20.6,
+      -7.6,
+      -3.7,
+      -0.8,
+      2.6
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -1.9,
+      4.3,
+      8.3,
+      13.2,
+      22.3
+     ]
+    },
+    "z0": {
+     "n_interior": 61912,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.993,
+      1.039,
+      1.085,
+      1.126,
+      1.169
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -23.2,
+      -9.7,
+      -5.5,
+      -2.3,
+      1.1
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -1.9,
+      4.2,
+      8.1,
+      12.9,
+      21.8
+     ]
+    }
+   },
+   "median_person_height_px": 135.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    1.0,
+    1.0,
+    0.0,
+    0.786,
+    0.966,
+    0.0,
+    0.124,
+    0.507,
+    0.002
+   ],
+   "nontrivial_zones": 3,
+   "gt_file_bytes": 219598026,
+   "eligible": true,
+   "layout": "L02"
+  },
+  {
+   "scene": "Warehouse_010",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 17312,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.09,
+      0.261,
+      0.619,
+      0.971,
+      1.087
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -6.6,
+      -1.6,
+      3.0,
+      55.8,
+      159.9
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -31.6,
+      -9.8,
+      -1.8,
+      3.9,
+      11.8
+     ]
+    },
+    "z0": {
+     "n_interior": 17312,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.09,
+      0.261,
+      0.619,
+      0.97,
+      1.085
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -8.5,
+      -3.6,
+      1.3,
+      53.6,
+      158.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -31.3,
+      -9.6,
+      -1.8,
+      3.9,
+      11.8
+     ]
+    }
+   },
+   "median_person_height_px": 53.0,
+   "vehicle_frame_fraction": 0.9996666666666667,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 219598026,
+   "eligible": false,
+   "layout": "L02"
+  },
+  {
+   "scene": "Warehouse_010",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 70528,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.225,
+      0.979,
+      1.034,
+      1.108,
+      1.149
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -12.5,
+      -4.7,
+      -2.3,
+      0.3,
+      21.5
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -18.3,
+      -1.8,
+      5.0,
+      10.5,
+      15.6
+     ]
+    },
+    "z0": {
+     "n_interior": 70528,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.224,
+      0.979,
+      1.033,
+      1.107,
+      1.147
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -14.8,
+      -6.6,
+      -3.9,
+      -0.9,
+      20.6
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -17.9,
+      -1.8,
+      4.9,
+      10.3,
+      15.3
+     ]
+    }
+   },
+   "median_person_height_px": 138.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    0.987,
+    0.99,
+    0.646,
+    0.999,
+    0.731,
+    0.524,
+    0.244,
+    0.473,
+    0.216
+   ],
+   "nontrivial_zones": 6,
+   "gt_file_bytes": 219598026,
+   "eligible": true,
+   "layout": "L02"
+  },
+  {
+   "scene": "Warehouse_010",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 21143,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.207,
+      0.582,
+      1.052,
+      1.107,
+      1.165
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -39.5,
+      -13.8,
+      -6.8,
+      66.7,
+      127.9
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -26.2,
+      -19.0,
+      -6.2,
+      6.2,
+      21.7
+     ]
+    },
+    "z0": {
+     "n_interior": 21143,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.207,
+      0.581,
+      1.05,
+      1.105,
+      1.162
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -42.3,
+      -16.5,
+      -8.9,
+      65.0,
+      126.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -25.8,
+      -18.6,
+      -6.0,
+      6.2,
+      21.4
+     ]
+    }
+   },
+   "median_person_height_px": 196.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.954,
+    0.624,
+    0.042,
+    0.021,
+    0.09,
+    0.708,
+    0.195,
+    0.211,
+    0.179
+   ],
+   "nontrivial_zones": 5,
+   "gt_file_bytes": 219598026,
+   "eligible": false,
+   "layout": "L02"
+  },
+  {
+   "scene": "Warehouse_010",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 5961,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.487,
+      1.096,
+      1.103,
+      1.117,
+      1.18
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -47.4,
+      -24.2,
+      -16.4,
+      -14.8,
+      0.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -16.1,
+      8.1,
+      21.8,
+      23.3,
+      24.7
+     ]
+    },
+    "z0": {
+     "n_interior": 5961,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.486,
+      1.094,
+      1.101,
+      1.114,
+      1.177
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -50.4,
+      -27.0,
+      -18.9,
+      -17.5,
+      -1.5
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -15.5,
+      7.8,
+      21.3,
+      22.9,
+      24.3
+     ]
+    }
+   },
+   "median_person_height_px": 299.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 219598026,
+   "eligible": false,
+   "layout": "L02"
+  },
+  {
+   "scene": "Warehouse_010",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 115636,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.097,
+      0.315,
+      0.68,
+      0.966,
+      1.047
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      0.0,
+      1.4,
+      9.2,
+      44.3,
+      75.5
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -4.6,
+      2.0,
+      5.1,
+      8.2,
+      14.2
+     ]
+    },
+    "z0": {
+     "n_interior": 115636,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.097,
+      0.315,
+      0.68,
+      0.966,
+      1.046
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -1.0,
+      0.6,
+      8.5,
+      43.4,
+      74.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -4.6,
+      2.0,
+      5.0,
+      8.0,
+      14.1
+     ]
+    }
+   },
+   "median_person_height_px": 54.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 219598026,
+   "eligible": false,
+   "layout": "L02"
+  },
+  {
+   "scene": "Warehouse_011",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 81862,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.936,
+      1.06,
+      1.093,
+      1.111,
+      1.134
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -15.9,
+      -6.5,
+      -1.2,
+      0.4,
+      2.9
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -5.1,
+      -0.7,
+      4.6,
+      8.6,
+      21.0
+     ]
+    },
+    "z0": {
+     "n_interior": 81862,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.936,
+      1.059,
+      1.092,
+      1.11,
+      1.133
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -18.6,
+      -8.8,
+      -2.7,
+      -0.9,
+      1.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -5.0,
+      -0.7,
+      4.5,
+      8.5,
+      20.5
+     ]
+    }
+   },
+   "median_person_height_px": 156.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    1.0,
+    0.747,
+    0.773,
+    0.842,
+    0.905,
+    0.0,
+    0.784,
+    0.183,
+    0.024
+   ],
+   "nontrivial_zones": 5,
+   "gt_file_bytes": 200294812,
+   "eligible": false,
+   "layout": "L03"
+  },
+  {
+   "scene": "Warehouse_011",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 19934,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.949,
+      0.987,
+      1.135,
+      1.164,
+      1.2
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -34.4,
+      -18.1,
+      -9.4,
+      -2.8,
+      0.1
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -10.6,
+      -3.8,
+      8.9,
+      25.3,
+      34.6
+     ]
+    },
+    "z0": {
+     "n_interior": 19934,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.948,
+      0.986,
+      1.132,
+      1.162,
+      1.197
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -37.4,
+      -20.7,
+      -11.7,
+      -4.6,
+      -1.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -10.3,
+      -3.6,
+      8.7,
+      24.8,
+      34.0
+     ]
+    }
+   },
+   "median_person_height_px": 83.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 200294812,
+   "eligible": false,
+   "layout": "L03"
+  },
+  {
+   "scene": "Warehouse_011",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 30590,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.099,
+      0.107,
+      0.519,
+      0.997,
+      1.145
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -9.0,
+      -0.4,
+      16.6,
+      40.2,
+      48.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -5.3,
+      -1.9,
+      2.2,
+      9.9,
+      17.5
+     ]
+    },
+    "z0": {
+     "n_interior": 30590,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.099,
+      0.107,
+      0.519,
+      0.996,
+      1.144
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -11.7,
+      -1.6,
+      15.6,
+      39.3,
+      47.5
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -5.2,
+      -1.8,
+      2.2,
+      9.7,
+      17.2
+     ]
+    }
+   },
+   "median_person_height_px": 51.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 200294812,
+   "eligible": false,
+   "layout": "L03"
+  },
+  {
+   "scene": "Warehouse_011",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 67223,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.929,
+      0.977,
+      1.044,
+      1.083,
+      1.124
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -10.8,
+      -2.3,
+      -0.9,
+      0.3,
+      2.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -13.7,
+      -1.6,
+      4.6,
+      8.9,
+      13.7
+     ]
+    },
+    "z0": {
+     "n_interior": 67223,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.929,
+      0.977,
+      1.043,
+      1.082,
+      1.123
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -13.1,
+      -3.8,
+      -2.1,
+      -0.8,
+      0.9
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -13.4,
+      -1.5,
+      4.5,
+      8.7,
+      13.4
+     ]
+    }
+   },
+   "median_person_height_px": 127.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    1.0,
+    0.491,
+    0.085,
+    0.034,
+    0.578,
+    0.919,
+    0.318,
+    0.023,
+    0.296
+   ],
+   "nontrivial_zones": 4,
+   "gt_file_bytes": 200294812,
+   "eligible": true,
+   "layout": "L03"
+  },
+  {
+   "scene": "Warehouse_011",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 19979,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.187,
+      0.96,
+      1.011,
+      1.049,
+      1.159
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -18.8,
+      -8.6,
+      -1.5,
+      0.7,
+      65.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -21.1,
+      1.5,
+      3.1,
+      7.0,
+      19.7
+     ]
+    },
+    "z0": {
+     "n_interior": 19979,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.187,
+      0.96,
+      1.011,
+      1.048,
+      1.158
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -22.0,
+      -11.2,
+      -3.2,
+      -0.3,
+      64.9
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -20.7,
+      1.5,
+      3.0,
+      6.9,
+      19.3
+     ]
+    }
+   },
+   "median_person_height_px": 138.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    0.864,
+    0.677,
+    0.0,
+    0.495,
+    0.411,
+    0.0,
+    0.079,
+    0.01,
+    0.389
+   ],
+   "nontrivial_zones": 5,
+   "gt_file_bytes": 200294812,
+   "eligible": true,
+   "layout": "L03"
+  },
+  {
+   "scene": "Warehouse_011",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 9004,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.973,
+      1.004,
+      1.042,
+      1.047,
+      1.057
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -23.8,
+      -17.8,
+      -17.0,
+      -8.0,
+      -3.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      13.5,
+      19.6,
+      21.8,
+      22.7,
+      25.5
+     ]
+    },
+    "z0": {
+     "n_interior": 9004,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.972,
+      1.003,
+      1.041,
+      1.045,
+      1.055
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -25.9,
+      -20.3,
+      -19.5,
+      -9.9,
+      -4.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      13.2,
+      19.2,
+      21.4,
+      22.3,
+      25.1
+     ]
+    }
+   },
+   "median_person_height_px": 280.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 200294812,
+   "eligible": false,
+   "layout": "L03"
+  },
+  {
+   "scene": "Warehouse_012",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 5664,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.977,
+      1.119,
+      1.156,
+      1.162,
+      1.185
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -19.0,
+      -5.9,
+      -5.0,
+      -3.7,
+      2.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      14.8,
+      20.9,
+      22.7,
+      26.3,
+      38.8
+     ]
+    },
+    "z0": {
+     "n_interior": 5664,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.976,
+      1.117,
+      1.155,
+      1.16,
+      1.183
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -21.8,
+      -8.0,
+      -7.0,
+      -5.5,
+      0.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      14.3,
+      20.5,
+      22.2,
+      25.8,
+      38.2
+     ]
+    }
+   },
+   "median_person_height_px": 175.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 151774630,
+   "eligible": false,
+   "layout": "L04"
+  },
+  {
+   "scene": "Warehouse_012",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 48545,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.97,
+      1.069,
+      1.108,
+      1.144,
+      1.203
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -33.5,
+      -22.6,
+      -11.2,
+      -6.4,
+      0.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -29.8,
+      -3.4,
+      9.0,
+      20.9,
+      46.6
+     ]
+    },
+    "z0": {
+     "n_interior": 48545,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.969,
+      1.066,
+      1.106,
+      1.141,
+      1.199
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -36.1,
+      -25.2,
+      -13.5,
+      -8.5,
+      -1.9
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -29.2,
+      -3.3,
+      8.8,
+      20.5,
+      45.6
+     ]
+    }
+   },
+   "median_person_height_px": 204.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 151774630,
+   "eligible": false,
+   "layout": "L04"
+  },
+  {
+   "scene": "Warehouse_012",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 29787,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.937,
+      1.003,
+      1.098,
+      1.153,
+      1.178
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -16.3,
+      -9.5,
+      -6.7,
+      -3.8,
+      7.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -32.7,
+      -25.7,
+      -13.4,
+      -3.7,
+      7.6
+     ]
+    },
+    "z0": {
+     "n_interior": 29787,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.936,
+      1.001,
+      1.096,
+      1.151,
+      1.176
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -18.7,
+      -11.9,
+      -9.0,
+      -5.9,
+      5.1
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -32.2,
+      -25.1,
+      -13.0,
+      -3.5,
+      7.5
+     ]
+    }
+   },
+   "median_person_height_px": 200.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.011,
+    0.861,
+    0.948,
+    0.021,
+    0.447,
+    0.37,
+    0.0,
+    0.007,
+    0.0
+   ],
+   "nontrivial_zones": 3,
+   "gt_file_bytes": 151774630,
+   "eligible": false,
+   "layout": "L04"
+  },
+  {
+   "scene": "Warehouse_012",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 26632,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.01,
+      1.076,
+      1.106,
+      1.14,
+      1.198
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -38.2,
+      -21.0,
+      -11.7,
+      -6.1,
+      5.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -30.7,
+      -16.7,
+      -6.9,
+      6.5,
+      25.8
+     ]
+    },
+    "z0": {
+     "n_interior": 26632,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.009,
+      1.074,
+      1.104,
+      1.137,
+      1.195
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -41.1,
+      -23.9,
+      -14.3,
+      -8.4,
+      3.1
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -30.2,
+      -16.3,
+      -6.8,
+      6.3,
+      25.2
+     ]
+    }
+   },
+   "median_person_height_px": 288.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 151774630,
+   "eligible": false,
+   "layout": "L04"
+  },
+  {
+   "scene": "Warehouse_012",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 508,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.107,
+      1.262,
+      1.274,
+      1.283,
+      1.322
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -59.7,
+      -42.9,
+      -40.8,
+      -39.3,
+      -12.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -78.6,
+      -76.1,
+      -73.6,
+      -30.0,
+      0.6
+     ]
+    },
+    "z0": {
+     "n_interior": 508,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.103,
+      1.258,
+      1.268,
+      1.277,
+      1.315
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -62.7,
+      -45.6,
+      -43.5,
+      -42.1,
+      -14.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -77.2,
+      -74.8,
+      -72.2,
+      -29.1,
+      0.6
+     ]
+    }
+   },
+   "median_person_height_px": 36.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 151774630,
+   "eligible": false,
+   "layout": "L04"
+  },
+  {
+   "scene": "Warehouse_012",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 8528,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.015,
+      1.101,
+      1.128,
+      1.144,
+      1.184
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -34.2,
+      -16.6,
+      -14.0,
+      -8.2,
+      -0.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      6.3,
+      18.9,
+      22.9,
+      28.7,
+      36.5
+     ]
+    },
+    "z0": {
+     "n_interior": 8528,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.013,
+      1.099,
+      1.126,
+      1.142,
+      1.182
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -37.1,
+      -19.3,
+      -16.6,
+      -10.8,
+      -2.7
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      6.2,
+      18.4,
+      22.4,
+      28.2,
+      36.0
+     ]
+    }
+   },
+   "median_person_height_px": 267.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 151774630,
+   "eligible": false,
+   "layout": "L04"
+  },
+  {
+   "scene": "Warehouse_013",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 37645,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.451,
+      0.76,
+      1.057,
+      1.156,
+      1.23
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -35.7,
+      -25.1,
+      -11.1,
+      -6.5,
+      1.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -47.2,
+      -23.0,
+      -9.1,
+      7.0,
+      44.2
+     ]
+    },
+    "z0": {
+     "n_interior": 37645,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.45,
+      0.759,
+      1.055,
+      1.153,
+      1.226
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -38.1,
+      -27.8,
+      -13.3,
+      -8.4,
+      -1.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -46.2,
+      -22.4,
+      -8.8,
+      6.8,
+      43.2
+     ]
+    }
+   },
+   "median_person_height_px": 214.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.924,
+    0.898,
+    0.357,
+    0.021,
+    0.105,
+    0.42,
+    0.098,
+    0.679
+   ],
+   "nontrivial_zones": 5,
+   "gt_file_bytes": 167323313,
+   "eligible": false,
+   "layout": "L05"
+  },
+  {
+   "scene": "Warehouse_013",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 17611,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.006,
+      1.064,
+      1.119,
+      1.145,
+      1.235
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -43.6,
+      -22.2,
+      -13.5,
+      -10.3,
+      -3.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -41.1,
+      -28.3,
+      -23.3,
+      -12.8,
+      -2.5
+     ]
+    },
+    "z0": {
+     "n_interior": 17611,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.004,
+      1.063,
+      1.117,
+      1.142,
+      1.232
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -45.6,
+      -24.1,
+      -15.5,
+      -12.1,
+      -4.9
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -40.2,
+      -27.7,
+      -22.7,
+      -12.4,
+      -2.3
+     ]
+    }
+   },
+   "median_person_height_px": 209.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 167323313,
+   "eligible": false,
+   "layout": "L05"
+  },
+  {
+   "scene": "Warehouse_013",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 25982,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.933,
+      0.991,
+      1.049,
+      1.137,
+      1.185
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -32.2,
+      -16.9,
+      -12.3,
+      -8.5,
+      2.6
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -44.9,
+      -18.8,
+      5.3,
+      14.8,
+      28.6
+     ]
+    },
+    "z0": {
+     "n_interior": 25982,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.931,
+      0.989,
+      1.047,
+      1.135,
+      1.182
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -34.4,
+      -19.1,
+      -14.5,
+      -10.5,
+      0.7
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -44.0,
+      -18.4,
+      5.1,
+      14.5,
+      28.1
+     ]
+    }
+   },
+   "median_person_height_px": 183.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.965,
+    0.948,
+    0.862,
+    0.388,
+    0.387,
+    0.434,
+    0.008,
+    0.04,
+    0.31
+   ],
+   "nontrivial_zones": 5,
+   "gt_file_bytes": 167323313,
+   "eligible": false,
+   "layout": "L05"
+  },
+  {
+   "scene": "Warehouse_013",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 24368,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.911,
+      1.019,
+      1.048,
+      1.134,
+      1.19
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -33.6,
+      -23.5,
+      -11.5,
+      -7.0,
+      15.7
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -15.7,
+      -7.5,
+      1.6,
+      14.3,
+      36.0
+     ]
+    },
+    "z0": {
+     "n_interior": 24368,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.909,
+      1.017,
+      1.045,
+      1.131,
+      1.186
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -36.6,
+      -26.1,
+      -13.9,
+      -9.4,
+      13.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -15.4,
+      -7.3,
+      1.5,
+      13.9,
+      35.3
+     ]
+    }
+   },
+   "median_person_height_px": 192.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.671,
+    0.938,
+    0.213,
+    0.416,
+    0.5,
+    0.035,
+    0.039,
+    0.544,
+    0.0
+   ],
+   "nontrivial_zones": 5,
+   "gt_file_bytes": 167323313,
+   "eligible": false,
+   "layout": "L05"
+  },
+  {
+   "scene": "Warehouse_013",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 8326,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.959,
+      1.043,
+      1.098,
+      1.125,
+      1.153
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -22.8,
+      -11.1,
+      -9.3,
+      -7.3,
+      -0.1
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -38.9,
+      -33.1,
+      -0.5,
+      2.7,
+      36.8
+     ]
+    },
+    "z0": {
+     "n_interior": 8326,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.958,
+      1.04,
+      1.095,
+      1.123,
+      1.15
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -25.1,
+      -13.4,
+      -11.7,
+      -9.8,
+      -2.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -38.2,
+      -32.4,
+      -0.4,
+      2.7,
+      36.0
+     ]
+    }
+   },
+   "median_person_height_px": 182.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.999,
+    0.786,
+    1.0,
+    0.282,
+    0.013,
+    0.047,
+    0.007,
+    0.006,
+    0.0
+   ],
+   "nontrivial_zones": 2,
+   "gt_file_bytes": 167323313,
+   "eligible": false,
+   "layout": "L05"
+  },
+  {
+   "scene": "Warehouse_013",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 2387,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.032,
+      1.102,
+      1.124,
+      1.131,
+      1.181
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -39.2,
+      -16.6,
+      -9.7,
+      -8.4,
+      -3.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -49.3,
+      -37.7,
+      -28.9,
+      -26.5,
+      -17.4
+     ]
+    },
+    "z0": {
+     "n_interior": 2387,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.029,
+      1.1,
+      1.121,
+      1.128,
+      1.178
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -41.7,
+      -19.5,
+      -12.1,
+      -10.9,
+      -5.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -48.4,
+      -37.0,
+      -28.3,
+      -26.0,
+      -16.8
+     ]
+    }
+   },
+   "median_person_height_px": 276.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 167323313,
+   "eligible": false,
+   "layout": "L05"
+  },
+  {
+   "scene": "Warehouse_014",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 20246,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.074,
+      1.167,
+      1.241,
+      1.275,
+      1.325
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -59.1,
+      -32.6,
+      -26.4,
+      -21.1,
+      -8.5
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -45.0,
+      33.3,
+      50.1,
+      60.8,
+      73.8
+     ]
+    },
+    "z0": {
+     "n_interior": 20246,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.07,
+      1.162,
+      1.236,
+      1.27,
+      1.318
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -61.7,
+      -35.2,
+      -29.1,
+      -24.0,
+      -11.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -44.2,
+      32.5,
+      49.1,
+      59.6,
+      72.5
+     ]
+    }
+   },
+   "median_person_height_px": 325.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 208563100,
+   "eligible": false,
+   "layout": "L06"
+  },
+  {
+   "scene": "Warehouse_014",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 6731,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.078,
+      1.13,
+      1.153,
+      1.165,
+      1.202
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -37.9,
+      -19.5,
+      -15.6,
+      -12.7,
+      -3.6
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -44.2,
+      -30.9,
+      -27.0,
+      -19.1,
+      -12.0
+     ]
+    },
+    "z0": {
+     "n_interior": 6731,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.075,
+      1.127,
+      1.15,
+      1.162,
+      1.198
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -40.5,
+      -22.1,
+      -18.3,
+      -15.5,
+      -6.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -43.4,
+      -30.2,
+      -26.4,
+      -18.6,
+      -11.6
+     ]
+    }
+   },
+   "median_person_height_px": 226.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 208563100,
+   "eligible": false,
+   "layout": "L06"
+  },
+  {
+   "scene": "Warehouse_014",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 34741,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.923,
+      1.002,
+      1.043,
+      1.116,
+      1.152
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -25.1,
+      -6.5,
+      -3.0,
+      -0.7,
+      8.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -34.0,
+      -17.7,
+      -14.5,
+      -10.8,
+      -4.4
+     ]
+    },
+    "z0": {
+     "n_interior": 34741,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.922,
+      1.001,
+      1.042,
+      1.115,
+      1.15
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -27.9,
+      -8.4,
+      -4.7,
+      -2.3,
+      6.7
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -33.3,
+      -17.4,
+      -14.2,
+      -10.5,
+      -4.1
+     ]
+    }
+   },
+   "median_person_height_px": 156.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.096,
+    1.0,
+    0.0,
+    0.255,
+    0.695,
+    0.0,
+    0.228,
+    0.69
+   ],
+   "nontrivial_zones": 4,
+   "gt_file_bytes": 208563100,
+   "eligible": false,
+   "layout": "L06"
+  },
+  {
+   "scene": "Warehouse_014",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 85745,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.258,
+      0.924,
+      1.078,
+      1.132,
+      1.195
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -26.3,
+      -11.5,
+      -5.0,
+      -0.3,
+      69.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -22.3,
+      -5.7,
+      5.6,
+      18.5,
+      39.9
+     ]
+    },
+    "z0": {
+     "n_interior": 85745,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.258,
+      0.923,
+      1.076,
+      1.13,
+      1.193
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -29.3,
+      -14.0,
+      -7.2,
+      -1.9,
+      67.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -21.9,
+      -5.6,
+      5.5,
+      18.1,
+      39.2
+     ]
+    }
+   },
+   "median_person_height_px": 195.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.701,
+    0.96,
+    0.96,
+    0.964,
+    0.733,
+    0.669,
+    0.58,
+    0.514,
+    0.062
+   ],
+   "nontrivial_zones": 5,
+   "gt_file_bytes": 208563100,
+   "eligible": false,
+   "layout": "L06"
+  },
+  {
+   "scene": "Warehouse_014",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 44207,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.004,
+      1.107,
+      1.171,
+      1.216,
+      1.264
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -39.6,
+      -23.0,
+      -15.2,
+      -7.7,
+      3.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      2.6,
+      18.4,
+      25.3,
+      32.2,
+      53.1
+     ]
+    },
+    "z0": {
+     "n_interior": 44207,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.002,
+      1.104,
+      1.168,
+      1.213,
+      1.261
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -42.2,
+      -25.8,
+      -17.9,
+      -10.1,
+      1.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      2.4,
+      18.0,
+      24.8,
+      31.6,
+      52.2
+     ]
+    }
+   },
+   "median_person_height_px": 291.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 208563100,
+   "eligible": false,
+   "layout": "L06"
+  },
+  {
+   "scene": "Warehouse_014",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 37791,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.249,
+      0.965,
+      1.071,
+      1.114,
+      1.162
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -38.1,
+      -20.9,
+      -9.5,
+      -0.7,
+      146.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -35.9,
+      -15.2,
+      -0.4,
+      8.0,
+      32.0
+     ]
+    },
+    "z0": {
+     "n_interior": 37791,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.249,
+      0.964,
+      1.069,
+      1.111,
+      1.16
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -40.7,
+      -23.6,
+      -11.9,
+      -2.9,
+      143.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -35.4,
+      -14.8,
+      -0.4,
+      7.9,
+      31.5
+     ]
+    }
+   },
+   "median_person_height_px": 240.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.736,
+    0.692,
+    0.517,
+    0.125,
+    0.694,
+    0.604,
+    0.113,
+    0.589,
+    0.203
+   ],
+   "nontrivial_zones": 9,
+   "gt_file_bytes": 208563100,
+   "eligible": false,
+   "layout": "L06"
+  },
+  {
+   "scene": "Warehouse_015",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 63507,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.899,
+      0.993,
+      1.046,
+      1.11,
+      1.186
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -28.2,
+      -16.2,
+      -9.4,
+      -4.9,
+      1.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -34.3,
+      -16.4,
+      -7.1,
+      8.9,
+      30.7
+     ]
+    },
+    "z0": {
+     "n_interior": 63507,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.897,
+      0.992,
+      1.044,
+      1.108,
+      1.183
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -30.6,
+      -18.6,
+      -11.5,
+      -6.9,
+      -0.1
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -33.6,
+      -16.1,
+      -6.8,
+      8.7,
+      30.0
+     ]
+    }
+   },
+   "median_person_height_px": 203.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.437,
+    0.73,
+    1.0,
+    0.886,
+    0.897,
+    0.847,
+    0.074,
+    0.423,
+    0.754
+   ],
+   "nontrivial_zones": 7,
+   "gt_file_bytes": 212094885,
+   "eligible": false,
+   "layout": "L07"
+  },
+  {
+   "scene": "Warehouse_015",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 19488,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.981,
+      1.087,
+      1.138,
+      1.168,
+      1.249
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -40.0,
+      -23.0,
+      -15.6,
+      -9.4,
+      6.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -53.4,
+      -32.5,
+      -7.4,
+      16.5,
+      44.9
+     ]
+    },
+    "z0": {
+     "n_interior": 19488,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.979,
+      1.084,
+      1.134,
+      1.165,
+      1.245
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -42.6,
+      -25.5,
+      -18.2,
+      -11.9,
+      4.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -52.4,
+      -31.8,
+      -7.0,
+      16.2,
+      44.0
+     ]
+    }
+   },
+   "median_person_height_px": 256.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 212094885,
+   "eligible": false,
+   "layout": "L07"
+  },
+  {
+   "scene": "Warehouse_015",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 54304,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.942,
+      1.021,
+      1.071,
+      1.146,
+      1.179
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -25.9,
+      -17.0,
+      -7.5,
+      -2.3,
+      13.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -31.1,
+      -16.8,
+      -10.0,
+      -4.7,
+      30.4
+     ]
+    },
+    "z0": {
+     "n_interior": 54304,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.941,
+      1.02,
+      1.07,
+      1.144,
+      1.177
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -29.0,
+      -19.6,
+      -9.6,
+      -4.0,
+      11.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -30.5,
+      -16.5,
+      -9.8,
+      -4.5,
+      29.9
+     ]
+    }
+   },
+   "median_person_height_px": 193.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.353,
+    1.0,
+    0.0,
+    0.908,
+    0.351,
+    0.726,
+    0.277,
+    0.79
+   ],
+   "nontrivial_zones": 5,
+   "gt_file_bytes": 212094885,
+   "eligible": false,
+   "layout": "L07"
+  },
+  {
+   "scene": "Warehouse_015",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 60834,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.942,
+      0.988,
+      1.036,
+      1.114,
+      1.167
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -24.8,
+      -12.4,
+      -5.8,
+      -3.6,
+      3.9
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -26.9,
+      -11.3,
+      -5.8,
+      -1.1,
+      9.6
+     ]
+    },
+    "z0": {
+     "n_interior": 60834,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.941,
+      0.986,
+      1.034,
+      1.111,
+      1.164
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -27.7,
+      -14.9,
+      -7.9,
+      -5.5,
+      1.9
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -26.3,
+      -11.0,
+      -5.7,
+      -1.1,
+      9.4
+     ]
+    }
+   },
+   "median_person_height_px": 223.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.974,
+    0.974,
+    0.001,
+    0.9,
+    0.706,
+    0.074,
+    0.696,
+    0.395
+   ],
+   "nontrivial_zones": 3,
+   "gt_file_bytes": 212094885,
+   "eligible": false,
+   "layout": "L07"
+  },
+  {
+   "scene": "Warehouse_015",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 69006,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.144,
+      0.449,
+      1.005,
+      1.066,
+      1.139
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -18.4,
+      -8.8,
+      -4.4,
+      22.2,
+      91.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -15.3,
+      -6.3,
+      2.6,
+      13.7,
+      23.5
+     ]
+    },
+    "z0": {
+     "n_interior": 69006,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.144,
+      0.449,
+      1.004,
+      1.064,
+      1.137
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -20.8,
+      -11.0,
+      -6.3,
+      20.7,
+      90.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -15.0,
+      -6.1,
+      2.6,
+      13.5,
+      23.2
+     ]
+    }
+   },
+   "median_person_height_px": 190.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.804,
+    0.0,
+    0.0,
+    0.896,
+    0.754,
+    0.613,
+    0.617,
+    0.53,
+    0.864
+   ],
+   "nontrivial_zones": 7,
+   "gt_file_bytes": 212094885,
+   "eligible": false,
+   "layout": "L07"
+  },
+  {
+   "scene": "Warehouse_015",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 20461,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.76,
+      1.042,
+      1.086,
+      1.138,
+      1.229
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -38.1,
+      -16.3,
+      -13.2,
+      -6.1,
+      5.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -33.0,
+      -23.1,
+      -19.6,
+      -9.1,
+      -0.6
+     ]
+    },
+    "z0": {
+     "n_interior": 20461,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.759,
+      1.04,
+      1.084,
+      1.136,
+      1.226
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -40.4,
+      -18.7,
+      -15.7,
+      -8.1,
+      3.5
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -32.4,
+      -22.6,
+      -19.2,
+      -8.9,
+      -0.3
+     ]
+    }
+   },
+   "median_person_height_px": 120.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 212094885,
+   "eligible": false,
+   "layout": "L07"
+  },
+  {
+   "scene": "Warehouse_016",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 17436,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.024,
+      1.046,
+      1.053,
+      1.212,
+      1.287
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -31.4,
+      -17.7,
+      -12.4,
+      -11.2,
+      -3.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -61.8,
+      -17.2,
+      15.2,
+      50.0,
+      50.7
+     ]
+    },
+    "z0": {
+     "n_interior": 17436,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.021,
+      1.043,
+      1.051,
+      1.209,
+      1.283
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -34.4,
+      -20.6,
+      -14.9,
+      -13.7,
+      -6.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -60.6,
+      -16.8,
+      14.8,
+      49.1,
+      49.8
+     ]
+    }
+   },
+   "median_person_height_px": 174.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 170228142,
+   "eligible": false,
+   "layout": "L08"
+  },
+  {
+   "scene": "Warehouse_016",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 110848,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.898,
+      1.003,
+      1.053,
+      1.095,
+      1.156
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -14.0,
+      -5.9,
+      -2.6,
+      -0.3,
+      22.4
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -23.3,
+      -1.9,
+      5.7,
+      17.1,
+      24.6
+     ]
+    },
+    "z0": {
+     "n_interior": 110848,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.897,
+      1.002,
+      1.051,
+      1.094,
+      1.155
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -16.5,
+      -8.1,
+      -4.5,
+      -1.8,
+      20.6
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -22.8,
+      -1.8,
+      5.6,
+      16.7,
+      24.2
+     ]
+    }
+   },
+   "median_person_height_px": 195.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    1.0,
+    0.941,
+    0.271,
+    0.907,
+    0.781,
+    0.976,
+    0.12,
+    0.107,
+    0.528
+   ],
+   "nontrivial_zones": 5,
+   "gt_file_bytes": 170228142,
+   "eligible": true,
+   "layout": "L08"
+  },
+  {
+   "scene": "Warehouse_016",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "geometry_passes": true,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 29159,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.934,
+      0.982,
+      1.058,
+      1.148,
+      1.246
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -30.6,
+      -14.8,
+      -7.4,
+      -5.0,
+      3.1
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -24.9,
+      -9.8,
+      9.3,
+      15.6,
+      29.3
+     ]
+    },
+    "z0": {
+     "n_interior": 29159,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.933,
+      0.981,
+      1.056,
+      1.146,
+      1.243
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -33.6,
+      -17.1,
+      -9.6,
+      -7.1,
+      0.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -24.3,
+      -9.5,
+      9.1,
+      15.3,
+      28.8
+     ]
+    }
+   },
+   "median_person_height_px": 195.0,
+   "vehicle_frame_fraction": 1.0,
+   "zone_pos_rates": [
+    1.0,
+    0.676,
+    0.699,
+    0.465,
+    0.541,
+    0.522,
+    0.09,
+    0.273,
+    0.033
+   ],
+   "nontrivial_zones": 6,
+   "gt_file_bytes": 170228142,
+   "eligible": true,
+   "layout": "L08"
+  },
+  {
+   "scene": "Warehouse_016",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 6738,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.985,
+      1.031,
+      1.04,
+      1.068,
+      1.17
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -55.9,
+      -28.6,
+      -17.5,
+      -14.9,
+      -8.7
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -44.6,
+      -32.4,
+      -21.0,
+      -15.1,
+      -11.9
+     ]
+    },
+    "z0": {
+     "n_interior": 6738,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.983,
+      1.028,
+      1.038,
+      1.064,
+      1.167
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -58.2,
+      -31.1,
+      -20.2,
+      -17.4,
+      -11.0
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -43.7,
+      -31.6,
+      -20.7,
+      -14.7,
+      -11.6
+     ]
+    }
+   },
+   "median_person_height_px": 282.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 170228142,
+   "eligible": false,
+   "layout": "L08"
+  },
+  {
+   "scene": "Warehouse_016",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 20167,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.021,
+      1.095,
+      1.176,
+      1.217,
+      1.32
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -45.7,
+      -35.4,
+      -22.0,
+      -13.8,
+      -2.2
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -39.7,
+      -28.7,
+      -5.5,
+      2.7,
+      29.3
+     ]
+    },
+    "z0": {
+     "n_interior": 20167,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      1.018,
+      1.091,
+      1.172,
+      1.213,
+      1.314
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -48.5,
+      -38.2,
+      -24.7,
+      -16.4,
+      -4.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -38.9,
+      -28.1,
+      -5.4,
+      2.7,
+      28.8
+     ]
+    }
+   },
+   "median_person_height_px": 319.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 170228142,
+   "eligible": false,
+   "layout": "L08"
+  },
+  {
+   "scene": "Warehouse_016",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "geometry_passes": false,
+   "consistency": {
+    "box_bottom": {
+     "n_interior": 23019,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.986,
+      1.086,
+      1.144,
+      1.201,
+      1.233
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -34.5,
+      -25.4,
+      -18.5,
+      -11.9,
+      -2.3
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -54.4,
+      -35.5,
+      -9.2,
+      4.3,
+      43.1
+     ]
+    },
+    "z0": {
+     "n_interior": 23019,
+     "vis_h_over_expected_h_p5_25_50_75_95": [
+      0.983,
+      1.083,
+      1.14,
+      1.197,
+      1.229
+     ],
+     "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+      -37.4,
+      -28.1,
+      -21.1,
+      -14.6,
+      -4.8
+     ],
+     "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+      -53.5,
+      -34.6,
+      -8.8,
+      4.3,
+      42.2
+     ]
+    }
+   },
+   "median_person_height_px": 189.0,
+   "vehicle_frame_fraction": 0.0,
+   "zone_pos_rates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "nontrivial_zones": 0,
+   "gt_file_bytes": 170228142,
+   "eligible": false,
+   "layout": "L08"
+  }
+ ],
+ "chosen": [
+  {
+   "layout": "L08",
+   "scene": "Warehouse_016",
+   "camera": "Camera_0002"
+  },
+  {
+   "layout": "L02",
+   "scene": "Warehouse_010",
+   "camera": "Camera_0002"
+  }
+ ]
+}

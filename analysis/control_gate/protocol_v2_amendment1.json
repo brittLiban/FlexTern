@@ -1,0 +1,10 @@
+{
+  "amends": "protocol_v2.json (file unchanged; its SHA-256 is in every manifest)",
+  "date": "2026-11-04",
+  "made_before": "any holdout detection; after development detections of S0, S1, S2 and a faulty YT run existed",
+  "item": "candidates.YT / candidates.YS input specification",
+  "was": "RGB, /255, ImageNet mean/std exactly as the release 0.1.1rc0 demo preproc",
+  "now": "BGR, raw 0-255, letterbox top-left, pad 114, no mean/std",
+  "reason": "With the demo normalisation the YOLOX-Tiny ONNX returned max person score 0.0007 on dev frames (4 detections >= 0.05 in 3090 frames; pooled dev balanced accuracy exactly 0.500). On the same frames raw 0-255 input gives max person score 0.82/0.09/0.69 (frames 300/3000/6000) and 14-18 detections >= 0.3 on two of them. Channel order (RGB vs BGR) made no material difference (0.82 vs 0.83). The earlier parity check validated against the demo's own (mismatched) preprocessing and so did not catch this. Input convention was chosen on three development frames by objectness only, not by AP or any holdout.",
+  "effect": "The faulty YT development detections are discarded and regenerated. YS, if ever used, follows the same specification. No other protocol element changes."
+}

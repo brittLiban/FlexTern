@@ -1,0 +1,53 @@
+{
+ "started_utc": "2026-11-04T13:48:51+00:00",
+ "role": "hold_L08",
+ "config": "YT",
+ "mode": "replay",
+ "threads": 4,
+ "command": "python -m analysis.control_gate.run_cag replay YT hold_L08 --threads 4 --rep 2 --max-frames 2700 --tag timing",
+ "protocol_sha256": "9a6d5b556996963eb571a0397e1ba3606230fea68db135d2d436bfb234f75c69",
+ "protocol_id": "EXP-0010-CAG-protocol-v2",
+ "video_sha256": "ceb63fe7f96b24b051becaeffd8c501af56ddd7a71a0f1ed62f64368d2d10eda",
+ "gt_json_sha256": "c8eb1855240b4652ab24d4141e9acbd945f94c90f55b2b6b8450a5859f1c5067",
+ "model_files": {
+  "yolox_tiny.onnx": "427cc366d34e27ff7a03e2899b5e3671425c262ea2291f88bb942bc1cc70b0f7"
+ },
+ "environment": {
+  "python": "3.14.4",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "machine": "x86_64",
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "git": {
+   "commit": "b056acedf7713b91db5a72943cc7ca9bca5d9b99",
+   "dirty": true
+  },
+  "numpy": "2.5.3",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "onnx": "1.23.2",
+  "onnxruntime": "1.31.1",
+  "opencv-python-headless": "5.0.0.93",
+  "av": "19.0.2",
+  "psutil": "7.2.2",
+  "ijson": "3.6.0",
+  "cpu_model": "AMD Ryzen 7 260 w/ Radeon 780M",
+  "logical_cpus": 16,
+  "mem_total_kb": 6065824,
+  "wsl2": true
+ },
+ "host": {
+  "power_plan": "Balanced",
+  "battery_status_code": 2,
+  "battery_status": "AC power",
+  "battery_charge_pct": 99,
+  "note": "WSL2 guest under Hyper-V on a laptop; CPU governor, frequency, thermal state and Windows process priority are NOT controlled"
+ },
+ "rep": 2,
+ "tag": "timing",
+ "max_frames": 2700,
+ "queue_cap": 2,
+ "providers": [
+  "CPUExecutionProvider"
+ ],
+ "finished_utc": "2026-11-04T13:50:27+00:00"
+}

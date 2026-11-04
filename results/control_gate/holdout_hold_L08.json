@@ -1,0 +1,244 @@
+{
+ "role": "hold_L08",
+ "geometry_ok": true,
+ "protocol_sha256": "9a6d5b556996963eb571a0397e1ba3606230fea68db135d2d436bfb234f75c69",
+ "dev_selection_sha256": "6ec130cb3a4fae6d21fd4cb714fa45ec620c3275fe2663171e715af5f7b05488",
+ "configs": {
+  "S0": {
+   "clip": "hold_L08",
+   "tau": 0.1,
+   "n_frames_scored": 9000,
+   "geometry_ok": true,
+   "zone": {
+    "tpr": 0.9803516028955532,
+    "fpr": 0.5711347177998817,
+    "balanced_accuracy": 0.7046084425478358,
+    "precision": 0.6516695595387444,
+    "f1": 0.7829130062249017,
+    "n_pos": 38680,
+    "n_neg": 35489,
+    "tp": 37920,
+    "fn": 760,
+    "fp": 20269,
+    "tn": 15220,
+    "per_zone_pos_rate": [
+     1.0,
+     0.6763,
+     0.6986,
+     0.4648,
+     0.5407,
+     0.5216,
+     0.0898,
+     0.273,
+     0.0331
+    ],
+    "per_zone_neg_rate": [
+     0.0,
+     0.1224,
+     0.2466,
+     0.4144,
+     0.407,
+     0.3604,
+     0.7568,
+     0.6718,
+     0.9638
+    ],
+    "bootstrap": {
+     "tpr_ci": [
+      0.9685672223655183,
+      0.9900433242581296
+     ],
+     "fpr_ci": [
+      0.5119990374320094,
+      0.6255269105242093
+     ],
+     "balanced_accuracy_ci": [
+      0.6794610587409793,
+      0.7317987589268478
+     ],
+     "block_frames": 300,
+     "n_boot": 1000,
+     "seed": 20261104
+    }
+   },
+   "presence_count": {
+    "presence_recall": 1.0,
+    "presence_false_alarm_rate": 0.0,
+    "frames_without_scored_person": 0,
+    "count_mae": 36.673,
+    "count_exact_frac": 0.0024444444444444444,
+    "count_within1_frac": 0.009111111111111111,
+    "const_median_mae": 0.9816666666666667
+   },
+   "ap": {
+    "ap_iou0.1": 0.6390629370671382,
+    "ap_iou0.3": 0.5200548391476761,
+    "ap_iou0.5": 0.30517694381570915,
+    "precision_iou0.5": 0.1036388971993348,
+    "recall_iou0.5": 0.5439139967465875,
+    "f1_iou0.5": 0.17410360550039167,
+    "ap_iou0.5_vs_whole_person_box_INFERRED": 0.11614171590645261
+   },
+   "visibility": {
+    "n_scored_gt": 70695,
+    "bins": {
+     "<0.5": {
+      "n": 7093,
+      "hit_iou>=0.5": 0.09361342168334978,
+      "hit_iou>=0.3": 0.18990554067390386,
+      "hit_iou>=0.1": 0.3692372761877908,
+      "median_det_height_over_expected_whole_height": 0.5181221512983284,
+      "median_top_err_over_expected_h": 0.04460060172820795,
+      "median_bottom_err_over_expected_h": 0.17103321058767587
+     },
+     "0.5-0.8": {
+      "n": 13732,
+      "hit_iou>=0.5": 0.3301048645499563,
+      "hit_iou>=0.3": 0.6151325371395281,
+      "hit_iou>=0.1": 0.7687882318671716,
+      "median_det_height_over_expected_whole_height": 0.5835777305003699,
+      "median_top_err_over_expected_h": 0.11037157996197229,
+      "median_bottom_err_over_expected_h": 0.013675539456989126
+     },
+     "0.8-0.95": {
+      "n": 15373,
+      "hit_iou>=0.5": 0.5443309698822612,
+      "hit_iou>=0.3": 0.8345150588694464,
+      "hit_iou>=0.1": 0.9279906329278605,
+      "median_det_height_over_expected_whole_height": 0.7374630338647883,
+      "median_top_err_over_expected_h": 0.12431976403717174,
+      "median_bottom_err_over_expected_h": 0.006184721549160895
+     },
+     ">=0.95": {
+      "n": 34497,
+      "hit_iou>=0.5": 0.7314259210945879,
+      "hit_iou>=0.3": 0.9157897788213468,
+      "hit_iou>=0.1": 0.9651274023828159,
+      "median_det_height_over_expected_whole_height": 0.9932934144341039,
+      "median_top_err_over_expected_h": 0.04127741574651497,
+      "median_bottom_err_over_expected_h": -0.008358587295415741
+     }
+    }
+   },
+   "quality_bar_met_on_this_layout": false
+  },
+  "YT": {
+   "clip": "hold_L08",
+   "tau": 0.05,
+   "n_frames_scored": 9000,
+   "geometry_ok": true,
+   "zone": {
+    "tpr": 0.9930972078593588,
+    "fpr": 0.5920426047507679,
+    "balanced_accuracy": 0.7005273015542954,
+    "precision": 0.6464223209477652,
+    "f1": 0.7831077224170269,
+    "n_pos": 38680,
+    "n_neg": 35489,
+    "tp": 38413,
+    "fn": 267,
+    "fp": 21011,
+    "tn": 14478,
+    "per_zone_pos_rate": [
+     1.0,
+     0.6763,
+     0.6986,
+     0.4648,
+     0.5407,
+     0.5216,
+     0.0898,
+     0.273,
+     0.0331
+    ],
+    "per_zone_neg_rate": [
+     0.0,
+     0.1224,
+     0.2466,
+     0.4144,
+     0.407,
+     0.3604,
+     0.7568,
+     0.6718,
+     0.9638
+    ],
+    "bootstrap": {
+     "tpr_ci": [
+      0.9830637351911621,
+      0.9986902792090425
+     ],
+     "fpr_ci": [
+      0.5273335252318241,
+      0.6523503787251171
+     ],
+     "balanced_accuracy_ci": [
+      0.6722520147578388,
+      0.7315489107969309
+     ],
+     "block_frames": 300,
+     "n_boot": 1000,
+     "seed": 20261104
+    }
+   },
+   "presence_count": {
+    "presence_recall": 1.0,
+    "presence_false_alarm_rate": 0.0,
+    "frames_without_scored_person": 0,
+    "count_mae": 10.531444444444444,
+    "count_exact_frac": 0.0003333333333333333,
+    "count_within1_frac": 0.0011111111111111111,
+    "const_median_mae": 0.9816666666666667
+   },
+   "ap": {
+    "ap_iou0.1": 0.8630550616518835,
+    "ap_iou0.3": 0.8445744933458356,
+    "ap_iou0.5": 0.7903162601715804,
+    "precision_iou0.5": 0.48008442339313323,
+    "recall_iou0.5": 0.8301294292382772,
+    "f1_iou0.5": 0.6083468093046398,
+    "ap_iou0.5_vs_whole_person_box_INFERRED": 0.3475170892414668
+   },
+   "visibility": {
+    "n_scored_gt": 70695,
+    "bins": {
+     "<0.5": {
+      "n": 7093,
+      "hit_iou>=0.5": 0.28013534470604823,
+      "hit_iou>=0.3": 0.35147328351896234,
+      "hit_iou>=0.1": 0.4955590018327929,
+      "median_det_height_over_expected_whole_height": 0.5249384066393118,
+      "median_top_err_over_expected_h": 0.0036845736162266426,
+      "median_bottom_err_over_expected_h": 0.06402755136213505
+     },
+     "0.5-0.8": {
+      "n": 13732,
+      "hit_iou>=0.5": 0.8498397902709001,
+      "hit_iou>=0.3": 0.9112292455578211,
+      "hit_iou>=0.1": 0.9415234488785319,
+      "median_det_height_over_expected_whole_height": 0.694554675270205,
+      "median_top_err_over_expected_h": 0.00032002980557835337,
+      "median_bottom_err_over_expected_h": 0.01240749079473484
+     },
+     "0.8-0.95": {
+      "n": 15373,
+      "hit_iou>=0.5": 0.903922461458401,
+      "hit_iou>=0.3": 0.9752162882976647,
+      "hit_iou>=0.1": 0.9901775840759773,
+      "median_det_height_over_expected_whole_height": 0.8812830438129942,
+      "median_top_err_over_expected_h": 0.0,
+      "median_bottom_err_over_expected_h": 0.020559487336785434
+     },
+     ">=0.95": {
+      "n": 34497,
+      "hit_iou>=0.5": 0.9546047482389773,
+      "hit_iou>=0.3": 0.9977969098762212,
+      "hit_iou>=0.1": 0.9991593471896106,
+      "median_det_height_over_expected_whole_height": 1.055254219674974,
+      "median_top_err_over_expected_h": -0.006900486576252035,
+      "median_bottom_err_over_expected_h": 0.0069040904475468606
+     }
+    }
+   },
+   "quality_bar_met_on_this_layout": false
+  }
+ }
+}

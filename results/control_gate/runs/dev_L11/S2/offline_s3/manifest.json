@@ -1,0 +1,54 @@
+{
+ "started_utc": "2026-11-04T12:24:30+00:00",
+ "role": "dev_L11",
+ "config": "S2",
+ "mode": "offline",
+ "threads": 4,
+ "command": "python -m analysis.control_gate.run_cag detect S2 dev_L11 --stride 3 --threads 4",
+ "protocol_sha256": "9a6d5b556996963eb571a0397e1ba3606230fea68db135d2d436bfb234f75c69",
+ "protocol_id": "EXP-0010-CAG-protocol-v2",
+ "video_sha256": "a660d8e0f5177b42911732554ce12330edb1380fcc2c294b4eeb055b7da3a71d",
+ "gt_json_sha256": "9d179e36c180b2dbbb475ae4187602b4cf22db7fc611d08c51105888aa8fa906",
+ "model_files": {
+  "ssdlite320_mobilenet_v3_large_416x240.onnx": "3774a7e266f4cd2517e1353ee8d35bc7716c81ed7a8d2c8d27acd4d1c955807b",
+  "ssdlite320_mobilenet_v3_large_416x240_anchors.npy": "8634cfbef3dabd230e9d628873f56f4b82134a4198e168dd8393e61f1215d71d"
+ },
+ "environment": {
+  "python": "3.14.4",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "machine": "x86_64",
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "git": {
+   "commit": "b056acedf7713b91db5a72943cc7ca9bca5d9b99",
+   "dirty": true
+  },
+  "numpy": "2.5.3",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "onnx": "1.23.2",
+  "onnxruntime": "1.31.1",
+  "opencv-python-headless": "5.0.0.93",
+  "av": "19.0.2",
+  "psutil": "7.2.2",
+  "ijson": "3.6.0",
+  "cpu_model": "AMD Ryzen 7 260 w/ Radeon 780M",
+  "logical_cpus": 16,
+  "mem_total_kb": 6065816,
+  "wsl2": true
+ },
+ "host": {
+  "power_plan": "Balanced",
+  "battery_status_code": 2,
+  "battery_status": "AC power",
+  "battery_charge_pct": 54,
+  "note": "WSL2 guest under Hyper-V on a laptop; CPU governor, frequency, thermal state and Windows process priority are NOT controlled"
+ },
+ "stride": 3,
+ "providers": [
+  "CPUExecutionProvider"
+ ],
+ "max_frames": null,
+ "finished_utc": "2026-11-04T12:24:31+00:00",
+ "detections_file": "S2_s3.npz",
+ "detections_sha256": "2d0809c6ad5269f740794a9bc6b1facaa96424aa71ccfb22f6295ce296d13f83"
+}
