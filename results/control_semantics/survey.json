@@ -1,0 +1,2307 @@
+{
+ "purpose": "GT-only class mix and geometry survey before protocol_v3",
+ "rows": [
+  {
+   "layout": "L01",
+   "scene": "Warehouse_008",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 33214,
+    "Transporter": 25548,
+    "FourierGR1T2": 14577,
+    "AgilityDigit": 12835
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 152.0,
+   "humanoid_consistency": {
+    "n": 27412,
+    "n_interior": 18086,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.758,
+     1.073,
+     1.134,
+     1.218,
+     1.346
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -34.6,
+     -21.0,
+     -10.0,
+     -6.4,
+     30.2
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -69.2,
+     -34.5,
+     -13.4,
+     61.1,
+     86.8
+    ],
+    "median_3dbox_height_m": 1.6572320583426081
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L01",
+   "scene": "Warehouse_008",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 64058,
+    "Transporter": 27000,
+    "FourierGR1T2": 42738,
+    "AgilityDigit": 30879
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 115.0,
+   "humanoid_consistency": {
+    "n": 73617,
+    "n_interior": 34087,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.044,
+     0.958,
+     1.038,
+     1.073,
+     1.114
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -14.7,
+     -8.6,
+     -3.4,
+     1.9,
+     35.0
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -55.9,
+     -42.1,
+     -22.6,
+     15.6,
+     30.1
+    ],
+    "median_3dbox_height_m": 1.6550275190496782
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L01",
+   "scene": "Warehouse_008",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 29338,
+    "Transporter": 27000,
+    "FourierGR1T2": 14296,
+    "AgilityDigit": 9000
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 148.0,
+   "humanoid_consistency": {
+    "n": 23296,
+    "n_interior": 17143,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.75,
+     1.033,
+     1.059,
+     1.295,
+     1.796
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -33.7,
+     -17.9,
+     -6.6,
+     -3.4,
+     7.9
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -61.4,
+     -45.2,
+     -16.3,
+     -0.5,
+     4.9
+    ],
+    "median_3dbox_height_m": 1.6550196109819901
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L01",
+   "scene": "Warehouse_008",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 51152,
+    "Transporter": 23683,
+    "FourierGR1T2": 24850,
+    "AgilityDigit": 27990
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 213.0,
+   "humanoid_consistency": {
+    "n": 52840,
+    "n_interior": 38767,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.343,
+     0.905,
+     1.015,
+     1.059,
+     1.113
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -22.5,
+     -10.5,
+     -3.6,
+     14.2,
+     127.7
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -22.0,
+     7.9,
+     23.0,
+     40.4,
+     64.8
+    ],
+    "median_3dbox_height_m": 1.6733163110795646
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L01",
+   "scene": "Warehouse_008",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 38365,
+    "Transporter": 20300,
+    "FourierGR1T2": 29997,
+    "AgilityDigit": 15410
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 224.0,
+   "humanoid_consistency": {
+    "n": 45407,
+    "n_interior": 38473,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.438,
+     0.921,
+     1.025,
+     1.064,
+     1.103
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -23.4,
+     -8.8,
+     -2.3,
+     17.1,
+     128.4
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -37.0,
+     -10.7,
+     1.7,
+     16.4,
+     52.3
+    ],
+    "median_3dbox_height_m": 1.6493714748139057
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L01",
+   "scene": "Warehouse_008",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 45888,
+    "Transporter": 9000,
+    "FourierGR1T2": 45318,
+    "AgilityDigit": 50370
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 246.0,
+   "humanoid_consistency": {
+    "n": 95688,
+    "n_interior": 85038,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.265,
+     0.927,
+     1.02,
+     1.059,
+     1.113
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -20.4,
+     -9.2,
+     -3.4,
+     10.0,
+     105.1
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -31.4,
+     -17.6,
+     -5.8,
+     6.5,
+     31.4
+    ],
+    "median_3dbox_height_m": 1.6752241053146388
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L03",
+   "scene": "Warehouse_011",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 90013,
+    "NovaCarter": 9185,
+    "Transporter": 45320,
+    "FourierGR1T2": 26788,
+    "AgilityDigit": 51020
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 156.0,
+   "humanoid_consistency": {
+    "n": 77808,
+    "n_interior": 68710,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.904,
+     0.959,
+     0.984,
+     1.007,
+     1.041
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -8.4,
+     -0.6,
+     1.7,
+     5.0,
+     11.0
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -2.3,
+     4.2,
+     8.4,
+     13.5,
+     20.1
+    ],
+    "median_3dbox_height_m": 1.7530657428567045
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L03",
+   "scene": "Warehouse_011",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 52580,
+    "NovaCarter": 19280,
+    "Transporter": 51087,
+    "FourierGR1T2": 52140,
+    "AgilityDigit": 53489
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 83.0,
+   "humanoid_consistency": {
+    "n": 105629,
+    "n_interior": 50574,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.902,
+     0.999,
+     1.026,
+     1.049,
+     1.106
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -21.4,
+     -8.6,
+     -4.0,
+     1.5,
+     16.1
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -28.0,
+     -8.6,
+     1.2,
+     10.1,
+     22.2
+    ],
+    "median_3dbox_height_m": 1.677171821665784
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L03",
+   "scene": "Warehouse_011",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 32176,
+    "Forklift": 18000,
+    "Transporter": 2328,
+    "FourierGR1T2": 20791,
+    "AgilityDigit": 2703
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 0.259,
+   "median_person_height_px": 51.0,
+   "humanoid_consistency": {
+    "n": 23494,
+    "n_interior": 16183,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.103,
+     0.353,
+     0.859,
+     1.051,
+     1.094
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -21.2,
+     -10.6,
+     2.5,
+     49.4,
+     72.3
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -2.6,
+     0.6,
+     2.7,
+     6.5,
+     18.6
+    ],
+    "median_3dbox_height_m": 1.642045380797338
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L03",
+   "scene": "Warehouse_011",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 81962,
+    "Forklift": 9000,
+    "NovaCarter": 17801,
+    "Transporter": 42899,
+    "FourierGR1T2": 53581,
+    "AgilityDigit": 41408
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 127.0,
+   "humanoid_consistency": {
+    "n": 94989,
+    "n_interior": 88334,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.899,
+     0.976,
+     1.005,
+     1.025,
+     1.064
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -11.5,
+     -3.0,
+     -0.5,
+     4.0,
+     15.3
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -10.1,
+     -1.1,
+     3.6,
+     9.9,
+     20.6
+    ],
+    "median_3dbox_height_m": 1.6539397971815741
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L03",
+   "scene": "Warehouse_011",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 33873,
+    "Forklift": 18000,
+    "Transporter": 3993,
+    "FourierGR1T2": 20381,
+    "AgilityDigit": 2098
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 0.444,
+   "median_person_height_px": 138.0,
+   "humanoid_consistency": {
+    "n": 22479,
+    "n_interior": 19794,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.574,
+     0.981,
+     1.023,
+     1.058,
+     1.094
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -23.3,
+     -13.8,
+     -5.5,
+     1.9,
+     44.0
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -25.6,
+     -15.6,
+     -4.1,
+     5.6,
+     13.4
+    ],
+    "median_3dbox_height_m": 1.6416750516911909
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L03",
+   "scene": "Warehouse_011",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 9207,
+    "Forklift": 18000,
+    "FourierGR1T2": 626,
+    "AgilityDigit": 2320
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 0.246,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 0.0,
+   "median_person_height_px": 280.0,
+   "humanoid_consistency": {
+    "n": 2946,
+    "n_interior": 54,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.037,
+     0.069,
+     0.086,
+     0.114,
+     0.158
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     44.0,
+     53.5,
+     54.8,
+     56.4,
+     57.7
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -15.4,
+     -11.4,
+     -8.8,
+     -7.4,
+     -2.4
+    ],
+    "median_3dbox_height_m": 1.731003065080406
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L04",
+   "scene": "Warehouse_012",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 10639,
+    "NovaCarter": 13718,
+    "Transporter": 14071,
+    "FourierGR1T2": 13000,
+    "AgilityDigit": 1990
+   },
+   "person_frame_fraction": 0.791,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.984,
+   "median_person_height_px": 175.0,
+   "humanoid_consistency": {
+    "n": 14990,
+    "n_interior": 3057,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.953,
+     1.004,
+     1.022,
+     1.044,
+     1.068
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -10.3,
+     -5.7,
+     -2.4,
+     -0.7,
+     8.5
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     11.4,
+     18.8,
+     23.8,
+     28.9,
+     35.9
+    ],
+    "median_3dbox_height_m": 1.6451445218794682
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L04",
+   "scene": "Warehouse_012",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 94053,
+    "NovaCarter": 13335,
+    "Transporter": 42991,
+    "FourierGR1T2": 27507,
+    "AgilityDigit": 34989
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 204.0,
+   "humanoid_consistency": {
+    "n": 62496,
+    "n_interior": 23068,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.909,
+     1.002,
+     1.043,
+     1.074,
+     1.137
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -26.9,
+     -12.1,
+     -4.7,
+     3.2,
+     15.5
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -56.4,
+     -29.1,
+     -4.3,
+     13.0,
+     28.9
+    ],
+    "median_3dbox_height_m": 1.7292057979958364
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L04",
+   "scene": "Warehouse_012",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 60316,
+    "NovaCarter": 20157,
+    "Transporter": 44599,
+    "FourierGR1T2": 26681,
+    "AgilityDigit": 34936
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 200.0,
+   "humanoid_consistency": {
+    "n": 61617,
+    "n_interior": 32003,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.93,
+     1.009,
+     1.034,
+     1.059,
+     1.138
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -29.6,
+     -11.3,
+     -5.7,
+     0.1,
+     13.8
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -47.9,
+     -32.9,
+     -16.5,
+     -5.8,
+     11.4
+    ],
+    "median_3dbox_height_m": 1.7225970851461203
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L04",
+   "scene": "Warehouse_012",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 41933,
+    "NovaCarter": 5872,
+    "Transporter": 22223,
+    "FourierGR1T2": 10234,
+    "AgilityDigit": 20171
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 288.0,
+   "humanoid_consistency": {
+    "n": 30405,
+    "n_interior": 25041,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.929,
+     0.993,
+     1.021,
+     1.046,
+     1.079
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -16.1,
+     -8.2,
+     -2.9,
+     3.0,
+     14.2
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -14.1,
+     -2.2,
+     6.1,
+     18.2,
+     36.3
+    ],
+    "median_3dbox_height_m": 1.7478797568070608
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L04",
+   "scene": "Warehouse_012",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 2542,
+    "NovaCarter": 12163,
+    "Transporter": 15348,
+    "FourierGR1T2": 14696,
+    "AgilityDigit": 3337
+   },
+   "person_frame_fraction": 0.271,
+   "humanoid_frame_fraction": 0.99,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 36.0,
+   "humanoid_consistency": {
+    "n": 18033,
+    "n_interior": 12278,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     1.023,
+     1.057,
+     1.094,
+     1.151,
+     1.24
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -59.8,
+     -34.5,
+     -20.7,
+     -12.1,
+     -5.7
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -76.3,
+     -11.0,
+     -2.1,
+     25.1,
+     47.6
+    ],
+    "median_3dbox_height_m": 1.6481392965604882
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L04",
+   "scene": "Warehouse_012",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 19345,
+    "NovaCarter": 7910,
+    "Transporter": 9941,
+    "FourierGR1T2": 9645,
+    "AgilityDigit": 11444
+   },
+   "person_frame_fraction": 0.931,
+   "humanoid_frame_fraction": 0.972,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.966,
+   "median_person_height_px": 267.0,
+   "humanoid_consistency": {
+    "n": 21089,
+    "n_interior": 10448,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.959,
+     1.03,
+     1.062,
+     1.097,
+     1.148
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -37.9,
+     -20.4,
+     -11.6,
+     -4.7,
+     8.6
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -47.0,
+     -16.0,
+     13.6,
+     20.4,
+     39.1
+    ],
+    "median_3dbox_height_m": 1.6773862652517317
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L05",
+   "scene": "Warehouse_013",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 55048,
+    "NovaCarter": 10683,
+    "Transporter": 46104,
+    "FourierGR1T2": 21124,
+    "AgilityDigit": 18254
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 214.0,
+   "humanoid_consistency": {
+    "n": 39378,
+    "n_interior": 31689,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.487,
+     1.024,
+     1.077,
+     1.123,
+     1.216
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -41.7,
+     -21.1,
+     -11.1,
+     -2.0,
+     14.6
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -62.2,
+     -43.6,
+     -26.1,
+     -15.1,
+     35.5
+    ],
+    "median_3dbox_height_m": 1.6560872195568292
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L05",
+   "scene": "Warehouse_013",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 29489,
+    "NovaCarter": 21975,
+    "Transporter": 17492,
+    "FourierGR1T2": 9886
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 209.0,
+   "humanoid_consistency": {
+    "n": 9886,
+    "n_interior": 8716,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.997,
+     1.04,
+     1.065,
+     1.091,
+     1.135
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -20.8,
+     -14.2,
+     -9.3,
+     -5.3,
+     0.6
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -31.5,
+     -20.9,
+     -16.2,
+     -10.8,
+     0.8
+    ],
+    "median_3dbox_height_m": 1.6424777228529952
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L05",
+   "scene": "Warehouse_013",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 67797,
+    "NovaCarter": 21301,
+    "Transporter": 58345,
+    "FourierGR1T2": 21327,
+    "AgilityDigit": 36364
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 183.0,
+   "humanoid_consistency": {
+    "n": 57691,
+    "n_interior": 29260,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.948,
+     1.017,
+     1.046,
+     1.077,
+     1.132
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -22.5,
+     -12.7,
+     -6.8,
+     -0.2,
+     11.7
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -8.0,
+     12.6,
+     24.7,
+     33.8,
+     43.0
+    ],
+    "median_3dbox_height_m": 1.7466697917078355
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L05",
+   "scene": "Warehouse_013",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 55360,
+    "NovaCarter": 25010,
+    "Transporter": 43086,
+    "FourierGR1T2": 3071,
+    "AgilityDigit": 6341
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 0.76,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 192.0,
+   "humanoid_consistency": {
+    "n": 9412,
+    "n_interior": 1182,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.072,
+     1.035,
+     1.071,
+     1.1,
+     1.159
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -36.3,
+     -20.3,
+     -12.1,
+     -6.2,
+     2.8
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     7.8,
+     14.3,
+     25.0,
+     35.6,
+     51.8
+    ],
+    "median_3dbox_height_m": 1.7531258541799304
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L05",
+   "scene": "Warehouse_013",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 63442,
+    "NovaCarter": 14727,
+    "Transporter": 40374,
+    "FourierGR1T2": 42108,
+    "AgilityDigit": 33083
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 182.0,
+   "humanoid_consistency": {
+    "n": 75191,
+    "n_interior": 33185,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.965,
+     1.025,
+     1.056,
+     1.094,
+     1.186
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -42.4,
+     -19.1,
+     -10.0,
+     -2.5,
+     12.1
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -48.4,
+     -23.0,
+     -4.5,
+     4.5,
+     18.8
+    ],
+    "median_3dbox_height_m": 1.65446240821027
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L05",
+   "scene": "Warehouse_013",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 4651,
+    "NovaCarter": 6698,
+    "Transporter": 8499,
+    "FourierGR1T2": 4492
+   },
+   "person_frame_fraction": 0.437,
+   "humanoid_frame_fraction": 0.499,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.75,
+   "median_person_height_px": 276.0,
+   "humanoid_consistency": {
+    "n": 4492,
+    "n_interior": 2314,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.998,
+     1.022,
+     1.036,
+     1.048,
+     1.068
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -12.3,
+     -8.7,
+     -6.5,
+     -3.7,
+     -0.3
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -27.2,
+     -22.2,
+     -18.4,
+     -13.9,
+     -7.8
+    ],
+    "median_3dbox_height_m": 1.6428498960080622
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L06",
+   "scene": "Warehouse_014",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 40590,
+    "NovaCarter": 9423,
+    "Transporter": 9218,
+    "FourierGR1T2": 21557,
+    "AgilityDigit": 3170
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.97,
+   "median_person_height_px": 325.0,
+   "humanoid_consistency": {
+    "n": 24727,
+    "n_interior": 12406,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     1.005,
+     1.074,
+     1.124,
+     1.201,
+     1.315
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -59.4,
+     -38.2,
+     -25.9,
+     -15.4,
+     -3.2
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -16.2,
+     4.1,
+     21.4,
+     35.1,
+     49.0
+    ],
+    "median_3dbox_height_m": 1.6441994919629175
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L06",
+   "scene": "Warehouse_014",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 15417,
+    "NovaCarter": 6100,
+    "Transporter": 12212,
+    "FourierGR1T2": 20099,
+    "AgilityDigit": 9043
+   },
+   "person_frame_fraction": 0.944,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.967,
+   "median_person_height_px": 226.0,
+   "humanoid_consistency": {
+    "n": 29142,
+    "n_interior": 13397,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.935,
+     1.046,
+     1.09,
+     1.127,
+     1.186
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -41.9,
+     -25.8,
+     -16.5,
+     -7.8,
+     13.6
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -62.8,
+     -44.6,
+     -30.4,
+     -20.9,
+     -9.5
+    ],
+    "median_3dbox_height_m": 1.6482640177955816
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L06",
+   "scene": "Warehouse_014",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 74870,
+    "NovaCarter": 8319,
+    "Transporter": 31795,
+    "FourierGR1T2": 32410,
+    "AgilityDigit": 30860
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.998,
+   "median_person_height_px": 156.0,
+   "humanoid_consistency": {
+    "n": 63270,
+    "n_interior": 47808,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.892,
+     0.978,
+     1.006,
+     1.031,
+     1.087
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -21.6,
+     -5.2,
+     -0.8,
+     4.7,
+     16.7
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -28.0,
+     -20.0,
+     -12.8,
+     -7.1,
+     -0.3
+    ],
+    "median_3dbox_height_m": 1.657224357488351
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L06",
+   "scene": "Warehouse_014",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 132226,
+    "NovaCarter": 30085,
+    "Transporter": 47616,
+    "FourierGR1T2": 52794,
+    "AgilityDigit": 55188
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 195.0,
+   "humanoid_consistency": {
+    "n": 107982,
+    "n_interior": 66757,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.12,
+     0.861,
+     1.011,
+     1.042,
+     1.084
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -18.8,
+     -7.3,
+     -1.4,
+     5.7,
+     25.9
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -28.2,
+     -9.6,
+     0.9,
+     11.8,
+     36.1
+    ],
+    "median_3dbox_height_m": 1.6773838751395196
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L06",
+   "scene": "Warehouse_014",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 55682,
+    "NovaCarter": 10752,
+    "Transporter": 11813,
+    "FourierGR1T2": 27715,
+    "AgilityDigit": 7888
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.996,
+   "median_person_height_px": 291.0,
+   "humanoid_consistency": {
+    "n": 35603,
+    "n_interior": 25097,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.968,
+     1.025,
+     1.058,
+     1.093,
+     1.173
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -34.5,
+     -17.2,
+     -10.1,
+     -4.0,
+     8.1
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -14.7,
+     3.1,
+     11.8,
+     23.2,
+     52.5
+    ],
+    "median_3dbox_height_m": 1.646017504368189
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L06",
+   "scene": "Warehouse_014",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 58689,
+    "NovaCarter": 6568,
+    "Transporter": 28082,
+    "FourierGR1T2": 24876,
+    "AgilityDigit": 32748
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 240.0,
+   "humanoid_consistency": {
+    "n": 57624,
+    "n_interior": 32491,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.234,
+     0.901,
+     1.016,
+     1.05,
+     1.132
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -30.1,
+     -8.0,
+     -2.1,
+     9.7,
+     100.9
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -19.2,
+     -6.4,
+     0.8,
+     13.9,
+     47.8
+    ],
+    "median_3dbox_height_m": 1.7324022638337948
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L07",
+   "scene": "Warehouse_015",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 125012,
+    "NovaCarter": 36858,
+    "Transporter": 32192,
+    "FourierGR1T2": 22149,
+    "AgilityDigit": 37896
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 203.0,
+   "humanoid_consistency": {
+    "n": 60045,
+    "n_interior": 37370,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.881,
+     0.99,
+     1.024,
+     1.052,
+     1.097
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -21.8,
+     -9.7,
+     -3.6,
+     3.5,
+     21.2
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -38.8,
+     -20.4,
+     -12.2,
+     1.6,
+     34.1
+    ],
+    "median_3dbox_height_m": 1.7498726049098514
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L07",
+   "scene": "Warehouse_015",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 39678,
+    "NovaCarter": 7892,
+    "Transporter": 17508,
+    "FourierGR1T2": 34674,
+    "AgilityDigit": 29295
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 256.0,
+   "humanoid_consistency": {
+    "n": 63969,
+    "n_interior": 45042,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.893,
+     1.03,
+     1.073,
+     1.111,
+     1.212
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -44.7,
+     -22.9,
+     -13.4,
+     -5.0,
+     21.7
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -47.3,
+     -29.9,
+     -11.3,
+     13.3,
+     45.1
+    ],
+    "median_3dbox_height_m": 1.6553383655644172
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L07",
+   "scene": "Warehouse_015",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 76270,
+    "NovaCarter": 9185,
+    "Transporter": 31212,
+    "FourierGR1T2": 14462,
+    "AgilityDigit": 24981
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 193.0,
+   "humanoid_consistency": {
+    "n": 39443,
+    "n_interior": 28402,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.93,
+     0.985,
+     1.01,
+     1.031,
+     1.099
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -17.1,
+     -4.4,
+     -0.8,
+     2.8,
+     11.9
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -33.0,
+     -21.6,
+     -15.4,
+     -9.8,
+     1.9
+    ],
+    "median_3dbox_height_m": 1.7478294456609516
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L07",
+   "scene": "Warehouse_015",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 80823,
+    "NovaCarter": 19087,
+    "Transporter": 25661,
+    "FourierGR1T2": 16671,
+    "AgilityDigit": 21112
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 223.0,
+   "humanoid_consistency": {
+    "n": 37783,
+    "n_interior": 21645,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.92,
+     0.99,
+     1.039,
+     1.092,
+     1.16
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -39.4,
+     -20.5,
+     -5.1,
+     3.9,
+     16.6
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -45.9,
+     -28.1,
+     -11.3,
+     0.1,
+     11.4
+    ],
+    "median_3dbox_height_m": 1.735286804872375
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L07",
+   "scene": "Warehouse_015",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 95722,
+    "NovaCarter": 29252,
+    "Transporter": 25882,
+    "FourierGR1T2": 40231,
+    "AgilityDigit": 48314
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 190.0,
+   "humanoid_consistency": {
+    "n": 88545,
+    "n_interior": 75309,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.066,
+     0.334,
+     0.734,
+     1.02,
+     1.091
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -18.4,
+     -3.2,
+     7.0,
+     39.5,
+     92.8
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -23.7,
+     -4.8,
+     4.5,
+     12.0,
+     24.4
+    ],
+    "median_3dbox_height_m": 1.7258765486596883
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L07",
+   "scene": "Warehouse_015",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 54674,
+    "NovaCarter": 27918,
+    "Transporter": 17005,
+    "FourierGR1T2": 25475,
+    "AgilityDigit": 29666
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 120.0,
+   "humanoid_consistency": {
+    "n": 55141,
+    "n_interior": 19952,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.871,
+     1.021,
+     1.06,
+     1.106,
+     1.179
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -37.4,
+     -21.5,
+     -10.4,
+     -1.5,
+     12.5
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -34.9,
+     -20.6,
+     -11.4,
+     6.2,
+     40.6
+    ],
+    "median_3dbox_height_m": 1.7231912799573221
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L02",
+   "scene": "Warehouse_010",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 104048,
+    "Forklift": 9000,
+    "NovaCarter": 16652,
+    "Transporter": 51193,
+    "FourierGR1T2": 33080,
+    "AgilityDigit": 34839
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 135.0,
+   "humanoid_consistency": {
+    "n": 67919,
+    "n_interior": 43283,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.92,
+     0.991,
+     1.009,
+     1.021,
+     1.038
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -4.9,
+     -2.7,
+     -1.0,
+     1.3,
+     10.0
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -0.3,
+     5.3,
+     10.4,
+     14.9,
+     19.9
+    ],
+    "median_3dbox_height_m": 1.6773838797778038
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L02",
+   "scene": "Warehouse_010",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 62855,
+    "Forklift": 8997,
+    "NovaCarter": 4973,
+    "Transporter": 28026,
+    "FourierGR1T2": 38562,
+    "AgilityDigit": 23907
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 0.998,
+   "median_person_height_px": 53.0,
+   "humanoid_consistency": {
+    "n": 62469,
+    "n_interior": 27135,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.022,
+     0.17,
+     0.409,
+     0.758,
+     1.008
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -2.2,
+     0.5,
+     10.8,
+     104.8,
+     168.8
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -40.7,
+     -23.9,
+     -5.6,
+     0.5,
+     10.6
+    ],
+    "median_3dbox_height_m": 1.6524100281083398
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L02",
+   "scene": "Warehouse_010",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 108227,
+    "Forklift": 18000,
+    "NovaCarter": 18288,
+    "Transporter": 42791,
+    "FourierGR1T2": 33672,
+    "AgilityDigit": 32042
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 138.0,
+   "humanoid_consistency": {
+    "n": 65714,
+    "n_interior": 49618,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.261,
+     0.966,
+     1.002,
+     1.027,
+     1.092
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -18.0,
+     -3.5,
+     -0.3,
+     5.5,
+     29.2
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -18.3,
+     -9.4,
+     -3.5,
+     1.8,
+     18.6
+    ],
+    "median_3dbox_height_m": 1.6572315195552605
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L02",
+   "scene": "Warehouse_010",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 33302,
+    "NovaCarter": 941,
+    "Transporter": 10421,
+    "AgilityDigit": 404
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 0.045,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.774,
+   "median_person_height_px": 196.0,
+   "humanoid_consistency": {
+    "n": 404,
+    "n_interior": 0
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L02",
+   "scene": "Warehouse_010",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 9454,
+    "Forklift": 18000,
+    "Transporter": 32
+   },
+   "person_frame_fraction": 0.932,
+   "humanoid_frame_fraction": 0.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 0.004,
+   "median_person_height_px": 299.0,
+   "humanoid_consistency": {
+    "n": 0
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L02",
+   "scene": "Warehouse_010",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 119620,
+    "Forklift": 9000,
+    "NovaCarter": 15654,
+    "Transporter": 52392,
+    "FourierGR1T2": 37237,
+    "AgilityDigit": 47403
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 54.0,
+   "humanoid_consistency": {
+    "n": 84640,
+    "n_interior": 74805,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.114,
+     0.388,
+     0.637,
+     0.926,
+     1.001
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -0.3,
+     3.2,
+     19.3,
+     42.3,
+     72.1
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -9.7,
+     2.8,
+     5.9,
+     10.9,
+     19.1
+    ],
+    "median_3dbox_height_m": 1.7278881951011318
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L08",
+   "scene": "Warehouse_016",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 51058,
+    "Forklift": 18000,
+    "NovaCarter": 16015,
+    "Transporter": 26430,
+    "FourierGR1T2": 23045,
+    "AgilityDigit": 18584
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 174.0,
+   "humanoid_consistency": {
+    "n": 41629,
+    "n_interior": 20488,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.954,
+     1.019,
+     1.047,
+     1.077,
+     1.126
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -34.0,
+     -16.6,
+     -10.1,
+     -3.7,
+     10.9
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -49.2,
+     -13.1,
+     -1.6,
+     9.7,
+     33.1
+    ],
+    "median_3dbox_height_m": 1.6572241194587678
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L08",
+   "scene": "Warehouse_016",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 132667,
+    "Forklift": 9000,
+    "NovaCarter": 24671,
+    "Transporter": 32750,
+    "FourierGR1T2": 30684,
+    "AgilityDigit": 54892
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 195.0,
+   "humanoid_consistency": {
+    "n": 85576,
+    "n_interior": 72072,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.916,
+     0.98,
+     1.008,
+     1.035,
+     1.089
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -21.2,
+     -5.4,
+     -0.1,
+     5.4,
+     16.2
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -12.4,
+     4.1,
+     12.6,
+     22.7,
+     40.1
+    ],
+    "median_3dbox_height_m": 1.7505129587986963
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L08",
+   "scene": "Warehouse_016",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 74858,
+    "Forklift": 9000,
+    "NovaCarter": 13647,
+    "Transporter": 28214,
+    "FourierGR1T2": 28380,
+    "AgilityDigit": 39011
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 1.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 1.0,
+   "median_person_height_px": 195.0,
+   "humanoid_consistency": {
+    "n": 67391,
+    "n_interior": 30861,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     0.925,
+     1.011,
+     1.041,
+     1.07,
+     1.13
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -27.4,
+     -13.5,
+     -7.8,
+     -0.8,
+     12.4
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -31.3,
+     -10.4,
+     11.8,
+     29.0,
+     42.6
+    ],
+    "median_3dbox_height_m": 1.7345450432282563
+   },
+   "humanoid_geometry_passes": true
+  },
+  {
+   "layout": "L08",
+   "scene": "Warehouse_016",
+   "camera": "Camera_0003",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 12164,
+    "Transporter": 1076,
+    "FourierGR1T2": 7381,
+    "AgilityDigit": 144
+   },
+   "person_frame_fraction": 0.794,
+   "humanoid_frame_fraction": 0.585,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.12,
+   "median_person_height_px": 282.0,
+   "humanoid_consistency": {
+    "n": 7525,
+    "n_interior": 2504,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     1.002,
+     1.045,
+     1.104,
+     1.174,
+     1.247
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -60.8,
+     -39.1,
+     -20.9,
+     -8.9,
+     0.1
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -36.9,
+     -27.6,
+     -20.9,
+     -13.9,
+     -2.9
+    ],
+    "median_3dbox_height_m": 1.6439464559510593
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L08",
+   "scene": "Warehouse_016",
+   "camera": "Camera_0004",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 32485,
+    "NovaCarter": 1849,
+    "Transporter": 685,
+    "FourierGR1T2": 6486,
+    "AgilityDigit": 5219
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 0.811,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.258,
+   "median_person_height_px": 319.0,
+   "humanoid_consistency": {
+    "n": 11705,
+    "n_interior": 6461,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     1.013,
+     1.055,
+     1.081,
+     1.114,
+     1.181
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -47.6,
+     -24.3,
+     -16.1,
+     -8.8,
+     4.0
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -57.1,
+     -25.9,
+     -13.6,
+     -6.4,
+     23.8
+    ],
+    "median_3dbox_height_m": 1.6499867541932807
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L08",
+   "scene": "Warehouse_016",
+   "camera": "Camera_0005",
+   "n_frames": 9000,
+   "person_geometry_passes": false,
+   "class_rows": {
+    "Person": 55195,
+    "NovaCarter": 10223,
+    "Transporter": 9793,
+    "FourierGR1T2": 9620,
+    "AgilityDigit": 7441
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 0.956,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.871,
+   "median_person_height_px": 189.0,
+   "humanoid_consistency": {
+    "n": 17061,
+    "n_interior": 6129,
+    "vis_h_over_3dbox_h_p5_25_50_75_95": [
+     1.012,
+     1.06,
+     1.099,
+     1.147,
+     1.22
+    ],
+    "foot_v_minus_visible_bottom_px_p5_25_50_75_95": [
+     -53.1,
+     -33.9,
+     -20.1,
+     -9.7,
+     8.6
+    ],
+    "foot_u_minus_visible_centre_px_p5_25_50_75_95": [
+     -3.7,
+     7.9,
+     11.7,
+     15.2,
+     40.8
+    ],
+    "median_3dbox_height_m": 1.6533374173588227
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L10",
+   "scene": "Warehouse_019",
+   "camera": "Camera_0000",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 10732,
+    "Forklift": 8985,
+    "PalletTruck": 9000
+   },
+   "person_frame_fraction": 0.776,
+   "humanoid_frame_fraction": 0.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 0.0,
+   "median_person_height_px": 216.0,
+   "humanoid_consistency": {
+    "n": 0
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L10",
+   "scene": "Warehouse_019",
+   "camera": "Camera_0001",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 15309,
+    "Forklift": 5748,
+    "PalletTruck": 9000
+   },
+   "person_frame_fraction": 0.994,
+   "humanoid_frame_fraction": 0.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 0.0,
+   "median_person_height_px": 166.0,
+   "humanoid_consistency": {
+    "n": 0
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L10",
+   "scene": "Warehouse_019",
+   "camera": "Camera_0002",
+   "n_frames": 9000,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 18612,
+    "Forklift": 6214,
+    "PalletTruck": 9000
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 0.0,
+   "vehicle_frame_fraction": 1.0,
+   "amr_transporter_frame_fraction": 0.0,
+   "median_person_height_px": 214.0,
+   "humanoid_consistency": {
+    "n": 0
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L11",
+   "scene": "Warehouse_022",
+   "camera": "Camera_0000",
+   "n_frames": 9270,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 29741
+   },
+   "person_frame_fraction": 0.99,
+   "humanoid_frame_fraction": 0.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.0,
+   "median_person_height_px": 113.0,
+   "humanoid_consistency": {
+    "n": 0
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L11",
+   "scene": "Warehouse_022",
+   "camera": "Camera_0001",
+   "n_frames": 9270,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 40188,
+    "Forklift": 1638,
+    "Transporter": 3825
+   },
+   "person_frame_fraction": 1.0,
+   "humanoid_frame_fraction": 0.0,
+   "vehicle_frame_fraction": 0.177,
+   "amr_transporter_frame_fraction": 0.395,
+   "median_person_height_px": 88.0,
+   "humanoid_consistency": {
+    "n": 0
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L11",
+   "scene": "Warehouse_022",
+   "camera": "Camera_0002",
+   "n_frames": 9270,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 50044,
+    "NovaCarter": 208,
+    "Transporter": 543
+   },
+   "person_frame_fraction": 0.996,
+   "humanoid_frame_fraction": 0.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.081,
+   "median_person_height_px": 123.0,
+   "humanoid_consistency": {
+    "n": 0
+   },
+   "humanoid_geometry_passes": false
+  },
+  {
+   "layout": "L11",
+   "scene": "Warehouse_022",
+   "camera": "Camera_0003",
+   "n_frames": 9270,
+   "person_geometry_passes": true,
+   "class_rows": {
+    "Person": 21174,
+    "NovaCarter": 2061
+   },
+   "person_frame_fraction": 0.872,
+   "humanoid_frame_fraction": 0.0,
+   "vehicle_frame_fraction": 0.0,
+   "amr_transporter_frame_fraction": 0.222,
+   "median_person_height_px": 198.0,
+   "humanoid_consistency": {
+    "n": 0
+   },
+   "humanoid_geometry_passes": false
+  }
+ ]
+}

@@ -1,0 +1,81 @@
+{
+  "protocol_id": "EXP-0010C-protocol-v3",
+  "date": "2026-11-04",
+  "status": "LOCKED by results/control_semantics/lock.json before any fresh-holdout video is downloaded or any detector is run on a fresh clip",
+  "supersedes": "Nothing. EXP-0010B protocol_v2 (image-grid metric) and every EXP-0010B result, including the failed preregistered verdict and all post-hoc rescorings, are preserved unchanged.",
+  "question": "Can a trustworthy industrial-vision quality control be established for YOLOX-Tiny without repeatedly changing models and evaluation criteria? The answer is for the tested configuration, metric and layouts only.",
+
+  "applications": {
+    "A_human_only": {
+      "description": "Monitoring of HUMANS (e.g. safety exclusion zones, lone-worker or ergonomics analytics) in a site that also contains humanoid and other robots.",
+      "positive_classes": ["Person"],
+      "humanoid_robots": "NEGATIVES. A detection on a FourierGR1T2 / AgilityDigit is a false alarm for this application. A COCO person detector has no robot class, so a person-only detector is expected to fail this application unless it is trained or equipped to separate humans from humanoid robots.",
+      "other_agents": "forklifts, pallet trucks, AMRs and transporters are negatives (a detection on them is a false alarm)"
+    },
+    "B_person_shaped_agent": {
+      "description": "Occupancy of person-shaped agents, human OR humanoid robot (e.g. generic presence analytics, conservative safety policy that treats every person-shaped agent as a human, site traffic).",
+      "positive_classes": ["Person", "FourierGR1T2", "AgilityDigit"],
+      "other_agents": "forklifts, pallet trucks, AMRs and transporters are negatives",
+      "needs": "validated humanoid ground-truth geometry for the clip (survey.py humanoid rule)"
+    },
+    "not_covered": "General machine/vehicle occupancy (forklifts, AMRs, transporters as positives) needs a different detector class set and is out of scope. Neither policy ignores humanoids to raise scores: the two policies are reported side by side on identical detections and each belongs to its own commercial application.",
+    "which_is_the_control": "B is the application a COCO person detector can plausibly serve and is therefore the candidate control for temporal-execution experiments. A is reported as the human-only result and is the application that needs a separate model objective."
+  },
+
+  "metric": {
+    "name": "ground_plane_zone_occupancy",
+    "ground_plane_justification": "Measured YOLOX-Tiny foot localization on development clips (localization.json): ground error median 0.20-0.37 m and 95th percentile 0.52-0.76 m across four layouts, while the same detections have a foot error of 8-33 px median across those layouts. Tolerance and zone size are physical, not pixel, quantities. The 3x3 image grid (v2) covers floor areas that vary by orders of magnitude within one frame and across layouts (localization.json image_grid_cell_size_on_floor_m). Ground-plane cells are therefore primary; the v2 image-grid result is reported as written beside v3 for comparison only.",
+    "cells": "square ground cells of 3.0 m at least half inside the image and within 45 m of the camera, from calibration only",
+    "positions": "GT: 3D box centre (cx, cy) of each agent. Detection: box bottom-centre back-projected to the floor plane (z = 0)",
+    "tolerance_margin_m": 0.75,
+    "margin_derivation": "rounded maximum, over the four development clips, of the 95th-percentile ground localization error of matched, unoccluded persons (0.704, 0.559, 0.761, 0.524 m). Not tuned on any score.",
+    "states": "POS: a scored positive-class agent strictly inside the cell. NEG: no positive-class agent, scored OR ignored, within the cell grown by 2 x margin (a detection within the margin of the cell can only be explained by an agent within 2 x margin). Otherwise DONTCARE. A cell is predicted occupied if a retained detection lies within the cell grown by the margin.",
+    "ignored_agents": "positive-class agent with visible height < 32 px, visible box touching the frame edge (3 px), or projected position outside the frame. They are never POS and never allow a NEG cell near them.",
+    "excluded_detections": "detections with height < 32 px or a box touching the frame edge have no reliable floor position; they are excluded from the prediction, counted and reported (symmetric with ignored truncated agents).",
+    "non_positive_agents": "never make a cell DONTCARE: a detection on them is a false alarm (this is what makes humanoids negatives under A and vehicles negatives under both)",
+    "reported": "TPR over POS; cell precision = predicted POS cells / (predicted POS + predicted NEG cells) and fa_per_predicted = 1 - precision; FPR and balanced accuracy for continuity with EXP-0010B (FPR depends on how many empty cells a layout has: 29 to 671 on development clips); frame-level false-alarm rate; 95% block bootstrap (300-frame blocks, 1000 resamples, seed 20261104).",
+    "why_precision_gates": "cell-level FPR is diluted by empty far cells (development clips have 29-671 cells), so the v2 bar FPR <= 0.10 is not comparable across layouts. The gating pair is TPR and fa_per_predicted; FPR and balanced accuracy are reported, not gating."
+  },
+
+  "operating_thresholds": {
+    "rule": "per policy, the score threshold tau on the grid {0.01,0.02,0.03,0.05,0.07,0.1,0.15,0.2,0.3,...,0.9} maximising the macro mean (over the four development clips) balanced accuracy. Values are written to lock.json from results/control_semantics/dev_policy_scores.json before any fresh clip is touched, and applied unchanged.",
+    "development_clips": ["L10 (Warehouse_019 Camera_0002)", "L11 (Warehouse_022 Camera_0002)", "L08 (Warehouse_016 Camera_0002)", "L02 (Warehouse_010 Camera_0002)"],
+    "note": "L08 and L02 were scored once and inspected extensively in EXP-0010B and are development data here. L09 is excluded from zone metrics (geometry rule)."
+  },
+
+  "quality_bar": {
+    "label": "TARGET, unchanged in spirit from EXP-0010B: TPR >= 0.90 and at most 10% false alarms among predicted occupied cells. It has no customer basis and is not a safety standard.",
+    "per_policy_per_fresh_layout_all_of": [
+      "TPR >= 0.90 (point estimate) and lower 95% bootstrap bound >= 0.85",
+      "fa_per_predicted <= 0.10 (point estimate) and upper 95% bootstrap bound <= 0.15"
+    ],
+    "adequate_control_for_a_policy": "the policy meets every item on EVERY fresh layout AND the real-time bar",
+    "real_time_bar": "30 fps replay, <= 1.0% dropped frames and p99 end-to-end latency <= 100 ms in every repeat (illustrative deadline) with the configuration's deployment thread count (YOLOX-Tiny: 8)"
+  },
+
+  "decision_rule": {
+    "purpose": "Fixed before the holdout so that the recommendation follows from the result, not from the score.",
+    "PROCEED_TEMPORAL": "policy B meets the full bar and the real-time bar on every fresh layout. Temporal-execution work would then be scoped to application B only (person-shaped-agent occupancy); application A is not supported.",
+    "CHANGE_WORKLOAD": "policy B fails the bar on a fresh layout but TPR >= 0.70 and fa_per_predicted <= 0.30 on a majority of fresh layouts (the detector is partially adequate). Recommended action: redefine the monitoring requirement to what the detector demonstrably serves, or change the model class/input as a separate recorded objective with its own fresh holdout; do not start temporal execution against this control.",
+    "STOP_BRANCH": "policy B has TPR < 0.70 or fa_per_predicted > 0.30 on a majority of fresh layouts. Recommended action: stop this experimental branch (continuous person monitoring with this detector class).",
+    "policy_A": "Recorded separately. A failing A while B passes means: the human-only application needs a model objective (a robot class or human/robot discrimination), not a different evaluation."
+  },
+
+  "fresh_holdout": {
+    "layout_rule": "Layout groups never used by any selection or diagnosis: L01, L03, L04, L05, L06, L07 (L00 stays excluded as in EXP-0010B). One representative scene per layout (the survey scenes). A (layout, camera) is eligible if: person AND humanoid geometry rules pass (survey.py); median visible person height >= 60 px; humanoid frames >= 50% of frames (so A and B differ); ground-plane POS rate >= 0.01 under both policies. Rank eligible by smaller ground-truth file size, then layout id, then camera. Take the first two from DIFFERENT layouts. Chosen from ground truth alone before any fresh video is downloaded. Other eligible layouts stay in reserve unused.",
+    "clip": "first 9000 frames (5 minutes) of the chosen camera",
+    "use": "ONE scoring of YOLOX-Tiny (8 threads) at the locked per-policy tau; the v2 image-grid metric as written (EXP-0010B tau 0.05) is reported beside it.",
+    "guard": "run_cs refuses fresh-holdout fetch/detect/score unless lock.json exists, is committed, matches this file's hash, and analysis/ and tests/ are clean (the manifest records the whole-repository state, not only a subdirectory)."
+  },
+
+  "model_and_training": {
+    "principal_baseline": "YOLOX-Tiny 416 letterbox, raw BGR 0-255 (EXP-0010B amendment 1), ONNX Runtime CPU, 8 threads.",
+    "no_model_or_training_change": "This objective runs no fine-tuning and adds no second model. A change is justified only by the diagnosed failure mode and is a separate recorded decision with its own development/holdout split."
+  },
+
+  "timing": {
+    "runs": "one short interleaved comparison on one fresh clip: YOLOX-Tiny (8 threads) and the Stage A SSDLite320 (4 threads), 2 repeats each, 90 s, AC power; host clock sampled before/after each run",
+    "unmeasured": "energy and power are NOT measured; thermal state and true CPU frequency are not observable under WSL2; no INT8/FP16, no fused or faster decode/postprocess path (production-quality optimization is missing); CPU busy cores are diagnostic only"
+  },
+  "disclosures": "Synthetic data. One camera per layout. The bar is a TARGET without a customer. Layout choice, margin and cell size are derived from calibration and measured localization, not from scores; tau is the only score-derived parameter and it comes from development clips."
+}

@@ -1,0 +1,177 @@
+{
+ "tau": 0.05,
+ "metric": "EXP-0010B preregistered v2 image-grid zone metric",
+ "priority_order": [
+  "humanoid",
+  "truncated_detection",
+  "person_ignored",
+  "person_boundary",
+  "person_foot_mismatch",
+  "person_partial",
+  "other_object",
+  "low_score_clutter",
+  "unexplained"
+ ],
+ "clips": {
+  "dev_L10": {
+   "stride": 3,
+   "frames_scored": 3000,
+   "neg_cells": 20597,
+   "false_alarm_cells": 3796,
+   "fpr_v2": 0.1843,
+   "cause_cells": {
+    "humanoid": 0,
+    "truncated_detection": 603,
+    "person_ignored": 5,
+    "person_boundary": 1078,
+    "person_foot_mismatch": 234,
+    "person_partial": 86,
+    "other_object": 38,
+    "low_score_clutter": 1751,
+    "unexplained": 1
+   },
+   "cause_fraction_of_fa": {
+    "humanoid": 0.0,
+    "truncated_detection": 0.1589,
+    "person_ignored": 0.0013,
+    "person_boundary": 0.284,
+    "person_foot_mismatch": 0.0616,
+    "person_partial": 0.0227,
+    "other_object": 0.01,
+    "low_score_clutter": 0.4613,
+    "unexplained": 0.0003
+   },
+   "cause_contribution_to_fpr": {
+    "humanoid": 0.0,
+    "truncated_detection": 0.0293,
+    "person_ignored": 0.0002,
+    "person_boundary": 0.0523,
+    "person_foot_mismatch": 0.0114,
+    "person_partial": 0.0042,
+    "other_object": 0.0018,
+    "low_score_clutter": 0.085,
+    "unexplained": 0.0
+   }
+  },
+  "dev_L11": {
+   "stride": 3,
+   "frames_scored": 3090,
+   "neg_cells": 19884,
+   "false_alarm_cells": 218,
+   "fpr_v2": 0.011,
+   "cause_cells": {
+    "humanoid": 0,
+    "truncated_detection": 108,
+    "person_ignored": 7,
+    "person_boundary": 101,
+    "person_foot_mismatch": 0,
+    "person_partial": 1,
+    "other_object": 0,
+    "low_score_clutter": 1,
+    "unexplained": 0
+   },
+   "cause_fraction_of_fa": {
+    "humanoid": 0.0,
+    "truncated_detection": 0.4954,
+    "person_ignored": 0.0321,
+    "person_boundary": 0.4633,
+    "person_foot_mismatch": 0.0,
+    "person_partial": 0.0046,
+    "other_object": 0.0,
+    "low_score_clutter": 0.0046,
+    "unexplained": 0.0
+   },
+   "cause_contribution_to_fpr": {
+    "humanoid": 0.0,
+    "truncated_detection": 0.0054,
+    "person_ignored": 0.0004,
+    "person_boundary": 0.0051,
+    "person_foot_mismatch": 0.0,
+    "person_partial": 0.0001,
+    "other_object": 0.0,
+    "low_score_clutter": 0.0001,
+    "unexplained": 0.0
+   }
+  },
+  "hold_L08": {
+   "stride": 1,
+   "frames_scored": 9000,
+   "neg_cells": 35489,
+   "false_alarm_cells": 21011,
+   "fpr_v2": 0.592,
+   "cause_cells": {
+    "humanoid": 12994,
+    "truncated_detection": 5165,
+    "person_ignored": 162,
+    "person_boundary": 1117,
+    "person_foot_mismatch": 111,
+    "person_partial": 93,
+    "other_object": 1311,
+    "low_score_clutter": 56,
+    "unexplained": 2
+   },
+   "cause_fraction_of_fa": {
+    "humanoid": 0.6184,
+    "truncated_detection": 0.2458,
+    "person_ignored": 0.0077,
+    "person_boundary": 0.0532,
+    "person_foot_mismatch": 0.0053,
+    "person_partial": 0.0044,
+    "other_object": 0.0624,
+    "low_score_clutter": 0.0027,
+    "unexplained": 0.0001
+   },
+   "cause_contribution_to_fpr": {
+    "humanoid": 0.3661,
+    "truncated_detection": 0.1455,
+    "person_ignored": 0.0046,
+    "person_boundary": 0.0315,
+    "person_foot_mismatch": 0.0031,
+    "person_partial": 0.0026,
+    "other_object": 0.0369,
+    "low_score_clutter": 0.0016,
+    "unexplained": 0.0001
+   }
+  },
+  "hold_L02": {
+   "stride": 1,
+   "frames_scored": 9000,
+   "neg_cells": 22884,
+   "false_alarm_cells": 14057,
+   "fpr_v2": 0.6143,
+   "cause_cells": {
+    "humanoid": 9835,
+    "truncated_detection": 1489,
+    "person_ignored": 221,
+    "person_boundary": 1532,
+    "person_foot_mismatch": 4,
+    "person_partial": 5,
+    "other_object": 927,
+    "low_score_clutter": 43,
+    "unexplained": 1
+   },
+   "cause_fraction_of_fa": {
+    "humanoid": 0.6997,
+    "truncated_detection": 0.1059,
+    "person_ignored": 0.0157,
+    "person_boundary": 0.109,
+    "person_foot_mismatch": 0.0003,
+    "person_partial": 0.0004,
+    "other_object": 0.0659,
+    "low_score_clutter": 0.0031,
+    "unexplained": 0.0001
+   },
+   "cause_contribution_to_fpr": {
+    "humanoid": 0.4298,
+    "truncated_detection": 0.0651,
+    "person_ignored": 0.0097,
+    "person_boundary": 0.0669,
+    "person_foot_mismatch": 0.0002,
+    "person_partial": 0.0002,
+    "other_object": 0.0405,
+    "low_score_clutter": 0.0019,
+    "unexplained": 0.0
+   }
+  }
+ }
+}
