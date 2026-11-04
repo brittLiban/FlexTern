@@ -1,0 +1,65 @@
+{
+ "clip": "holdout_Warehouse_022_Camera_0002",
+ "command": "python -m analysis.edge_inference.run_stage_a offline holdout B1 --rep 0",
+ "environment": {
+  "av": "19.0.2",
+  "cpu_model": "AMD Ryzen 7 260 w/ Radeon 780M",
+  "git": {
+   "commit": "bb30579abda93b4c349aec5de91d108812189751",
+   "dirty": true
+  },
+  "ijson": "3.6.0",
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "logical_cpus": 16,
+  "machine": "x86_64",
+  "mem_total_kb": 6065828,
+  "numpy": "2.5.3",
+  "onnx": "1.23.2",
+  "onnxruntime": "1.31.1",
+  "opencv-python-headless": "5.0.0.93",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "psutil": "7.2.2",
+  "python": "3.14.4",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "wsl2": true
+ },
+ "finished_utc": "2026-11-04T01:06:04+00:00",
+ "gt_camera_content_sha256": "1a649ed0bc9450bcad3f7e22ecb29aaa26ad9f7ee4c1648647431909b95041fe",
+ "gt_json_sha256": "9d179e36c180b2dbbb475ae4187602b4cf22db7fc611d08c51105888aa8fa906",
+ "host": {
+  "note": "WSL2 guest under Hyper-V on a laptop; CPU governor, frequency, thermal state and Windows process priority are NOT controlled",
+  "power_plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)1",
+  "power_source": "unknown"
+ },
+ "max_frames": null,
+ "mode": "offline",
+ "model": {
+  "anchors_sha256": "bfea495927def833e6902b8ad06099bcc1b88546ff2db7a5494146cc62b55c45",
+  "checkpoint_file": "ssdlite320_mobilenet_v3_large_coco-a79551df.pth",
+  "checkpoint_sha256": "a79551df90c79834bcd3bb3845ef9d966b5449a3a9b2833ae8404778ca5d65d2",
+  "onnx_file": "ssdlite320_mobilenet_v3_large_fp32.onnx",
+  "onnx_sha256": "e668b54dc2f3021fef1d1d5ffc5e2f8216e97b0fef1237ca44f1ef901dca29dc"
+ },
+ "protocol_id": "EXP-0010-StageA-protocol-v1",
+ "protocol_sha256": "aa80a6bfb118f847a7570de98bcb9d40cc0b9719d12a5aae1e6105043bc71c9a",
+ "providers": [
+  "CPUExecutionProvider"
+ ],
+ "repeat": 0,
+ "role": "holdout",
+ "runtime": "B1",
+ "seeds": {
+  "bootstrap": 20261104,
+  "numpy": 0,
+  "torch": 0
+ },
+ "started_utc": "2026-11-04T00:55:22+00:00",
+ "threads": {
+  "decoder": 2,
+  "inter_op": 1,
+  "intra_op": 4
+ },
+ "video_bytes": 100359743,
+ "video_sha256": "a660d8e0f5177b42911732554ce12330edb1380fcc2c294b4eeb055b7da3a71d"
+}

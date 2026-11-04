@@ -1,0 +1,131 @@
+{
+ "clips": {
+  "calibration": {
+   "camera": "Camera_0002",
+   "gt_camera_content_sha256": "4d48341ec3c5ea0f83696aa4a9fc1700e466ac0dd722bd46381a4bfe08462126",
+   "gt_class_counts": {
+    "Forklift": 6214,
+    "PalletTruck": 9000,
+    "Person": 18612
+   },
+   "gt_n_frames": 9000,
+   "gt_person_size_stats": {
+    "frac_h_ge_128": 0.7427466150870407,
+    "frac_h_ge_32": 0.8646572104018913,
+    "frac_h_ge_64": 0.8534816247582205,
+    "frames_with_person": 9000,
+    "height_px_p5_25_50_75_95": [
+     7.0,
+     121.0,
+     214.0,
+     348.0,
+     406.0
+    ],
+    "median_width_px": 114.0,
+    "n": 18612
+   },
+   "layout_group": "L10",
+   "role": "choose the operating confidence threshold only; never used for reported quality",
+   "scene": "Warehouse_019",
+   "split_dir": "train",
+   "video_bytes": 109576468,
+   "video_sha256": "1422112c8ade96c81caced7c39ebe651afae97e84b95acb8e2bd33d4b0d940fc"
+  },
+  "development": {
+   "camera": "Camera_0001",
+   "gt_camera_content_sha256": "4aaf541cfb1df6f27ef4c69032ab9c055102a864631b59810f311f50d4ccdc08",
+   "gt_class_counts": {
+    "Forklift": 17360,
+    "PalletTruck": 9000,
+    "Person": 10975
+   },
+   "gt_n_frames": 9000,
+   "gt_person_size_stats": {
+    "frac_h_ge_128": 0.8246013667425968,
+    "frac_h_ge_32": 0.9924373576309795,
+    "frac_h_ge_64": 0.9819589977220957,
+    "frames_with_person": 8749,
+    "height_px_p5_25_50_75_95": [
+     107.0,
+     148.0,
+     200.0,
+     259.0,
+     350.3
+    ],
+    "median_width_px": 135.0,
+    "n": 10975
+   },
+   "layout_group": "L09",
+   "role": "pipeline debugging, parity checks, timing shakedown, ground-truth/video alignment sweep",
+   "scene": "Warehouse_017",
+   "split_dir": "train",
+   "video_bytes": 123557599,
+   "video_sha256": "372fa9f866bfbe8de07246a1fb9b8335725a383491b31cff4e10bc9c5041ecfc"
+  },
+  "holdout": {
+   "camera": "Camera_0002",
+   "gt_camera_content_sha256": "1a649ed0bc9450bcad3f7e22ecb29aaa26ad9f7ee4c1648647431909b95041fe",
+   "gt_class_counts": {
+    "NovaCarter": 208,
+    "Person": 50044,
+    "Transporter": 543
+   },
+   "gt_n_frames": 9270,
+   "gt_person_size_stats": {
+    "frac_h_ge_128": 0.4612141315642235,
+    "frac_h_ge_32": 0.9725441611381984,
+    "frac_h_ge_64": 0.9138358244744624,
+    "frames_with_person": 9234,
+    "height_px_p5_25_50_75_95": [
+     61.0,
+     96.0,
+     123.0,
+     154.0,
+     195.0
+    ],
+    "median_width_px": 38.0,
+    "n": 50044
+   },
+   "layout_group": "L11",
+   "role": "reported result; run once per runtime configuration after this file and the calibration threshold are fixed; no tuning on it",
+   "scene": "Warehouse_022",
+   "split_dir": "val",
+   "video_bytes": 100359743,
+   "video_sha256": "a660d8e0f5177b42911732554ce12330edb1380fcc2c294b4eeb055b7da3a71d"
+  }
+ },
+ "environment": {
+  "av": "19.0.2",
+  "cpu_model": "AMD Ryzen 7 260 w/ Radeon 780M",
+  "git": {
+   "commit": "bb30579abda93b4c349aec5de91d108812189751",
+   "dirty": true
+  },
+  "ijson": "3.6.0",
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "logical_cpus": 16,
+  "machine": "x86_64",
+  "mem_total_kb": 6065828,
+  "numpy": "2.5.3",
+  "onnx": "1.23.2",
+  "onnxruntime": "1.31.1",
+  "opencv-python-headless": "5.0.0.93",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "psutil": "7.2.2",
+  "python": "3.14.4",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "wsl2": true
+ },
+ "model": {
+  "anchors_sha256": "bfea495927def833e6902b8ad06099bcc1b88546ff2db7a5494146cc62b55c45",
+  "anchors_shape": [
+   3234,
+   4
+  ],
+  "checkpoint_file": "ssdlite320_mobilenet_v3_large_coco-a79551df.pth",
+  "checkpoint_sha256": "a79551df90c79834bcd3bb3845ef9d966b5449a3a9b2833ae8404778ca5d65d2",
+  "onnx_file": "ssdlite320_mobilenet_v3_large_fp32.onnx",
+  "onnx_sha256": "e668b54dc2f3021fef1d1d5ffc5e2f8216e97b0fef1237ca44f1ef901dca29dc"
+ }
+}

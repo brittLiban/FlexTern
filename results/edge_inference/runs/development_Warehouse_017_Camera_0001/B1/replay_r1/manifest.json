@@ -1,0 +1,67 @@
+{
+ "clip": "development_Warehouse_017_Camera_0001",
+ "command": "python -m analysis.edge_inference.run_stage_a replay development B1 --rep 1",
+ "environment": {
+  "av": "19.0.2",
+  "cpu_model": "AMD Ryzen 7 260 w/ Radeon 780M",
+  "git": {
+   "commit": "bb30579abda93b4c349aec5de91d108812189751",
+   "dirty": true
+  },
+  "ijson": "3.6.0",
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "logical_cpus": 16,
+  "machine": "x86_64",
+  "mem_total_kb": 6065828,
+  "numpy": "2.5.3",
+  "onnx": "1.23.2",
+  "onnxruntime": "1.31.1",
+  "opencv-python-headless": "5.0.0.93",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "psutil": "7.2.2",
+  "python": "3.14.4",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "wsl2": true
+ },
+ "finished_utc": "2026-11-04T01:44:50+00:00",
+ "gt_camera_content_sha256": "4aaf541cfb1df6f27ef4c69032ab9c055102a864631b59810f311f50d4ccdc08",
+ "gt_json_sha256": "5d8851a1c9fb3e9a67391c05daf49fd5d538b9f1c60fd11e32e4677ccbcc0902",
+ "host": {
+  "note": "WSL2 guest under Hyper-V on a laptop; CPU governor, frequency, thermal state and Windows process priority are NOT controlled",
+  "power_plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)1",
+  "power_source": "unknown"
+ },
+ "max_frames": null,
+ "mode": "replay",
+ "model": {
+  "anchors_sha256": "bfea495927def833e6902b8ad06099bcc1b88546ff2db7a5494146cc62b55c45",
+  "checkpoint_file": "ssdlite320_mobilenet_v3_large_coco-a79551df.pth",
+  "checkpoint_sha256": "a79551df90c79834bcd3bb3845ef9d966b5449a3a9b2833ae8404778ca5d65d2",
+  "onnx_file": "ssdlite320_mobilenet_v3_large_fp32.onnx",
+  "onnx_sha256": "e668b54dc2f3021fef1d1d5ffc5e2f8216e97b0fef1237ca44f1ef901dca29dc"
+ },
+ "protocol_id": "EXP-0010-StageA-protocol-v1",
+ "protocol_sha256": "aa80a6bfb118f847a7570de98bcb9d40cc0b9719d12a5aae1e6105043bc71c9a",
+ "providers": [
+  "CPUExecutionProvider"
+ ],
+ "queue_cap": 2,
+ "repeat": 1,
+ "role": "development",
+ "runtime": "B1",
+ "seeds": {
+  "bootstrap": 20261104,
+  "numpy": 0,
+  "torch": 0
+ },
+ "speed": 1.0,
+ "started_utc": "2026-11-04T01:39:39+00:00",
+ "threads": {
+  "decoder": 2,
+  "inter_op": 1,
+  "intra_op": 4
+ },
+ "video_bytes": 123557599,
+ "video_sha256": "372fa9f866bfbe8de07246a1fb9b8335725a383491b31cff4e10bc9c5041ecfc"
+}

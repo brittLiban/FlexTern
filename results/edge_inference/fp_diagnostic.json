@@ -1,0 +1,135 @@
+{
+ "clips": {
+  "calibration": {
+   "by_iou": {
+    "0.1": {
+     "ap50": 0.243614886770805,
+     "f1": 0.3019960791302798,
+     "fn": 12704,
+     "fp": 2962,
+     "precision": 0.533616753267202,
+     "recall": 0.21058845460759337,
+     "tp": 3389
+    },
+    "0.3": {
+     "ap50": 0.22191914298274668,
+     "f1": 0.27962929959009086,
+     "fn": 12955,
+     "fp": 3213,
+     "precision": 0.49409541804440243,
+     "recall": 0.19499161125955383,
+     "tp": 3138
+    },
+    "0.5": {
+     "ap50": 0.20183018841117104,
+     "f1": 0.2695597932632329,
+     "fn": 13068,
+     "fp": 3326,
+     "precision": 0.47630294441820187,
+     "recall": 0.18796992481203006,
+     "tp": 3025
+    }
+   },
+   "fp_split_at_tau": {
+    "background": 5,
+    "duplicate_hit": 42,
+    "fp_total_checked": 3326,
+    "frac_background": 0.001503307276007216,
+    "frac_duplicate_hit": 0.012627781118460614,
+    "frac_near_miss_person": 0.10553217077570655,
+    "frac_on_nonperson": 0.8803367408298256,
+    "near_miss_person": 351,
+    "on_nonperson": 2928
+   },
+   "label": "diagnostic"
+  },
+  "development": {
+   "by_iou": {
+    "0.1": {
+     "ap50": 0.3238952726420948,
+     "f1": 0.31192129629629634,
+     "fn": 8736,
+     "fp": 776,
+     "precision": 0.7353342428376535,
+     "recall": 0.19794344473007713,
+     "tp": 2156
+    },
+    "0.3": {
+     "ap50": 0.2809898854969452,
+     "f1": 0.28906249999999994,
+     "fn": 8894,
+     "fp": 934,
+     "precision": 0.6814461118690314,
+     "recall": 0.1834373852368711,
+     "tp": 1998
+    },
+    "0.5": {
+     "ap50": 0.20445212253410633,
+     "f1": 0.2508680555555556,
+     "fn": 9158,
+     "fp": 1198,
+     "precision": 0.5914051841746248,
+     "recall": 0.15919941241278002,
+     "tp": 1734
+    }
+   },
+   "fp_split_at_tau": {
+    "background": 177,
+    "duplicate_hit": 127,
+    "fp_total_checked": 1198,
+    "frac_background": 0.14774624373956594,
+    "frac_duplicate_hit": 0.10601001669449082,
+    "frac_near_miss_person": 0.498330550918197,
+    "frac_on_nonperson": 0.24791318864774625,
+    "near_miss_person": 597,
+    "on_nonperson": 297
+   },
+   "label": "diagnostic"
+  },
+  "holdout": {
+   "by_iou": {
+    "0.1": {
+     "ap50": 0.3416372303090558,
+     "f1": 0.3594576505386791,
+     "fn": 32021,
+     "fp": 27315,
+     "precision": 0.3786962059867164,
+     "recall": 0.34207930963632627,
+     "tp": 16649
+    },
+    "0.3": {
+     "ap50": 0.2603242424826186,
+     "f1": 0.3102316643996805,
+     "fn": 34301,
+     "fp": 29595,
+     "precision": 0.32683559275771085,
+     "recall": 0.2952332032052599,
+     "tp": 14369
+    },
+    "0.5": {
+     "ap50": 0.12963728379402287,
+     "f1": 0.21797612107865363,
+     "fn": 38574,
+     "fp": 33868,
+     "precision": 0.2296424347193158,
+     "recall": 0.2074378467228272,
+     "tp": 10096
+    }
+   },
+   "fp_split_at_tau": {
+    "background": 7861,
+    "duplicate_hit": 2840,
+    "fp_total_checked": 33868,
+    "frac_background": 0.23210700366127318,
+    "frac_duplicate_hit": 0.08385496633990788,
+    "frac_near_miss_person": 0.6835360812566434,
+    "frac_on_nonperson": 0.0005019487421755049,
+    "near_miss_person": 23150,
+    "on_nonperson": 17
+   },
+   "label": "post-hoc diagnostic (holdout)"
+  }
+ },
+ "note": "post-hoc diagnostic; primary frozen metric is IoU 0.5 with the 32 px floor",
+ "tau": 0.15
+}

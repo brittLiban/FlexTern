@@ -1,0 +1,65 @@
+{
+  "protocol_id": "EXP-0010-StageA-protocol-v1",
+  "frozen_utc": "2026-11-04",
+  "frozen_before_any_model_run": true,
+  "selection_basis": "Layout groups come from camera-geometry and map.png identity (dataset_audit.py). Clips/cameras were chosen from ground-truth statistics and alignment overlays only; no detector output existed when this file was written.",
+  "dataset": {
+    "name": "NVIDIA PhysicalAI-SmartSpaces / MTMC_Tracking_2026",
+    "license": "CC-BY-4.0 (HF dataset card; synthetic data, Omniverse/IsaacSim)",
+    "provenance_class": "SYNTHETIC warehouse footage. Not real industrial footage; not a customer stream.",
+    "video": "H.264 High, yuv420p, 1920x1080, 30 fps, no B-frames, constant PTS step 1/30 s, keyframe every 30 frames",
+    "labels": "ground_truth.json per scene: per-frame 2D boxes of objects visible in each camera (visibility fraction not provided)"
+  },
+  "splits": {
+    "calibration": {"layout_group": "L10", "scene": "Warehouse_019", "split_dir": "train", "camera": "Camera_0002",
+                    "role": "choose the operating confidence threshold only; never used for reported quality"},
+    "development": {"layout_group": "L09", "scene": "Warehouse_017", "split_dir": "train", "camera": "Camera_0001",
+                    "role": "pipeline debugging, parity checks, timing shakedown, ground-truth/video alignment sweep"},
+    "holdout": {"layout_group": "L11", "scene": "Warehouse_022", "split_dir": "val", "camera": "Camera_0002",
+                "role": "reported result; run once per runtime configuration after this file and the calibration threshold are fixed; no tuning on it"}
+  },
+  "scoring": {
+    "class": "Person (COCO label 1 <-> dataset 'Person')",
+    "iou_threshold": 0.5,
+    "ap": "COCO-style 101-point interpolated AP at IoU 0.5 ('AP50') over detections with score >= 0.001, one class, one camera",
+    "size_policy": "GT person boxes with native-resolution height < 32 px are IGNORE regions: a detection matched to one, or an unmatched detection with native height < 32 px, is neither TP nor FP. All-size numbers are also reported.",
+    "size_strata_native_height_px": {"small": [0, 32], "medium": [32, 96], "large": [96, 100000]},
+    "humanoid_classes_ignore": ["FourierGR1T2", "AgilityDigit"],
+    "operating_threshold": {"selected_on": "calibration clip, B0 offline full clip", "rule": "maximise F1 at IoU 0.5 over grid 0.05..0.95 step 0.05", "value": null, "note": "filled into results/edge_inference/calibration.json before any development/holdout scoring"},
+    "unlabeled_frames": "reported separately; none expected (every frame index has an annotation record)",
+    "dropped_frame_scoring": "a dropped frame produces no detections and is scored as such; 'quality including drops' is reported next to 'quality of processed frames'",
+    "statistics": "frames are temporally correlated: report per-clip results; CIs from block bootstrap over contiguous 10 s (300-frame) blocks, 1000 resamples, seed 20261104. No per-frame i.i.d. intervals."
+  },
+  "model": {
+    "name": "torchvision.models.detection.ssdlite320_mobilenet_v3_large",
+    "weights": "SSDLite320_MobileNet_V3_Large_Weights.COCO_V1 (official torchvision checkpoint)",
+    "input": "1x3x320x320 float32, mean 0.5 / std 0.5, non-aspect-preserving resize",
+    "postprocess": "softmax; label 1 only; score>0.001; top-300; BoxCoder weights (10,10,5,5), clip to 320x320; NMS IoU 0.55; boxes scaled to native resolution",
+    "deviation_from_official": "person-only (no cross-class 300 cap); measured against official model(img) output in parity checks"
+  },
+  "runtimes": {
+    "B0": "PyTorch 2.x FP32 eager CPU: network only, shared pre/post. Correctness reference, not a performance competitor.",
+    "B1": "ONNX Runtime CPUExecutionProvider, ORT_ENABLE_ALL, same network exported at fixed 1x3x320x320, same shared pre/post. Optimised deployment CPU control.",
+    "threads": {"intra_op": 4, "inter_op": 1, "decoder": 2},
+    "not_tried": ["OpenVINO EP", "XNNPACK/ARM paths", "INT8", "FP16", "GPU", "TensorRT"]
+  },
+  "streaming": {
+    "pacing": "frame i is released at t0 + pts_i (original 30 fps timing, perf_counter clock), packets decoded by a feeder thread at release time",
+    "queue": "bounded FIFO of decoded frames, capacity 2; when full the OLDEST frame not yet started is dropped (latest-wins) and logged",
+    "latency_definition": "output_done - release time of that frame's packet (includes decode, queue wait, preprocess, inference, postprocess)",
+    "deadline_ms": 100,
+    "deadline_note": "ILLUSTRATIVE (about 3 frame periods). No customer deadline is known; percentiles are the primary result.",
+    "warmup": "50 untimed inferences on the first decoded frame before t0",
+    "repeats": {"B1_per_clip": 3, "B0_per_clip": 1},
+    "encoded_bytes_in_memory": true
+  },
+  "offline": {"purpose": "model quality, parity, determinism: every frame, no pacing", "repeat_for_determinism": 2},
+  "parity_tolerances": {
+    "raw_head_max_abs_diff_torch_vs_ort": 0.001,
+    "ap50_abs_diff_torch_vs_ort": 0.002,
+    "ap50_abs_diff_official_vs_shared_pipeline": 0.01,
+    "official_vs_shared_frame_stride": 4
+  },
+  "seeds": {"bootstrap": 20261104, "torch": 0, "numpy": 0},
+  "energy": "NOT MEASURED. No power meter. CPU utilisation, latency and thread counts are diagnostic only; no energy is inferred."
+}

@@ -193,6 +193,84 @@ Impact:
 Workaround:
 ```
 
+```
+KI-011
+Status:           Workaround
+Severity:         Minor
+First observed:   2026-11-04
+Relevant commit:  EXP-0010 Stage A commit series
+Description:      In the WSL venv (torch 2.11.0+cu128) `pip install torchvision`
+                  from PyPI installs a build whose C++ ops do not register:
+                  `RuntimeError: operator torchvision::nms does not exist` on
+                  import. The wheel from the PyTorch cu128 index matches.
+Impact:           torchvision (and any detection model) is unusable until fixed.
+Workaround:       pip install --no-deps --force-reinstall torchvision==0.26.0
+                  --index-url https://download.pytorch.org/whl/cu128
+```
+
+```
+KI-012
+Status:           Open
+Severity:         Moderate (timing validity)
+First observed:   2026-11-04
+Relevant commit:  EXP-0010 Stage A commit series
+Description:      EXP-0010 latency runs show (a) a power-state confound: all first-
+                  set replays started on battery (Windows BatteryStatus 1) under
+                  the Balanced plan because the first host-state parser mislabeled
+                  the state; an AC repeat set was added and AC vs battery is not
+                  cleanly separable; (b) rare unexplained stalls: 7 of 12 B1
+                  replays contain a frame >100 ms (max 839 ms, 28 drops in one
+                  run) while stage costs are ~20 ms and harness feeder slip stayed
+                  small. Cause unknown (WSL2/Hyper-V scheduling, thermal, Windows
+                  background activity, GC are untested hypotheses).
+Impact:           p99/max latency and drop counts have wide repeat variance and
+                  are not a property of the software alone; p50 is stable (19.7-
+                  24.3 ms). Latency must be quoted as ranges.
+Workaround:       Repeat runs (>= 3) and report ranges; use a dedicated plugged-in
+                  Linux host for any comparison where tails matter.
+```
+
+```
+KI-013
+Status:           Open
+Severity:         Moderate (baseline validity)
+First observed:   2026-11-04
+Relevant commit:  EXP-0010 Stage A commit series
+Description:      Pretrained COCO SSDLite320-MobileNetV3 scores poorly on the
+                  selected synthetic warehouse clips at the frozen IoU 0.5: holdout
+                  AP50 0.130, F1 0.218 at the calibrated threshold; medium
+                  (32-96 px) persons almost never matched. A post-hoc diagnostic
+                  (EXP-0010 R2b) shows mixed causes: holdout AP rises to 0.34 at
+                  IoU 0.1 and 68% of its false positives are near-misses on real
+                  people (visible-extent labels vs whole-person predictions,
+                  squash, or localization: not separated); on the calibration clip
+                  88% of false positives are on forklifts/pallet trucks. The
+                  calibrated threshold does not transfer across layouts
+                  (precision 0.48/0.59/0.23).
+Impact:           Any quality-retention claim for a temporal-execution method
+                  measured against this detector is confounded by its misses.
+                  Stage B should not rely on this control unchanged.
+Workaround:       None yet; see the handoff's recommended control-adequacy gate.
+```
+
+```
+KI-014
+Status:           Open
+Severity:         Minor
+First observed:   2026-11-04
+Relevant commit:  EXP-0010 Stage A commit series
+Description:      MTMC_Tracking_2026 documentation/data mismatches: ground_truth.json
+                  keys contain spaces ("object type", "2d bounding box visible")
+                  while the README shows underscores; nominal validation scenes
+                  020/021 share a layout (identical camera geometry and map.png)
+                  with training scenes 000-007; the two real-world test scenes
+                  (026/027) have no ground truth.
+Impact:           Naive scene-name splits leak layout; the real-world clips cannot
+                  score quality.
+Workaround:       gt.py accepts both key styles; Stage A splits by layout group
+                  (results/edge_inference/dataset_audit.json).
+```
+
 ## Closed
 
 ```

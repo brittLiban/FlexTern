@@ -1,0 +1,90 @@
+{
+ "ap50": 0.20445229193183292,
+ "ap50_all_sizes_policy": "size floor applied (GT<32 px height ignored)",
+ "ap50_no_size_floor": 0.20312800514457474,
+ "bootstrap": {
+  "ap50_ci95": [
+   0.1715418537708685,
+   0.2404122162467143
+  ],
+  "block_frames": 300,
+  "f1_ci95": [
+   0.21149424060918814,
+   0.2891542289516086
+  ],
+  "n_blocks": 30,
+  "n_boot": 1000,
+  "precision_ci95": [
+   0.5172671289615733,
+   0.6703829236860325
+  ],
+  "recall_ci95": [
+   0.13040576247567032,
+   0.1875295916595524
+  ],
+  "seed": 20261104
+ },
+ "detections_sha256": "143c2514fcc81073bc5c28791e8b7f9aa0d22b5d5f81e666727d929f49938f18",
+ "f1": 0.2508680555555556,
+ "fn": 9158,
+ "fp": 1198,
+ "frame_false_alarm_rate": 0.0,
+ "frame_recall": 0.19571199266223344,
+ "frames_with_person": 8722,
+ "n_detections": 1435484,
+ "n_gt": 10892,
+ "n_gt_large": 10622,
+ "n_gt_medium": 270,
+ "n_gt_small": 83,
+ "offline_throughput_fps": 40.67079175858761,
+ "operating_point_no_size_floor": {
+  "f1": 0.249370820450133,
+  "fn": 9241,
+  "fp": 1198,
+  "frame_false_alarm_rate": 0.0,
+  "frame_recall": 0.19510801234426792,
+  "frames_with_person": 8749,
+  "n_gt": 10975,
+  "precision": 0.5914051841746248,
+  "recall": 0.15799544419134395,
+  "tau": 0.15,
+  "tp": 1734
+ },
+ "precision": 0.5914051841746248,
+ "recall": 0.15919941241278002,
+ "recall_large": 0.16324609301449822,
+ "recall_medium": 0.0,
+ "recall_small": 0.0,
+ "resources": {
+  "avg_busy_cores": 4.235004356053107,
+  "process_cpu_s": 937.16,
+  "rss_peak_mb": 814.11328125,
+  "rss_start_mb": 708.94921875,
+  "wall_s": 221.28902858399988
+ },
+ "stage_ms": {
+  "decode_ms": {
+   "mean": 6.808490215777778,
+   "p50": 6.131408,
+   "p95": 9.761955349999997
+  },
+  "infer_ms": {
+   "mean": 10.848552167,
+   "p50": 10.754717,
+   "p95": 14.018632899999998
+  },
+  "post_ms": {
+   "mean": 5.901595257111111,
+   "p50": 5.4789835,
+   "p95": 8.437963850000001
+  },
+  "pre_ms": {
+   "mean": 0.8731844982222222,
+   "p50": 0.821806,
+   "p95": 1.2380087999999998
+  }
+ },
+ "tau": 0.15,
+ "tau_used": 0.15,
+ "tp": 1734
+}

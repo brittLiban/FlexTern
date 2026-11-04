@@ -1,0 +1,2445 @@
+{
+ "layout_groups": {
+  "L00": [
+   "Warehouse_000",
+   "Warehouse_001",
+   "Warehouse_002",
+   "Warehouse_003",
+   "Warehouse_004",
+   "Warehouse_005",
+   "Warehouse_006",
+   "Warehouse_007",
+   "Warehouse_020",
+   "Warehouse_021"
+  ],
+  "L01": [
+   "Warehouse_008",
+   "Warehouse_009"
+  ],
+  "L02": [
+   "Warehouse_010"
+  ],
+  "L03": [
+   "Warehouse_011"
+  ],
+  "L04": [
+   "Warehouse_012"
+  ],
+  "L05": [
+   "Warehouse_013"
+  ],
+  "L06": [
+   "Warehouse_014"
+  ],
+  "L07": [
+   "Warehouse_015"
+  ],
+  "L08": [
+   "Warehouse_016"
+  ],
+  "L09": [
+   "Warehouse_017",
+   "Warehouse_018"
+  ],
+  "L10": [
+   "Warehouse_019"
+  ],
+  "L11": [
+   "Warehouse_022"
+  ]
+ },
+ "license": "cc-by-4.0 (HF dataset card)",
+ "readme_ct25_pairs_not_confirmed_by_data": [],
+ "scenes": {
+  "Warehouse_000": {
+   "calibration_sha256": "93091b6e4a47600075a8331135982d23e1f44d5a9abb5fb2959cbe44216257c5",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0014",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "781c7e9c88fe16d74a31d1d66033dc831d24692f97dc9ea6484baa5c3638dc47",
+   "ground_truth_bytes": 281636586,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 19,
+   "readme_split": "train",
+   "scene_id": 0,
+   "video_bytes": {
+    "Camera_0000.mp4": 121150346,
+    "Camera_0001.mp4": 242275945,
+    "Camera_0002.mp4": 123143889,
+    "Camera_0003.mp4": 221996855,
+    "Camera_0004.mp4": 125484705,
+    "Camera_0005.mp4": 188989348,
+    "Camera_0006.mp4": 101428877,
+    "Camera_0007.mp4": 192987707,
+    "Camera_0008.mp4": 248029642,
+    "Camera_0009.mp4": 196862752,
+    "Camera_0010.mp4": 203391174,
+    "Camera_0011.mp4": 198796012,
+    "Camera_0012.mp4": 111356357,
+    "Camera_0013.mp4": 187041769,
+    "Camera_0014.mp4": 156202328,
+    "Camera_0015.mp4": 212738760,
+    "Camera_0016.mp4": 115729767,
+    "Camera_0017.mp4": 150352684,
+    "Camera_0019.mp4": 151685258
+   }
+  },
+  "Warehouse_001": {
+   "calibration_sha256": "93091b6e4a47600075a8331135982d23e1f44d5a9abb5fb2959cbe44216257c5",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0014",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": "Warehouse_000",
+   "geometry_sha256": "781c7e9c88fe16d74a31d1d66033dc831d24692f97dc9ea6484baa5c3638dc47",
+   "ground_truth_bytes": 281636586,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 19,
+   "readme_split": "train",
+   "scene_id": 1,
+   "video_bytes": {
+    "Camera_0000.mp4": 67701098,
+    "Camera_0001.mp4": 100158473,
+    "Camera_0002.mp4": 64825561,
+    "Camera_0003.mp4": 90980366,
+    "Camera_0004.mp4": 66010761,
+    "Camera_0005.mp4": 85270116,
+    "Camera_0006.mp4": 59861079,
+    "Camera_0007.mp4": 83779542,
+    "Camera_0008.mp4": 103428330,
+    "Camera_0009.mp4": 78404973,
+    "Camera_0010.mp4": 86296755,
+    "Camera_0011.mp4": 81725161,
+    "Camera_0012.mp4": 69104630,
+    "Camera_0013.mp4": 84384672,
+    "Camera_0014.mp4": 75066206,
+    "Camera_0015.mp4": 88263341,
+    "Camera_0016.mp4": 71034530,
+    "Camera_0017.mp4": 74249251,
+    "Camera_0019.mp4": 72678342
+   }
+  },
+  "Warehouse_002": {
+   "calibration_sha256": "989fddbe2ac2feabe4ae9a6a7f52af3d630409ab9285d905088bcaa628dba44a",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0014",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0018",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "7f2509f188e1ba510aa816bef50d835c5ef0705c8664490d3202707e6b2626f9",
+   "ground_truth_bytes": 258266117,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 20,
+   "readme_split": "train",
+   "scene_id": 2,
+   "video_bytes": {
+    "Camera_0000.mp4": 145355200,
+    "Camera_0001.mp4": 198591757,
+    "Camera_0002.mp4": 194991399,
+    "Camera_0003.mp4": 151783313,
+    "Camera_0004.mp4": 149960068,
+    "Camera_0005.mp4": 98588470,
+    "Camera_0006.mp4": 141197600,
+    "Camera_0007.mp4": 126725731,
+    "Camera_0008.mp4": 93931185,
+    "Camera_0009.mp4": 213960746,
+    "Camera_0010.mp4": 144845818,
+    "Camera_0011.mp4": 201149724,
+    "Camera_0012.mp4": 147281710,
+    "Camera_0013.mp4": 158845381,
+    "Camera_0014.mp4": 244910264,
+    "Camera_0015.mp4": 162961595,
+    "Camera_0016.mp4": 164587795,
+    "Camera_0017.mp4": 175976503,
+    "Camera_0018.mp4": 55110175,
+    "Camera_0019.mp4": 113450072
+   }
+  },
+  "Warehouse_003": {
+   "calibration_sha256": "989fddbe2ac2feabe4ae9a6a7f52af3d630409ab9285d905088bcaa628dba44a",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0014",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0018",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": "Warehouse_002",
+   "geometry_sha256": "7f2509f188e1ba510aa816bef50d835c5ef0705c8664490d3202707e6b2626f9",
+   "ground_truth_bytes": 258266117,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 20,
+   "readme_split": "train",
+   "scene_id": 3,
+   "video_bytes": {
+    "Camera_0000.mp4": 68178950,
+    "Camera_0001.mp4": 82178784,
+    "Camera_0002.mp4": 86371081,
+    "Camera_0003.mp4": 72875011,
+    "Camera_0004.mp4": 76074122,
+    "Camera_0005.mp4": 62170919,
+    "Camera_0006.mp4": 73825348,
+    "Camera_0007.mp4": 69954256,
+    "Camera_0008.mp4": 66499728,
+    "Camera_0009.mp4": 117516288,
+    "Camera_0010.mp4": 70906728,
+    "Camera_0011.mp4": 90754267,
+    "Camera_0012.mp4": 72795986,
+    "Camera_0013.mp4": 71615647,
+    "Camera_0014.mp4": 105236104,
+    "Camera_0015.mp4": 73111259,
+    "Camera_0016.mp4": 85568776,
+    "Camera_0017.mp4": 77758977,
+    "Camera_0018.mp4": 55340973,
+    "Camera_0019.mp4": 73902297
+   }
+  },
+  "Warehouse_004": {
+   "calibration_sha256": "4e20811a80b1776ff67d2c4e132e6ad947e2d96652d6e66a248b6c5eeb57ac66",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0014",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0018",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "21e0debadfbb9e89518a07458ac66dec6a6a0f303e93c6e5d42919c03766d8e8",
+   "ground_truth_bytes": 257050140,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 19,
+   "readme_split": "train",
+   "scene_id": 4,
+   "video_bytes": {
+    "Camera_0000.mp4": 178768936,
+    "Camera_0001.mp4": 157515996,
+    "Camera_0002.mp4": 241514711,
+    "Camera_0003.mp4": 108034821,
+    "Camera_0004.mp4": 145220726,
+    "Camera_0005.mp4": 123055690,
+    "Camera_0007.mp4": 142056851,
+    "Camera_0008.mp4": 232450693,
+    "Camera_0009.mp4": 205919306,
+    "Camera_0010.mp4": 186112687,
+    "Camera_0011.mp4": 233685382,
+    "Camera_0012.mp4": 145528757,
+    "Camera_0013.mp4": 262886045,
+    "Camera_0014.mp4": 219502930,
+    "Camera_0015.mp4": 278708736,
+    "Camera_0016.mp4": 166803868,
+    "Camera_0017.mp4": 189673516,
+    "Camera_0018.mp4": 124189238,
+    "Camera_0019.mp4": 184043837
+   }
+  },
+  "Warehouse_005": {
+   "calibration_sha256": "4e20811a80b1776ff67d2c4e132e6ad947e2d96652d6e66a248b6c5eeb57ac66",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0014",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0018",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": "Warehouse_004",
+   "geometry_sha256": "21e0debadfbb9e89518a07458ac66dec6a6a0f303e93c6e5d42919c03766d8e8",
+   "ground_truth_bytes": 257050140,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 19,
+   "readme_split": "train",
+   "scene_id": 5,
+   "video_bytes": {
+    "Camera_0000.mp4": 81834043,
+    "Camera_0001.mp4": 77113182,
+    "Camera_0002.mp4": 97930866,
+    "Camera_0003.mp4": 73560729,
+    "Camera_0004.mp4": 68212661,
+    "Camera_0005.mp4": 64055556,
+    "Camera_0007.mp4": 69107336,
+    "Camera_0008.mp4": 100638871,
+    "Camera_0009.mp4": 79004928,
+    "Camera_0010.mp4": 80148269,
+    "Camera_0011.mp4": 94481595,
+    "Camera_0012.mp4": 71246583,
+    "Camera_0013.mp4": 104236790,
+    "Camera_0014.mp4": 87860408,
+    "Camera_0015.mp4": 102125797,
+    "Camera_0016.mp4": 73356269,
+    "Camera_0017.mp4": 81122081,
+    "Camera_0018.mp4": 65663013,
+    "Camera_0019.mp4": 76437700
+   }
+  },
+  "Warehouse_006": {
+   "calibration_sha256": "ea29258c9fa7068ccbadce0c00a79e7529492453697fc663c21a5d48f147058c",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0014",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0018",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "6e605166555f0147e7df7ffc10d235e7a6c44922d6e0960e94a70e92caf67bea",
+   "ground_truth_bytes": 168504319,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 18,
+   "readme_split": "train",
+   "scene_id": 6,
+   "video_bytes": {
+    "Camera_0000.mp4": 152523761,
+    "Camera_0001.mp4": 198584904,
+    "Camera_0002.mp4": 122558568,
+    "Camera_0003.mp4": 132861296,
+    "Camera_0004.mp4": 114899366,
+    "Camera_0005.mp4": 182260322,
+    "Camera_0006.mp4": 214591828,
+    "Camera_0007.mp4": 134302476,
+    "Camera_0009.mp4": 155438017,
+    "Camera_0010.mp4": 147469986,
+    "Camera_0012.mp4": 146319410,
+    "Camera_0013.mp4": 183934878,
+    "Camera_0014.mp4": 76973809,
+    "Camera_0015.mp4": 183430442,
+    "Camera_0016.mp4": 178076405,
+    "Camera_0017.mp4": 215433961,
+    "Camera_0018.mp4": 142253960,
+    "Camera_0019.mp4": 146702868
+   }
+  },
+  "Warehouse_007": {
+   "calibration_sha256": "ea29258c9fa7068ccbadce0c00a79e7529492453697fc663c21a5d48f147058c",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0014",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0018",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": "Warehouse_006",
+   "geometry_sha256": "6e605166555f0147e7df7ffc10d235e7a6c44922d6e0960e94a70e92caf67bea",
+   "ground_truth_bytes": 168504319,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 18,
+   "readme_split": "train",
+   "scene_id": 7,
+   "video_bytes": {
+    "Camera_0000.mp4": 73726080,
+    "Camera_0001.mp4": 83636006,
+    "Camera_0002.mp4": 71444386,
+    "Camera_0003.mp4": 83138976,
+    "Camera_0004.mp4": 73317560,
+    "Camera_0005.mp4": 75476231,
+    "Camera_0006.mp4": 87963923,
+    "Camera_0007.mp4": 81226429,
+    "Camera_0009.mp4": 74764079,
+    "Camera_0010.mp4": 65354236,
+    "Camera_0012.mp4": 70222215,
+    "Camera_0013.mp4": 78357037,
+    "Camera_0014.mp4": 62053312,
+    "Camera_0015.mp4": 96033088,
+    "Camera_0016.mp4": 77638082,
+    "Camera_0017.mp4": 78700095,
+    "Camera_0018.mp4": 62396313,
+    "Camera_0019.mp4": 81118120
+   }
+  },
+  "Warehouse_008": {
+   "calibration_sha256": "e562e3e1a8c5ccc11f151aa68f6c8467a078c09048bf185c9e540bdd7d28ade4",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "089c4ecf37163f09c60f7fe90748575b61290321b16c3d8d2ab6254e99cb9118",
+   "ground_truth_bytes": 131685326,
+   "layout_group": "L01",
+   "map_png_sha256": "6bcc68c4e980fa28ee9e88c9dd472fd576237b15bee85cb6234ee68fbfc354bd",
+   "n_cameras": 12,
+   "readme_split": "train",
+   "scene_id": 8,
+   "video_bytes": {
+    "Camera_0000.mp4": 134737936,
+    "Camera_0001.mp4": 135812240,
+    "Camera_0002.mp4": 133618379,
+    "Camera_0003.mp4": 170283753,
+    "Camera_0004.mp4": 190288926,
+    "Camera_0005.mp4": 182401114,
+    "Camera_0006.mp4": 138473182,
+    "Camera_0007.mp4": 216069149,
+    "Camera_0008.mp4": 175113653,
+    "Camera_0009.mp4": 142742807,
+    "Camera_0010.mp4": 164708763,
+    "Camera_0011.mp4": 167687009
+   }
+  },
+  "Warehouse_009": {
+   "calibration_sha256": "e562e3e1a8c5ccc11f151aa68f6c8467a078c09048bf185c9e540bdd7d28ade4",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "089c4ecf37163f09c60f7fe90748575b61290321b16c3d8d2ab6254e99cb9118",
+   "ground_truth_bytes": 137114364,
+   "layout_group": "L01",
+   "map_png_sha256": "6bcc68c4e980fa28ee9e88c9dd472fd576237b15bee85cb6234ee68fbfc354bd",
+   "n_cameras": 12,
+   "readme_split": "train",
+   "scene_id": 9,
+   "video_bytes": {
+    "Camera_0000.mp4": 139862198,
+    "Camera_0001.mp4": 141249596,
+    "Camera_0002.mp4": 136254248,
+    "Camera_0003.mp4": 183820247,
+    "Camera_0004.mp4": 202141988,
+    "Camera_0005.mp4": 193700473,
+    "Camera_0006.mp4": 144871305,
+    "Camera_0007.mp4": 224275445,
+    "Camera_0008.mp4": 184812284,
+    "Camera_0009.mp4": 148132540,
+    "Camera_0010.mp4": 169196929,
+    "Camera_0011.mp4": 170792747
+   }
+  },
+  "Warehouse_010": {
+   "calibration_sha256": "4f90c431253245b83dd3f83f0db0c471881e0e9fa3f7528441b1a05f80f12ef3",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "8c49d7affd53793b2fcd65226be2cc4f8a9143b64f5937be564213f4a68427e6",
+   "ground_truth_bytes": 219598026,
+   "layout_group": "L02",
+   "map_png_sha256": "1851ebb213d8132548a9c7bb501fbe456079a2ae38f28d431c0f0a9774f0a471",
+   "n_cameras": 11,
+   "readme_split": "train",
+   "scene_id": 10,
+   "video_bytes": {
+    "Camera_0000.mp4": 118099047,
+    "Camera_0001.mp4": 132322757,
+    "Camera_0002.mp4": 179304426,
+    "Camera_0003.mp4": 122816092,
+    "Camera_0004.mp4": 136265072,
+    "Camera_0005.mp4": 190951606,
+    "Camera_0006.mp4": 102906763,
+    "Camera_0007.mp4": 158585615,
+    "Camera_0008.mp4": 139595560,
+    "Camera_0009.mp4": 109422686,
+    "Camera_0010.mp4": 138967702
+   }
+  },
+  "Warehouse_011": {
+   "calibration_sha256": "57dd63f3d893bd94c7043efeb5cdf714ecee093806abf86d6ae10b451f561379",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "c53d4a6d2573c40383582fba5791f51a8efbdd075223c6ed5bcf2972f1ae33a8",
+   "ground_truth_bytes": 200294812,
+   "layout_group": "L03",
+   "map_png_sha256": "6c38df3bf5c3887e4ffec617575b3380cf1b89115a762dd3812c1e8f90cbeda1",
+   "n_cameras": 10,
+   "readme_split": "train",
+   "scene_id": 11,
+   "video_bytes": {
+    "Camera_0000.mp4": 113462928,
+    "Camera_0001.mp4": 127457796,
+    "Camera_0002.mp4": 173136508,
+    "Camera_0003.mp4": 141059940,
+    "Camera_0004.mp4": 177630046,
+    "Camera_0005.mp4": 151877996,
+    "Camera_0006.mp4": 155336161,
+    "Camera_0007.mp4": 149941187,
+    "Camera_0008.mp4": 193722564,
+    "Camera_0009.mp4": 120892449
+   }
+  },
+  "Warehouse_012": {
+   "calibration_sha256": "7e988d06acafcec5d158266c7a2c3650c65df32de0d0e5d751abeb5b23069ee1",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "70f3174484c3250b8a334676190b31fbf495d6f6c80a432608a43d8fa3b00e97",
+   "ground_truth_bytes": 151774630,
+   "layout_group": "L04",
+   "map_png_sha256": "c3e141a65f341a79752e272cc8e6b60d82334108af64c435a591fa76fdce0f85",
+   "n_cameras": 8,
+   "readme_split": "train",
+   "scene_id": 12,
+   "video_bytes": {
+    "Camera_0000.mp4": 147655417,
+    "Camera_0001.mp4": 140068669,
+    "Camera_0002.mp4": 159567373,
+    "Camera_0003.mp4": 124270645,
+    "Camera_0004.mp4": 95893004,
+    "Camera_0005.mp4": 149538794,
+    "Camera_0006.mp4": 94391886,
+    "Camera_0007.mp4": 147938312
+   }
+  },
+  "Warehouse_013": {
+   "calibration_sha256": "a49e75e0d13de55c9793242f023a851589a0237a265ee3419a86c0408dd32d91",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "1d98a12944e55153ea9835691931b1412887726512532c2aea408fd64368b92e",
+   "ground_truth_bytes": 167323313,
+   "layout_group": "L05",
+   "map_png_sha256": "742c8eb4cfd05e65bb43bf954819920772fef7c96f5ba8d09421c1233a113919",
+   "n_cameras": 10,
+   "readme_split": "train",
+   "scene_id": 13,
+   "video_bytes": {
+    "Camera_0000.mp4": 146280271,
+    "Camera_0001.mp4": 111838456,
+    "Camera_0002.mp4": 148558118,
+    "Camera_0003.mp4": 111006273,
+    "Camera_0004.mp4": 129216400,
+    "Camera_0005.mp4": 82165608,
+    "Camera_0006.mp4": 106106939,
+    "Camera_0007.mp4": 160293149,
+    "Camera_0008.mp4": 179429988,
+    "Camera_0009.mp4": 179485678
+   }
+  },
+  "Warehouse_014": {
+   "calibration_sha256": "90560b383c140fa6d970b83d67594fa1ebf85ae64dbda95eef0100f4e8e5d55d",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "bc33d82594cd35dd5d8d1fabe55cdba276801eae2834e388da2573ebdf6e94fa",
+   "ground_truth_bytes": 208563100,
+   "layout_group": "L06",
+   "map_png_sha256": "d1e543dccd0dc7e6c21f43f7e4fade101b2cd2167b1291cad101b1fcfe9c59c2",
+   "n_cameras": 11,
+   "readme_split": "train",
+   "scene_id": 14,
+   "video_bytes": {
+    "Camera_0000.mp4": 124129134,
+    "Camera_0001.mp4": 96422322,
+    "Camera_0002.mp4": 166130367,
+    "Camera_0003.mp4": 228517146,
+    "Camera_0004.mp4": 131902416,
+    "Camera_0005.mp4": 129267514,
+    "Camera_0006.mp4": 217799845,
+    "Camera_0007.mp4": 197247070,
+    "Camera_0008.mp4": 161041241,
+    "Camera_0009.mp4": 175637016,
+    "Camera_0010.mp4": 221805635
+   }
+  },
+  "Warehouse_015": {
+   "calibration_sha256": "a0ef74d5eac087d66c0550e506b6cc894541c1d222d58787bcf57845dc686934",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "12b89d529f19c1861f9bb1cb94c6490efdf78c9ff8e1f323f29b9ef81a867a11",
+   "ground_truth_bytes": 212094885,
+   "layout_group": "L07",
+   "map_png_sha256": "24697fed04274f7e90e9ef2a9f1ae7508bc376f869850a0d7f128632644b215e",
+   "n_cameras": 10,
+   "readme_split": "train",
+   "scene_id": 15,
+   "video_bytes": {
+    "Camera_0000.mp4": 195403721,
+    "Camera_0001.mp4": 116001412,
+    "Camera_0002.mp4": 171862543,
+    "Camera_0003.mp4": 150493611,
+    "Camera_0004.mp4": 219865815,
+    "Camera_0005.mp4": 150474789,
+    "Camera_0006.mp4": 228443772,
+    "Camera_0007.mp4": 203185735,
+    "Camera_0008.mp4": 110383077,
+    "Camera_0009.mp4": 156947105
+   }
+  },
+  "Warehouse_016": {
+   "calibration_sha256": "58fb3b3170190ae8d23f398e5960f2195e3844ea3afe817bde7fe6c6161e05e5",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0006",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0007",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0008",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "55e837373320e9329d3493ebf80e2027c7f81b8972a08a816b03007f09f37c09",
+   "ground_truth_bytes": 170228142,
+   "layout_group": "L08",
+   "map_png_sha256": "23ad2d61943a2bff9bf6ded10f422e651170e7551603b17a6cecb388b04a65ab",
+   "n_cameras": 11,
+   "readme_split": "train",
+   "scene_id": 16,
+   "video_bytes": {
+    "Camera_0000.mp4": 111358779,
+    "Camera_0001.mp4": 184236627,
+    "Camera_0002.mp4": 128733652,
+    "Camera_0003.mp4": 82260623,
+    "Camera_0004.mp4": 115973402,
+    "Camera_0005.mp4": 131544328,
+    "Camera_0006.mp4": 155979805,
+    "Camera_0007.mp4": 86663940,
+    "Camera_0008.mp4": 116086117,
+    "Camera_0009.mp4": 131877838,
+    "Camera_0010.mp4": 188139878
+   }
+  },
+  "Warehouse_017": {
+   "calibration_sha256": "7080a47c0ab263cc8a4e9f0afb476798669eb24883e63efd21173d53a6305341",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "91235ebec2ae0e9c44f1742afd19295c5cb87bdab3b36982be4a3c0812f392a7",
+   "ground_truth_bytes": 17144990,
+   "layout_group": "L09",
+   "map_png_sha256": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+   "n_cameras": 3,
+   "readme_split": "train",
+   "scene_id": 17,
+   "video_bytes": {
+    "Camera_0000.mp4": 145590032,
+    "Camera_0001.mp4": 123557599,
+    "Camera_0002.mp4": 131433275
+   }
+  },
+  "Warehouse_018": {
+   "calibration_sha256": "7080a47c0ab263cc8a4e9f0afb476798669eb24883e63efd21173d53a6305341",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "91235ebec2ae0e9c44f1742afd19295c5cb87bdab3b36982be4a3c0812f392a7",
+   "ground_truth_bytes": 14348963,
+   "layout_group": "L09",
+   "map_png_sha256": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+   "n_cameras": 3,
+   "readme_split": "train",
+   "scene_id": 18,
+   "video_bytes": {
+    "Camera_0000.mp4": 126936882,
+    "Camera_0001.mp4": 107462688,
+    "Camera_0002.mp4": 120946769
+   }
+  },
+  "Warehouse_019": {
+   "calibration_sha256": "777f670b6bf5ec6a65db4adc4201b95a45a0e2e7534fb41e50f9bc5781d75b67",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "a5bfa9565e39b95159a20be709f5f07511b910479de1f2074de83117e03915d4",
+   "ground_truth_bytes": 14845233,
+   "layout_group": "L10",
+   "map_png_sha256": "ebb25e1792f1043314f43e6994396cf49fb3a3271b7142c9db40d153c81bb0a3",
+   "n_cameras": 3,
+   "readme_split": "train",
+   "scene_id": 19,
+   "video_bytes": {
+    "Camera_0000.mp4": 101839158,
+    "Camera_0001.mp4": 90883314,
+    "Camera_0002.mp4": 109576468
+   }
+  },
+  "Warehouse_020": {
+   "calibration_sha256": "02706de6cd20ac7276f65521d27174552bc98fb3648e6975b83b404b44aa1dd0",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0018",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "d573941ed3dd8099a57b78ee7d8a045f122e3767d6c48879e355886a39197609",
+   "ground_truth_bytes": 256149458,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 16,
+   "readme_split": "val",
+   "scene_id": 20,
+   "video_bytes": {
+    "Camera_0000.mp4": 150633729,
+    "Camera_0001.mp4": 125296491,
+    "Camera_0002.mp4": 218529541,
+    "Camera_0003.mp4": 219136621,
+    "Camera_0004.mp4": 156046828,
+    "Camera_0005.mp4": 212332835,
+    "Camera_0009.mp4": 127228947,
+    "Camera_0010.mp4": 174689106,
+    "Camera_0011.mp4": 239119614,
+    "Camera_0012.mp4": 159773588,
+    "Camera_0013.mp4": 200816339,
+    "Camera_0015.mp4": 158145318,
+    "Camera_0016.mp4": 199182821,
+    "Camera_0017.mp4": 141305717,
+    "Camera_0018.mp4": 152682123,
+    "Camera_0019.mp4": 216817895
+   }
+  },
+  "Warehouse_021": {
+   "calibration_sha256": "02706de6cd20ac7276f65521d27174552bc98fb3648e6975b83b404b44aa1dd0",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0004",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0005",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0009",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0010",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0011",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0012",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0013",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0015",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0016",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0017",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0018",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0019",
+     "w": 1920
+    }
+   ],
+   "ct25_of": "Warehouse_020",
+   "geometry_sha256": "d573941ed3dd8099a57b78ee7d8a045f122e3767d6c48879e355886a39197609",
+   "ground_truth_bytes": 256149458,
+   "layout_group": "L00",
+   "map_png_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "n_cameras": 16,
+   "readme_split": "val",
+   "scene_id": 21,
+   "video_bytes": {
+    "Camera_0000.mp4": 73147859,
+    "Camera_0001.mp4": 70804325,
+    "Camera_0002.mp4": 84066749,
+    "Camera_0003.mp4": 83327463,
+    "Camera_0004.mp4": 78235540,
+    "Camera_0005.mp4": 84476928,
+    "Camera_0009.mp4": 68182000,
+    "Camera_0010.mp4": 89182921,
+    "Camera_0011.mp4": 83552474,
+    "Camera_0012.mp4": 80073997,
+    "Camera_0013.mp4": 92615877,
+    "Camera_0015.mp4": 74933843,
+    "Camera_0016.mp4": 75323617,
+    "Camera_0017.mp4": 62894006,
+    "Camera_0018.mp4": 75408527,
+    "Camera_0019.mp4": 93929353
+   }
+  },
+  "Warehouse_022": {
+   "calibration_sha256": "3cafe4d372355fef383dbe2f84591f91e338da2e1947363267518102cba97d15",
+   "cameras": [
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0000",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0001",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0002",
+     "w": 1920
+    },
+    {
+     "fps": 30.0,
+     "h": 1080,
+     "id": "Camera_0003",
+     "w": 1920
+    }
+   ],
+   "ct25_of": null,
+   "geometry_sha256": "c7338a642d17bd06f3ff4afac67dcb925f37fefb0dab0dc6d0be8332f4b49aa2",
+   "ground_truth_bytes": 35334014,
+   "layout_group": "L11",
+   "map_png_sha256": "9ef6d8ae7d95d1d991ff972653e74aa3adb3ec83b1138bca69b362299f30ed8e",
+   "n_cameras": 4,
+   "readme_split": "val",
+   "scene_id": 22,
+   "video_bytes": {
+    "Camera_0000.mp4": 98724142,
+    "Camera_0001.mp4": 87866300,
+    "Camera_0002.mp4": 100359743,
+    "Camera_0003.mp4": 96916305
+   }
+  }
+ },
+ "source": "https://huggingface.co/datasets/nvidia/PhysicalAI-SmartSpaces"
+}

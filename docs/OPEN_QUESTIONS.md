@@ -121,6 +121,20 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **What would answer it:** a compute-energy figure for ternary versus FP4 arithmetic, a hybrid prefill/decode model, and a market view of small-batch interactive serving (Cerebras/Groq precedents).
 **Status:** Open (opened 2026-10-07 by EXP-0007).
 
+### Q-025
+**Question:** What application-level quality metric (tight boxes, presence, count, zone occupancy) and what detector/input configuration make an adequate, fairly optimized conventional control for continuous fixed-camera person detection on the EXP-0010 data (and eventually on customer-like footage)?
+**Why it matters:** EXP-0010 Stage A found COCO SSDLite320 at AP50 0.13-0.20 at IoU 0.5 (0.34 on the holdout at IoU 0.1) with mixed causes (visible-extent label semantics vs whole-person predictions, forklift confusion); temporal-execution or ternary comparisons against a control whose quality is entangled with the metric would not be clean evidence.
+**Current evidence:** EXP-0010 (MEASURED on three synthetic clips; the cause of the weak recall is not isolated).
+**What would answer it:** the same harness and frozen holdout with one or two more detectors/input configurations under a preregistered AP50/recall bar and acceptable licenses; a customer-representative footage source.
+**Status:** Open (opened 2026-11-04 by EXP-0010).
+
+### Q-026
+**Question:** Which device, power-meter boundary and duty cycle define "gross energy per camera-hour" for the edge-video branch, and is a Linux host with a calibrated meter available?
+**Why it matters:** all EXP-0010 numbers are latency/quality only; the thesis target is energy. Timing is also confounded by laptop power state and unexplained stalls (KI-012).
+**Current evidence:** none (no power measurement exists).
+**What would answer it:** a dedicated plugged-in host plus an external meter or an established device with a documented measurement boundary; a founder decision on target hardware class.
+**Status:** Open (opened 2026-11-04 by EXP-0010).
+
 ## Strategic (founder-only; not for agents to decide)
 
 ### Q-012 — Final ASIC process node. Open. Deferred to Phase 7.

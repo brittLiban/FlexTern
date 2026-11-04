@@ -8,7 +8,7 @@ There is exactly one active engineering objective at a time. This file is the si
 
 **Title:** Continuous edge-inference baseline integrity (EXP-0010)
 
-**Status:** Active — protocol created 2026-11-04; implementation and measurements not yet performed.
+**Status:** Stage A implemented and measured 2026-11-04; **awaiting founder + ChatGPT review. Stage B has NOT been started.** Outcome: the measurement/replay pipeline is reproducible and its two runtimes agree exactly, but the pretrained detector scores poorly under the frozen IoU 0.5 metric on the selected synthetic clips (holdout AP50 0.13; 0.34 at IoU 0.1), with mixed causes (box-extent mismatch with visible-extent labels, and class confusion with forklifts), so it is not yet a validated control for temporal-execution comparisons. See EXP-0010.
 
 **Owner / agent:** Claude (implementation); founder + ChatGPT (research direction/review).
 
@@ -49,11 +49,20 @@ No speedup or energy advantage is required to complete Stage A.
 
 ## Required validation
 
-No tests or benchmarks have been run for EXP-0010 as of this status change. Implementer must supply actual commands, output and raw logs; do not invent results. Existing RTL and non-RTL suites should remain unchanged.
+Run and passing: `python -m unittest tests.test_edge_inference` (42 tests; 31 on host Python, all 42 in the WSL venv; 224 OK in one process together with the 182-test non-RTL baseline); parity, determinism, alignment, 7 offline runs and 14 real-time replays are in `results/edge_inference/` with manifests and per-frame traces. Existing RTL and non-RTL suites are unchanged. Commands: `analysis/edge_inference/README.md`.
+
+## Stage A status against the definition of done
+
+- Runnable, archived baseline with identical semantics for both runtimes — **done** (bit-identical offline repeats; torch-vs-ORT head diff 4e-5; AP50 equal).
+- Rights / ground-truth / label audit and layout-disjoint manifest — **done** (CC-BY-4.0; 12 layout groups; splits by layout, not scene name).
+- At least two disjoint scenes evaluated at source frame rate with repeats — **done** (development L09 and holdout L11, 3 B1 repeats on battery and 3 on AC each; calibration L10 offline only).
+- Raw traces, versioned configuration, parity/quality checks, repeat variance — **done**.
+- EXP-0010 results section separating MEASURED / INFERRED / unmeasured — **done**.
+- Review of whether event-driven experiments are justified, then founder decision — **pending (the founder's step).** Evidence summary: pipeline trustworthy for CPU latency baselines; control quality not yet established (metric semantics and detector adequacy entangled); energy unmeasured. The single next experiment recommended in the handoff is a control-adequacy gate, not Stage B.
 
 ## Known uncertainties
 
-Available benchmark hardware; availability/format of selected dataset clips and 2D labels; ONNX export compatibility and postprocessing parity; real-world industrial-camera data access; customer-relevant inference deadline and safety requirements; future gross physical device power measurement.
+Resolved by Stage A: hardware (one laptop CPU under WSL2), dataset availability/format/labels, ONNX export and postprocessing parity. Still open: real-world industrial-camera data access; customer-relevant deadline and safety requirements; physical power measurement (none exists); a detector that is adequate on this data; the cause of rare 100–840 ms stalls; AC/battery/thermal sensitivity of timing.
 
 ## Primary records
 
