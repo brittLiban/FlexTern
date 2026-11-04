@@ -4,38 +4,25 @@ There is exactly one active engineering objective at a time. This file is the si
 
 ---
 
-**Objective ID:** FT-0010 — Control Adequacy Gate (EXP-0010B)
+**Objective ID:** FT-0010 — EXP-0010C Control Semantics and Residual Error Validation
 
-**Title:** Establish a scientifically defensible detection control before any temporal or ternary work
+**Title:** Can a trustworthy industrial-vision quality control be established without repeatedly changing models and evaluation criteria?
 
-**Status:** Completed 2026-11-04; **awaiting founder + ChatGPT review. No further objective is active. Stage B has NOT been started.** Outcome: **no adequate control among the tested configurations** under the preregistered zone-occupancy bar on two fresh, layout-disjoint holdouts (selected YOLOX-Tiny: balanced accuracy 0.70 / 0.68, TPR ≥ 0.98, FPR 0.59 / 0.61; the Stage A detector 0.71 / 0.62). Post-hoc, the metric itself inflated false alarms (humanoid robots excluded by the labels, about 40% of the cell-level FPR; people cut off at the frame edge; one-sided boundary tolerance; a gap in my metric and layout rule, EXP-0010B R6); with those corrected YOLOX-Tiny reaches balanced accuracy 0.84 / 0.86 at TPR >= 0.98 but FPR is still 0.31 / 0.25, far from 0.10. See `experiments/EXP-0010B-control-adequacy-gate.md`.
+**Status:** In progress (started 2026-11-04, authorized by the founder after review of EXP-0010B). Stage B has NOT been started and will not be started by this objective. The previous objective (EXP-0010B Control Adequacy Gate) is complete: no adequate control among the tested configurations; its records are unchanged (`experiments/EXP-0010B-control-adequacy-gate.md`).
 
 **Owner / agent:** Claude (implementation); founder + ChatGPT (research direction/review).
 
-**Started / finished:** 2026-11-04
+## Scope (from the founder's authorization)
 
-## Question answered
-
-Is there a detector/input configuration that is an adequate quality control for fixed-camera person monitoring (application-level metric, fresh layouts, 30 fps on the CPU baseline)? For the tested configurations: **no**. The measurement/replay pipeline from Stage A is trustworthy for CPU latency baselines; the quality control is not yet trustworthy.
-
-## What was established (details in EXP-0010B)
-
-- Task distinctions and primary metric (zone occupancy; Proposed ADR-0007); quality bar labelled TARGET.
-- 3D+calibration ground truth reproduces visible boxes only in some scenes (rule preregistered; L09 fails).
-- Candidates S0/S1/S2 (SSDLite variants) and YOLOX-Tiny passed parity; YOLOX-Tiny is far better on boxes (AP50 0.62–0.79 vs 0.11–0.31 on fresh layouts) but needs 8 CPU threads for 30 fps.
-- Timing on AC power with interleaved repeats; host clock/thermal state confounds documented. No energy was measured.
-- Not done: INT8/FP16 or other optimized-pipeline comparators (deferred because the FP32 control failed), YOLOX-S, fine-tuning.
-
-## Validation
-
-`python -m unittest tests.test_control_gate` (18 tests, host Python) and `tests.test_edge_inference` (WSL venv) pass; Stage A artifacts and RTL unchanged. See the handoff for exact counts and commands.
-
-## Decision needed from the founder (with ChatGPT)
-
-1. Humanoid-robot semantics for the metric (ignore / person / separate; ADR-0007 proposes ignore).
-2. Whether to spend one more objective on a corrected, humanoid-aware protocol with a **new** fresh holdout (the current holdout is spent), or to start temporal-execution experiments against YOLOX-Tiny with the metric caveats stated. My recommendation: not yet Stage B. Run one more corrected-gate objective (humanoid- and ignore-aware metric with a tolerant NEG band, scored on a new fresh holdout whose layout rule screens class mix); temporal experiments would otherwise measure retention against a control whose own false-alarm rate is 0.25-0.6.
+1. Diagnose YOLOX-Tiny's residual false alarms on existing data with clearly labelled post-hoc diagnostics (detector error vs annotation problems vs humanoid ambiguity vs frame-edge truncation vs zone boundary).
+2. Define one internally consistent application metric; distinguish human-only monitoring from general agent/robot occupancy; no automatic ignoring of humanoids to raise scores.
+3. Decide whether the 3x3 image grid is representative or ground-plane regions are necessary.
+4. Lock the corrected protocol, thresholds and pass/fail criteria before a completely fresh, layout-disjoint holdout.
+5. YOLOX-Tiny remains the principal baseline; no model or training change unless the diagnosed failure mode justifies it (and then as a separate recorded decision).
+6. Record the complete git state in every manifest; preserve all earlier results.
+7. Tests, reproducible benchmarks; document unmeasured energy, thermal uncertainty and missing production optimization.
+8. Update records, commit, obtain an independent review; **stop** and give an explicit recommendation: proceed to temporal execution, change the application/workload, or stop this branch.
 
 ## Primary records
 
-- `experiments/EXP-0010B-control-adequacy-gate.md` (this objective), `experiments/EXP-0010-edge-inference-baseline.md` (Stage A, preserved).
-- `PROJECT_STATE.md`, `handoffs/2026-11-04-ft-0010-control-adequacy-gate.md`, `reviews/REV-2026-11-04-ft-0010-control-adequacy-gate-review.md`, `decisions/ADR-0007-edge-control-application-metric.md` (Proposed).
+`experiments/EXP-0010B-control-adequacy-gate.md`, `handoffs/2026-11-04-ft-0010-control-adequacy-gate.md`, `reviews/REV-2026-11-04-ft-0010-control-adequacy-gate-review.md`, `decisions/ADR-0007-edge-control-application-metric.md` (Proposed). This objective's record will be `experiments/EXP-0010C-control-semantics-validation.md`.
