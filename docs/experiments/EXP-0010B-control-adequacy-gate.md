@@ -2,7 +2,7 @@
 
 Status: Complete (2026-11-04). **Result: NO ADEQUATE CONTROL AMONG THE TESTED CONFIGURATIONS** under the preregistered zone-occupancy bar on two fresh layouts. Stage B (temporal execution) is NOT started.
 Date: 2026-11-04
-Commit: recorded in the handoff (`docs/handoffs/2026-11-04-ft-0010-control-adequacy-gate.md`)
+Commit: eafa7e7 (results and records), fcdfbb2 (review fixes, post-hoc tolerant-metric rescoring, code-state section, review file)
 Parent: `EXP-0010-edge-inference-baseline.md` (Stage A, preserved unchanged).
 
 ## Research Question
@@ -29,7 +29,7 @@ Development screening used every 3rd frame of each clip (stride 3). Operating th
 
 ## Code state of the recorded runs
 
-Every manifest records `git.commit = b056ace` and `dirty = false`, which is **wrong for this objective**: `common.git_info` checks cleanliness only under `analysis/edge_inference`, and all of `analysis/control_gate/` was untracked and was edited between runs. What changed during the work: `detectors.yolox_pre` (raw BGR 0-255 after the first YOLOX run; regenerated), `parity.py` (reference input, a guard for the incomplete YOLOX-S file), `run_cag.py` (replay/feasibility/select/holdout commands were added after the first detect runs), `zones.py` (the post-hoc `gt_states_tolerant` was appended after all holdout scoring). The preregistered scoring functions (`zones.gt_states`, `det_states`, `cag_eval.evaluate`, `run_cag.cmd_holdout`) were unchanged from the first development scoring through the holdout scoring. The code state is the commit that contains this record. Faulty-YT development artifacts were deleted (see Findings 3).
+Every manifest records `git.commit = b056ace` and `dirty = false`, which is **wrong for this objective**: `common.git_info` checks cleanliness only under `analysis/edge_inference`, and all of `analysis/control_gate/` was untracked and was edited between runs. What changed during the work: `detectors.yolox_pre` (raw BGR 0-255 after the first YOLOX run; regenerated), `parity.py` (reference input, a guard for the incomplete YOLOX-S file), `run_cag.py` (replay/feasibility/select/holdout commands were added after the first detect runs), `zones.py` (the post-hoc `gt_states_tolerant` was appended after all holdout scoring). The preregistered scoring functions (`zones.gt_states`, `det_states`, `cag_eval.evaluate`, `run_cag.cmd_holdout`) were unchanged from the first development scoring through the holdout scoring. The code state is commit fcdfbb2 (eafa7e7 plus the post-hoc tolerant metric and its test). Faulty-YT development artifacts were deleted (see Findings 3).
 
 ## Results
 

@@ -2,7 +2,7 @@
 
 Date: 2026-11-04
 Agent: Claude (Sonnet 5.5), advisor review by Opus 5.5
-Current commit: recorded in the final commit message and in `git log` (the experiment record points here)
+Current commit: eafa7e7 (results and records); fcdfbb2 (review fixes); a docs-only commit after them records these hashes
 
 ## Objective
 
