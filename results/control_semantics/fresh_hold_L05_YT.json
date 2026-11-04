@@ -1,0 +1,237 @@
+{
+ "role": "hold_L05",
+ "n_cells": 17,
+ "frames": 9000,
+ "policies": {
+  "A_human_only": {
+   "tau": 0.02,
+   "metrics": {
+    "tpr": 0.98378041172801,
+    "fpr": 0.6204573769453301,
+    "balanced_accuracy": 0.68166151739134,
+    "precision_cell": 0.21157561446817646,
+    "fa_per_predicted": 0.7884243855318236,
+    "frame_fa_rate": 0.9738888888888889,
+    "tp": 7885,
+    "fn": 130,
+    "fp": 29383,
+    "tn": 17974,
+    "n_pos": 8015,
+    "n_neg": 47357
+   },
+   "bootstrap": {
+    "tpr_ci": [
+     0.9779502816937716,
+     0.9886249059885306
+    ],
+    "fpr_ci": [
+     0.5703288945674264,
+     0.6711991643865972
+    ],
+    "precision_cell_ci": [
+     0.16522704164762506,
+     0.26104605631118877
+    ],
+    "balanced_accuracy_ci": [
+     0.6555181675869209,
+     0.7069931329380683
+    ],
+    "block_frames": 300,
+    "n_boot": 1000,
+    "seed": 20261104
+   },
+   "gt": {
+    "agents_scored": 8405,
+    "agents_ignored": 55037
+   },
+   "detections": {
+    "detections_used": 146082,
+    "excluded_truncated_or_short": 83349
+   },
+   "quality_bar_met": false,
+   "pos_rate": 0.05238562091503268
+  },
+  "B_person_shaped_agent": {
+   "tau": 0.02,
+   "metrics": {
+    "tpr": 0.9922017638867399,
+    "fpr": 0.1680732200166409,
+    "balanced_accuracy": 0.9120642719350495,
+    "precision_cell": 0.957762045583535,
+    "fa_per_predicted": 0.04223795441646504,
+    "frame_fa_rate": 0.15288888888888888,
+    "tp": 32063,
+    "fn": 252,
+    "fp": 1414,
+    "tn": 6999,
+    "n_pos": 32315,
+    "n_neg": 8413
+   },
+   "bootstrap": {
+    "tpr_ci": [
+     0.988968524415629,
+     0.9948559688776886
+    ],
+    "fpr_ci": [
+     0.10813092678818545,
+     0.23887882974953908
+    ],
+    "precision_cell_ci": [
+     0.9342667898513987,
+     0.9762380657161703
+    ],
+    "balanced_accuracy_ci": [
+     0.8760973971266677,
+     0.942061032244997
+    ],
+    "block_frames": 300,
+    "n_boot": 1000,
+    "seed": 20261104
+   },
+   "gt": {
+    "agents_scored": 41798,
+    "agents_ignored": 96835
+   },
+   "detections": {
+    "detections_used": 146082,
+    "excluded_truncated_or_short": 83349
+   },
+   "quality_bar_met": true,
+   "pos_rate": 0.21120915032679738
+  }
+ },
+ "repo_state": {
+  "commit": "97cbd9bf6337bdabbef3383d82890198192f281b",
+  "branch": "main",
+  "dirty": true,
+  "n_dirty_paths": 4,
+  "dirty_paths": [
+   "?? results/control_semantics/runs/hold_L03/YT/offline_s1/manifest.json",
+   "?? results/control_semantics/runs/hold_L03/YT/offline_s1/stage.json",
+   "?? results/control_semantics/runs/hold_L05/YT/offline_s1/manifest.json",
+   "?? results/control_semantics/runs/hold_L05/YT/offline_s1/stage.json"
+  ],
+  "dirty_code_paths": [],
+  "tree_state_sha256": "8cd0c7c04d8a23f20cf83e3627df612ddeeb2c73fa1603d6824dd1785b8245aa",
+  "scope": "whole repository (git status --porcelain --untracked-files=all)"
+ },
+ "protocol_v3_sha256": "45f9c8afcd15ebe23fe06a9a898cab2be05db08252e34eacda974baf23d2ce53",
+ "lock_sha256": "03e7a2d7a23839bdd84030570444bb7c47fe7441ca92144640196bebfd42c441",
+ "v2_image_grid_as_written": {
+  "clip": "hold_L05",
+  "tau": 0.05,
+  "n_frames_scored": 9000,
+  "geometry_ok": true,
+  "zone": {
+   "tpr": 0.9975936869669839,
+   "fpr": 0.5677582070577621,
+   "balanced_accuracy": 0.7149177399546109,
+   "precision": 0.5044917680744453,
+   "f1": 0.670105420791785,
+   "n_pos": 28259,
+   "n_neg": 48769,
+   "tp": 28191,
+   "fn": 68,
+   "fp": 27689,
+   "tn": 21080,
+   "per_zone_pos_rate": [
+    0.9988,
+    0.7859,
+    1.0,
+    0.2822,
+    0.0133,
+    0.047,
+    0.0066,
+    0.0061,
+    0.0
+   ],
+   "per_zone_neg_rate": [
+    0.0,
+    0.1996,
+    0.0,
+    0.3538,
+    0.9542,
+    0.9267,
+    0.9927,
+    0.9934,
+    0.9984
+   ],
+   "bootstrap": {
+    "tpr_ci": [
+     0.9950985521932288,
+     0.9994458659741217
+    ],
+    "fpr_ci": [
+     0.5165115718693711,
+     0.6214330621317583
+    ],
+    "balanced_accuracy_ci": [
+     0.6883420939510796,
+     0.7406130019998998
+    ],
+    "block_frames": 300,
+    "n_boot": 1000,
+    "seed": 20261104
+   }
+  },
+  "presence_count": {
+   "presence_recall": 1.0,
+   "presence_false_alarm_rate": 0.0,
+   "frames_without_scored_person": 0,
+   "count_mae": 12.619333333333334,
+   "count_exact_frac": 0.0,
+   "count_within1_frac": 0.0,
+   "const_median_mae": 0.8585555555555555
+  },
+  "ap": {
+   "ap_iou0.1": 0.8567938651160224,
+   "ap_iou0.3": 0.8330673406593736,
+   "ap_iou0.5": 0.7786569088316744,
+   "precision_iou0.5": 0.39830579341717953,
+   "recall_iou0.5": 0.8458260082041447,
+   "f1_iou0.5": 0.5415783100337128,
+   "ap_iou0.5_vs_whole_person_box_INFERRED": 0.2173082901572274
+  },
+  "visibility": {
+   "n_scored_gt": 56313,
+   "bins": {
+    "<0.5": {
+     "n": 12928,
+     "hit_iou>=0.5": 0.5802134900990099,
+     "hit_iou>=0.3": 0.6429455445544554,
+     "hit_iou>=0.1": 0.7866646039603961,
+     "median_det_height_over_expected_whole_height": 0.41631157884311076,
+     "median_top_err_over_expected_h": 0.003601330122276367,
+     "median_bottom_err_over_expected_h": 0.02023143560597155
+    },
+    "0.5-0.8": {
+     "n": 11513,
+     "hit_iou>=0.5": 0.8748371406236428,
+     "hit_iou>=0.3": 0.941457482845479,
+     "hit_iou>=0.1": 0.9717710414314253,
+     "median_det_height_over_expected_whole_height": 0.7139339312549993,
+     "median_top_err_over_expected_h": 0.0020114367758421675,
+     "median_bottom_err_over_expected_h": 0.019345038307727627
+    },
+    "0.8-0.95": {
+     "n": 9073,
+     "hit_iou>=0.5": 0.9271464785627687,
+     "hit_iou>=0.3": 0.9801609170065028,
+     "hit_iou>=0.1": 0.9907417612697013,
+     "median_det_height_over_expected_whole_height": 0.8994293994932204,
+     "median_top_err_over_expected_h": 0.0,
+     "median_bottom_err_over_expected_h": 0.018887610912992063
+    },
+    ">=0.95": {
+     "n": 22799,
+     "hit_iou>=0.5": 0.9815342778192025,
+     "hit_iou>=0.3": 0.9985087065222159,
+     "hit_iou>=0.1": 0.9992543532611079,
+     "median_det_height_over_expected_whole_height": 1.0999212259058007,
+     "median_top_err_over_expected_h": 0.007414591437743834,
+     "median_bottom_err_over_expected_h": 0.01938616068723429
+    }
+   }
+  }
+ }
+}

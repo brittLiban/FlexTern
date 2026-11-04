@@ -126,7 +126,7 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **Why it matters:** EXP-0010 Stage A found COCO SSDLite320 at AP50 0.13-0.20 at IoU 0.5 (0.34 on the holdout at IoU 0.1) with mixed causes (visible-extent label semantics vs whole-person predictions, forklift confusion); temporal-execution or ternary comparisons against a control whose quality is entangled with the metric would not be clean evidence.
 **Current evidence:** EXP-0010 (MEASURED on three synthetic clips; the cause of the weak recall is not isolated).
 **What would answer it:** the same harness and frozen holdout with one or two more detectors/input configurations under a preregistered AP50/recall bar and acceptable licenses; a customer-representative footage source.
-**Status:** Narrowed by EXP-0010B (2026-11-04): zone occupancy proposed as primary metric (ADR-0007, Proposed); YOLOX-Tiny is a much better box detector than SSDLite320 but no tested configuration met the preregistered bar on fresh layouts; remaining open parts are Q-027 (humanoid semantics, remaining false alarms) and a customer-representative footage source. Open.
+**Status:** Narrowed by EXP-0010B and EXP-0010C (2026-11-04): ground-plane zone occupancy under two policies is the proposed metric (ADR-0008, Proposed, superseding ADR-0007 Proposed if accepted); YOLOX-Tiny is a much better box detector than SSDLite320 but no tested configuration met the preregistered bar on fresh layouts; remaining open parts are Q-027 (humanoid semantics, remaining false alarms) and a customer-representative footage source. Open.
 
 ### Q-026
 **Question:** Which device, power-meter boundary and duty cycle define "gross energy per camera-hour" for the edge-video branch, and is a Linux host with a calibrated meter available?
@@ -140,7 +140,14 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **Why it matters:** EXP-0010B found about 80% of the holdout false alarms on humanoids that the labels exclude; a retention claim against this control would otherwise inherit that ambiguity.
 **Current evidence:** EXP-0010B R5/R6 (MEASURED / POST-HOC).
 **What would answer it:** founder semantics decision; a corrected protocol version with a layout rule that screens class mix; one new fresh holdout; optionally ground-plane zones.
-**Status:** Open (opened 2026-11-04 by EXP-0010B).
+**Status:** Narrowed by EXP-0010C (2026-11-04): policies A (humanoids negative) and B (humanoids positive) are defined and evaluated side by side; the commercial choice remains the founder's. Open (opened 2026-11-04 by EXP-0010B).
+
+### Q-028
+**Question:** Which application/workload is the edge-video product (human-only monitoring, person-shaped-agent occupancy, other), what minimum person size and visibility must it serve, and is a model-side objective (higher input resolution or a larger detector, a humanoid-robot class) justified with its own fresh holdout?
+**Why it matters:** EXP-0010C found YOLOX-Tiny meets the gating pair for person-shaped-agent occupancy on one of two fresh layouts and no single threshold serves all six clips; human-only monitoring fails because the detector cannot separate humans from humanoid robots; the genuine residual errors are occlusion/small-person recall and confusion with vehicles/clutter.
+**Current evidence:** EXP-0010C R5-R8 (MEASURED / POST-HOC), preregistered decision CHANGE_WORKLOAD.
+**What would answer it:** a founder decision on the application and minimum visibility; a model-side objective with its own development/holdout split; real footage.
+**Status:** Open (opened 2026-11-04 by EXP-0010C).
 
 ## Strategic (founder-only; not for agents to decide)
 

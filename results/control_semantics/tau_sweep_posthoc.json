@@ -1,0 +1,410 @@
+{
+ "policy": "B_person_shaped_agent",
+ "taus": [
+  0.02,
+  0.05,
+  0.1,
+  0.2,
+  0.3,
+  0.4,
+  0.5,
+  0.6,
+  0.7,
+  0.8
+ ],
+ "note": "POST-HOC after the fresh scoring",
+ "clips": {
+  "dev_L10": [
+   {
+    "tau": 0.02,
+    "tpr": 0.775,
+    "fa_per_predicted": 0.787,
+    "fpr": 0.005
+   },
+   {
+    "tau": 0.05,
+    "tpr": 0.671,
+    "fa_per_predicted": 0.591,
+    "fpr": 0.002
+   },
+   {
+    "tau": 0.1,
+    "tpr": 0.579,
+    "fa_per_predicted": 0.357,
+    "fpr": 0.001
+   },
+   {
+    "tau": 0.2,
+    "tpr": 0.504,
+    "fa_per_predicted": 0.135,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.3,
+    "tpr": 0.456,
+    "fa_per_predicted": 0.035,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.4,
+    "tpr": 0.423,
+    "fa_per_predicted": 0.029,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.5,
+    "tpr": 0.383,
+    "fa_per_predicted": 0.018,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.6,
+    "tpr": 0.33,
+    "fa_per_predicted": 0.013,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.7,
+    "tpr": 0.27,
+    "fa_per_predicted": 0.005,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.8,
+    "tpr": 0.166,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   }
+  ],
+  "dev_L11": [
+   {
+    "tau": 0.02,
+    "tpr": 0.829,
+    "fa_per_predicted": 0.068,
+    "fpr": 0.003
+   },
+   {
+    "tau": 0.05,
+    "tpr": 0.8,
+    "fa_per_predicted": 0.015,
+    "fpr": 0.001
+   },
+   {
+    "tau": 0.1,
+    "tpr": 0.769,
+    "fa_per_predicted": 0.004,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.2,
+    "tpr": 0.726,
+    "fa_per_predicted": 0.002,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.3,
+    "tpr": 0.683,
+    "fa_per_predicted": 0.001,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.4,
+    "tpr": 0.638,
+    "fa_per_predicted": 0.001,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.5,
+    "tpr": 0.576,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.6,
+    "tpr": 0.481,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.7,
+    "tpr": 0.345,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.8,
+    "tpr": 0.12,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   }
+  ],
+  "hold_L08": [
+   {
+    "tau": 0.02,
+    "tpr": 0.993,
+    "fa_per_predicted": 0.078,
+    "fpr": 0.058
+   },
+   {
+    "tau": 0.05,
+    "tpr": 0.982,
+    "fa_per_predicted": 0.036,
+    "fpr": 0.025
+   },
+   {
+    "tau": 0.1,
+    "tpr": 0.959,
+    "fa_per_predicted": 0.022,
+    "fpr": 0.015
+   },
+   {
+    "tau": 0.2,
+    "tpr": 0.919,
+    "fa_per_predicted": 0.013,
+    "fpr": 0.008
+   },
+   {
+    "tau": 0.3,
+    "tpr": 0.882,
+    "fa_per_predicted": 0.006,
+    "fpr": 0.004
+   },
+   {
+    "tau": 0.4,
+    "tpr": 0.84,
+    "fa_per_predicted": 0.003,
+    "fpr": 0.002
+   },
+   {
+    "tau": 0.5,
+    "tpr": 0.793,
+    "fa_per_predicted": 0.002,
+    "fpr": 0.001
+   },
+   {
+    "tau": 0.6,
+    "tpr": 0.741,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.7,
+    "tpr": 0.646,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.8,
+    "tpr": 0.431,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   }
+  ],
+  "hold_L02": [
+   {
+    "tau": 0.02,
+    "tpr": 0.87,
+    "fa_per_predicted": 0.533,
+    "fpr": 0.136
+   },
+   {
+    "tau": 0.05,
+    "tpr": 0.809,
+    "fa_per_predicted": 0.283,
+    "fpr": 0.044
+   },
+   {
+    "tau": 0.1,
+    "tpr": 0.743,
+    "fa_per_predicted": 0.083,
+    "fpr": 0.009
+   },
+   {
+    "tau": 0.2,
+    "tpr": 0.65,
+    "fa_per_predicted": 0.024,
+    "fpr": 0.002
+   },
+   {
+    "tau": 0.3,
+    "tpr": 0.579,
+    "fa_per_predicted": 0.011,
+    "fpr": 0.001
+   },
+   {
+    "tau": 0.4,
+    "tpr": 0.512,
+    "fa_per_predicted": 0.005,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.5,
+    "tpr": 0.447,
+    "fa_per_predicted": 0.003,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.6,
+    "tpr": 0.39,
+    "fa_per_predicted": 0.001,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.7,
+    "tpr": 0.324,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.8,
+    "tpr": 0.221,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   }
+  ],
+  "hold_L05": [
+   {
+    "tau": 0.02,
+    "tpr": 0.992,
+    "fa_per_predicted": 0.042,
+    "fpr": 0.168
+   },
+   {
+    "tau": 0.05,
+    "tpr": 0.987,
+    "fa_per_predicted": 0.014,
+    "fpr": 0.055
+   },
+   {
+    "tau": 0.1,
+    "tpr": 0.98,
+    "fa_per_predicted": 0.006,
+    "fpr": 0.024
+   },
+   {
+    "tau": 0.2,
+    "tpr": 0.957,
+    "fa_per_predicted": 0.001,
+    "fpr": 0.005
+   },
+   {
+    "tau": 0.3,
+    "tpr": 0.923,
+    "fa_per_predicted": 0.001,
+    "fpr": 0.003
+   },
+   {
+    "tau": 0.4,
+    "tpr": 0.868,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.001
+   },
+   {
+    "tau": 0.5,
+    "tpr": 0.786,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.001
+   },
+   {
+    "tau": 0.6,
+    "tpr": 0.681,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.001
+   },
+   {
+    "tau": 0.7,
+    "tpr": 0.527,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.001
+   },
+   {
+    "tau": 0.8,
+    "tpr": 0.285,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   }
+  ],
+  "hold_L03": [
+   {
+    "tau": 0.02,
+    "tpr": 0.919,
+    "fa_per_predicted": 0.172,
+    "fpr": 0.019
+   },
+   {
+    "tau": 0.05,
+    "tpr": 0.867,
+    "fa_per_predicted": 0.092,
+    "fpr": 0.009
+   },
+   {
+    "tau": 0.1,
+    "tpr": 0.786,
+    "fa_per_predicted": 0.047,
+    "fpr": 0.004
+   },
+   {
+    "tau": 0.2,
+    "tpr": 0.669,
+    "fa_per_predicted": 0.017,
+    "fpr": 0.001
+   },
+   {
+    "tau": 0.3,
+    "tpr": 0.584,
+    "fa_per_predicted": 0.005,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.4,
+    "tpr": 0.517,
+    "fa_per_predicted": 0.002,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.5,
+    "tpr": 0.458,
+    "fa_per_predicted": 0.001,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.6,
+    "tpr": 0.393,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.7,
+    "tpr": 0.299,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   },
+   {
+    "tau": 0.8,
+    "tpr": 0.155,
+    "fa_per_predicted": 0.0,
+    "fpr": 0.0
+   }
+  ]
+ },
+ "taus_meeting_the_pair_on_all_six_clips": [],
+ "taus_meeting_the_pair_per_clip": {
+  "dev_L10": [],
+  "dev_L11": [],
+  "hold_L08": [
+   0.02,
+   0.05,
+   0.1,
+   0.2
+  ],
+  "hold_L02": [],
+  "hold_L05": [
+   0.02,
+   0.05,
+   0.1,
+   0.2,
+   0.3
+  ],
+  "hold_L03": []
+ }
+}

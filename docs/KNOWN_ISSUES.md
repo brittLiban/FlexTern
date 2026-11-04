@@ -273,7 +273,7 @@ Workaround:       gt.py accepts both key styles; Stage A splits by layout group
 
 ```
 KI-015
-Status:           Open
+Status:           Mitigated in EXP-0010C (metric v3 treats humanoids by policy, handles truncation and uses symmetric tolerance); the EXP-0010B record keeps the flawed metric by design
 Severity:         Major (affects validity of any quality claim on the new fresh holdouts)
 First observed:   2026-11-04
 Relevant commit:  EXP-0010B commit
@@ -322,6 +322,36 @@ Description:      Windows memory protection killed two long background jobs (dev
 Impact:           Jobs must be run one process at a time and restarted; YOLOX-S was never
                   evaluated.
 Workaround:       per-process foreground-sized runs; results are saved per run.
+```
+
+```
+KI-018
+Status:           Open
+Severity:         Minor
+First observed:   2026-11-04
+Relevant commit:  EXP-0010C lock commit 97cbd9b
+Description:      The EXP-0010C operating-threshold rule (macro balanced accuracy over development
+                  clips) chose the lowest grid value (tau 0.02): balanced accuracy is diluted by
+                  empty cells, so it rewards recall at the cost of precision. At tau 0.02 low-score
+                  clutter dominates the false alarms on several clips (L10 88%, L02 75%).
+Impact:           The locked fresh-holdout result used tau 0.02 as locked; a post-hoc sweep shows no
+                  threshold meets the gating pair on all six clips, so the verdict does not depend on it.
+Workaround:       ADR-0008 point 6: choose thresholds with a precision-aware criterion in any new protocol.
+```
+
+```
+KI-019
+Status:           Open (mitigated in new code)
+Severity:         Minor
+First observed:   2026-11-04
+Relevant commit:  EXP-0010C
+Description:      Git run from WSL against the CRLF working tree reports every file as modified
+                  unless core.autocrlf=true is set; EXP-0010B manifests also recorded the commit as
+                  clean because common.git_info only checks analysis/edge_inference.
+Impact:           EXP-0010B manifests (commit b056ace, dirty=false) do not describe the code that ran;
+                  Stage A's git_info is unchanged.
+Workaround:       analysis/control_semantics/provenance.py records whole-repository state with
+                  -c core.autocrlf=true; EXP-0010B code state is documented in its record.
 ```
 
 ## Closed

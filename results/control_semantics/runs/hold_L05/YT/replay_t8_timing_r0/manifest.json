@@ -1,0 +1,73 @@
+{
+ "started_utc": "2026-11-04T15:18:55+00:00",
+ "role": "hold_L05",
+ "config": "YT",
+ "mode": "replay",
+ "threads": 8,
+ "command": "python -m analysis.control_gate.run_cag replay YT hold_L05 --threads 8 --rep 0 --max-frames 2700 --tag timing",
+ "protocol_sha256": "9a6d5b556996963eb571a0397e1ba3606230fea68db135d2d436bfb234f75c69",
+ "protocol_id": "EXP-0010-CAG-protocol-v2",
+ "video_sha256": "34bc662fe7f77c042755ac5642221f76ee15ce94d0c6f9a40026b2b17a7eb0c7",
+ "gt_json_sha256": "4d45c3706091b446bc239b447867e732b1153010c2c1d52e1ce78924c4f01ddf",
+ "model_files": {
+  "yolox_tiny.onnx": "427cc366d34e27ff7a03e2899b5e3671425c262ea2291f88bb942bc1cc70b0f7"
+ },
+ "environment": {
+  "python": "3.14.4",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "machine": "x86_64",
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "git": {
+   "commit": "97cbd9bf6337bdabbef3383d82890198192f281b",
+   "dirty": true,
+   "scope": "whole repository (git status --porcelain --untracked-files=all)",
+   "note": "whole-repository state (EXP-0010C provenance); the Stage A git_info field is not used"
+  },
+  "numpy": "2.5.3",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "onnx": "1.23.2",
+  "onnxruntime": "1.31.1",
+  "opencv-python-headless": "5.0.0.93",
+  "av": "19.0.2",
+  "psutil": "7.2.2",
+  "ijson": "3.6.0",
+  "cpu_model": "AMD Ryzen 7 260 w/ Radeon 780M",
+  "logical_cpus": 16,
+  "mem_total_kb": 6065824,
+  "wsl2": true
+ },
+ "host": {
+  "power_plan": "Balanced",
+  "battery_status_code": 1,
+  "battery_status": "discharging (on battery)",
+  "battery_charge_pct": 80,
+  "note": "WSL2 guest under Hyper-V on a laptop; CPU governor, frequency, thermal state and Windows process priority are NOT controlled"
+ },
+ "rep": 0,
+ "tag": "timing",
+ "max_frames": 2700,
+ "queue_cap": 2,
+ "providers": [
+  "CPUExecutionProvider"
+ ],
+ "repo_state": {
+  "commit": "97cbd9bf6337bdabbef3383d82890198192f281b",
+  "branch": "main",
+  "dirty": true,
+  "n_dirty_paths": 6,
+  "dirty_paths": [
+   "?? results/control_semantics/fresh_hold_L03_YT.json",
+   "?? results/control_semantics/fresh_hold_L05_YT.json",
+   "?? results/control_semantics/runs/hold_L03/YT/offline_s1/manifest.json",
+   "?? results/control_semantics/runs/hold_L03/YT/offline_s1/stage.json",
+   "?? results/control_semantics/runs/hold_L05/YT/offline_s1/manifest.json",
+   "?? results/control_semantics/runs/hold_L05/YT/offline_s1/stage.json"
+  ],
+  "dirty_code_paths": [],
+  "tree_state_sha256": "281aece28814e314f116c601f890c9f57a681306ee3eeb34a5a91d95c9e85d95",
+  "scope": "whole repository (git status --porcelain --untracked-files=all)"
+ },
+ "protocol_v3_sha256": "45f9c8afcd15ebe23fe06a9a898cab2be05db08252e34eacda974baf23d2ce53",
+ "finished_utc": "2026-11-04T15:20:41+00:00"
+}

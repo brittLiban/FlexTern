@@ -40,4 +40,4 @@ None.
 
 ## Superseded By
 
-None.
+ADR-0008 (Proposed; effective only if accepted).

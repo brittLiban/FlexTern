@@ -1,0 +1,238 @@
+{
+ "role": "hold_L03",
+ "n_cells": 185,
+ "frames": 9000,
+ "policies": {
+  "A_human_only": {
+   "tau": 0.02,
+   "metrics": {
+    "tpr": 0.9498410961758883,
+    "fpr": 0.0678251535621993,
+    "balanced_accuracy": 0.9410079713068445,
+    "precision_cell": 0.43094278521705215,
+    "fa_per_predicted": 0.5690572147829478,
+    "frame_fa_rate": 1.0,
+    "tp": 72925,
+    "fn": 3851,
+    "fp": 96297,
+    "tn": 1323486,
+    "n_pos": 76776,
+    "n_neg": 1419783
+   },
+   "bootstrap": {
+    "tpr_ci": [
+     0.936293781207606,
+     0.961946098277616
+    ],
+    "fpr_ci": [
+     0.06389149601306748,
+     0.07196144188410646
+    ],
+    "precision_cell_ci": [
+     0.410066283163586,
+     0.4499347968304706
+    ],
+    "balanced_accuracy_ci": [
+     0.9336827012186208,
+     0.9472233033523021
+    ],
+    "block_frames": 300,
+    "n_boot": 1000,
+    "seed": 20261104
+   },
+   "gt": {
+    "agents_scored": 81951,
+    "agents_ignored": 8062
+   },
+   "detections": {
+    "detections_used": 193617,
+    "excluded_truncated_or_short": 14129
+   },
+   "quality_bar_met": false,
+   "pos_rate": 0.04611171171171171
+  },
+  "B_person_shaped_agent": {
+   "tau": 0.02,
+   "metrics": {
+    "tpr": 0.9192485788502804,
+    "fpr": 0.01948958593765025,
+    "balanced_accuracy": 0.9498794964563151,
+    "precision_cell": 0.8281499067322368,
+    "fa_per_predicted": 0.17185009326776327,
+    "frame_fa_rate": 0.8435555555555555,
+    "tp": 122090,
+    "fn": 10725,
+    "fp": 25335,
+    "tn": 1274590,
+    "n_pos": 132815,
+    "n_neg": 1299925
+   },
+   "bootstrap": {
+    "tpr_ci": [
+     0.9053384503887737,
+     0.9312442283868075
+    ],
+    "fpr_ci": [
+     0.017184529228817417,
+     0.021763910684496717
+    ],
+    "precision_cell_ci": [
+     0.8111108208082625,
+     0.8464363457486376
+    ],
+    "balanced_accuracy_ci": [
+     0.9426647058613004,
+     0.9559020172492093
+    ],
+    "block_frames": 300,
+    "n_boot": 1000,
+    "seed": 20261104
+   },
+   "gt": {
+    "agents_scored": 150885,
+    "agents_ignored": 16936
+   },
+   "detections": {
+    "detections_used": 193617,
+    "excluded_truncated_or_short": 14129
+   },
+   "quality_bar_met": false,
+   "pos_rate": 0.07976876876876877
+  }
+ },
+ "repo_state": {
+  "commit": "97cbd9bf6337bdabbef3383d82890198192f281b",
+  "branch": "main",
+  "dirty": true,
+  "n_dirty_paths": 5,
+  "dirty_paths": [
+   "?? results/control_semantics/fresh_hold_L05_YT.json",
+   "?? results/control_semantics/runs/hold_L03/YT/offline_s1/manifest.json",
+   "?? results/control_semantics/runs/hold_L03/YT/offline_s1/stage.json",
+   "?? results/control_semantics/runs/hold_L05/YT/offline_s1/manifest.json",
+   "?? results/control_semantics/runs/hold_L05/YT/offline_s1/stage.json"
+  ],
+  "dirty_code_paths": [],
+  "tree_state_sha256": "d18c50dc5ce9cf73e9e586fb535fd2ca1f16796816fc2d29f523c55c177f63a8",
+  "scope": "whole repository (git status --porcelain --untracked-files=all)"
+ },
+ "protocol_v3_sha256": "45f9c8afcd15ebe23fe06a9a898cab2be05db08252e34eacda974baf23d2ce53",
+ "lock_sha256": "03e7a2d7a23839bdd84030570444bb7c47fe7441ca92144640196bebfd42c441",
+ "v2_image_grid_as_written": {
+  "clip": "hold_L03",
+  "tau": 0.05,
+  "n_frames_scored": 9000,
+  "geometry_ok": true,
+  "zone": {
+   "tpr": 0.9710922807091689,
+   "fpr": 0.2059819661315153,
+   "balanced_accuracy": 0.8825551572888268,
+   "precision": 0.9075200442355543,
+   "f1": 0.9382305203091027,
+   "n_pos": 47323,
+   "n_neg": 22735,
+   "tp": 45955,
+   "fn": 1368,
+   "fp": 4683,
+   "tn": 18052,
+   "per_zone_pos_rate": [
+    1.0,
+    0.7473,
+    0.7726,
+    0.8418,
+    0.9049,
+    0.0,
+    0.7844,
+    0.1832,
+    0.0239
+   ],
+   "per_zone_neg_rate": [
+    0.0,
+    0.0018,
+    0.1532,
+    0.0,
+    0.067,
+    0.6326,
+    0.1802,
+    0.5161,
+    0.9752
+   ],
+   "bootstrap": {
+    "tpr_ci": [
+     0.9582725523427977,
+     0.9830027537756044
+    ],
+    "fpr_ci": [
+     0.15593317718269087,
+     0.2571250704274905
+    ],
+    "balanced_accuracy_ci": [
+     0.8542428826170474,
+     0.9100685031939615
+    ],
+    "block_frames": 300,
+    "n_boot": 1000,
+    "seed": 20261104
+   }
+  },
+  "presence_count": {
+   "presence_recall": 1.0,
+   "presence_false_alarm_rate": 0.0,
+   "frames_without_scored_person": 0,
+   "count_mae": 7.942666666666667,
+   "count_exact_frac": 0.00011111111111111112,
+   "count_within1_frac": 0.0007777777777777777,
+   "const_median_mae": 0.7456666666666667
+  },
+  "ap": {
+   "ap_iou0.1": 0.9411575661331746,
+   "ap_iou0.3": 0.9307787138725531,
+   "ap_iou0.5": 0.8871487583744173,
+   "precision_iou0.5": 0.7057192982456141,
+   "recall_iou0.5": 0.8970907996119579,
+   "f1_iou0.5": 0.7899804105439389,
+   "ap_iou0.5_vs_whole_person_box_INFERRED": 0.7026530839656016
+  },
+  "visibility": {
+   "n_scored_gt": 89681,
+   "bins": {
+    "<0.5": {
+     "n": 382,
+     "hit_iou>=0.5": 0.14397905759162305,
+     "hit_iou>=0.3": 0.17539267015706805,
+     "hit_iou>=0.1": 0.2591623036649215,
+     "median_det_height_over_expected_whole_height": 0.469713393915179,
+     "median_top_err_over_expected_h": -0.011851678811361186,
+     "median_bottom_err_over_expected_h": 0.04851401407354473
+    },
+    "0.5-0.8": {
+     "n": 1081,
+     "hit_iou>=0.5": 0.7400555041628122,
+     "hit_iou>=0.3": 0.8020351526364478,
+     "hit_iou>=0.1": 0.8501387604070305,
+     "median_det_height_over_expected_whole_height": 0.766343963300822,
+     "median_top_err_over_expected_h": -0.005167750420155,
+     "median_bottom_err_over_expected_h": 0.002831291298173221
+    },
+    "0.8-0.95": {
+     "n": 9975,
+     "hit_iou>=0.5": 0.9001503759398496,
+     "hit_iou>=0.3": 0.9430576441102757,
+     "hit_iou>=0.1": 0.9509774436090226,
+     "median_det_height_over_expected_whole_height": 0.9291248897447684,
+     "median_top_err_over_expected_h": -0.00024428280399880163,
+     "median_bottom_err_over_expected_h": 0.0029304940195769755
+    },
+    ">=0.95": {
+     "n": 78243,
+     "hit_iou>=0.5": 0.9139603542808942,
+     "hit_iou>=0.3": 0.957504185677952,
+     "hit_iou>=0.1": 0.9627187096609281,
+     "median_det_height_over_expected_whole_height": 1.1144407237881993,
+     "median_top_err_over_expected_h": -0.004508515288470372,
+     "median_bottom_err_over_expected_h": 0.014138936627853205
+    }
+   }
+  }
+ }
+}

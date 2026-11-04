@@ -8,7 +8,7 @@ There is exactly one active engineering objective at a time. This file is the si
 
 **Title:** Can a trustworthy industrial-vision quality control be established without repeatedly changing models and evaluation criteria?
 
-**Status:** In progress (started 2026-11-04, authorized by the founder after review of EXP-0010B). Stage B has NOT been started and will not be started by this objective. The previous objective (EXP-0010B Control Adequacy Gate) is complete: no adequate control among the tested configurations; its records are unchanged (`experiments/EXP-0010B-control-adequacy-gate.md`).
+**Status:** Completed 2026-11-04; **awaiting founder + ChatGPT review; no further objective is active. Stage B has NOT been started.** Outcome under the preregistered decision rule: **CHANGE_WORKLOAD** (policy B passes one fresh layout and narrowly fails the other; policy A fails both; post-hoc, no single threshold meets the gating pair on all six clips). My recommendation: change the application/workload, do not proceed to temporal execution, do not keep tuning this detector. See `experiments/EXP-0010C-control-semantics-validation.md`. The previous objective (EXP-0010B Control Adequacy Gate) is complete: no adequate control among the tested configurations; its records are unchanged (`experiments/EXP-0010B-control-adequacy-gate.md`).
 
 **Owner / agent:** Claude (implementation); founder + ChatGPT (research direction/review).
 
@@ -25,4 +25,4 @@ There is exactly one active engineering objective at a time. This file is the si
 
 ## Primary records
 
-`experiments/EXP-0010B-control-adequacy-gate.md`, `handoffs/2026-11-04-ft-0010-control-adequacy-gate.md`, `reviews/REV-2026-11-04-ft-0010-control-adequacy-gate-review.md`, `decisions/ADR-0007-edge-control-application-metric.md` (Proposed). This objective's record will be `experiments/EXP-0010C-control-semantics-validation.md`.
+`experiments/EXP-0010B-control-adequacy-gate.md`, `handoffs/2026-11-04-ft-0010-control-adequacy-gate.md`, `reviews/REV-2026-11-04-ft-0010-control-adequacy-gate-review.md`, `decisions/ADR-0007-edge-control-application-metric.md` (Proposed). This objective's record is `experiments/EXP-0010C-control-semantics-validation.md`; ADR-0008 (Proposed); handoff `handoffs/2026-11-04-ft-0010c-control-semantics.md`; review `reviews/REV-2026-11-04-ft-0010c-control-semantics-review.md`.

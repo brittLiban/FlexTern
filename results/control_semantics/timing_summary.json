@@ -1,0 +1,94 @@
+{
+ "clip": "hold_L05 frames 0-2699 (90 s)",
+ "conditions": "ON BATTERY (discharging 77-80%), Balanced plan, interleaved YT_t8 / S0_t4 x2, WSL2 laptop; host clock sampled before/after; frequency/thermal unobserved; NOT comparable with the EXP-0010B AC-power timing; energy NOT measured",
+ "configs": {
+  "S0_t4": [
+   {
+    "run": "replay_t4_timing_r0",
+    "p50": 23.914220999999998,
+    "p95": 30.3174877,
+    "p99": 37.251895139999995,
+    "max": 49.687595,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 6.483532937037038,
+     "pre_ms": 0.8309340685185185,
+     "infer_ms": 10.248798711481482,
+     "post_ms": 6.5164234033333335
+    },
+    "avg_busy_cores": 3.896939778609262,
+    "clock_before_mhz": 2499,
+    "host_load_before_pct": 4,
+    "power": "discharging (on battery)",
+    "battery_pct": 79,
+    "commit": "97cbd9bf6337bdabbef3383d82890198192f281b",
+    "dirty_code_paths": []
+   },
+   {
+    "run": "replay_t4_timing_r1",
+    "p50": 24.362142499999997,
+    "p95": 31.3906511,
+    "p99": 36.71519665999994,
+    "max": 57.472142,
+    "dropped_fraction": 0.0,
+    "stage_ms_mean": {
+     "decode_ms": 6.9616890655555554,
+     "pre_ms": 0.8367968422222223,
+     "infer_ms": 10.245346087777776,
+     "post_ms": 6.364195078888888
+    },
+    "avg_busy_cores": 3.976278419357322,
+    "clock_before_mhz": 2499,
+    "host_load_before_pct": 2,
+    "power": "discharging (on battery)",
+    "battery_pct": 77,
+    "commit": "97cbd9bf6337bdabbef3383d82890198192f281b",
+    "dirty_code_paths": []
+   }
+  ],
+  "YT_t8": [
+   {
+    "run": "replay_t8_timing_r0",
+    "p50": 48.924458,
+    "p95": 77.39397149999999,
+    "p99": 88.08702449999998,
+    "max": 113.638708,
+    "dropped_fraction": 0.00037037037037037035,
+    "stage_ms_mean": {
+     "decode_ms": 7.560264886995184,
+     "pre_ms": 1.1894544757317524,
+     "infer_ms": 30.338071429418303,
+     "post_ms": 1.2986903942200816
+    },
+    "avg_busy_cores": 8.277723901177453,
+    "clock_before_mhz": 2499,
+    "host_load_before_pct": 31,
+    "power": "discharging (on battery)",
+    "battery_pct": 80,
+    "commit": "97cbd9bf6337bdabbef3383d82890198192f281b",
+    "dirty_code_paths": []
+   },
+   {
+    "run": "replay_t8_timing_r1",
+    "p50": 73.227721,
+    "p95": 101.64977900000001,
+    "p99": 108.86618931999999,
+    "max": 137.257518,
+    "dropped_fraction": 0.008518518518518519,
+    "stage_ms_mean": {
+     "decode_ms": 7.687184596936869,
+     "pre_ms": 1.2620798483376916,
+     "infer_ms": 30.851481759805754,
+     "post_ms": 1.3317674968248039
+    },
+    "avg_busy_cores": 8.299875483937805,
+    "clock_before_mhz": 2499,
+    "host_load_before_pct": 3,
+    "power": "discharging (on battery)",
+    "battery_pct": 78,
+    "commit": "97cbd9bf6337bdabbef3383d82890198192f281b",
+    "dirty_code_paths": []
+   }
+  ]
+ }
+}
