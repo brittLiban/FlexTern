@@ -1,0 +1,45 @@
+{
+ "model": "BITNET_2B4T_I2S",
+ "runtime": "bitnet",
+ "task": "arc_challenge",
+ "cmd": [
+  "/home/liban/exp0011/BitNet/build/bin/llama-perplexity",
+  "-m",
+  "/home/liban/exp0011/models/bitnet-b1.58-2B-4T-i2_s.gguf",
+  "-f",
+  "/home/liban/exp0011/data/arc-challenge-validation.bin",
+  "--multiple-choice",
+  "--multiple-choice-tasks",
+  "299",
+  "-c",
+  "2048",
+  "-t",
+  "8",
+  "-ngl",
+  "0",
+  "-np",
+  "5"
+ ],
+ "returncode": 0,
+ "wall_s": 114.1000623703003,
+ "env_before": {
+  "time_utc": "2026-11-05T17:15:02Z",
+  "loadavg": [
+   6.1640625,
+   6.587890625,
+   5.49169921875
+  ],
+  "mem_available_mb": 4874,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 99,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "acc": 29.7659,
+ "n": 299,
+ "stderr_points": 2.644222070571037,
+ "output_tail": ".09243697\n239\t30.96234310\n240\t30.83333333\n241\t31.12033195\n242\t30.99173554\n243\t30.86419753\n244\t30.73770492\n245\t30.61224490\n246\t30.48780488\n247\t30.76923077\n248\t30.64516129\n249\t30.52208835\n250\t30.80000000\n251\t31.07569721\n252\t30.95238095\n253\t30.83003953\n254\t30.70866142\n255\t30.58823529\n256\t30.46875000\n257\t30.35019455\n258\t30.23255814\n259\t30.11583012\n260\t30.00000000\n261\t29.88505747\n262\t30.15267176\n263\t30.41825095\n264\t30.68181818\n265\t30.56603774\n266\t30.45112782\n267\t30.33707865\n268\t30.22388060\n269\t30.11152416\n270\t30.37037037\n271\t30.25830258\n272\t30.14705882\n273\t30.03663004\n274\t29.92700730\n275\t29.81818182\n276\t30.07246377\n277\t29.96389892\n278\t29.85611511\n279\t29.74910394\n280\t29.64285714\n281\t29.53736655\n282\t29.78723404\n283\t30.03533569\n284\t29.92957746\n285\t29.82456140\n286\t29.72027972\n287\t29.96515679\n288\t30.20833333\n289\t30.10380623\n290\t30.00000000\n291\t29.89690722\n292\t30.13698630\n293\t30.03412969\n294\t29.93197279\n295\t29.83050847\n296\t29.72972973\n297\t29.62962963\n298\t29.86577181\n299\t29.76588629\n\n\n\nwarning: no usable GPU found, --gpu-layers option will be ignored\nwarning: one possible reason is that llama.cpp was compiled without GPU support\nwarning: consult docs/build.md for compilation instructions\n0.00.786.272 W load: missing pre-tokenizer type, using: 'default'\n0.00.786.311 W load:                                             \n0.00.786.311 W load: ************************************        \n0.00.786.311 W load: GENERATION QUALITY WILL BE DEGRADED!        \n0.00.786.311 W load: CONSIDER REGENERATING THE MODEL             \n0.00.786.312 W load: ************************************        \n0.00.786.312 W load:                                             \n0.01.050.917 W llama_context: n_ctx_seq (10240) > n_ctx_train (4096) -- possible training context overflow\n0.01.905.087 W llama_perplexity: model was trained on only 4096 context tokens (10240 specified)\n0.01.905.143 I \n0.01.905.293 I system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | LLAMAFILE = 1 | REPACK = 1 | \n0.01.905.415 I multiple_choice_score: there are 299 tasks in prompt\n0.01.905.451 I multiple_choice_score: reading tasks0.01.905.698 I multiple_choice_score: preparing task data0.02.107.278 I multiple_choice_score : calculating TruthfulQA score over 299 tasks.\n1.52.186.422 I Final result: 29.7659 +/- 2.6487\n1.52.186.423 I Random chance: 25.0419 +/- 2.5098\n1.52.186.423 I \n"
+}

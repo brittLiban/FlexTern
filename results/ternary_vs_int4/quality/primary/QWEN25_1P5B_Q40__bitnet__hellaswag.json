@@ -1,0 +1,43 @@
+{
+ "model": "QWEN25_1P5B_Q40",
+ "runtime": "bitnet",
+ "task": "hellaswag",
+ "cmd": [
+  "/home/liban/exp0011/BitNet/build/bin/llama-perplexity",
+  "-m",
+  "/home/liban/exp0011/models/qwen2.5-1.5b-instruct-q4_0.gguf",
+  "-f",
+  "/home/liban/exp0011/data/hellaswag_val_full.txt",
+  "--hellaswag",
+  "--hellaswag-tasks",
+  "400",
+  "-c",
+  "2048",
+  "-t",
+  "8",
+  "-ngl",
+  "0"
+ ],
+ "returncode": 0,
+ "wall_s": 425.41918659210205,
+ "env_before": {
+  "time_utc": "2026-11-05T17:40:35Z",
+  "loadavg": [
+   7.96923828125,
+   7.79296875,
+   7.28662109375
+  ],
+  "mem_available_mb": 5020,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 99,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "acc": 65.25,
+ "n": 400,
+ "stderr_points": 2.3808808769024967,
+ "output_tail": ", 69.8381%]\n359\t65.18105850%\t[60.1159%, 69.9248%]\n360\t65.27777778%\t[60.2219%, 70.0110%]\n361\t65.09695291%\t[60.0443%, 69.8317%]\n362\t64.91712707%\t[59.8678%, 69.6532%]\n363\t65.01377410%\t[59.9736%, 69.7395%]\n364\t64.83516484%\t[59.7983%, 69.5622%]\n365\t64.93150685%\t[59.9037%, 69.6483%]\n366\t65.02732240%\t[60.0085%, 69.7339%]\n367\t65.12261580%\t[60.1129%, 69.8191%]\n368\t65.21739130%\t[60.2167%, 69.9037%]\n369\t65.04065041%\t[60.0430%, 69.7283%]\n370\t65.13513514%\t[60.1465%, 69.8128%]\n371\t65.22911051%\t[60.2493%, 69.8967%]\n372\t65.05376344%\t[60.0771%, 69.7227%]\n373\t64.87935657%\t[59.9058%, 69.5496%]\n374\t64.97326203%\t[60.0085%, 69.6336%]\n375\t64.80000000%\t[59.8383%, 69.4615%]\n376\t64.89361702%\t[59.9406%, 69.5454%]\n377\t64.98673740%\t[60.0424%, 69.6287%]\n378\t64.81481481%\t[59.8736%, 69.4580%]\n379\t64.64379947%\t[59.7057%, 69.2880%]\n380\t64.73684211%\t[59.8073%, 69.3714%]\n381\t64.56692913%\t[59.6405%, 69.2025%]\n382\t64.65968586%\t[59.7418%, 69.2857%]\n383\t64.75195822%\t[59.8425%, 69.3685%]\n384\t64.84375000%\t[59.9427%, 69.4508%]\n385\t64.93506494%\t[60.0424%, 69.5326%]\n386\t65.02590674%\t[60.1416%, 69.6141%]\n387\t64.85788114%\t[59.9765%, 69.4472%]\n388\t64.94845361%\t[60.0754%, 69.5284%]\n389\t65.03856041%\t[60.1738%, 69.6092%]\n390\t64.87179487%\t[60.0099%, 69.4436%]\n391\t64.70588235%\t[59.8470%, 69.2787%]\n392\t64.79591837%\t[59.9452%, 69.3595%]\n393\t64.88549618%\t[60.0429%, 69.4399%]\n394\t64.97461929%\t[60.1401%, 69.5199%]\n395\t65.06329114%\t[60.2369%, 69.5995%]\n396\t65.15151515%\t[60.3332%, 69.6787%]\n397\t64.98740554%\t[60.1719%, 69.5157%]\n398\t65.07537688%\t[60.2679%, 69.5947%]\n399\t65.16290727%\t[60.3634%, 69.6732%]\n400\t65.25000000%\t[60.4585%, 69.7514%]\n\n\n\nwarning: no usable GPU found, --gpu-layers option will be ignored\nwarning: one possible reason is that llama.cpp was compiled without GPU support\nwarning: consult docs/build.md for compilation instructions\n0.00.673.640 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden\n0.02.879.158 I \n0.02.879.481 I system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | LLAMAFILE = 1 | REPACK = 1 | \n0.02.902.734 I hellaswag_score : loaded 10042 tasks from prompt.\n0.02.902.786 I ================================= is_spm = 0\n0.02.902.789 I hellaswag_score : selecting 400 randomized tasks.\n0.03.315.953 I hellaswag_score : calculating hellaswag score over selected tasks.\n"
+}

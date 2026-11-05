@@ -1,0 +1,43 @@
+{
+ "model": "BITNET_2B4T_I2S",
+ "runtime": "bitnet",
+ "task": "mmlu",
+ "cmd": [
+  "/home/liban/exp0011/BitNet/build/bin/llama-perplexity",
+  "-m",
+  "/home/liban/exp0011/models/bitnet-b1.58-2B-4T-i2_s.gguf",
+  "-f",
+  "/home/liban/exp0011/data/mmlu-test.bin",
+  "--multiple-choice",
+  "--multiple-choice-tasks",
+  "500",
+  "-c",
+  "2048",
+  "-t",
+  "8",
+  "-ngl",
+  "0"
+ ],
+ "returncode": 0,
+ "wall_s": 249.7293348312378,
+ "env_before": {
+  "time_utc": "2026-11-05T17:06:13Z",
+  "loadavg": [
+   7.796875,
+   6.9130859375,
+   4.556640625
+  ],
+  "mem_available_mb": 5149,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 95,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "acc": 27.4,
+ "n": 500,
+ "stderr_points": 1.9946127443691917,
+ "output_tail": "\n442\t28.50678733\n443\t28.44243792\n444\t28.60360360\n445\t28.53932584\n446\t28.47533632\n447\t28.41163311\n448\t28.34821429\n449\t28.28507795\n450\t28.22222222\n451\t28.15964523\n452\t28.09734513\n453\t28.03532009\n454\t27.97356828\n455\t28.13186813\n456\t28.28947368\n457\t28.22757112\n458\t28.16593886\n459\t28.10457516\n460\t28.04347826\n461\t27.98264642\n462\t27.92207792\n463\t27.86177106\n464\t27.80172414\n465\t27.95698925\n466\t27.89699571\n467\t28.05139186\n468\t28.20512821\n469\t28.14498934\n470\t28.08510638\n471\t28.02547771\n472\t27.96610169\n473\t27.90697674\n474\t27.84810127\n475\t27.78947368\n476\t27.73109244\n477\t27.67295597\n478\t27.82426778\n479\t27.76617954\n480\t27.70833333\n481\t27.85862786\n482\t27.80082988\n483\t27.74327122\n484\t27.89256198\n485\t27.83505155\n486\t27.77777778\n487\t27.72073922\n488\t27.66393443\n489\t27.60736196\n490\t27.55102041\n491\t27.69857434\n492\t27.64227642\n493\t27.58620690\n494\t27.53036437\n495\t27.47474747\n496\t27.41935484\n497\t27.56539235\n498\t27.51004016\n499\t27.45490982\n500\t27.40000000\n\n\n\nwarning: no usable GPU found, --gpu-layers option will be ignored\nwarning: one possible reason is that llama.cpp was compiled without GPU support\nwarning: consult docs/build.md for compilation instructions\n0.00.853.030 W load: missing pre-tokenizer type, using: 'default'\n0.00.853.075 W load:                                             \n0.00.853.076 W load: ************************************        \n0.00.853.076 W load: GENERATION QUALITY WILL BE DEGRADED!        \n0.00.853.076 W load: CONSIDER REGENERATING THE MODEL             \n0.00.853.076 W load: ************************************        \n0.00.853.077 W load:                                             \n0.01.156.506 W llama_context: n_ctx_seq (8192) > n_ctx_train (4096) -- possible training context overflow\n0.01.786.967 W llama_perplexity: model was trained on only 4096 context tokens (8192 specified)\n0.01.787.015 I \n0.01.787.138 I system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | LLAMAFILE = 1 | REPACK = 1 | \n0.01.791.280 I multiple_choice_score: there are 13943 tasks in prompt\n0.01.791.326 I multiple_choice_score: selecting 500 random tasks from 13943 tasks available\n0.01.791.681 I multiple_choice_score: preparing task data0.02.249.823 I multiple_choice_score : calculating TruthfulQA score over 500 tasks.\n4.07.379.314 I Final result: 27.4000 +/- 1.9966\n4.07.379.315 I Random chance: 25.0000 +/- 1.9384\n4.07.379.315 I \n"
+}

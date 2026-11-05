@@ -1,0 +1,45 @@
+{
+ "model": "QWEN25_1P5B_Q40",
+ "runtime": "bitnet",
+ "task": "arc_challenge",
+ "cmd": [
+  "/home/liban/exp0011/BitNet/build/bin/llama-perplexity",
+  "-m",
+  "/home/liban/exp0011/models/qwen2.5-1.5b-instruct-q4_0.gguf",
+  "-f",
+  "/home/liban/exp0011/data/arc-challenge-validation.bin",
+  "--multiple-choice",
+  "--multiple-choice-tasks",
+  "299",
+  "-c",
+  "2048",
+  "-t",
+  "8",
+  "-ngl",
+  "0",
+  "-np",
+  "5"
+ ],
+ "returncode": 0,
+ "wall_s": 126.40745210647583,
+ "env_before": {
+  "time_utc": "2026-11-05T17:47:27Z",
+  "loadavg": [
+   6.95458984375,
+   7.22216796875,
+   7.20361328125
+  ],
+  "mem_available_mb": 5053,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 100,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "acc": 37.7926,
+ "n": 299,
+ "stderr_points": 2.8040697759675997,
+ "output_tail": "22\n206\t35.43689320\n207\t35.74879227\n208\t35.57692308\n209\t35.88516746\n210\t36.19047619\n211\t36.01895735\n212\t36.32075472\n213\t36.15023474\n214\t35.98130841\n215\t36.27906977\n216\t36.11111111\n217\t36.40552995\n218\t36.23853211\n219\t36.07305936\n220\t36.36363636\n221\t36.65158371\n222\t36.48648649\n223\t36.32286996\n224\t36.60714286\n225\t36.44444444\n226\t36.28318584\n227\t36.56387665\n228\t36.84210526\n229\t37.11790393\n230\t36.95652174\n231\t37.22943723\n232\t37.06896552\n233\t37.33905579\n234\t37.17948718\n235\t37.44680851\n236\t37.28813559\n237\t37.55274262\n238\t37.39495798\n239\t37.23849372\n240\t37.08333333\n241\t37.34439834\n242\t37.19008264\n243\t37.03703704\n244\t36.88524590\n245\t36.73469388\n246\t36.58536585\n247\t36.43724696\n248\t36.69354839\n249\t36.94779116\n250\t36.80000000\n251\t37.05179283\n252\t37.30158730\n253\t37.54940711\n254\t37.40157480\n255\t37.25490196\n256\t37.50000000\n257\t37.35408560\n258\t37.20930233\n259\t37.06563707\n260\t36.92307692\n261\t36.78160920\n262\t37.02290076\n263\t37.26235741\n264\t37.50000000\n265\t37.35849057\n266\t37.21804511\n267\t37.07865169\n268\t36.94029851\n269\t37.17472119\n270\t37.40740741\n271\t37.26937269\n272\t37.13235294\n273\t37.36263736\n274\t37.22627737\n275\t37.09090909\n276\t36.95652174\n277\t36.82310469\n278\t36.69064748\n279\t36.55913978\n280\t36.78571429\n281\t36.65480427\n282\t36.87943262\n283\t37.10247350\n284\t36.97183099\n285\t36.84210526\n286\t37.06293706\n287\t36.93379791\n288\t37.15277778\n289\t37.37024221\n290\t37.24137931\n291\t37.11340206\n292\t36.98630137\n293\t36.86006826\n294\t37.07482993\n295\t37.28813559\n296\t37.50000000\n297\t37.37373737\n298\t37.58389262\n299\t37.79264214\n\n\n\nwarning: no usable GPU found, --gpu-layers option will be ignored\nwarning: one possible reason is that llama.cpp was compiled without GPU support\nwarning: consult docs/build.md for compilation instructions\n0.00.609.611 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden\n0.02.538.249 I \n0.02.538.429 I system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | LLAMAFILE = 1 | REPACK = 1 | \n0.02.538.481 I multiple_choice_score: there are 299 tasks in prompt\n0.02.538.513 I multiple_choice_score: reading tasks0.02.538.655 I multiple_choice_score: preparing task data0.02.710.042 I multiple_choice_score : calculating TruthfulQA score over 299 tasks.\n2.04.206.817 I Final result: 37.7926 +/- 2.8088\n2.04.206.818 I Random chance: 25.0419 +/- 2.5098\n2.04.206.818 I \n"
+}

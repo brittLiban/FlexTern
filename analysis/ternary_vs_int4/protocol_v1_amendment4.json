@@ -1,0 +1,15 @@
+{
+ "amendment": 4,
+ "to": "protocol_v1.json",
+ "made": "after the BitNet quality re-run on the validated runtime, before any timing",
+ "observation": "valid quality macro (5 tasks): BitNet 55.49; Qwen2.5-3B 56.42; SmolLM2-1.7B 55.28; Qwen2.5-1.5B Q4_K_M 53.61, Q4_0 51.89; Llama-3.2-1B 50.26. Matched pools: tolerance 0: {Qwen2.5-3B}; 3: {Qwen2.5-1.5B Q4_K_M, Qwen2.5-3B, SmolLM2}; 5: adds Qwen2.5-1.5B Q4_0.",
+ "supersedes": "amendment 2 (restriction of the timed set), which was written when the invalid BitNet scores made every INT4 model look better; the original rule (time BitNet plus INT4 models in the tolerance-5 pool) applies again: BitNet, Qwen2.5-1.5B Q4_K_M, Qwen2.5-1.5B Q4_0, Qwen2.5-3B Q4_K_M, SmolLM2-1.7B Q4_K_M. Llama-3.2-1B is not timed (outside the pool).",
+ "runtime_change": "for feasibility INT4 models are timed under upstream llama.cpp e30ad80 (the best-optimized INT4 runtime available here); bitnet.cpp 765741d runs the ternary model and, as a same-vintage control, the primary comparator Qwen2.5-1.5B Q4_K_M. Other INT4 models are not run under bitnet.cpp 765741d.",
+ "scope": "grid, repetitions, thread rule, power rule, decision rule and thresholds unchanged.",
+ "code_sha256_after": {
+  "config.py": "173469eb1406c9a415245513bd7ef8b95448e499144f3ccb8e410bc7f59c9c4c",
+  "quality.py": "ebac1c64786de4dc4622a496dcabd94d21053461dcdea4e82499e3d793a159f8",
+  "summarize.py": "1f67045feadcb46a060a7c06e1168788b4848f1647a3716d86939e0514bf6573",
+  "perf.py": "5783570629a98f9591fbf0ca640e9848d828daca2aa0a426ca15b3087758ddd4"
+ }
+}

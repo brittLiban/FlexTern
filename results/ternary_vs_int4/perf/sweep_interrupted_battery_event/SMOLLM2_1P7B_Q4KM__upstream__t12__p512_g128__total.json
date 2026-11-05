@@ -1,0 +1,65 @@
+{
+ "model": "SMOLLM2_1P7B_Q4KM",
+ "runtime": "upstream",
+ "threads": 12,
+ "p": 512,
+ "g": 128,
+ "kind": "total",
+ "reps": 2,
+ "cmd": [
+  "/usr/bin/time",
+  "-v",
+  "/home/liban/exp0011/llama.cpp/build/bin/llama-bench",
+  "-m",
+  "/home/liban/exp0011/models/smollm2-1.7b-instruct-q4_k_m.gguf",
+  "-p",
+  "0",
+  "-n",
+  "0",
+  "-pg",
+  "512,128",
+  "-t",
+  "12",
+  "-r",
+  "2",
+  "-ngl",
+  "0",
+  "-fa",
+  "1",
+  "-o",
+  "json"
+ ],
+ "returncode": 0,
+ "env_before": {
+  "time_utc": "2026-11-05T20:39:25Z",
+  "loadavg": [
+   4.79638671875,
+   5.02734375,
+   5.86572265625
+  ],
+  "mem_available_mb": 4458,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 100,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "wall_s": 23.4668025970459,
+ "samples_ns": [
+  9454909982,
+  9320388048
+ ],
+ "avg_ns": 9387649015,
+ "n_prompt": 512,
+ "n_gen": 128,
+ "n_depth": 0,
+ "model_size": 1053827072,
+ "model_n_params": 1711376384,
+ "build_commit": "e30ad80fd",
+ "cpu_info": "AMD Ryzen 7 260 w/ Radeon 780M",
+ "backends": "CPU",
+ "max_rss_kb": 2027428,
+ "wall_str": "0:23.46"
+}

@@ -41,6 +41,8 @@ class TestParsers(unittest.TestCase):
     def test_quality_parsers(self):
         hs = "x\n5\t20.00000000%\t[3.6%, 62.4%]\n8\t25.00000000%\t[7.1%, 59.0%]\n"
         self.assertEqual(quality.parse_score("hellaswag", hs), {"acc": 25.0, "n": 8})
+        old = "399\t61.40350877\n400\t61.50000000\n\n"          # bitnet.cpp 765741d format (no percent sign)
+        self.assertEqual(quality.parse_score("hellaswag", old), {"acc": 61.5, "n": 400})
         wg = "1\t0.0000\t -4.36   -4.33  2  1\n8\t50.0000\t -2.76   -2.63  2  2\n\n"
         self.assertEqual(quality.parse_score("winogrande", wg), {"acc": 50.0, "n": 8})
         mc = "0.11.724.050 I Final result: 25.0000 +/- 16.3663\n0.11.724.051 I Random chance: 25.0000 +/- 16.3663\n"

@@ -1,0 +1,15 @@
+{
+ "amendment": 3,
+ "to": "protocol_v1.json",
+ "made": "after quality runs and before any timing",
+ "finding": "BitNet 2B4T run through the official GGUF under bitnet.cpp main (0b341e5, Jul 2026) is numerically degraded: wikitext perplexity 118.6 (also 118.7 AVX2-only build, 96.8 on a GGUF reconverted with main's converter, 96.9 with the llama-bpe pre-tokenizer override, independent of batch size and BOS) versus 16.88 for the official HF checkpoint (bf16, GPU) and 19.64 for the same GGUF under bitnet.cpp 765741d (2025-05-21). A conventional INT4 model through the same pipeline gives a normal perplexity (Qwen2.5-1.5B Q4_K_M 11.7; different tokenizer, sanity check only). lm-eval on the HF checkpoint (400-task subsets): ARC-Easy 78.0, Winogrande 75.5, HellaSwag acc 48.8 / acc_norm 60.5, close to the model card, whereas the first GGUF quality run gave ARC-Easy 46.0, Winogrande 56.2, HellaSwag 39.8.",
+ "consequence": "the first BitNet quality results (HellaSwag 39.75, Winogrande 56.2, ARC-E 46.0, ARC-C 29.8, MMLU 27.4; macro 39.8) do NOT represent the model and are retained under results/ternary_vs_int4/quality/failed_runtime_main/. They must not be used as evidence of ternary quality.",
+ "change": "the ternary model runs on bitnet.cpp 765741d (build in ~/exp0011/BitNet_old, preset TL2 header copied only to satisfy CMake, I2_S kernel used). INT4 models run under upstream llama.cpp e30ad80 and, as a same-vintage control, under bitnet.cpp 765741d. bitnet.cpp main is no longer used. Quality of BitNet is re-run on bitnet_old; INT4 quality scores already collected (under bitnet.cpp main) are kept: their perplexity pipeline behaves normally.",
+ "validity_gate_added": "a ternary runtime is acceptable only if its wikitext perplexity (20 chunks of 512, diag_ppl.py) is within 25% of the HF checkpoint's. bitnet.cpp 765741d: 19.64 vs 16.88 = +16%. bitnet.cpp main: +600%.",
+ "unresolved": "why main fails is not determined (the submodule tracks a branch named release-bitnet-embedding-0.6b-270m; the Nov 2025 commit changed the I2_S kernels; the reconverted GGUF did not fix it). This is a finding about the runtime as built here, not a statement about Microsoft's intended configuration.",
+ "scope": "decision rule, thresholds, grid and power rule unchanged. Amendment 2 (restricted timing set) stands.",
+ "code_sha256_after": {
+  "config.py": "2c8fa2920e9737703e44b2bf3160d126378c84ec6aca0e399ae99232c351d965",
+  "quality.py": "bf6563a9167e9a4bc48d618154fe4956a6ee191fc1559bb4c3ec88b360f3cb0a"
+ }
+}

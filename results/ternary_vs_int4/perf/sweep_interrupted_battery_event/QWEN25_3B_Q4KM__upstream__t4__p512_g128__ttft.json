@@ -1,0 +1,65 @@
+{
+ "model": "QWEN25_3B_Q4KM",
+ "runtime": "upstream",
+ "threads": 4,
+ "p": 512,
+ "g": 128,
+ "kind": "ttft",
+ "reps": 2,
+ "cmd": [
+  "/usr/bin/time",
+  "-v",
+  "/home/liban/exp0011/llama.cpp/build/bin/llama-bench",
+  "-m",
+  "/home/liban/exp0011/models/qwen2.5-3b-instruct-q4_k_m.gguf",
+  "-p",
+  "0",
+  "-n",
+  "0",
+  "-pg",
+  "512,1",
+  "-t",
+  "4",
+  "-r",
+  "2",
+  "-ngl",
+  "0",
+  "-fa",
+  "1",
+  "-o",
+  "json"
+ ],
+ "returncode": 0,
+ "env_before": {
+  "time_utc": "2026-11-05T20:39:59Z",
+  "loadavg": [
+   5.60498046875,
+   5.23828125,
+   5.9072265625
+  ],
+  "mem_available_mb": 4461,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 100,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "wall_s": 28.196576595306396,
+ "samples_ns": [
+  6603611616,
+  6685715044
+ ],
+ "avg_ns": 6644663330,
+ "n_prompt": 512,
+ "n_gen": 1,
+ "n_depth": 0,
+ "model_size": 1923946496,
+ "model_n_params": 3085938688,
+ "build_commit": "e30ad80fd",
+ "cpu_info": "AMD Ryzen 7 260 w/ Radeon 780M",
+ "backends": "CPU",
+ "max_rss_kb": 3309520,
+ "wall_str": "0:28.19"
+}

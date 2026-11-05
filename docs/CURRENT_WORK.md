@@ -8,7 +8,7 @@ There is exactly one active engineering objective at a time. This file is the si
 
 **Title:** At matched model quality, can native ternary inference (BitNet b1.58 2B4T) substantially outperform strong, optimized INT4 inference on commercially relevant edge workloads?
 
-**Status:** Stage 1 **in progress** (protocol locked before measurement: `analysis/ternary_vs_int4/protocol_v1.json`). **Stage 2 (physical energy) is NOT approved**: it needs separate founder approval before any equipment purchase or hardware-dependent measurement; the plan is `experiments/EXP-0011-stage2-energy-plan.md`. The previous objective (EXP-0010C) is complete with its preregistered outcome CHANGE_WORKLOAD; its records are unchanged.
+**Status:** Stage 1 **in progress, timing paused** (protocol locked before measurement: `analysis/ternary_vs_int4/protocol_v1.json`, amendments 1-4 alongside). Quality and static accounting are done; the timing runs stopped when the laptop went onto battery (the harness refuses to time off AC) and need the founder to plug the laptop in; the harness is resumable (`analysis/ternary_vs_int4/perf.py`). **Stage 2 (physical energy) is NOT approved**: it needs separate founder approval before any equipment purchase or hardware-dependent measurement; the plan is `experiments/EXP-0011-stage2-energy-plan.md`. The previous objective (EXP-0010C) is complete with its preregistered outcome CHANGE_WORKLOAD; its records are unchanged.
 
 **Owner / agent:** Claude (implementation); founder + ChatGPT (research direction/review).
 

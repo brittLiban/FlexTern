@@ -1,0 +1,9 @@
+{
+ "amendment": 2,
+ "to": "protocol_v1.json",
+ "made": "after all quality runs, before any timing run",
+ "observations_before_amendment": "quality macro (5 tasks): BitNet 39.8; Llama-3.2-1B Q4_K_M 50.3; Qwen2.5-1.5B Q4_0 51.9, Q4_K_M 53.6; SmolLM2-1.7B 55.3; Qwen2.5-3B 56.4. BitNet is 10-17 points below every INT4 model.",
+ "consequence_for_pool": "the one-sided matched pool (INT4 quality >= BitNet - tolerance) contains every INT4 model at every tolerance, so no INT4 model is 'matched' in the two-sided sense; the COMPARATOR_ABOVE_TOLERANCE_TERNARY_DISADVANTAGED flag will fire. The result will be a quality-vs-speed trade-off, not an efficiency win/loss at matched quality.",
+ "change": "timing is restricted to BITNET_2B4T_I2S, QWEN25_1P5B_Q4KM, QWEN25_1P5B_Q40, LLAMA32_1B_Q4KM (INT4 models nearest BitNet in size/quality, including the primary comparator and the lowest-quality INT4 model). Qwen2.5-3B and SmolLM2-1.7B are not timed. Grid, reps, threads rule, power rule unchanged.",
+ "not_changed": "decision rule and thresholds"
+}

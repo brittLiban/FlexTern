@@ -96,8 +96,15 @@ def load_quality(tag: str = "primary") -> dict[str, dict[str, float]]:
     out: dict[str, dict[str, float]] = {}
     for f in sorted((RES / "quality" / tag).glob("*.json")):
         r = json.loads(f.read_text())
-        if r.get("acc") is not None:
-            out.setdefault(r["model"], {})[r["task"]] = r["acc"]
+        acc = r.get("acc")
+        if acc is None and r.get("stdout_tail") and r.get("returncode") == 0:
+            try:                                   # reparse a run whose score was printed in a format the first parser did not know (result file untouched)
+                from . import quality as Q
+                acc = Q.parse_score(r["task"], r["stdout_tail"])["acc"]
+            except ValueError:
+                acc = None
+        if acc is not None:
+            out.setdefault(r["model"], {})[r["task"]] = acc
     return out
 
 
@@ -208,6 +215,8 @@ def main(argv=None):
         pool = matched_set(qmacro, C.PERF_SET_TOLERANCE)
         # an empty pool still times every INT4 model so the quality-vs-speed trade-off can be reported; it yields no efficiency ratio
         models = [C.TERNARY, *(pool or [m for m in C.INT4 if m in qmacro])]
+        if C.PERF_SET_OVERRIDE:
+            models = [m for m in models if m in C.PERF_SET_OVERRIDE]
         out = {"quality_macro": qmacro, "tolerance": C.PERF_SET_TOLERANCE, "pool_empty": not pool, "models": models}
         (RES / "perf_models.json").write_text(json.dumps(out, indent=1))
         print(json.dumps(out, indent=1))

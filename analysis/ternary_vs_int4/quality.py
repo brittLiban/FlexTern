@@ -25,7 +25,8 @@ OUT = REPO / "results" / "ternary_vs_int4" / "quality"
 def parse_score(task: str, text: str) -> dict:
     """Return {'acc': percent, 'n': tasks} parsed from llama-perplexity output."""
     if task == "hellaswag":
-        rows = re.findall(r"^(\d+)\t([\d.]+)%", text, flags=re.M)
+        # newer builds print "12<TAB>25.0%<TAB>[lo, hi]", bitnet.cpp 765741d prints "12<TAB>25.0" (no percent sign)
+        rows = re.findall(r"^(\d+)\t([\d.]+)%?(?:\t|$)", text, flags=re.M)
         if not rows:
             raise ValueError("no hellaswag rows")
         n, acc = rows[-1]
@@ -53,6 +54,8 @@ def run_task(model_id: str, runtime: str, task: str) -> dict:
     spec, m = C.QUALITY_TASKS[task], C.MODELS[model_id]
     cmd = [str(C.RUNTIME_BIN[runtime] / "llama-perplexity"), "-m", str(C.MODELS_DIR / m["file"]), "-f", str(C.DATA_DIR / spec["data"]),
            spec["flag"], spec["n_flag"], str(spec["n"]), "-c", str(C.QUALITY_CTX), "-t", str(C.QUALITY_THREADS), "-ngl", "0"]
+    if "np" in spec:
+        cmd += ["-np", str(spec["np"])]     # protocol_v1_amendment1: ARC has 5-option questions
     t0 = time.time()
     r = subprocess.run(cmd, capture_output=True, text=True)
     rec = {"model": model_id, "runtime": runtime, "task": task, "cmd": cmd, "returncode": r.returncode, "wall_s": time.time() - t0,
@@ -64,7 +67,8 @@ def run_task(model_id: str, runtime: str, task: str) -> dict:
             rec["stderr_points"] = stderr_points(rec["acc"], rec["n"])
         except ValueError as e:
             rec["parse_error"] = str(e)
-    rec["output_tail"] = out[-2500:]
+    rec["stdout_tail"] = r.stdout[-1500:]     # score rows go to stdout, perf lines to stderr (earlier runs kept only a combined 2500-char tail)
+    rec["stderr_tail"] = r.stderr[-1500:]
     return rec
 
 
@@ -80,7 +84,7 @@ def main(argv=None):
     tasks = a.task or list(C.QUALITY_TASKS)
     t_start = time.time()
     for mid in models:
-        rt = a.runtime or ("bitnet" if "bitnet" in C.MODELS[mid]["runtimes"] else "upstream")   # one runtime per model for primary scores
+        rt = a.runtime or ("bitnet_old" if mid == C.TERNARY else "bitnet")   # primary scores: ternary on the validated bitnet.cpp; INT4 scores were produced earlier under bitnet.cpp main (amendment 3)
         for task in tasks:
             f = OUT / a.tag / f"{mid}__{rt}__{task}.json"
             if f.exists():

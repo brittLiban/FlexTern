@@ -1,0 +1,43 @@
+{
+ "model": "LLAMA32_1B_Q4KM",
+ "runtime": "bitnet",
+ "task": "mmlu",
+ "cmd": [
+  "/home/liban/exp0011/BitNet/build/bin/llama-perplexity",
+  "-m",
+  "/home/liban/exp0011/models/llama-3.2-1b-instruct-q4_k_m.gguf",
+  "-f",
+  "/home/liban/exp0011/data/mmlu-test.bin",
+  "--multiple-choice",
+  "--multiple-choice-tasks",
+  "500",
+  "-c",
+  "2048",
+  "-t",
+  "8",
+  "-ngl",
+  "0"
+ ],
+ "returncode": 0,
+ "wall_s": 216.60198068618774,
+ "env_before": {
+  "time_utc": "2026-11-05T18:40:49Z",
+  "loadavg": [
+   6.8388671875,
+   6.95751953125,
+   7.2373046875
+  ],
+  "mem_available_mb": 5038,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 100,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "acc": 34.4,
+ "n": 500,
+ "stderr_points": 2.124448163641561,
+ "output_tail": "00000000\n401\t34.91271820\n402\t34.82587065\n403\t34.73945409\n404\t34.65346535\n405\t34.56790123\n406\t34.48275862\n407\t34.39803440\n408\t34.31372549\n409\t34.47432763\n410\t34.63414634\n411\t34.54987835\n412\t34.46601942\n413\t34.62469734\n414\t34.78260870\n415\t34.93975904\n416\t34.85576923\n417\t34.77218225\n418\t34.68899522\n419\t34.60620525\n420\t34.52380952\n421\t34.44180523\n422\t34.36018957\n423\t34.51536643\n424\t34.43396226\n425\t34.58823529\n426\t34.50704225\n427\t34.42622951\n428\t34.34579439\n429\t34.49883450\n430\t34.41860465\n431\t34.33874710\n432\t34.25925926\n433\t34.41108545\n434\t34.33179724\n435\t34.25287356\n436\t34.40366972\n437\t34.55377574\n438\t34.70319635\n439\t34.85193622\n440\t35.00000000\n441\t34.92063492\n442\t35.06787330\n443\t34.98871332\n444\t34.90990991\n445\t35.05617978\n446\t34.97757848\n447\t34.89932886\n448\t35.04464286\n449\t34.96659243\n450\t34.88888889\n451\t34.81152993\n452\t34.73451327\n453\t34.65783664\n454\t34.80176211\n455\t34.72527473\n456\t34.86842105\n457\t35.01094092\n458\t34.93449782\n459\t34.85838780\n460\t34.78260870\n461\t34.70715835\n462\t34.63203463\n463\t34.77321814\n464\t34.69827586\n465\t34.83870968\n466\t34.76394850\n467\t34.68950749\n468\t34.82905983\n469\t34.75479744\n470\t34.68085106\n471\t34.60721868\n472\t34.74576271\n473\t34.67230444\n474\t34.59915612\n475\t34.52631579\n476\t34.45378151\n477\t34.38155136\n478\t34.51882845\n479\t34.44676409\n480\t34.37500000\n481\t34.51143451\n482\t34.43983402\n483\t34.36853002\n484\t34.50413223\n485\t34.43298969\n486\t34.36213992\n487\t34.29158111\n488\t34.42622951\n489\t34.35582822\n490\t34.48979592\n491\t34.62321792\n492\t34.55284553\n493\t34.48275862\n494\t34.41295547\n495\t34.54545455\n496\t34.47580645\n497\t34.60764588\n498\t34.53815261\n499\t34.46893788\n500\t34.40000000\n\n\n\nwarning: no usable GPU found, --gpu-layers option will be ignored\nwarning: one possible reason is that llama.cpp was compiled without GPU support\nwarning: consult docs/build.md for compilation instructions\n0.01.708.420 I \n0.01.708.586 I system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | LLAMAFILE = 1 | REPACK = 1 | \n0.01.709.583 I multiple_choice_score: there are 13943 tasks in prompt\n0.01.709.631 I multiple_choice_score: selecting 500 random tasks from 13943 tasks available\n0.01.709.899 I multiple_choice_score: preparing task data0.01.789.917 I multiple_choice_score : calculating TruthfulQA score over 500 tasks.\n3.34.583.975 I Final result: 34.4000 +/- 2.1266\n3.34.583.976 I Random chance: 25.0000 +/- 1.9384\n3.34.583.976 I \n"
+}

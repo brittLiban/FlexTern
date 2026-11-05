@@ -1,0 +1,41 @@
+{
+ "model": "BITNET_2B4T_I2S",
+ "runtime": "bitnet_old",
+ "task": "hellaswag",
+ "cmd": [
+  "/home/liban/exp0011/BitNet_old/build/bin/llama-perplexity",
+  "-m",
+  "/home/liban/exp0011/models/bitnet-b1.58-2B-4T-i2_s.gguf",
+  "-f",
+  "/home/liban/exp0011/data/hellaswag_val_full.txt",
+  "--hellaswag",
+  "--hellaswag-tasks",
+  "400",
+  "-c",
+  "2048",
+  "-t",
+  "8",
+  "-ngl",
+  "0"
+ ],
+ "returncode": 0,
+ "wall_s": 649.5960237979889,
+ "env_before": {
+  "time_utc": "2026-11-05T19:58:44Z",
+  "loadavg": [
+   8.203125,
+   7.1474609375,
+   4.0869140625
+  ],
+  "mem_available_mb": 4479,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 100,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "parse_error": "no hellaswag rows",
+ "output_tail": "print_meta: model params     = 2.41 B\nllm_load_print_meta: model size       = 1.10 GiB (3.91 BPW) \nllm_load_print_meta: general.name     = bitnet2b\nllm_load_print_meta: BOS token        = 128000 '<|begin_of_text|>'\nllm_load_print_meta: EOS token        = 128001 '<|end_of_text|>'\nllm_load_print_meta: EOT token        = 128009 '<|eot_id|>'\nllm_load_print_meta: PAD token        = 128001 '<|end_of_text|>'\nllm_load_print_meta: LF token         = 128 '\u00c4'\nllm_load_print_meta: EOG token        = 128001 '<|end_of_text|>'\nllm_load_print_meta: EOG token        = 128009 '<|eot_id|>'\nllm_load_print_meta: max token length = 256\nllm_load_tensors: ggml ctx size =    0.15 MiB\nllm_load_tensors:        CPU buffer size =  1124.81 MiB\n...............................\nllama_new_context_with_model: n_ctx      = 2048\nllama_new_context_with_model: n_batch    = 2048\nllama_new_context_with_model: n_ubatch   = 512\nllama_new_context_with_model: flash_attn = 0\nllama_new_context_with_model: freq_base  = 500000.0\nllama_new_context_with_model: freq_scale = 1\nllama_kv_cache_init:        CPU KV buffer size =   150.00 MiB\nllama_new_context_with_model: KV self size  =  150.00 MiB, K (f16):   75.00 MiB, V (f16):   75.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     1.96 MiB\nllama_new_context_with_model:        CPU compute buffer size =   255.50 MiB\nllama_new_context_with_model: graph nodes  = 1116\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nhellaswag_score : loaded 10042 tasks from prompt.\n================================= is_spm = 0\nhellaswag_score : selecting 400 randomized tasks.\nhellaswag_score : calculating hellaswag score over selected tasks.\nllama_perf_context_print:        load time =    1758.17 ms\nllama_perf_context_print: prompt eval time =  636207.24 ms / 66555 tokens (    9.56 ms per token,   104.61 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time =  647566.81 ms / 66556 tokens\n"
+}

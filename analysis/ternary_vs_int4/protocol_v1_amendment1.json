@@ -1,0 +1,12 @@
+{
+ "amendment": 1,
+ "to": "protocol_v1.json",
+ "reason": "llama-perplexity --multiple-choice aborts ARC tasks with 5 options unless -np >= 5 ('task 284 requires a higher -np|--parallel value'); the first BitNet ARC runs produced no score",
+ "change": "ARC-Easy and ARC-Challenge are run with -np 5. Tasks, task counts, context, threads, models and decision rule are unchanged. HellaSwag, Winogrande and MMLU (already run for BitNet) use no -np flag.",
+ "retained": "the two failed BitNet ARC outputs are kept in results/ternary_vs_int4/quality/failed_np_default/",
+ "observation_before_amendment": "BitNet scores seen before the amendment: HellaSwag 39.75, Winogrande 56.2, MMLU 27.4 (chance 25). These were visible when the amendment was written; the amendment does not depend on them",
+ "code_sha256_after": {
+  "config.py": "c72d5c94810ebc26c735413455b64015638d21428ede125f5616d7f32a648d33",
+  "quality.py": "978c77525dc692591c63644aa442d59b478d1107bf10d7506910728a8e803d8a"
+ }
+}
