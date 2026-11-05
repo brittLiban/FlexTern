@@ -1,0 +1,428 @@
+{
+ "experiment": "EXP-0011 Stage 1",
+ "question": "At matched quality, does native ternary inference (BitNet b1.58 2B4T) substantially outperform strong optimized INT4 on this CPU?",
+ "scope_limits": [
+  "single x86 laptop CPU under WSL2; not an ARM/Jetson/edge target",
+  "no energy measured (Stage 2 needs separate approval)",
+  "quality via log-likelihood multiple-choice subsets; absolute scores differ from the model card"
+ ],
+ "models": {
+  "BITNET_2B4T_I2S": {
+   "file": "bitnet-b1.58-2B-4T-i2_s.gguf",
+   "fmt": "ternary I2_S (1.58-bit)",
+   "runtimes": [
+    "bitnet"
+   ],
+   "card_avg": 54.19,
+   "why": "the ternary model under test",
+   "sha256": "4221b252fdd5fd25e15847adfeb5ee88886506ba50b8a34548374492884c2162",
+   "bytes": 1187801280
+  },
+  "QWEN25_1P5B_Q4KM": {
+   "file": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+   "fmt": "INT4 Q4_K_M",
+   "runtimes": [
+    "bitnet",
+    "upstream"
+   ],
+   "card_avg": 55.23,
+   "why": "highest card average of the comparison set: the closest quality match to BitNet",
+   "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+   "bytes": 1117320736
+  },
+  "QWEN25_1P5B_Q40": {
+   "file": "qwen2.5-1.5b-instruct-q4_0.gguf",
+   "fmt": "INT4 Q4_0",
+   "runtimes": [
+    "bitnet",
+    "upstream"
+   ],
+   "card_avg": 55.23,
+   "why": "same model in the simplest 4-bit block format (no k-quant overhead)",
+   "sha256": "dcd819ff094852c38faba6873d8ff0c9d51eadb2844539e52042ae5d647bbfdb",
+   "bytes": 1066227232
+  },
+  "QWEN25_3B_Q4KM": {
+   "file": "qwen2.5-3b-instruct-q4_k_m.gguf",
+   "fmt": "INT4 Q4_K_M",
+   "runtimes": [
+    "bitnet",
+    "upstream"
+   ],
+   "card_avg": null,
+   "why": "stronger, larger comparator (not in the BitNet card); re-added after review because the 1.5B-class models alone could leave no INT4 model at or above BitNet's quality. First attempt from the Qwen repo was too slow, the bartowski mirror is used",
+   "sha256": "9c9f56a391a3abbd5b89d0245bf6106081bcc3173119d4229235dd9d23253f94",
+   "bytes": 1929903264
+  },
+  "LLAMA32_1B_Q4KM": {
+   "file": "llama-3.2-1b-instruct-q4_k_m.gguf",
+   "fmt": "INT4 Q4_K_M",
+   "runtimes": [
+    "bitnet",
+    "upstream"
+   ],
+   "card_avg": 44.9,
+   "why": "smaller, lower-quality comparator, same tokenizer family as BitNet",
+   "sha256": "6f85a640a97cf2bf5b8e764087b1e83da0fdb51d7c9fab7d0fece9385611df83",
+   "bytes": 807694464
+  },
+  "SMOLLM2_1P7B_Q4KM": {
+   "file": "smollm2-1.7b-instruct-q4_k_m.gguf",
+   "fmt": "INT4 Q4_K_M",
+   "runtimes": [
+    "bitnet",
+    "upstream"
+   ],
+   "card_avg": 48.7,
+   "why": "mid-quality comparator with a different architecture",
+   "sha256": "77665ea4815999596525c636fbeb56ba8b080b46ae85efef4f0d986a139834d7",
+   "bytes": 1055609824
+  }
+ },
+ "datasets": {
+  "hellaswag_val_full.txt": "d572539320eb2050e858ca34b495bbe2103e3b3f1391a9c3bcdf215b0bb93bd1",
+  "winogrande-debiased-eval.csv": "6726173ef65ffdc4abb0d28b755375d288ffb3eb41633bd833288c411c8ebf7c",
+  "arc-easy-validation.bin": "328d30f5f768e13d777f08d714462188b66dab767b5b5aa9c550f13827496246",
+  "arc-challenge-validation.bin": "19af3dbe27d9bb301a939cebbda1b0e4c6b3c43a4a724ae99fed27fba88edc22",
+  "mmlu-test.bin": "88bbb0b99f0ac75dc63b82017d301be2e6b1b922b6a6eb508df41e5ac4396b5c"
+ },
+ "quality": {
+  "note": "tasks include MMLU (500) added after review; 4 tasks became 5",
+  "tasks": {
+   "hellaswag": {
+    "flag": "--hellaswag",
+    "n_flag": "--hellaswag-tasks",
+    "n": 400,
+    "data": "hellaswag_val_full.txt"
+   },
+   "winogrande": {
+    "flag": "--winogrande",
+    "n_flag": "--winogrande-tasks",
+    "n": 500,
+    "data": "winogrande-debiased-eval.csv"
+   },
+   "arc_easy": {
+    "flag": "--multiple-choice",
+    "n_flag": "--multiple-choice-tasks",
+    "n": 500,
+    "data": "arc-easy-validation.bin"
+   },
+   "arc_challenge": {
+    "flag": "--multiple-choice",
+    "n_flag": "--multiple-choice-tasks",
+    "n": 299,
+    "data": "arc-challenge-validation.bin"
+   },
+   "mmlu": {
+    "flag": "--multiple-choice",
+    "n_flag": "--multiple-choice-tasks",
+    "n": 500,
+    "data": "mmlu-test.bin"
+   }
+  },
+  "ctx": 2048,
+  "threads": 8,
+  "tolerance_points": 3.0,
+  "tolerance_sensitivity": [
+   0.0,
+   5.0
+  ],
+  "macro": "unweighted mean of the four task accuracies",
+  "primary_runtime_for_quality": "bitnet (one runtime for all models)"
+ },
+ "performance": {
+  "prompts": [
+   512,
+   1024,
+   2048,
+   4096
+  ],
+  "outputs": [
+   128,
+   256
+  ],
+  "ctx_max": 4096,
+  "prompt_rule": "p_eff = min(prompt, 4096 - gen)",
+  "reps": 3,
+  "sweep_reps": 2,
+  "cooldown_s": 10,
+  "perf_set_rule": "quality is measured first; timing runs only for BitNet and INT4 models with quality macro >= BitNet macro - 5.0 (written to results/ternary_vs_int4/perf_models.json by `summarize select` before any timing)",
+  "thread_sweep": [
+   4,
+   8,
+   12,
+   16
+  ],
+  "thread_sweep_cells": {
+   "short": [
+    512,
+    128
+   ],
+   "long": [
+    2048,
+    128
+   ]
+  },
+  "flash_attn": "1",
+  "min_charge_pct": 30,
+  "power_rule": "every timed invocation records AC/charge; the harness refuses to time on battery or below the minimum charge",
+  "budget_s": 240,
+  "thread_rule": "per (model, runtime, regime short: prompt<=1024 / long: prompt>=2048): the thread count with the lowest median end-to-end latency at that regime's sweep cell, fixed before the main run",
+  "order_seed": 20261105,
+  "tool": "llama-bench -pg P,1 (TTFT) and -pg P,G (total) under /usr/bin/time -v, -ngl 0"
+ },
+ "decision_rule": {
+  "comparator": "per metric per cell, the fastest INT4 (model, runtime) in the matched pool = INT4 models with quality macro >= BitNet macro - tolerance (conservative for ternary)",
+  "empty_pool": "if the pool is empty the outcome is NO_MATCHED_COMPARATOR: no ratios are computed (no fallback to weaker models); a quality-vs-speed table of all timed models is reported instead",
+  "fixed_comparator_also_reported": "QWEN25_1P5B_Q4KM",
+  "headline": "geometric mean over the 8 grid cells of the end-to-end latency ratio (INT4 time / ternary time)",
+  "labels": {
+   "SPEED_PASS": ">= 2.0",
+   "SPEED_MIDDLE": "[1.3, 2.0)",
+   "SPEED_LOW": "< 1.3"
+  },
+  "flags": [
+   "MIXED_DECODE_WIN_PREFILL_LOSS (decode geomean >= 1.3 and TTFT geomean < 1.0)",
+   "AUDIT_DECODE_EXCEEDS_BANDWIDTH_IMPLIED_RATIO (decode geomean > geomean of per-cell (INT4 bytes streamed per token incl. KV) / (ternary bytes) x 1.2; bytes from GGUF tensor types, see bytes_model.py)",
+   "WIN_NOT_UNIFORM_ACROSS_CELLS (worst cell < 1.3 while geomean >= 1.3)",
+   "COMPARATOR_ABOVE_TOLERANCE_TERNARY_DISADVANTAGED (a chosen comparator's macro quality exceeds BitNet's by more than the tolerance: the comparison is not matched)"
+  ],
+  "interpretation": "Speed/memory only. Not an energy result, not evidence about FlexTern hardware. The 2.0/1.3 energy thresholds in the founder directive apply to Stage 2."
+ },
+ "preregistered_prediction": {
+  "basis": "static GGUF tensor accounting before any timing (bytes_model.py)",
+  "statement": "BitNet 2B4T streams more bytes per decoded token than Qwen2.5-1.5B Q4_K_M because its tied 128k-vocabulary embedding/head is stored in F16 (about 0.66 GB of its 1.18 GB) and its KV cache per token is larger (5 KV heads x 30 layers vs 2 x 28). So a bandwidth-bound decode should NOT be faster for BitNet than for that comparator; a decode speed-up above the bandwidth-implied ratio would indicate a compute-side effect of the I2_S kernels. HYPOTHESIZED, to be checked by the measurements."
+ },
+ "pre_lock_disclosures": [
+  "protocol was revised after an independent pre-lock review and before any measurement: Qwen2.5-3B re-added, MMLU added, empty-pool fallback removed, bytes-ceiling audit replaced by tensor-level accounting, per-regime thread sweep, explicit flash-attn, power refusal rule, shorter foreground budget",
+  "before the lock I ran load-only smoke checks and two 1-repetition llama-bench smoke runs (BitNet tg8 about 14.5 tok/s; a 64-token-prompt/16-token run showing BitNet about 14.9 vs Qwen2.5-1.5B Q4_K_M about 17.8-18.7 tok/s decode). They were used only to validate the harness and are not data; the preregistered prediction below was derived from static GGUF accounting, but it was written after those smoke numbers were visible, so it is not blind"
+ ],
+ "bytes_profiles": {
+  "BITNET_2B4T_I2S": {
+   "model": "BITNET_2B4T_I2S",
+   "arch": "bitnet-b1.58",
+   "n_layer": 30,
+   "n_head": 20,
+   "n_kv_head": 5,
+   "head_dim": 128,
+   "embedding_length": 2560,
+   "output_head": "tied to token_embd.weight",
+   "weight_bytes_streamed": 1179449920,
+   "sum_all_tensor_bytes": 1179449920,
+   "bytes_by_type": {
+    "F16": 656670720,
+    "F32": 1761280,
+    "I2_S": 521017920
+   },
+   "file_bytes": 1187801280,
+   "kv_bytes_per_token": 76800
+  },
+  "QWEN25_1P5B_Q4KM": {
+   "model": "QWEN25_1P5B_Q4KM",
+   "arch": "qwen2",
+   "n_layer": 28,
+   "n_head": 12,
+   "n_kv_head": 2,
+   "head_dim": 128,
+   "embedding_length": 1536,
+   "output_head": "separate output.weight",
+   "weight_bytes_streamed": 980097536,
+   "sum_all_tensor_bytes": 1111370240,
+   "bytes_by_type": {
+    "Q6_K": 354009600,
+    "F32": 579584,
+    "Q4_K": 625508352
+   },
+   "file_bytes": 1117320736,
+   "kv_bytes_per_token": 28672
+  },
+  "QWEN25_1P5B_Q40": {
+   "model": "QWEN25_1P5B_Q40",
+   "arch": "qwen2",
+   "n_layer": 28,
+   "n_head": 12,
+   "n_kv_head": 2,
+   "head_dim": 128,
+   "embedding_length": 1536,
+   "output_head": "separate output.weight",
+   "weight_bytes_streamed": 929004032,
+   "sum_all_tensor_bytes": 1060276736,
+   "bytes_by_type": {
+    "Q6_K": 191439360,
+    "F32": 579584,
+    "Q4_0": 736985088
+   },
+   "file_bytes": 1066227232,
+   "kv_bytes_per_token": 28672
+  },
+  "QWEN25_3B_Q4KM": {
+   "model": "QWEN25_3B_Q4KM",
+   "arch": "qwen2",
+   "n_layer": 36,
+   "n_head": 16,
+   "n_kv_head": 2,
+   "head_dim": 128,
+   "embedding_length": 2048,
+   "output_head": "tied to token_embd.weight",
+   "weight_bytes_streamed": 1923946496,
+   "sum_all_tensor_bytes": 1923946496,
+   "bytes_by_type": {
+    "Q6_K": 595875840,
+    "F32": 966656,
+    "Q4_K": 1327104000
+   },
+   "file_bytes": 1929903264,
+   "kv_bytes_per_token": 36864
+  },
+  "LLAMA32_1B_Q4KM": {
+   "model": "LLAMA32_1B_Q4KM",
+   "arch": "llama",
+   "n_layer": 16,
+   "n_head": 32,
+   "n_kv_head": 8,
+   "head_dim": 64,
+   "embedding_length": 2048,
+   "output_head": "tied to token_embd.weight",
+   "weight_bytes_streamed": 799862912,
+   "sum_all_tensor_bytes": 799862912,
+   "bytes_by_type": {
+    "F32": 270464,
+    "Q6_K": 332451840,
+    "Q4_K": 467140608
+   },
+   "file_bytes": 807694464,
+   "kv_bytes_per_token": 32768
+  },
+  "SMOLLM2_1P7B_Q4KM": {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "arch": "llama",
+   "n_layer": 24,
+   "n_head": 32,
+   "n_kv_head": 32,
+   "head_dim": 64,
+   "embedding_length": 2048,
+   "output_head": "tied to token_embd.weight",
+   "weight_bytes_streamed": 1053827072,
+   "sum_all_tensor_bytes": 1053827072,
+   "bytes_by_type": {
+    "Q6_K": 289013760,
+    "F32": 401408,
+    "Q4_K": 764411904
+   },
+   "file_bytes": 1055609824,
+   "kv_bytes_per_token": 196608
+  }
+ },
+ "missing_by_design": [
+  "TL2 kernel for the ternary model was not built (ternary side uses I2_S only: it may be under-optimized)",
+  "no OpenVINO run (BitNet is not supported there; INT4-only comparison would not test the question on this AMD CPU)",
+  "no energy, no CPU frequency/temperature"
+ ],
+ "runtimes": {
+  "bitnet": {
+   "bin": "/home/liban/exp0011/BitNet/build/bin",
+   "commit": "0b341e582afbf9e1011f24744b554c96a3477eb5",
+   "submodules": "390c307752ab78fd8189f359d6954c9ba1be74af 3rdparty/llama.cpp (remotes/origin/release-bitnet-embedding-0.6b-270m)",
+   "build_info": "usage: /home/liban/exp0011/BitNet/build/bin/llama-bench [options]\n\noptions:\n  -h, --help\n  --numa <distribute|isolate|numactl>         numa mode (default: disabled)\n  -r, --repetitions <n>                       number of times to repeat each test (default: 5)\n  --prio <-1|0|1|2|3>                   "
+  },
+  "upstream": {
+   "bin": "/home/liban/exp0011/llama.cpp/build/bin",
+   "commit": "e30ad80fd7fa09a858bf8b8f4118e6479809486e",
+   "submodules": "",
+   "build_info": ""
+  }
+ },
+ "environment": {
+  "time_utc": "2026-11-05T16:49:52Z",
+  "loadavg": [
+   0.80908203125,
+   0.41162109375,
+   0.25634765625
+  ],
+  "mem_available_mb": 4306,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 82,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  },
+  "power": {
+   "raw": [
+    "BAT 2 82",
+    "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+   ]
+  },
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "python": "3.14.4",
+  "lscpu": [
+   "Architecture:                            x86_64",
+   "CPU op-mode(s):                          32-bit, 64-bit",
+   "Address sizes:                           48 bits physical, 48 bits virtual",
+   "Byte Order:                              Little Endian",
+   "CPU(s):                                  16",
+   "On-line CPU(s) list:                     0-15",
+   "Vendor ID:                               AuthenticAMD",
+   "Model name:                              AMD Ryzen 7 260 w/ Radeon 780M",
+   "CPU family:                              25",
+   "Model:                                   117",
+   "Thread(s) per core:                      2",
+   "Core(s) per socket:                      8",
+   "Socket(s):                               1",
+   "Stepping:                                2",
+   "BogoMIPS:                                7585.86",
+   "Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm",
+   "Hypervisor vendor:                       Microsoft",
+   "Virtualization type:                     full",
+   "L1d cache:                               256 KiB (8 instances)",
+   "L1i cache:                               256 KiB (8 instances)",
+   "L2 cache:                                8 MiB (8 instances)",
+   "L3 cache:                                16 MiB (1 instance)",
+   "NUMA node(s):                            1",
+   "NUMA node0 CPU(s):                       0-15",
+   "Vulnerability Gather data sampling:      Not affected"
+  ],
+  "nproc": 16
+ },
+ "code_sha256": {
+  "config.py": "cd7f7bab005d04c6d836d378e09f7fc201e06aadf3376f51f4329a00ab0f801a",
+  "perf.py": "5783570629a98f9591fbf0ca640e9848d828daca2aa0a426ca15b3087758ddd4",
+  "quality.py": "ca880b83fb57672fbdda27bd25f9d3e59e6727816b4495d43f920cebf1246111",
+  "summarize.py": "318370fbc18b77a194e9c857fb41524d9f6a4525105dda25b529a2a403b2f9d7",
+  "envinfo.py": "60fff4562ba052f43bda1564198769cd8f7f771e841acc22458c2fa7e726c6e1",
+  "bytes_model.py": "b79d802fc7af28779715d458acc799017293c0812c7d1d4609b1e99e231f5236"
+ },
+ "repo_state": {
+  "commit": "aa7a3cfcdccb37278a8afb4ee8376695bab358e6",
+  "branch": "main",
+  "dirty": true,
+  "n_dirty_paths": 12,
+  "dirty_paths": [
+   "?? analysis/ternary_vs_int4/__init__.py",
+   "?? analysis/ternary_vs_int4/bytes_model.py",
+   "?? analysis/ternary_vs_int4/config.py",
+   "?? analysis/ternary_vs_int4/envinfo.py",
+   "?? analysis/ternary_vs_int4/lock.py",
+   "?? analysis/ternary_vs_int4/perf.py",
+   "?? analysis/ternary_vs_int4/quality.py",
+   "?? analysis/ternary_vs_int4/summarize.py",
+   "?? docs/experiments/EXP-0011-stage2-energy-plan.md",
+   "?? docs/experiments/EXP-0011-ternary-vs-int4-stage1.md",
+   "?? docs/reviews/MEMO-2026-11-05-commercial-validation-package.md",
+   "?? tests/test_ternary_vs_int4.py"
+  ],
+  "dirty_code_paths": [
+   "?? analysis/ternary_vs_int4/__init__.py",
+   "?? analysis/ternary_vs_int4/bytes_model.py",
+   "?? analysis/ternary_vs_int4/config.py",
+   "?? analysis/ternary_vs_int4/envinfo.py",
+   "?? analysis/ternary_vs_int4/lock.py",
+   "?? analysis/ternary_vs_int4/perf.py",
+   "?? analysis/ternary_vs_int4/quality.py",
+   "?? analysis/ternary_vs_int4/summarize.py",
+   "?? tests/test_ternary_vs_int4.py"
+  ],
+  "tree_state_sha256": "709e813d29f848aebc47f6527ef13d46159d9d67be62af5996306927b0dbfd2d",
+  "scope": "whole repository (git status --porcelain --untracked-files=all)"
+ }
+}
