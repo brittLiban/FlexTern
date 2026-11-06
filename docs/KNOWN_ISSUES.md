@@ -379,19 +379,22 @@ Workaround:       Use bitnet.cpp 765741d with --override-kv tokenizer.ggml.pre=s
 
 ```
 KI-021
-Status:           Open
+Status:           Open (mitigated)
 Severity:         Minor
 First observed:   2026-11-05
 Relevant commit:  EXP-0011
-Description:      The benchmark laptop switched to battery power during unattended EXP-0011 timing (the harness
-                  then refused to continue). WSL2 cannot read CPU frequency or temperature. Two unexplained
-                  stalls were seen: a 537 s repetition in a cell whose other repetition took 25 s (recorded on
-                  AC), and a 32,432 s wall time for a quality task that normally takes about 10 minutes
-                  (laptop on battery). Sleep/hibernate is plausible but unproven.
-Impact:           Timing is only trusted on AC and awake; stalled samples must be re-measured.
-Workaround:       Keep the laptop plugged in with sleep disabled for timing; the harness refuses to time on
-                  battery; interrupted partial results are retained under
-                  results/ternary_vs_int4/perf/sweep_interrupted_battery_event/.
+Description:      The benchmark laptop is not a controlled timing platform. Observed: (1) battery status 1
+                  (discharging) twice during the resumed run (an AC-adapter drop at 98% and at 94% charge); one
+                  main-grid cell (BitNet P3840/G256) was measured during a drop (90.4 s vs 69.8 s on repeat);
+                  (2) one 537 s first-token sample on AC in the earlier sweep that did NOT reproduce in nine
+                  repeats (24.3-26.2 s), cause unattributed; (3) a 32,432 s wall time for a quality task that
+                  normally takes about 10 minutes while on battery (sleep/hibernate plausible, unproven).
+                  WSL2 cannot read CPU frequency or temperature.
+Impact:           Timing is trusted only with AC present; flagged cells must be repeated; thermal state is an
+                  unmeasured confounder.
+Workaround:       Harness refuses to time off AC, waits up to 30 minutes for AC, restarts automatically, records
+                  power before and after each invocation (amendments 6-7); a process-scoped keep-awake was used;
+                  flagged and interrupted results are retained.
 ```
 
 ## Closed

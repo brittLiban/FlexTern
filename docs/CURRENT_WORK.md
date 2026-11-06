@@ -4,23 +4,10 @@ There is exactly one active engineering objective at a time. This file is the si
 
 ---
 
-**Objective ID:** EXP-0011 — Ternary vs optimized INT4 at matched quality (Stage 1: quality, latency, throughput, memory on existing hardware)
+**No active objective; awaiting founder + ChatGPT review.**
 
-**Title:** At matched model quality, can native ternary inference (BitNet b1.58 2B4T) substantially outperform strong, optimized INT4 inference on commercially relevant edge workloads?
+**Last completed objective:** EXP-0011 Stage 1: ternary (BitNet b1.58 2B4T) vs optimized INT4 at matched quality on a CPU (quality, latency, throughput, memory). Completed 2026-11-07. **Verdict: SPEED_LOW** under the locked protocol (headline geomean end-to-end ratio 0.73, 95% bootstrap [0.71, 0.76], tolerance-3 pool {Qwen2.5-3B, SmolLM2-1.7B}; BitNet is faster only than Qwen2.5-3B: decode 1.37x, end-to-end 1.12x, below the 1.3x bar). Records: `experiments/EXP-0011-ternary-vs-int4-stage1.md`, `handoffs/2026-11-07-exp-0011-stage1.md`, `reviews/REV-2026-11-06-exp-0011-stage1-review.md`, `analysis/ternary_vs_int4/`, `results/ternary_vs_int4/` (report.md, attribution.md).
 
-**Status:** Stage 1 **in progress, timing paused** (protocol locked before measurement: `analysis/ternary_vs_int4/protocol_v1.json`, amendments 1-4 alongside). Quality (validated; BitNet macro 56.7, comparable to Qwen2.5-3B/SmolLM2 INT4) and static accounting are done; the timing runs stopped when the laptop went onto battery (the harness refuses to time off AC) and need the founder to plug the laptop in; the harness is resumable (`analysis/ternary_vs_int4/perf.py`). **Stage 2 (physical energy) is NOT approved**: it needs separate founder approval before any equipment purchase or hardware-dependent measurement; the plan is `experiments/EXP-0011-stage2-energy-plan.md`. The previous objective (EXP-0010C) is complete with its preregistered outcome CHANGE_WORKLOAD; its records are unchanged.
+**Not authorized / not started:** Stage 2 physical energy measurement (plan: `experiments/EXP-0011-stage2-energy-plan.md`; needs separate founder approval and would require purchasing equipment), any optimized ternary kernel work, accelerator redesign, EXP-0012. Commercial-validation preparation exists (`reviews/MEMO-2026-11-05-commercial-validation-package.md`); no customer has been contacted.
 
-**Owner / agent:** Claude (implementation); founder + ChatGPT (research direction/review).
-
-## Scope (from the founder directive of 2026-11-05)
-
-1. Stage 1: quality (HellaSwag, Winogrande, ARC-E, ARC-C, MMLU subsets), prefill, time to first token, decode tokens/s, total latency, peak/resident memory at 512/1024/2048/4096-token contexts and 128/256-token outputs, BitNet 2B4T (bitnet.cpp) against several INT4 GGUF models (bitnet.cpp and upstream llama.cpp), on the existing laptop under WSL2. No energy claims.
-2. Preregistered protocol, evidence ledger, immutable result manifests, negative results retained, adversarial review, commit.
-3. Parallel commercial research and outreach preparation only (`reviews/MEMO-2026-11-05-commercial-validation-package.md`): no interviews, demand or commitments exist; outreach is founder-led.
-4. Stop at the next evidence-based decision gate. No EXP-0012, no hardware purchase, no architectural redesign without authorization.
-
-## Primary records
-`experiments/EXP-0011-ternary-vs-int4-stage1.md`, `experiments/EXP-0011-stage2-energy-plan.md`, `reviews/MEMO-2026-11-05-commercial-validation-package.md`, `analysis/ternary_vs_int4/` (harness), `tests/test_ternary_vs_int4.py`. Strategy context: `reviews/MEMO-2026-11-04-workload-selection-decision.md`, `reviews/MEMO-2026-11-04-project-homerun-opportunity-search.md`. The second strategic report named in the directive is not in the repository.
-
-## Next gate
-The evidence gate is the timing grid, which is not reached. Needed: the laptop plugged in, awake with sleep disabled; then run `analysis/ternary_vs_int4/perf.py` (resumable; first re-measure the stalled cell). Review: `reviews/REV-2026-11-06-exp-0011-stage1-review.md`.
+**Open decisions for the founder (AGENTS section 6):** (1) whether to authorize a bounded investigation of a quantized head and a validated modern or TL2 ternary kernel before any energy purchase; (2) whether Stage 2 is justified (the review says not by Stage 1 with this runtime); (3) the missing second strategic report; (4) commercial discovery thresholds.
