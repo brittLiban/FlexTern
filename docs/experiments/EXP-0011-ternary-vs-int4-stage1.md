@@ -1,6 +1,6 @@
 # EXP-0011 Stage 1 — native ternary vs optimized INT4 on a CPU (quality, latency, throughput, memory)
 
-Status: **in progress** (protocol locked before measurement; see the lock commit). Stage 2 (physical energy) is **not approved and not started**: `EXP-0011-stage2-energy-plan.md`.
+Status: **Stage 1 complete (verdict SPEED_LOW; adversarial review pending in REV file)**; protocol locked before measurement (lock commit 6a6cac7) with seven documented amendments. Stage 2 (physical energy) is **not approved and not started**: `EXP-0011-stage2-energy-plan.md`.
 Authorized by the founder directive of 2026-11-05. Owner: Claude (implementation); founder + ChatGPT (direction).
 
 ## Research question
@@ -26,7 +26,7 @@ Locked in `analysis/ternary_vs_int4/protocol_v1.json` (constants, model/data SHA
 Before the lock the protocol was reviewed and revised (nothing had been measured): (1) the original task basket and 1.5B-class models could leave an empty or borderline matched pool, so the 3B model was re-added, MMLU added and the empty-pool fallback removed (an empty pool now yields NO_MATCHED_COMPARATOR); (2) the "bytes ceiling" based on file size was replaced by tensor-level accounting; (3) per-regime thread sweeps, explicit flash-attn, power refusal rule, shorter foreground budget. **Static finding recorded in the lock (MEASURED from GGUF headers):** BitNet 2B4T's GGUF streams about 1.18 GB per decoded token, of which about 0.66 GB is an F16 tied embedding/head and only about 0.52 GB is ternary I2_S weights; Qwen2.5-1.5B Q4_K_M streams about 0.98 GB, so a bandwidth-bound decode is predicted NOT to favour BitNet (HYPOTHESIZED; smoke runs showing a similar direction were visible before the lock, so the prediction is not blind).
 
 ## Results
-**Status of the results: quality and static accounting complete; speed/TTFT/memory timing NOT complete** (paused when the laptop went onto battery; see KI-021). No speed or memory ratio is reported here because none has been measured under the locked conditions. Every failed or anomalous run is retained in `results/ternary_vs_int4/`.
+**Status of the results: Stage 1 complete. Verdict SPEED_LOW** (R4). Every failed, interrupted, flagged or superseded run is retained in `results/ternary_vs_int4/`.
 
 ### R1. The ternary runtime had to be repaired before its quality meant anything (negative results; amendments 3 and 5, KI-020)
 Three successive BitNet quality runs, each later shown invalid or degraded, are retained: (a) official GGUF under bitnet.cpp main `0b341e5`, built by hand with CMake (not through `setup_env.py`): macro 39.8; (b) same GGUF under the release-era bitnet.cpp `765741d` with the file's missing pre-tokenizer type left at llama.cpp's default: macro 55.5; (c) the same with the Llama-3 BPE pre-tokenizer set: macro 56.7, the **valid** result. Diagnostics (post-hoc; not part of the decision rule):
@@ -67,14 +67,55 @@ Matched pools (INT4 macro >= BitNet minus tolerance): tolerance 0: **empty** (Qw
 
 Only 0.52 GB of BitNet's 1.18 GB per token is ternary; 56% is a 128k-vocabulary F16 head. If decode were purely bandwidth-bound, BitNet would not be faster than Qwen2.5-1.5B Q4_K_M (weights 1.2x, KV 2.7x); INT4-bytes / BitNet-bytes per decoded token (weights plus f16 KV at the stated depth): Qwen2.5-1.5B Q4_K_M 0.83 at depth 0, 0.78 at 2,048; Qwen2.5-3B 1.63 and 1.50; SmolLM2-1.7B 0.89 and 1.09 (its 32 KV heads make long contexts expensive). So bandwidth alone favours BitNet only against the 3B comparator (and SmolLM2 at long context), not against the 1.5B-class model. This is the preregistered prediction; it is not yet tested by timing.
 
-### R4. Timing (INCOMPLETE)
-The thread sweep and main grid started under the locked harness. Nineteen sweep invocations completed (all recorded as AC, 100% charge) and the run then stopped because the harness detected battery power. Partial data are in `results/ternary_vs_int4/perf/sweep_interrupted_battery_event/`. They are **not** used: each cell has one or two repetitions and no complete comparison. One anomaly is retained: bitnet.cpp 765741d on Qwen2.5-1.5B Q4_K_M at 8 threads, prompt 2048, first-token run, took 537 s and 25 s in its two repetitions (median 281 s) against a 34 s total-latency run. It was recorded on AC (battery status 2), so a power transition does not explain it; a later quality job recorded a 32,432 s wall-clock time for a task that normally takes about 10 minutes, so a sleep/hibernate stall of the laptop is plausible but unproven. The cell must be re-measured first when timing resumes (if it reproduces, it is a defect of the old runtime on INT4, not of the laptop).
+### R4. Timing (MEASURED; complete) — locked protocol, 96 main-grid invocations, no failed runs
+Laptop (AMD Ryzen 7 260, 8 cores / 16 threads, AVX-512), WSL2, on AC; thread counts chosen per (model, runtime, regime) from the 96-invocation sweep (`thread_choice.json`); 3 repetitions per invocation; TTFT from `llama-bench -pg P,1`, total from `-pg P,G`; decode = (G-1)/(total-TTFT) (derived from two runs, hence noisier). Full per-cell tables with min-max ranges: `results/ternary_vs_int4/report.md`. Representative cells (median; ranges are in the report):
 
-## Provisional reading (nothing below is a timing result)
-1. With the corrected quality, the headline comparators are Qwen2.5-3B and SmolLM2-1.7B INT4. Against Qwen2.5-3B the byte accounting favours BitNet (1.18 GB vs 1.92 GB per token); against SmolLM2 it is roughly even at short context and favours BitNet at long context (SmolLM2's KV traffic is large); against Qwen2.5-1.5B it favours the INT4 model. So a ternary speed advantage is plausible against the 3B comparator, but not by a large factor against the best 1.5B-class model (HYPOTHESIZED; to be checked by timing).
-   **Framing of any timing result:** the ternary side runs a May-2025 I2_S kernel (the newer kernel failed numerically here, and TL2 was not built) while INT4 runs current upstream llama.cpp. A low speed ratio therefore means 'the validated ternary runtime does not win', not 'the ternary format cannot win'.
-2. The ternary format's own advantage sits in the ternary matmul weights (0.52 GB vs about 0.6-0.8 GB for INT4 body weights of comparable models), not in the whole model; a future ternary model with a quantized head and fewer KV heads would change this and is a model-design question, not a bitnet.cpp question.
-3. bitnet.cpp's published speedups were not reproduced or refuted: the latest main failed numerically, and the release-era runtime was used.
+| model / runtime | P=512,G=128 TTFT s / total s | P=2048,G=128 TTFT / total | P=3968,G=128 TTFT / total | decode tok/s (P=512,G=256) | peak RSS GB (P=512 / 3968) |
+|---|---|---|---|---|---|
+| BitNet 2B4T, bitnet.cpp 765741d | 3.60 / 11.8 | 17.1 / 26.0 | 44.4 / 57.3 | 15.4 | 1.33 / 1.59 |
+| Qwen2.5-3B Q4_K_M, llama.cpp | 3.45 / 19.4 | 14.0 / 28.4 | 31.3 / 44.7 | 9.0 | 3.36 / 3.48 |
+| SmolLM2-1.7B Q4_K_M, llama.cpp | 2.29 / 9.5 | 9.0 / 20.7 | 20.6 / 33.0 | 17.3 | 2.03 / 2.67 |
+| Qwen2.5-1.5B Q4_K_M, llama.cpp | 1.58 / 9.1 | 6.9 / 14.4 | 15.8 / 22.6 | 19.3 | 1.85 / 1.95 |
+| Qwen2.5-1.5B Q4_0, llama.cpp | 2.41 / 8.5 | 10.6 / 17.2 | 24.2 / 32.2 | 21.5 | 1.91 / 2.01 |
+| Qwen2.5-1.5B Q4_K_M, bitnet.cpp 765741d (same-vintage control) | 5.49 / 11.6 | 18.3 / 26.0 | 41.3 / 50.0 | 19.5 | 1.22 / 1.32 |
+
+**Ratios (INT4 time / BitNet time, so > 1 means BitNet is faster), geometric mean over the 8 cells (4 contexts x 2 output lengths):**
+
+| comparator (quality macro vs BitNet 56.7) | TTFT | decode | end-to-end | worst / best cell (end-to-end) | peak-RSS ratio (INT4 / BitNet) |
+|---|---|---|---|---|---|
+| Qwen2.5-3B Q4_K_M, llama.cpp (56.4) | 0.79 | 1.37 | **1.12** | 0.74 (P3840,G256) / 1.64 (P512,G128) | 2.38x |
+| SmolLM2-1.7B Q4_K_M, llama.cpp (55.3) | 0.55 | 0.93 | **0.74** | 0.51 / 0.91 | 1.59x |
+| Qwen2.5-1.5B Q4_K_M, llama.cpp (53.6) | 0.39 | 0.73 | **0.58** | 0.35 / 0.80 | 1.32x |
+| Qwen2.5-1.5B Q4_0, llama.cpp (51.9) | 0.60 | 0.64 | **0.63** | 0.41 / 0.82 | 1.36x |
+| Qwen2.5-1.5B Q4_K_M, bitnet.cpp 765741d (53.6) | 1.17 | 0.69 | **0.89** | 0.64 / 1.06 | 0.88x |
+
+By context (end-to-end ratio vs Qwen2.5-3B): 1.64 / 1.13 / 1.09 / 0.78 at P = 512 / 1,024 / 2,048 / ~3,900 (G=128), 1.55 / 1.36 / 1.01 / 0.74 (G=256): BitNet's advantage over the 3B model shrinks with context and reverses, because BitNet's prefill (88-142 tok/s) is slower than the 3B model's (123-159 tok/s) at long context and far slower than modern INT4 prefill of the 1.5B-class models (250-330 tok/s).
+
+**Preregistered classification (locked rule):**
+- tolerance 3.0 (headline; matched pool {Qwen2.5-3B, SmolLM2-1.7B}, fastest member per metric per cell): geometric-mean end-to-end ratio **0.74 -> SPEED_LOW** (TTFT 0.55, decode 0.93; worst cell 0.51). No audit flag fired.
+- tolerance 5.0 (pool also contains the two Qwen2.5-1.5B models): 0.57 -> SPEED_LOW.
+- tolerance 0.0: the pool is empty (Qwen2.5-3B is 0.27 points below BitNet, a tie within noise) -> NO_MATCHED_COMPARATOR under the rule; against Qwen2.5-3B alone the ratio is 1.12, still below 1.3.
+- Fixed primary comparator (Qwen2.5-1.5B Q4_K_M): end-to-end 0.58.
+**Verdict: SPEED_LOW.** BitNet 2B4T on bitnet.cpp 765741d is not faster than the quality-matched INT4 models on this CPU; it is faster only than the larger Qwen2.5-3B (decode 1.37x, end-to-end 1.12x, below the 1.3x bar).
+
+### R5. Variability, anomalies, flagged samples (MEASURED)
+- Run-to-run: the spread (max-min over 3 repetitions, relative to the median) has a median of 4.1% across the 96 invocations, is under 10% in 83% of them, and reaches 36% at most; three invocations were flagged and **re-measured with 6 further repetitions each** (originals kept, classification uses the originals): BitNet P3840/G256 total 90.4 s (82-98) vs repeat 69.8 s (68.7-76.0), the original ended with the laptop reporting battery status 1 (an AC-adapter drop during the run): contaminated; Qwen2.5-3B P3840/G256 66.7 s (62-86) vs 61.3 s; Qwen2.5-1.5B Q4_K_M upstream P1024/G256 20.3 s (17.7-24.4) vs 18.0 s. Replacing the flagged cells by their repeats moves the tolerance-3 headline from 0.74 to 0.76 and the tolerance-5 value from 0.57 to 0.58: the verdict does not change.
+- The earlier 537 s first-token sample (bitnet.cpp 765741d, Qwen2.5-1.5B Q4_K_M, 8 threads, P=2048, AC) **did not reproduce**: nine repeat samples of that exact cell were 24.3-26.2 s (`perf/anomaly_repeat/`). Its cause is unattributed: a one-off stall of the laptop, WSL2 or the system, not the runtime and not a power-state transition (it was recorded on AC). No stall of this kind occurred in the 96 main-grid invocations or the 96-invocation sweep.
+- AC adapter dropped twice during the resumed run (batteries read 98% and 94%); the guard waited, then refused, and amendments 6 and 7 made it wait up to 30 minutes and restart automatically. Only one measured cell (above) was caught mid-drop by the post-run check; earlier sweep invocations lack the post-run check (their pre-run checks were ok).
+- Not observable under WSL2: CPU frequency, temperature, throttling. Thermal state is therefore an unmeasured confounder, bounded only by the repeat agreement above.
+
+### R6. What explains the result (labels: MEASURED / INFERRED)
+1. **Model size / footprint (INFERRED from R3 and R4):** BitNet's whole-model footprint is 1.18 GB because ternary body weights are 0.52 GB; the quality-matched Qwen2.5-3B needs 1.92 GB and is therefore slower in decode (1.37x measured, 1.50x bandwidth-implied) and uses 2.4x the memory. But SmolLM2-1.7B (macro 55.3) is 1.05 GB, and Qwen2.5-1.5B (53.6) 0.98 GB, so the footprint advantage exists only against the 3B comparator. Whether ternary representation or model design is responsible for the gap to SmolLM2 cannot be separated here: BitNet spends 0.66 GB on an F16 head that a quantized head would nearly remove.
+2. **Decode matches bandwidth (MEASURED vs INFERRED):** measured decode ratios (1.37, 0.93, 0.73, 0.64) track the bandwidth-implied ratios (1.50, 1.07, 0.78, 0.74) within 10-15%; no decode effect beyond bytes moved is visible, and none of the audit flags fired.
+3. **Prefill / TTFT is where BitNet loses (MEASURED), attributable to runtime maturity or kernel design (INFERRED, not isolated):** on the same bitnet.cpp 765741d build, BitNet's TTFT is 1.17x better than Qwen2.5-1.5B Q4_K_M, whereas modern llama.cpp runs that INT4 model 2.6-3.5x faster than the old build (TTFT) and 2.3-2.8x faster than BitNet. This is the old-runtime effect the directive asked to keep separate: the data cannot say whether a modern ternary kernel would close the gap, and nothing here shows ternary arithmetic is inherently slower.
+4. **Memory (MEASURED, runtime-dependent):** the same Qwen2.5-1.5B Q4_K_M file has 1.22-1.32 GB peak RSS under bitnet.cpp 765741d and 1.85-1.95 GB under modern llama.cpp (which repacks weights), so the "memory advantage" of BitNet over that model flips from 1.32x to 0.88x depending on the INT4 runtime. Peak RSS is process-level, includes mmap'd weights and runtime buffers, and is not a minimum-footprint measurement.
+5. **Unattributed:** the 3B-vs-BitNet end-to-end gain at short context (1.55-1.64x at P=512) combines the model-size effect with BitNet's tolerable short-context prefill; it vanishes by P~3,900.
+
+### R7. Limitations
+One laptop CPU under WSL2 (no frequency/temperature visibility, AC drops, an unexplained earlier stall); `llama-bench` synthetic prompts (no tokenization, sampling or server overhead); the ternary kernel is the May-2025 I2_S (TL2 and the newest kernels not validated); quality is a zero-shot log-likelihood proxy at 300-500 tasks; MMLU is near chance for all models; INT4 quality scores used a different `llama-perplexity` build than BitNet's (cross-check 0.03 macro points); the matched pool is judged on macro differences of about the noise level (1.1 points); only two quantizations (Q4_K_M, Q4_0) were timed for the Qwen 1.5B model and one for the others; no energy, no power. The documented `setup_env.py` flow on bitnet.cpp main was not executed: by code reading it performs the same CMake configuration as the by-hand build and no model conversion, so it is expected (INFERRED, untested) to hit the same defect.
+
+## Verdict and reading (Stage 1)
+**SPEED_LOW** under the locked rule. Ternary did not demonstrate a credible speed advantage at matched quality on this CPU and runtime pair; it demonstrated a memory/decode advantage only against the larger Qwen2.5-3B model. EXP-0011 has shown (MEASURED): the corrected quality of BitNet 2B4T is comparable to 3B-class INT4; its decode speed follows the bytes it streams, which are dominated by an F16 head and a large KV cache rather than by ternary weights; the old ternary kernel's prefill is 2-3x slower than modern INT4 prefill. It has not shown (UNMEASURED): whether a modern or optimized ternary kernel would win, any energy effect, behaviour on ARM/Jetson/NPU targets, or application-level accuracy.
 
 ## Limitations (known before measurement)
 Laptop under WSL2 (virtualization, shared power/thermal budget, no frequency/temperature visibility); AC state recorded but power plan Balanced; one CPU microarchitecture (Zen 4 with AVX-512 available); multiple-choice log-likelihood tasks are a proxy for application quality; instruction-tuned models are scored in plain-completion mode; the ternary model's published activation and KV settings are used as released; INT4 models use their K-quant or block-quant defaults; no hand-tuning of either side.

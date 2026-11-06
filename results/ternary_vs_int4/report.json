@@ -1,0 +1,1018 @@
+{
+ "cells": [
+  {
+   "model": "BITNET_2B4T_I2S",
+   "runtime": "bitnet_old",
+   "threads": 8,
+   "p": 512,
+   "g": 128,
+   "ttft_s": 3.597964261,
+   "ttft_range": [
+    3.526976411,
+    3.723325086
+   ],
+   "prefill_tps": 142.30269198329873,
+   "decode_tps": 15.493667887929986,
+   "total_s": 11.794861272,
+   "total_range": [
+    11.743278969,
+    12.344698375
+   ],
+   "rss_gb": 1.32972,
+   "flags": []
+  },
+  {
+   "model": "BITNET_2B4T_I2S",
+   "runtime": "bitnet_old",
+   "threads": 8,
+   "p": 512,
+   "g": 256,
+   "ttft_s": 3.923488847,
+   "ttft_range": [
+    3.821821269,
+    4.198404279
+   ],
+   "prefill_tps": 130.49610180273314,
+   "decode_tps": 15.41475093811939,
+   "total_s": 20.466085028,
+   "total_range": [
+    20.129268691,
+    21.738563233
+   ],
+   "rss_gb": 1.329572,
+   "flags": []
+  },
+  {
+   "model": "BITNET_2B4T_I2S",
+   "runtime": "bitnet_old",
+   "threads": 8,
+   "p": 1024,
+   "g": 128,
+   "ttft_s": 8.340014946,
+   "ttft_range": [
+    8.258259293,
+    8.400739093
+   ],
+   "prefill_tps": 122.78155454519013,
+   "decode_tps": 15.320477082368189,
+   "total_s": 16.629574032,
+   "total_range": [
+    16.533455059,
+    17.156331531
+   ],
+   "rss_gb": 1.369796,
+   "flags": []
+  },
+  {
+   "model": "BITNET_2B4T_I2S",
+   "runtime": "bitnet_old",
+   "threads": 8,
+   "p": 1024,
+   "g": 256,
+   "ttft_s": 8.551017422,
+   "ttft_range": [
+    8.508484397,
+    8.600009924
+   ],
+   "prefill_tps": 119.75183179553112,
+   "decode_tps": 15.064845782380388,
+   "total_s": 25.477841877,
+   "total_range": [
+    25.112819215,
+    25.633513317
+   ],
+   "rss_gb": 1.369776,
+   "flags": []
+  },
+  {
+   "model": "BITNET_2B4T_I2S",
+   "runtime": "bitnet_old",
+   "threads": 12,
+   "p": 2048,
+   "g": 128,
+   "ttft_s": 17.06399148,
+   "ttft_range": [
+    16.553769439,
+    17.398278475
+   ],
+   "prefill_tps": 120.01881285515036,
+   "decode_tps": 14.202227335827484,
+   "total_s": 26.006250817,
+   "total_range": [
+    25.845245959,
+    27.069390197
+   ],
+   "rss_gb": 1.44872,
+   "flags": []
+  },
+  {
+   "model": "BITNET_2B4T_I2S",
+   "runtime": "bitnet_old",
+   "threads": 12,
+   "p": 2048,
+   "g": 256,
+   "ttft_s": 17.374673846,
+   "ttft_range": [
+    16.247428655,
+    17.98907709
+   ],
+   "prefill_tps": 117.87271623930316,
+   "decode_tps": 10.678199313993783,
+   "total_s": 41.255104666,
+   "total_range": [
+    39.531290801,
+    44.969409559
+   ],
+   "rss_gb": 1.448828,
+   "flags": []
+  },
+  {
+   "model": "BITNET_2B4T_I2S",
+   "runtime": "bitnet_old",
+   "threads": 12,
+   "p": 3840,
+   "g": 256,
+   "ttft_s": 43.822113514,
+   "ttft_range": [
+    42.11754236,
+    44.587100247
+   ],
+   "prefill_tps": 87.62699222102151,
+   "decode_tps": 5.475645518281096,
+   "total_s": 90.39196526,
+   "total_range": [
+    82.370893585,
+    97.651836379
+   ],
+   "rss_gb": 1.58866,
+   "flags": [
+    "POWER_AFTER_NOT_OK"
+   ]
+  },
+  {
+   "model": "BITNET_2B4T_I2S",
+   "runtime": "bitnet_old",
+   "threads": 12,
+   "p": 3968,
+   "g": 128,
+   "ttft_s": 44.440271591,
+   "ttft_range": [
+    44.365805746,
+    45.769111467
+   ],
+   "prefill_tps": 89.28838321509258,
+   "decode_tps": 9.90147945379172,
+   "total_s": 57.26663765,
+   "total_range": [
+    55.179162377,
+    57.426620382
+   ],
+   "rss_gb": 1.588672,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q40",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 512,
+   "g": 128,
+   "ttft_s": 2.410417665,
+   "ttft_range": [
+    2.400561995,
+    2.425200055
+   ],
+   "prefill_tps": 212.41132084053157,
+   "decode_tps": 20.980215980284953,
+   "total_s": 8.463739524,
+   "total_range": [
+    8.418633656,
+    8.616966057
+   ],
+   "rss_gb": 1.9082,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q40",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 512,
+   "g": 256,
+   "ttft_s": 2.451899866,
+   "ttft_range": [
+    2.419046302,
+    2.463291709
+   ],
+   "prefill_tps": 208.81766302931067,
+   "decode_tps": 21.51553770386586,
+   "total_s": 14.303799805,
+   "total_range": [
+    14.252237393,
+    14.446540048
+   ],
+   "rss_gb": 1.908544,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q40",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 1024,
+   "g": 128,
+   "ttft_s": 5.285814867,
+   "ttft_range": [
+    5.224757687,
+    5.556396181
+   ],
+   "prefill_tps": 193.7260433377944,
+   "decode_tps": 15.228487945349576,
+   "total_s": 13.625447827,
+   "total_range": [
+    13.549368823,
+    13.829881208
+   ],
+   "rss_gb": 1.924592,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q40",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 1024,
+   "g": 256,
+   "ttft_s": 5.169506411,
+   "ttft_range": [
+    4.953710389,
+    5.309456911
+   ],
+   "prefill_tps": 198.08467551584198,
+   "decode_tps": 20.34187191953401,
+   "total_s": 17.705225887,
+   "total_range": [
+    17.671733101,
+    18.057658163
+   ],
+   "rss_gb": 1.924348,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q40",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 2048,
+   "g": 128,
+   "ttft_s": 10.557733736,
+   "ttft_range": [
+    10.470071099,
+    10.791951122
+   ],
+   "prefill_tps": 193.9810238836279,
+   "decode_tps": 19.236298210091988,
+   "total_s": 17.159835586,
+   "total_range": [
+    17.033228825,
+    17.298767859
+   ],
+   "rss_gb": 1.954652,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q40",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 2048,
+   "g": 256,
+   "ttft_s": 10.542528126,
+   "ttft_range": [
+    10.434718349,
+    10.588655015
+   ],
+   "prefill_tps": 194.26080495334122,
+   "decode_tps": 18.435409350250644,
+   "total_s": 24.374605036,
+   "total_range": [
+    23.644002818,
+    24.511018499
+   ],
+   "rss_gb": 1.95526,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q40",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 3840,
+   "g": 256,
+   "ttft_s": 23.796702874,
+   "ttft_range": [
+    23.639847925,
+    24.731922946
+   ],
+   "prefill_tps": 161.36689273014957,
+   "decode_tps": 19.32028598174615,
+   "total_s": 36.995265268,
+   "total_range": [
+    36.986207285,
+    37.214728617
+   ],
+   "rss_gb": 2.006512,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q40",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 3968,
+   "g": 128,
+   "ttft_s": 24.230044032,
+   "ttft_range": [
+    24.112398633,
+    24.340794127
+   ],
+   "prefill_tps": 163.76363141394066,
+   "decode_tps": 15.92102064753178,
+   "total_s": 32.206919561,
+   "total_range": [
+    31.339365577,
+    33.208967868
+   ],
+   "rss_gb": 2.006348,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "bitnet_old",
+   "threads": 8,
+   "p": 512,
+   "g": 128,
+   "ttft_s": 5.487179856,
+   "ttft_range": [
+    5.324184468,
+    5.589795039
+   ],
+   "prefill_tps": 93.3084049432332,
+   "decode_tps": 20.871967163086612,
+   "total_s": 11.571896213,
+   "total_range": [
+    11.461581753,
+    11.578342116
+   ],
+   "rss_gb": 1.221316,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "bitnet_old",
+   "threads": 8,
+   "p": 512,
+   "g": 256,
+   "ttft_s": 5.264318965,
+   "ttft_range": [
+    5.238532722,
+    5.269775139
+   ],
+   "prefill_tps": 97.25854443928057,
+   "decode_tps": 19.459204896182833,
+   "total_s": 18.368657059,
+   "total_range": [
+    17.875407301,
+    20.794316187
+   ],
+   "rss_gb": 1.221196,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "bitnet_old",
+   "threads": 8,
+   "p": 1024,
+   "g": 128,
+   "ttft_s": 11.289189981,
+   "ttft_range": [
+    11.214476446,
+    11.308081678
+   ],
+   "prefill_tps": 90.70624214167877,
+   "decode_tps": 19.838795831106562,
+   "total_s": 17.690788197,
+   "total_range": [
+    17.68472151,
+    17.839854641
+   ],
+   "rss_gb": 1.236864,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "bitnet_old",
+   "threads": 8,
+   "p": 1024,
+   "g": 256,
+   "ttft_s": 11.538568084,
+   "ttft_range": [
+    11.269813466,
+    11.609511126
+   ],
+   "prefill_tps": 88.74584719224681,
+   "decode_tps": 19.4647698675587,
+   "total_s": 24.639159652,
+   "total_range": [
+    24.558186036,
+    24.676524545
+   ],
+   "rss_gb": 1.23666,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "bitnet_old",
+   "threads": 12,
+   "p": 2048,
+   "g": 128,
+   "ttft_s": 18.339133218,
+   "ttft_range": [
+    17.692984912,
+    18.806323864
+   ],
+   "prefill_tps": 111.67376209415788,
+   "decode_tps": 16.606630667510096,
+   "total_s": 25.986680908,
+   "total_range": [
+    25.238463991,
+    27.601001682
+   ],
+   "rss_gb": 1.262196,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "bitnet_old",
+   "threads": 12,
+   "p": 2048,
+   "g": 256,
+   "ttft_s": 17.902554621,
+   "ttft_range": [
+    17.90094553,
+    18.607057173
+   ],
+   "prefill_tps": 114.39708149794785,
+   "decode_tps": 16.7538724749561,
+   "total_s": 33.122916384,
+   "total_range": [
+    32.501786227,
+    33.957775952
+   ],
+   "rss_gb": 1.262412,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "bitnet_old",
+   "threads": 12,
+   "p": 3840,
+   "g": 256,
+   "ttft_s": 39.645643058,
+   "ttft_range": [
+    38.708489476,
+    42.845212404
+   ],
+   "prefill_tps": 96.85805813219457,
+   "decode_tps": 13.719136451200633,
+   "total_s": 58.232818782,
+   "total_range": [
+    56.802316239,
+    58.393692527
+   ],
+   "rss_gb": 1.316964,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "bitnet_old",
+   "threads": 12,
+   "p": 3968,
+   "g": 128,
+   "ttft_s": 41.312032943,
+   "ttft_range": [
+    40.53646567,
+    42.182556901
+   ],
+   "prefill_tps": 96.0494973819086,
+   "decode_tps": 14.593017839047928,
+   "total_s": 50.014825018,
+   "total_range": [
+    49.736882008,
+    51.834251892
+   ],
+   "rss_gb": 1.316532,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 512,
+   "g": 128,
+   "ttft_s": 1.584366855,
+   "ttft_range": [
+    1.536105394,
+    1.599347908
+   ],
+   "prefill_tps": 323.1574798375847,
+   "decode_tps": 16.895334747808807,
+   "total_s": 9.101234789,
+   "total_range": [
+    8.821580964,
+    9.954660546
+   ],
+   "rss_gb": 1.85442,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 512,
+   "g": 256,
+   "ttft_s": 1.621059059,
+   "ttft_range": [
+    1.583616912,
+    1.67382679
+   ],
+   "prefill_tps": 315.84290353729796,
+   "decode_tps": 19.300601187145134,
+   "total_s": 14.833082743,
+   "total_range": [
+    14.794958351,
+    14.940449627
+   ],
+   "rss_gb": 1.854888,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 1024,
+   "g": 128,
+   "ttft_s": 3.20105481,
+   "ttft_range": [
+    3.120819115,
+    3.428121337
+   ],
+   "prefill_tps": 319.89455375804704,
+   "decode_tps": 15.817505623032018,
+   "total_s": 11.230133669,
+   "total_range": [
+    10.40608732,
+    11.325820282
+   ],
+   "rss_gb": 1.870644,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 1024,
+   "g": 256,
+   "ttft_s": 3.074243018,
+   "ttft_range": [
+    3.069233058,
+    3.245525508
+   ],
+   "prefill_tps": 333.09012788005947,
+   "decode_tps": 14.796162521761445,
+   "total_s": 20.308441387,
+   "total_range": [
+    17.724504182,
+    24.357509545
+   ],
+   "rss_gb": 1.870736,
+   "flags": [
+    "SPREAD>25%"
+   ]
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 2048,
+   "g": 128,
+   "ttft_s": 6.938888315,
+   "ttft_range": [
+    6.916571543,
+    7.045758762
+   ],
+   "prefill_tps": 295.14814290536685,
+   "decode_tps": 17.03048379170358,
+   "total_s": 14.396104537,
+   "total_range": [
+    14.167046934,
+    16.832348253
+   ],
+   "rss_gb": 1.90116,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 2048,
+   "g": 256,
+   "ttft_s": 7.133342512,
+   "ttft_range": [
+    7.123565703,
+    7.349841111
+   ],
+   "prefill_tps": 287.1024343152976,
+   "decode_tps": 14.84000503211651,
+   "total_s": 24.316625095,
+   "total_range": [
+    23.849817326,
+    26.769434638
+   ],
+   "rss_gb": 1.90118,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 3840,
+   "g": 256,
+   "ttft_s": 14.32646831,
+   "ttft_range": [
+    14.123004641,
+    15.016903895
+   ],
+   "prefill_tps": 268.0353536481595,
+   "decode_tps": 14.982110504314946,
+   "total_s": 31.346767281,
+   "total_range": [
+    30.990972228,
+    31.541455046
+   ],
+   "rss_gb": 1.953316,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_1P5B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 3968,
+   "g": 128,
+   "ttft_s": 15.794460995,
+   "ttft_range": [
+    15.718549515,
+    15.939392695
+   ],
+   "prefill_tps": 251.2273132496346,
+   "decode_tps": 18.56451583401819,
+   "total_s": 22.635468923,
+   "total_range": [
+    22.444172187,
+    22.805115759
+   ],
+   "rss_gb": 1.954048,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_3B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 512,
+   "g": 128,
+   "ttft_s": 3.452034013,
+   "ttft_range": [
+    3.43600373,
+    3.980185385
+   ],
+   "prefill_tps": 148.3183532004208,
+   "decode_tps": 7.972098895754658,
+   "total_s": 19.38259404,
+   "total_range": [
+    16.69929399,
+    20.190646353
+   ],
+   "rss_gb": 3.356688,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_3B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 512,
+   "g": 256,
+   "ttft_s": 3.258290381,
+   "ttft_range": [
+    3.194482845,
+    3.29470353
+   ],
+   "prefill_tps": 157.13762130766943,
+   "decode_tps": 8.975449722903555,
+   "total_s": 31.669123027,
+   "total_range": [
+    30.588186702,
+    31.946208179
+   ],
+   "rss_gb": 3.356836,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_3B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 1024,
+   "g": 128,
+   "ttft_s": 6.427085976,
+   "ttft_range": [
+    6.409984601,
+    6.432758123
+   ],
+   "prefill_tps": 159.32570434312174,
+   "decode_tps": 10.335700311112108,
+   "total_s": 18.714593951,
+   "total_range": [
+    18.567937034,
+    18.746328654
+   ],
+   "rss_gb": 3.377664,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_3B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 1024,
+   "g": 256,
+   "ttft_s": 6.570581632,
+   "ttft_range": [
+    6.450611062,
+    6.762999972
+   ],
+   "prefill_tps": 155.8461727365082,
+   "decode_tps": 9.080547691014768,
+   "total_s": 34.652588211,
+   "total_range": [
+    34.039706536,
+    35.802435207
+   ],
+   "rss_gb": 3.377392,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_3B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 2048,
+   "g": 128,
+   "ttft_s": 13.967764328,
+   "ttft_range": [
+    13.846034606,
+    13.989833399
+   ],
+   "prefill_tps": 146.62332152143682,
+   "decode_tps": 8.778433816380016,
+   "total_s": 28.435037495,
+   "total_range": [
+    27.824115803,
+    29.694850529
+   ],
+   "rss_gb": 3.416312,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_3B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 2048,
+   "g": 256,
+   "ttft_s": 13.546318958,
+   "ttft_range": [
+    13.53416888,
+    13.583248994
+   ],
+   "prefill_tps": 151.18498289828915,
+   "decode_tps": 9.114470662717366,
+   "total_s": 41.523807661,
+   "total_range": [
+    40.943213106,
+    42.601491843
+   ],
+   "rss_gb": 3.416364,
+   "flags": []
+  },
+  {
+   "model": "QWEN25_3B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 3840,
+   "g": 256,
+   "ttft_s": 31.146435966,
+   "ttft_range": [
+    30.934442578,
+    32.552515864
+   ],
+   "prefill_tps": 123.28858442076044,
+   "decode_tps": 7.165424267240827,
+   "total_s": 66.734000706,
+   "total_range": [
+    62.196774078,
+    86.248589383
+   ],
+   "rss_gb": 3.482896,
+   "flags": [
+    "SPREAD>25%"
+   ]
+  },
+  {
+   "model": "QWEN25_3B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 3968,
+   "g": 128,
+   "ttft_s": 31.290672535,
+   "ttft_range": [
+    31.145545413,
+    31.544924947
+   ],
+   "prefill_tps": 126.8109528665968,
+   "decode_tps": 9.443210459898797,
+   "total_s": 44.739488543,
+   "total_range": [
+    44.381425914,
+    49.424867073
+   ],
+   "rss_gb": 3.483192,
+   "flags": []
+  },
+  {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 512,
+   "g": 128,
+   "ttft_s": 2.291891323,
+   "ttft_range": [
+    2.272249207,
+    2.293042892
+   ],
+   "prefill_tps": 223.39628186637188,
+   "decode_tps": 17.650453532232408,
+   "total_s": 9.487173856,
+   "total_range": [
+    9.390582206,
+    9.654719679
+   ],
+   "rss_gb": 2.025772,
+   "flags": []
+  },
+  {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 512,
+   "g": 256,
+   "ttft_s": 2.442436809,
+   "ttft_range": [
+    2.299596869,
+    2.515997444
+   ],
+   "prefill_tps": 209.62671300782873,
+   "decode_tps": 17.296124877336823,
+   "total_s": 17.18562361,
+   "total_range": [
+    17.150745118,
+    17.472092358
+   ],
+   "rss_gb": 2.025512,
+   "flags": []
+  },
+  {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 1024,
+   "g": 128,
+   "ttft_s": 5.175209463,
+   "ttft_range": [
+    5.16687375,
+    5.217867424
+   ],
+   "prefill_tps": 197.8663873068436,
+   "decode_tps": 16.030982515920883,
+   "total_s": 13.097368936,
+   "total_range": [
+    12.97894975,
+    13.206171148
+   ],
+   "rss_gb": 2.12566,
+   "flags": []
+  },
+  {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "runtime": "upstream",
+   "threads": 8,
+   "p": 1024,
+   "g": 256,
+   "ttft_s": 5.097023374,
+   "ttft_range": [
+    5.028124118,
+    5.159184683
+   ],
+   "prefill_tps": 200.90157036034813,
+   "decode_tps": 14.141584185827453,
+   "total_s": 23.128949405,
+   "total_range": [
+    21.869664514,
+    23.287958783
+   ],
+   "rss_gb": 2.12558,
+   "flags": []
+  },
+  {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 2048,
+   "g": 128,
+   "ttft_s": 8.983102819,
+   "ttft_range": [
+    8.486602497,
+    9.082650169
+   ],
+   "prefill_tps": 227.98358665875577,
+   "decode_tps": 10.825774340324793,
+   "total_s": 20.714365268,
+   "total_range": [
+    18.159983553,
+    20.79461326
+   ],
+   "rss_gb": 2.32548,
+   "flags": []
+  },
+  {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 2048,
+   "g": 256,
+   "ttft_s": 8.951256027,
+   "ttft_range": [
+    8.408474751,
+    9.25793118
+   ],
+   "prefill_tps": 228.7947070022959,
+   "decode_tps": 10.86317700622258,
+   "total_s": 32.425051939,
+   "total_range": [
+    29.403701483,
+    35.387301234
+   ],
+   "rss_gb": 2.325944,
+   "flags": []
+  },
+  {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 3840,
+   "g": 256,
+   "ttft_s": 19.683196677,
+   "ttft_range": [
+    19.125750889,
+    20.423103557
+   ],
+   "prefill_tps": 195.09026216697188,
+   "decode_tps": 9.50201963787839,
+   "total_s": 46.519596697,
+   "total_range": [
+    45.782463736,
+    46.858814121
+   ],
+   "rss_gb": 2.671656,
+   "flags": []
+  },
+  {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "runtime": "upstream",
+   "threads": 12,
+   "p": 3968,
+   "g": 128,
+   "ttft_s": 20.608269539,
+   "ttft_range": [
+    19.04850151,
+    21.336116352
+   ],
+   "prefill_tps": 192.5440655019958,
+   "decode_tps": 10.22062307796153,
+   "total_s": 33.034126459,
+   "total_range": [
+    31.375911049,
+    34.483318531
+   ],
+   "rss_gb": 2.672548,
+   "flags": []
+  }
+ ]
+}

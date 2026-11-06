@@ -1,0 +1,544 @@
+{
+ "quality_macro": {
+  "BITNET_2B4T_I2S": 56.689440000000005,
+  "LLAMA32_1B_Q4KM": 50.262739999999994,
+  "QWEN25_1P5B_Q40": 51.88851999999999,
+  "QWEN25_1P5B_Q4KM": 53.607420000000005,
+  "QWEN25_3B_Q4KM": 56.42188,
+  "SMOLLM2_1P7B_Q4KM": 55.283640000000005
+ },
+ "quality_tasks": {
+  "BITNET_2B4T_I2S": {
+   "arc_challenge": 44.1472,
+   "arc_easy": 68.0,
+   "hellaswag": 65.5,
+   "mmlu": 33.6,
+   "winogrande": 72.2
+  },
+  "LLAMA32_1B_Q4KM": {
+   "arc_challenge": 34.1137,
+   "arc_easy": 60.0,
+   "hellaswag": 59.0,
+   "mmlu": 34.4,
+   "winogrande": 63.8
+  },
+  "QWEN25_1P5B_Q40": {
+   "arc_challenge": 37.7926,
+   "arc_easy": 57.6,
+   "hellaswag": 65.25,
+   "mmlu": 34.2,
+   "winogrande": 64.6
+  },
+  "QWEN25_1P5B_Q4KM": {
+   "arc_challenge": 41.1371,
+   "arc_easy": 62.4,
+   "hellaswag": 65.5,
+   "mmlu": 36.2,
+   "winogrande": 62.8
+  },
+  "QWEN25_3B_Q4KM": {
+   "arc_challenge": 42.8094,
+   "arc_easy": 58.0,
+   "hellaswag": 72.5,
+   "mmlu": 38.0,
+   "winogrande": 70.8
+  },
+  "SMOLLM2_1P7B_Q4KM": {
+   "arc_challenge": 40.4682,
+   "arc_easy": 61.6,
+   "hellaswag": 70.75,
+   "mmlu": 35.2,
+   "winogrande": 68.4
+  }
+ },
+ "tolerances": {
+  "3.0": {
+   "matched_int4": [
+    "QWEN25_3B_Q4KM",
+    "SMOLLM2_1P7B_Q4KM"
+   ],
+   "cells": [
+    {
+     "decode": 0.8778056529616192,
+     "ttft": 0.6369966894454375,
+     "total": 0.8043480662652426,
+     "memory": 1.52345757001474,
+     "decode_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "ttft_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "total_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "bytes_ratio": 0.9537353482106924,
+     "p": 512,
+     "g": 128,
+     "vs_primary": {
+      "decode": 0.742319483681994,
+      "ttft": 0.4403509151476811,
+      "total": 0.7716271161752074,
+      "memory": 1.3945943506903709
+     }
+    },
+    {
+     "decode": 0.955679233456398,
+     "ttft": 0.6205276005508971,
+     "total": 0.7875949745193088,
+     "memory": 1.5518077144333902,
+     "decode_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "ttft_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "total_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "bytes_ratio": 1.0037436459642641,
+     "p": 1024,
+     "g": 128,
+     "vs_primary": {
+      "decode": 0.7722483366831266,
+      "ttft": 0.3838188337462483,
+      "total": 0.6753109639122475,
+      "memory": 1.3656369269584667
+     }
+    },
+    {
+     "decode": 1.3118902065901912,
+     "ttft": 0.5264361992637376,
+     "total": 0.7965148615139576,
+     "memory": 1.605196311226462,
+     "decode_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "ttft_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "total_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "bytes_ratio": 1.0949662755944256,
+     "p": 2048,
+     "g": 128,
+     "vs_primary": {
+      "decode": 0.8339297643879098,
+      "ttft": 0.4066392275882688,
+      "total": 0.5535632428642664,
+      "memory": 1.3123032746148324
+     }
+    },
+    {
+     "decode": 0.9687745432215409,
+     "ttft": 0.46372960383017925,
+     "total": 0.576847669334049,
+     "memory": 1.6822528501792693,
+     "decode_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "ttft_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "total_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "bytes_ratio": 1.2400384144188594,
+     "p": 3968,
+     "g": 128,
+     "vs_primary": {
+      "decode": 0.5333551137190415,
+      "ttft": 0.3554087414307945,
+      "total": 0.39526450044688455,
+      "memory": 1.2299883172863877
+     }
+    },
+    {
+     "decode": 0.8912256963591536,
+     "ttft": 0.6225165673320443,
+     "total": 0.8397123136392748,
+     "memory": 1.5234316005451378,
+     "decode_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "ttft_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "total_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "bytes_ratio": 0.9601614426908921,
+     "p": 512,
+     "g": 256,
+     "vs_primary": {
+      "decode": 0.7921572859918438,
+      "ttft": 0.41316774998341166,
+      "total": 0.7247640534428841,
+      "memory": 1.3951015815615853
+     }
+    },
+    {
+     "decode": 1.0652869992796294,
+     "ttft": 0.5960721540440805,
+     "total": 0.9078064585163922,
+     "memory": 1.5517719685554427,
+     "decode_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "ttft_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "total_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t8",
+     "bytes_ratio": 1.0097765896794784,
+     "p": 1024,
+     "g": 256,
+     "vs_primary": {
+      "decode": 0.7739544769798936,
+      "ttft": 0.35951780545910345,
+      "total": 0.7971021048424571,
+      "memory": 1.365724030790436
+     }
+    },
+    {
+     "decode": 0.9829720447229352,
+     "ttft": 0.5151898738554311,
+     "total": 0.7859646024779764,
+     "memory": 1.6053969139193887,
+     "decode_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "ttft_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "total_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "bytes_ratio": 1.100313900524736,
+     "p": 2048,
+     "g": 256,
+     "vs_primary": {
+      "decode": 0.6373570844564855,
+      "ttft": 0.41055979382555363,
+      "total": 0.5894210011552901,
+      "memory": 1.3122192558398926
+     }
+    },
+    {
+     "decode": 0.5762612293973008,
+     "ttft": 0.4491612817969572,
+     "total": 0.5146430500011013,
+     "memory": 1.681704077650347,
+     "decode_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "ttft_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "total_comparator": "SMOLLM2_1P7B_Q4KM|upstream|t12",
+     "bytes_ratio": 1.2356670973745505,
+     "p": 3840,
+     "g": 256,
+     "vs_primary": {
+      "decode": 0.3654789167857275,
+      "ttft": 0.32692326227996904,
+      "total": 0.34678709762350396,
+      "memory": 1.2295368423702995
+     }
+    }
+   ],
+   "outcome": {
+    "label": "SPEED_LOW",
+    "geomean_total": 0.7398256070587872,
+    "geomean_decode": 0.9328368703060553,
+    "geomean_ttft": 0.5492765116603441,
+    "geomean_bandwidth_implied_decode": 1.0696317276956424,
+    "worst_cell_total": 0.5146430500011013,
+    "flags": []
+   },
+   "vs_primary_geomean": {
+    "decode": 0.6609341931328329,
+    "ttft": 0.3854263947660237,
+    "total": 0.5836408542640847
+   }
+  },
+  "0.0": {
+   "matched_int4": [],
+   "outcome": {
+    "label": "NO_MATCHED_COMPARATOR",
+    "flags": [],
+    "note": "no INT4 model reaches the ternary model's quality within tolerance: no efficiency ratio is computed; see the quality-vs-speed table"
+   }
+  },
+  "5.0": {
+   "matched_int4": [
+    "QWEN25_1P5B_Q4KM",
+    "QWEN25_1P5B_Q40",
+    "QWEN25_3B_Q4KM",
+    "SMOLLM2_1P7B_Q4KM"
+   ],
+   "cells": [
+    {
+     "decode": 0.7384894370243538,
+     "ttft": 0.4403509151476811,
+     "total": 0.7175785563576063,
+     "memory": 1.4350389555695935,
+     "decode_comparator": "QWEN25_1P5B_Q40|upstream|t8",
+     "ttft_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "total_comparator": "QWEN25_1P5B_Q40|upstream|t8",
+     "bytes_ratio": 0.7726806939606242,
+     "p": 512,
+     "g": 128,
+     "vs_primary": {
+      "decode": 0.742319483681994,
+      "ttft": 0.4403509151476811,
+      "total": 0.7716271161752074,
+      "memory": 1.3945943506903709
+     }
+    },
+    {
+     "decode": 0.7722483366831266,
+     "ttft": 0.3838188337462483,
+     "total": 0.6753109639122475,
+     "memory": 1.3656369269584667,
+     "decode_comparator": "QWEN25_1P5B_Q4KM|bitnet_old|t8",
+     "ttft_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "total_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "bytes_ratio": 0.8007015124017552,
+     "p": 1024,
+     "g": 128,
+     "vs_primary": {
+      "decode": 0.7722483366831266,
+      "ttft": 0.3838188337462483,
+      "total": 0.6753109639122475,
+      "memory": 1.3656369269584667
+     }
+    },
+    {
+     "decode": 0.7383035540786393,
+     "ttft": 0.4066392275882688,
+     "total": 0.5535632428642664,
+     "memory": 1.3123032746148324,
+     "decode_comparator": "QWEN25_1P5B_Q40|upstream|t8",
+     "ttft_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "total_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "bytes_ratio": 0.7375680504576926,
+     "p": 2048,
+     "g": 128,
+     "vs_primary": {
+      "decode": 0.8339297643879098,
+      "ttft": 0.4066392275882688,
+      "total": 0.5535632428642664,
+      "memory": 1.3123032746148324
+     }
+    },
+    {
+     "decode": 0.5333551137190415,
+     "ttft": 0.3554087414307945,
+     "total": 0.39526450044688455,
+     "memory": 1.2299883172863877,
+     "decode_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "ttft_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "total_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "bytes_ratio": 0.7358119043009064,
+     "p": 3968,
+     "g": 128,
+     "vs_primary": {
+      "decode": 0.5333551137190415,
+      "ttft": 0.3554087414307945,
+      "total": 0.39526450044688455,
+      "memory": 1.2299883172863877
+     }
+    },
+    {
+     "decode": 0.7164473949144996,
+     "ttft": 0.41316774998341166,
+     "total": 0.6989025886206731,
+     "memory": 1.4354574253970451,
+     "decode_comparator": "QWEN25_1P5B_Q40|upstream|t8",
+     "ttft_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "total_comparator": "QWEN25_1P5B_Q40|upstream|t8",
+     "bytes_ratio": 0.7710830469807503,
+     "p": 512,
+     "g": 256,
+     "vs_primary": {
+      "decode": 0.7921572859918438,
+      "ttft": 0.41316774998341166,
+      "total": 0.7247640534428841,
+      "memory": 1.3951015815615853
+     }
+    },
+    {
+     "decode": 0.740583061478911,
+     "ttft": 0.35951780545910345,
+     "total": 0.6949264373519528,
+     "memory": 1.4048632769153497,
+     "decode_comparator": "QWEN25_1P5B_Q40|upstream|t8",
+     "ttft_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "total_comparator": "QWEN25_1P5B_Q40|upstream|t8",
+     "bytes_ratio": 0.7587477957661043,
+     "p": 1024,
+     "g": 256,
+     "vs_primary": {
+      "decode": 0.7739544769798936,
+      "ttft": 0.35951780545910345,
+      "total": 0.7971021048424571,
+      "memory": 1.365724030790436
+     }
+    },
+    {
+     "decode": 0.5792222516528284,
+     "ttft": 0.41055979382555363,
+     "total": 0.5894210011552901,
+     "memory": 1.3122192558398926,
+     "decode_comparator": "QWEN25_1P5B_Q40|upstream|t8",
+     "ttft_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "total_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "bytes_ratio": 0.7362385311290034,
+     "p": 2048,
+     "g": 256,
+     "vs_primary": {
+      "decode": 0.6373570844564855,
+      "ttft": 0.41055979382555363,
+      "total": 0.5894210011552901,
+      "memory": 1.3122192558398926
+     }
+    },
+    {
+     "decode": 0.28341430988415484,
+     "ttft": 0.32692326227996904,
+     "total": 0.34678709762350396,
+     "memory": 1.2295368423702995,
+     "decode_comparator": "QWEN25_1P5B_Q40|upstream|t8",
+     "ttft_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "total_comparator": "QWEN25_1P5B_Q4KM|upstream|t12",
+     "bytes_ratio": 0.7025872010980356,
+     "p": 3840,
+     "g": 256,
+     "vs_primary": {
+      "decode": 0.3654789167857275,
+      "ttft": 0.32692326227996904,
+      "total": 0.34678709762350396,
+      "memory": 1.2295368423702995
+     }
+    }
+   ],
+   "outcome": {
+    "label": "SPEED_LOW",
+    "geomean_total": 0.5659577887271544,
+    "geomean_decode": 0.6115362746531778,
+    "geomean_ttft": 0.3854263947660237,
+    "geomean_bandwidth_implied_decode": 0.7513972887922773,
+    "worst_cell_total": 0.34678709762350396,
+    "flags": []
+   },
+   "vs_primary_geomean": {
+    "decode": 0.6609341931328329,
+    "ttft": 0.3854263947660237,
+    "total": 0.5836408542640847
+   }
+  }
+ },
+ "bytes_profiles": {
+  "BITNET_2B4T_I2S": {
+   "model": "BITNET_2B4T_I2S",
+   "arch": "bitnet-b1.58",
+   "n_layer": 30,
+   "n_head": 20,
+   "n_kv_head": 5,
+   "head_dim": 128,
+   "embedding_length": 2560,
+   "output_head": "tied to token_embd.weight",
+   "weight_bytes_streamed": 1179449920,
+   "sum_all_tensor_bytes": 1179449920,
+   "bytes_by_type": {
+    "F16": 656670720,
+    "F32": 1761280,
+    "I2_S": 521017920
+   },
+   "file_bytes": 1187801280,
+   "kv_bytes_per_token": 76800
+  },
+  "QWEN25_1P5B_Q4KM": {
+   "model": "QWEN25_1P5B_Q4KM",
+   "arch": "qwen2",
+   "n_layer": 28,
+   "n_head": 12,
+   "n_kv_head": 2,
+   "head_dim": 128,
+   "embedding_length": 1536,
+   "output_head": "separate output.weight",
+   "weight_bytes_streamed": 980097536,
+   "sum_all_tensor_bytes": 1111370240,
+   "bytes_by_type": {
+    "Q6_K": 354009600,
+    "F32": 579584,
+    "Q4_K": 625508352
+   },
+   "file_bytes": 1117320736,
+   "kv_bytes_per_token": 28672
+  },
+  "QWEN25_1P5B_Q40": {
+   "model": "QWEN25_1P5B_Q40",
+   "arch": "qwen2",
+   "n_layer": 28,
+   "n_head": 12,
+   "n_kv_head": 2,
+   "head_dim": 128,
+   "embedding_length": 1536,
+   "output_head": "separate output.weight",
+   "weight_bytes_streamed": 929004032,
+   "sum_all_tensor_bytes": 1060276736,
+   "bytes_by_type": {
+    "Q6_K": 191439360,
+    "F32": 579584,
+    "Q4_0": 736985088
+   },
+   "file_bytes": 1066227232,
+   "kv_bytes_per_token": 28672
+  },
+  "QWEN25_3B_Q4KM": {
+   "model": "QWEN25_3B_Q4KM",
+   "arch": "qwen2",
+   "n_layer": 36,
+   "n_head": 16,
+   "n_kv_head": 2,
+   "head_dim": 128,
+   "embedding_length": 2048,
+   "output_head": "tied to token_embd.weight",
+   "weight_bytes_streamed": 1923946496,
+   "sum_all_tensor_bytes": 1923946496,
+   "bytes_by_type": {
+    "Q6_K": 595875840,
+    "F32": 966656,
+    "Q4_K": 1327104000
+   },
+   "file_bytes": 1929903264,
+   "kv_bytes_per_token": 36864
+  },
+  "LLAMA32_1B_Q4KM": {
+   "model": "LLAMA32_1B_Q4KM",
+   "arch": "llama",
+   "n_layer": 16,
+   "n_head": 32,
+   "n_kv_head": 8,
+   "head_dim": 64,
+   "embedding_length": 2048,
+   "output_head": "tied to token_embd.weight",
+   "weight_bytes_streamed": 799862912,
+   "sum_all_tensor_bytes": 799862912,
+   "bytes_by_type": {
+    "F32": 270464,
+    "Q6_K": 332451840,
+    "Q4_K": 467140608
+   },
+   "file_bytes": 807694464,
+   "kv_bytes_per_token": 32768
+  },
+  "SMOLLM2_1P7B_Q4KM": {
+   "model": "SMOLLM2_1P7B_Q4KM",
+   "arch": "llama",
+   "n_layer": 24,
+   "n_head": 32,
+   "n_kv_head": 32,
+   "head_dim": 64,
+   "embedding_length": 2048,
+   "output_head": "tied to token_embd.weight",
+   "weight_bytes_streamed": 1053827072,
+   "sum_all_tensor_bytes": 1053827072,
+   "bytes_by_type": {
+    "Q6_K": 289013760,
+    "F32": 401408,
+    "Q4_K": 764411904
+   },
+   "file_bytes": 1055609824,
+   "kv_bytes_per_token": 196608
+  }
+ },
+ "quality_vs_speed_vs_ternary": {
+  "QWEN25_3B_Q4KM": {
+   "quality_macro": 56.42188,
+   "quality_minus_ternary": -0.26756000000000313,
+   "geomean_decode_ratio": 1.3707739400620056,
+   "geomean_ttft_ratio": 0.7893309443102539,
+   "geomean_total_ratio": 1.119694012985187
+  },
+  "QWEN25_1P5B_Q4KM": {
+   "quality_macro": 53.607420000000005,
+   "quality_minus_ternary": -3.08202,
+   "geomean_decode_ratio": 0.6609341931328329,
+   "geomean_ttft_ratio": 0.3854263947660237,
+   "geomean_total_ratio": 0.5836408542640847
+  },
+  "SMOLLM2_1P7B_Q4KM": {
+   "quality_macro": 55.283640000000005,
+   "quality_minus_ternary": -1.4057999999999993,
+   "geomean_decode_ratio": 0.9328368703060553,
+   "geomean_ttft_ratio": 0.5492765116603441,
+   "geomean_total_ratio": 0.7398256070587872
+  },
+  "QWEN25_1P5B_Q40": {
+   "quality_macro": 51.88851999999999,
+   "quality_minus_ternary": -4.800920000000012,
+   "geomean_decode_ratio": 0.6443452465691001,
+   "geomean_ttft_ratio": 0.6044984137000788,
+   "geomean_total_ratio": 0.6325308482544378
+  }
+ }
+}

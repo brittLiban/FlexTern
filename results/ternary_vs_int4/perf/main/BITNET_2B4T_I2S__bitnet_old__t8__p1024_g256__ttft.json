@@ -1,0 +1,74 @@
+{
+ "model": "BITNET_2B4T_I2S",
+ "runtime": "bitnet_old",
+ "threads": 8,
+ "p": 1024,
+ "g": 256,
+ "kind": "ttft",
+ "reps": 3,
+ "cmd": [
+  "/usr/bin/time",
+  "-v",
+  "/home/liban/exp0011/BitNet_old/build/bin/llama-bench",
+  "-m",
+  "/home/liban/exp0011/models/bitnet-b1.58-2B-4T-i2_s.gguf",
+  "-p",
+  "0",
+  "-n",
+  "0",
+  "-pg",
+  "1024,1",
+  "-t",
+  "8",
+  "-r",
+  "3",
+  "-ngl",
+  "0",
+  "-fa",
+  "1",
+  "-o",
+  "json"
+ ],
+ "returncode": 0,
+ "env_before": {
+  "time_utc": "2026-11-06T18:33:30Z",
+  "loadavg": [
+   7.1220703125,
+   8.6181640625,
+   8.900390625
+  ],
+  "mem_available_mb": 4582,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 100,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "wall_s": 36.36897373199463,
+ "waited_for_ac_s": 0,
+ "power_after": {
+  "battery_status": 2,
+  "charge_pct": 100,
+  "on_ac": true,
+  "ok": true,
+  "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+ },
+ "samples_ns": [
+  8508484397,
+  8551017422,
+  8600009924
+ ],
+ "avg_ns": 8553170581,
+ "n_prompt": 1024,
+ "n_gen": 1,
+ "n_depth": 0,
+ "model_size": 1836120640,
+ "model_n_params": 2741155840,
+ "build_commit": "40ed0f290",
+ "cpu_info": "AMD Ryzen 7 260 w/ Radeon 780M",
+ "backends": null,
+ "max_rss_kb": 1370072,
+ "wall_str": "0:36.36"
+}

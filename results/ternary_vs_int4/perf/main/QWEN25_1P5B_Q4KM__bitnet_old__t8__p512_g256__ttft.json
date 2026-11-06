@@ -1,0 +1,74 @@
+{
+ "model": "QWEN25_1P5B_Q4KM",
+ "runtime": "bitnet_old",
+ "threads": 8,
+ "p": 512,
+ "g": 256,
+ "kind": "ttft",
+ "reps": 3,
+ "cmd": [
+  "/usr/bin/time",
+  "-v",
+  "/home/liban/exp0011/BitNet_old/build/bin/llama-bench",
+  "-m",
+  "/home/liban/exp0011/models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+  "-p",
+  "0",
+  "-n",
+  "0",
+  "-pg",
+  "512,1",
+  "-t",
+  "8",
+  "-r",
+  "3",
+  "-ngl",
+  "0",
+  "-fa",
+  "1",
+  "-o",
+  "json"
+ ],
+ "returncode": 0,
+ "env_before": {
+  "time_utc": "2026-11-06T20:08:06Z",
+  "loadavg": [
+   6.06884765625,
+   8.3759765625,
+   8.97119140625
+  ],
+  "mem_available_mb": 4907,
+  "power_check": {
+   "battery_status": 2,
+   "charge_pct": 100,
+   "on_ac": true,
+   "ok": true,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "wall_s": 22.430768489837646,
+ "waited_for_ac_s": 0,
+ "power_after": {
+  "battery_status": 2,
+  "charge_pct": 100,
+  "on_ac": true,
+  "ok": true,
+  "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+ },
+ "samples_ns": [
+  5269775139,
+  5238532722,
+  5264318965
+ ],
+ "avg_ns": 5257542275,
+ "n_prompt": 512,
+ "n_gen": 1,
+ "n_depth": 0,
+ "model_size": 1111370240,
+ "model_n_params": 1777088000,
+ "build_commit": "40ed0f290",
+ "cpu_info": "AMD Ryzen 7 260 w/ Radeon 780M",
+ "backends": null,
+ "max_rss_kb": 1221344,
+ "wall_str": "0:22.42"
+}

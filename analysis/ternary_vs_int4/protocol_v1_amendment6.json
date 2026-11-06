@@ -1,0 +1,11 @@
+{
+ "amendment": 6,
+ "to": "protocol_v1.json",
+ "made": "during the resumed timing run, before any timing result was analysed",
+ "event": "the harness stopped (refusal) at a single power check that read battery status 1 at 98% charge; moments later the status was 2 at 100%: a brief adapter blip, not a sustained battery period. The refusal rule is kept, but a failing check now waits up to 120 s for AC to return before refusing, and each record stores a power check taken after the run (power_after) and the wait time. Samples whose power_after is not ok are flagged in the analysis, never silently dropped.",
+ "scope": "no change to the measured commands, grid, repetitions, thread rule or decision rule. Invocations completed earlier in the run lack power_after; their env_before was ok.",
+ "code_sha256_after": {
+  "config.py": "9f9e50439241a0d02c162662054f494e31b5fa3151cd77ba1b3bf0f9cf582942",
+  "perf.py": "b116d3d1449cf1fcd7d5e4878998588b9f334f26e19c33ab2ad5324113dc273b"
+ }
+}

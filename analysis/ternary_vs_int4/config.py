@@ -74,6 +74,7 @@ FIXED_THREADS = 8                   # also reported, for fairness to a fixed phy
 ORDER_SEED = 20261105
 FLASH_ATTN = "1"                    # pinned explicitly for both runtimes (their "auto" resolution may differ)
 MIN_CHARGE_PCT = 30                 # refuse to time while discharging; require at least this battery charge on AC
+AC_WAIT_S = 1800                    # amendment 6: wait up to this long for AC to return before refusing to time
 BUDGET_S = 240                      # start no new invocation after this many seconds in one foreground call (tool timeout is 600 s)
 
 

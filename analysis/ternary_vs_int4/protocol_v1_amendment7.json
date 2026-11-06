@@ -1,0 +1,12 @@
+{
+ "amendment": 7,
+ "to": "protocol_v1.json",
+ "made": "during the resumed main-grid run, before any timing result was analysed",
+ "event": "the AC adapter dropped out a second time (battery status 1 at 94%) for longer than the 120 s allowed by amendment 6; the harness refused and stopped after 2 completed main-grid invocations. AC returned afterwards. The cause (cable, adapter, outlet or power management) is not determined from the software side.",
+ "change": "AC_WAIT_S raised from 120 to 1800 s: the harness waits up to 30 minutes for AC to return before refusing; an outer loop restarts it (up to 20 times, 60 s apart) so a refusal after a long outage resumes by itself. The no-timing-on-battery rule stands; every record carries env_before, power_after and waited_for_ac_s, and records whose power_after is not ok are flagged in the analysis (not dropped).",
+ "scope": "measured commands, grid, repetitions, thread rule, decision rule unchanged.",
+ "code_sha256_after": {
+  "config.py": "f47e3483a224e4a0b8bf2621179dad5c809305dfdf02856543fbf206ce6d5a8d",
+  "perf.py": "b116d3d1449cf1fcd7d5e4878998588b9f334f26e19c33ab2ad5324113dc273b"
+ }
+}

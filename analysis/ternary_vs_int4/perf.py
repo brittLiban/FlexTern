@@ -56,12 +56,17 @@ def run_one(model_id: str, runtime: str, threads: int, p: int, g: int, kind: str
     cmd = ["/usr/bin/time", "-v", str(C.RUNTIME_BIN[runtime] / "llama-bench"), "-m", str(C.MODELS_DIR / m["file"]), "-p", "0", "-n", "0",
            "-pg", f"{p},{n_gen}", "-t", str(threads), "-r", str(reps), "-ngl", "0", "-fa", C.FLASH_ATTN, "-o", "json"]
     snap = envinfo.snapshot(light=True)
+    waited = 0
+    while not snap["power_check"]["ok"] and waited < C.AC_WAIT_S:      # amendment 6: tolerate a short adapter blip, never time while it lasts
+        time.sleep(10)
+        waited += 10
+        snap = envinfo.snapshot(light=True)
     if not snap["power_check"]["ok"]:
-        raise SystemExit(f"refusing to time: power check failed {snap['power_check']} (needs AC and >= {C.MIN_CHARGE_PCT}% charge)")
+        raise SystemExit(f"refusing to time: power check failed {snap['power_check']} (needs AC and >= {C.MIN_CHARGE_PCT}% charge) after waiting {waited}s")
     t0 = time.time()
     r = subprocess.run(cmd, capture_output=True, text=True)
     rec = {"model": model_id, "runtime": runtime, "threads": threads, "p": p, "g": g, "kind": kind, "reps": reps, "cmd": cmd, "returncode": r.returncode,
-           "env_before": snap, "wall_s": time.time() - t0}
+           "env_before": snap, "wall_s": time.time() - t0, "waited_for_ac_s": waited, "power_after": envinfo.power_check()}
     if r.returncode == 0:
         rec.update(parse_bench_json(r.stdout))
         rec.update(parse_time_v(r.stderr))
