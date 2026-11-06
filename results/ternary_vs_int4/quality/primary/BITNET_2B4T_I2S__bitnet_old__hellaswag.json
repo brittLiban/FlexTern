@@ -16,27 +16,31 @@
   "-t",
   "8",
   "-ngl",
-  "0"
+  "0",
+  "--override-kv",
+  "tokenizer.ggml.pre=str:llama-bpe"
  ],
  "returncode": 0,
- "wall_s": 639.7099542617798,
+ "wall_s": 32431.73422884941,
  "env_before": {
-  "time_utc": "2026-11-05T20:25:16Z",
+  "time_utc": "2026-11-06T06:08:03Z",
   "loadavg": [
-   8.5283203125,
-   7.99169921875,
-   7.1806640625
+   7.31005859375,
+   7.6640625,
+   5.64501953125
   ],
-  "mem_available_mb": 4471,
+  "mem_available_mb": 4457,
   "power_check": {
-   "battery_status": 2,
-   "charge_pct": 100,
-   "on_ac": true,
-   "ok": true,
+   "battery_status": 1,
+   "charge_pct": 78,
+   "on_ac": false,
+   "ok": false,
    "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
   }
  },
- "parse_error": "no hellaswag rows",
- "stdout_tail": ".58631922\n308\t60.38961039\n309\t60.51779935\n310\t60.32258065\n311\t60.45016077\n312\t60.57692308\n313\t60.70287540\n314\t60.82802548\n315\t60.95238095\n316\t61.07594937\n317\t61.19873817\n318\t61.32075472\n319\t61.44200627\n320\t61.56250000\n321\t61.68224299\n322\t61.80124224\n323\t61.91950464\n324\t61.72839506\n325\t61.84615385\n326\t61.96319018\n327\t62.07951070\n328\t62.19512195\n329\t62.00607903\n330\t61.81818182\n331\t61.63141994\n332\t61.74698795\n333\t61.56156156\n334\t61.67664671\n335\t61.79104478\n336\t61.90476190\n337\t62.01780415\n338\t61.83431953\n339\t61.94690265\n340\t62.05882353\n341\t61.87683284\n342\t61.69590643\n343\t61.80758017\n344\t61.91860465\n345\t62.02898551\n346\t61.84971098\n347\t61.95965418\n348\t62.06896552\n349\t62.17765043\n350\t62.00000000\n351\t61.82336182\n352\t61.93181818\n353\t61.75637394\n354\t61.58192090\n355\t61.69014085\n356\t61.79775281\n357\t61.62464986\n358\t61.73184358\n359\t61.83844011\n360\t61.94444444\n361\t61.77285319\n362\t61.60220994\n363\t61.70798898\n364\t61.53846154\n365\t61.64383562\n366\t61.74863388\n367\t61.85286104\n368\t61.95652174\n369\t61.78861789\n370\t61.89189189\n371\t61.72506739\n372\t61.55913978\n373\t61.39410188\n374\t61.49732620\n375\t61.33333333\n376\t61.43617021\n377\t61.53846154\n378\t61.37566138\n379\t61.21372032\n380\t61.31578947\n381\t61.15485564\n382\t60.99476440\n383\t61.09660574\n384\t61.19791667\n385\t61.29870130\n386\t61.39896373\n387\t61.24031008\n388\t61.34020619\n389\t61.43958869\n390\t61.53846154\n391\t61.38107417\n392\t61.47959184\n393\t61.32315522\n394\t61.42131980\n395\t61.51898734\n396\t61.61616162\n397\t61.46095718\n398\t61.30653266\n399\t61.40350877\n400\t61.50000000\n\n\n",
- "stderr_tail": "a_new_context_with_model: freq_scale = 1\nllama_kv_cache_init:        CPU KV buffer size =   150.00 MiB\nllama_new_context_with_model: KV self size  =  150.00 MiB, K (f16):   75.00 MiB, V (f16):   75.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     1.96 MiB\nllama_new_context_with_model:        CPU compute buffer size =   255.50 MiB\nllama_new_context_with_model: graph nodes  = 1116\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nhellaswag_score : loaded 10042 tasks from prompt.\n================================= is_spm = 0\nhellaswag_score : selecting 400 randomized tasks.\nhellaswag_score : calculating hellaswag score over selected tasks.\nllama_perf_context_print:        load time =     918.35 ms\nllama_perf_context_print: prompt eval time =  624928.98 ms / 66555 tokens (    9.39 ms per token,   106.50 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time =  638539.08 ms / 66556 tokens\n"
+ "acc": 65.5,
+ "n": 400,
+ "stderr_points": 2.376841391426866,
+ "stdout_tail": ".16938111\n308\t63.96103896\n309\t64.07766990\n310\t63.87096774\n311\t63.98713826\n312\t64.10256410\n313\t64.21725240\n314\t64.33121019\n315\t64.44444444\n316\t64.55696203\n317\t64.66876972\n318\t64.77987421\n319\t64.89028213\n320\t65.00000000\n321\t65.10903427\n322\t65.21739130\n323\t65.32507740\n324\t65.12345679\n325\t65.23076923\n326\t65.33742331\n327\t65.44342508\n328\t65.54878049\n329\t65.34954407\n330\t65.45454545\n331\t65.25679758\n332\t65.36144578\n333\t65.16516517\n334\t65.26946108\n335\t65.37313433\n336\t65.47619048\n337\t65.57863501\n338\t65.38461538\n339\t65.48672566\n340\t65.58823529\n341\t65.39589443\n342\t65.49707602\n343\t65.59766764\n344\t65.69767442\n345\t65.79710145\n346\t65.60693642\n347\t65.70605187\n348\t65.80459770\n349\t65.90257880\n350\t65.71428571\n351\t65.81196581\n352\t65.90909091\n353\t65.72237960\n354\t65.53672316\n355\t65.63380282\n356\t65.73033708\n357\t65.54621849\n358\t65.64245810\n359\t65.73816156\n360\t65.83333333\n361\t65.65096953\n362\t65.46961326\n363\t65.56473829\n364\t65.38461538\n365\t65.47945205\n366\t65.57377049\n367\t65.66757493\n368\t65.76086957\n369\t65.58265583\n370\t65.67567568\n371\t65.49865229\n372\t65.32258065\n373\t65.14745308\n374\t65.24064171\n375\t65.06666667\n376\t65.15957447\n377\t65.25198939\n378\t65.07936508\n379\t64.90765172\n380\t65.00000000\n381\t64.82939633\n382\t64.92146597\n383\t65.01305483\n384\t65.10416667\n385\t65.19480519\n386\t65.28497409\n387\t65.11627907\n388\t65.20618557\n389\t65.29562982\n390\t65.38461538\n391\t65.21739130\n392\t65.30612245\n393\t65.13994911\n394\t65.22842640\n395\t65.31645570\n396\t65.40404040\n397\t65.23929471\n398\t65.32663317\n399\t65.41353383\n400\t65.50000000\n\n\n",
+ "stderr_tail": "a_new_context_with_model: freq_scale = 1\nllama_kv_cache_init:        CPU KV buffer size =   150.00 MiB\nllama_new_context_with_model: KV self size  =  150.00 MiB, K (f16):   75.00 MiB, V (f16):   75.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     1.96 MiB\nllama_new_context_with_model:        CPU compute buffer size =   255.50 MiB\nllama_new_context_with_model: graph nodes  = 1116\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nhellaswag_score : loaded 10042 tasks from prompt.\n================================= is_spm = 0\nhellaswag_score : selecting 400 randomized tasks.\nhellaswag_score : calculating hellaswag score over selected tasks.\nllama_perf_context_print:        load time =    3281.83 ms\nllama_perf_context_print: prompt eval time =  819043.34 ms / 65323 tokens (   12.54 ms per token,    79.76 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time =  830973.04 ms / 65324 tokens\n"
 }

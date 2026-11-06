@@ -15,7 +15,8 @@ RUNTIME_BIN = {"bitnet": EXP_ROOT / "BitNet" / "build" / "bin",              # b
 # `card_avg` is Microsoft's own 16-task average from the BitNet 2B4T model card (vendor-reported, NOT our measurement); it is listed only to
 # show why each candidate was chosen. Quality for the decision is measured here (QUALITY_TASKS).
 MODELS = {
-    "BITNET_2B4T_I2S": dict(file="bitnet-b1.58-2B-4T-i2_s.gguf", fmt="ternary I2_S (1.58-bit)", runtimes=["bitnet_old"], card_avg=54.19,
+    "BITNET_2B4T_I2S": dict(file="bitnet-b1.58-2B-4T-i2_s.gguf", fmt="ternary I2_S (1.58-bit)", runtimes=["bitnet_old"], card_avg=54.19, extra_args=["--override-kv", "tokenizer.ggml.pre=str:llama-bpe"],   # amendment 5: the official GGUF lacks the pre-tokenizer type
+                            
                             why="the ternary model under test"),
     "QWEN25_1P5B_Q4KM": dict(file="qwen2.5-1.5b-instruct-q4_k_m.gguf", fmt="INT4 Q4_K_M", runtimes=["upstream", "bitnet_old"], card_avg=55.23,
                              why="highest card average of the comparison set: the closest quality match to BitNet"),

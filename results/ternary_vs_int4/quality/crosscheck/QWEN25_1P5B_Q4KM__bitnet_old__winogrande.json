@@ -1,0 +1,44 @@
+{
+ "model": "QWEN25_1P5B_Q4KM",
+ "runtime": "bitnet_old",
+ "task": "winogrande",
+ "cmd": [
+  "/home/liban/exp0011/BitNet_old/build/bin/llama-perplexity",
+  "-m",
+  "/home/liban/exp0011/models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+  "-f",
+  "/home/liban/exp0011/data/winogrande-debiased-eval.csv",
+  "--winogrande",
+  "--winogrande-tasks",
+  "500",
+  "-c",
+  "2048",
+  "-t",
+  "8",
+  "-ngl",
+  "0"
+ ],
+ "returncode": 0,
+ "wall_s": 245.06992721557617,
+ "env_before": {
+  "time_utc": "2026-11-06T06:51:40Z",
+  "loadavg": [
+   7.84814453125,
+   7.89306640625,
+   7.8642578125
+  ],
+  "mem_available_mb": 4442,
+  "power_check": {
+   "battery_status": 1,
+   "charge_pct": 51,
+   "on_ac": false,
+   "ok": false,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "acc": 64.2,
+ "n": 500,
+ "stderr_points": 2.1439962686534693,
+ "stdout_tail": "749   -3.616775  2  1\n465\t63.6559\t -2.013411   -1.233879  2  2\n466\t63.7339\t -5.105102   -4.765664  2  2\n467\t63.5974\t -5.830261   -5.419538  2  1\n468\t63.6752\t -4.088353   -3.492586  2  2\n469\t63.5394\t -1.282707   -1.012745  2  1\n470\t63.6170\t -2.354849   -2.264891  2  2\n471\t63.6943\t -1.961257   -2.884957  1  1\n472\t63.7712\t -3.611547   -3.304822  2  2\n473\t63.8478\t -3.749695   -2.604060  2  2\n474\t63.7131\t -5.089155   -5.022403  2  1\n475\t63.5789\t -1.364664   -1.572450  1  2\n476\t63.6555\t -5.674246   -5.242188  2  2\n477\t63.5220\t -5.329328   -5.670554  1  2\n478\t63.5983\t -4.537412   -6.025125  1  1\n479\t63.4656\t -3.242717   -3.127648  2  1\n480\t63.5417\t -5.915011   -5.297073  2  2\n481\t63.6175\t -1.850678   -2.553399  1  1\n482\t63.4855\t -4.124596   -4.562691  1  2\n483\t63.5611\t -3.500417   -4.019888  1  1\n484\t63.4298\t -2.378832   -2.107966  2  1\n485\t63.5052\t -1.622244   -2.327141  1  1\n486\t63.5802\t -2.675661   -3.054692  1  1\n487\t63.6550\t -3.155259   -2.864610  2  2\n488\t63.7295\t -3.894372   -2.815607  2  2\n489\t63.8037\t -2.195866   -2.207645  1  1\n490\t63.8776\t -2.997496   -3.310544  1  1\n491\t63.9511\t -5.784759   -5.169850  2  2\n492\t64.0244\t -5.427288   -3.979055  2  2\n493\t64.0974\t -1.108276   -2.491200  1  1\n494\t64.1700\t -4.466392   -3.542666  2  2\n495\t64.2424\t -4.097500   -4.414231  1  1\n496\t64.3145\t -4.067902   -3.461158  2  2\n497\t64.3863\t -5.796372   -6.051885  1  1\n498\t64.2570\t -1.625556   -1.940879  1  2\n499\t64.3287\t -2.566248   -2.945250  1  1\n500\t64.2000\t -4.303434   -4.706897  1  2\n\n\n",
+ "stderr_tail": "ache_init:        CPU KV buffer size =    56.00 MiB\nllama_new_context_with_model: KV self size  =   56.00 MiB, K (f16):   28.00 MiB, V (f16):   28.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     2.32 MiB\nllama_new_context_with_model:        CPU compute buffer size =   299.75 MiB\nllama_new_context_with_model: graph nodes  = 986\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nwinogrande_score : loaded 1267 tasks from prompt.\nwinogrande_score : selecting 500 random tasks\nwinogrande_score : tokenizing selected tasks\nwinogrande_score : calculating winogrande score over selected tasks.\nFinal Winogrande score(500 tasks): 64.2000 +/- 2.1461\nllama_perf_context_print:        load time =    1224.53 ms\nllama_perf_context_print: prompt eval time =  239788.17 ms / 14236 tokens (   16.84 ms per token,    59.37 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time =  243604.98 ms / 14237 tokens\n"
+}

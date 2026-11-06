@@ -356,21 +356,25 @@ Workaround:       analysis/control_semantics/provenance.py records whole-reposit
 
 ```
 KI-020
-Status:           Open (worked around by pinning an older runtime)
-Severity:         Major (for any BitNet 2B4T result obtained with the affected build)
+Status:           Open (worked around by pinning an older runtime and a tokenizer override)
+Severity:         Major (for any BitNet 2B4T result obtained with the affected configurations)
 First observed:   2026-11-05
 Relevant commit:  EXP-0011
-Description:      bitnet.cpp main (0b341e5, Jul 2026, built with the repository's own CMake options) gives
-                  wikitext perplexity 118.6 (96.8 on a GGUF reconverted with main's converter) for BitNet
-                  2B4T, versus 16.88 for the official HF checkpoint and 19.64 for the same official GGUF under
-                  bitnet.cpp 765741d (2025-05-21). Independent of AVX-512, batch size, BOS and the
-                  pre-tokenizer override. The submodule tracks a branch named
-                  release-bitnet-embedding-0.6b-270m; the Nov 2025 commit changed the I2_S kernels.
-Impact:           The first BitNet quality scores (macro 39.8 vs 55.5 on the valid runtime) are wrong and
-                  retained only as a negative result (results/ternary_vs_int4/quality/failed_runtime_main/).
-                  Published bitnet.cpp speed claims are not tested against a numerically valid main build.
-Workaround:       Use bitnet.cpp 765741d for BitNet 2B4T; gate any ternary runtime on a perplexity parity check
-                  against the HF checkpoint (analysis/ternary_vs_int4/diag_ppl.py). Root cause not determined.
+Description:      (1) The official BitNet 2B4T GGUF has no tokenizer.ggml.pre entry; llama.cpp then uses its
+                  default pre-tokenizer instead of Llama-3 BPE, raising wikitext perplexity from 16.80 to
+                  19.64 under bitnet.cpp 765741d (HF reference 16.88). (2) bitnet.cpp main (0b341e5, Jul 2026),
+                  built by hand with CMake (setup_env.py was not run), gives perplexity 118.6 on the same GGUF
+                  and 96.8-96.9 on a reconverted GGUF or with the pre-tokenizer override; independent of
+                  AVX-512, batch size and BOS. Its submodule tracks release-bitnet-embedding-0.6b-270m and the
+                  Nov 2025 commit changed the I2_S kernels. Cause undetermined; the claim is limited to the
+                  build made here.
+Impact:           Two earlier BitNet quality runs (macro 39.8 and 55.5; valid macro 56.7) are retained as
+                  negative results under results/ternary_vs_int4/quality/failed_*. Published bitnet.cpp
+                  speed claims are not tested against a numerically valid main build.
+Workaround:       Use bitnet.cpp 765741d with --override-kv tokenizer.ggml.pre=str:llama-bpe; gate any
+                  ternary runtime on perplexity parity with the HF checkpoint
+                  (analysis/ternary_vs_int4/diag_ppl.py). A time-boxed run of the documented setup_env.py flow
+                  on main was not done.
 ```
 
 ```
@@ -379,11 +383,14 @@ Status:           Open
 Severity:         Minor
 First observed:   2026-11-05
 Relevant commit:  EXP-0011
-Description:      The benchmark laptop switched to battery power during unattended EXP-0011 timing; WSL2 cannot
-                  read CPU frequency or temperature, and a timing anomaly (a 281 s time-to-first-token sample in
-                  a cell whose total latency was 34 s) coincided with the transition.
-Impact:           Timing cannot be trusted unless on AC; the harness now refuses to time on battery.
-Workaround:       Keep the laptop on AC (and awake) for timing; interrupted partial results are retained under
+Description:      The benchmark laptop switched to battery power during unattended EXP-0011 timing (the harness
+                  then refused to continue). WSL2 cannot read CPU frequency or temperature. Two unexplained
+                  stalls were seen: a 537 s repetition in a cell whose other repetition took 25 s (recorded on
+                  AC), and a 32,432 s wall time for a quality task that normally takes about 10 minutes
+                  (laptop on battery). Sleep/hibernate is plausible but unproven.
+Impact:           Timing is only trusted on AC and awake; stalled samples must be re-measured.
+Workaround:       Keep the laptop plugged in with sleep disabled for timing; the harness refuses to time on
+                  battery; interrupted partial results are retained under
                   results/ternary_vs_int4/perf/sweep_interrupted_battery_event/.
 ```
 

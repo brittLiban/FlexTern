@@ -8,7 +8,7 @@ There is exactly one active engineering objective at a time. This file is the si
 
 **Title:** At matched model quality, can native ternary inference (BitNet b1.58 2B4T) substantially outperform strong, optimized INT4 inference on commercially relevant edge workloads?
 
-**Status:** Stage 1 **in progress, timing paused** (protocol locked before measurement: `analysis/ternary_vs_int4/protocol_v1.json`, amendments 1-4 alongside). Quality and static accounting are done; the timing runs stopped when the laptop went onto battery (the harness refuses to time off AC) and need the founder to plug the laptop in; the harness is resumable (`analysis/ternary_vs_int4/perf.py`). **Stage 2 (physical energy) is NOT approved**: it needs separate founder approval before any equipment purchase or hardware-dependent measurement; the plan is `experiments/EXP-0011-stage2-energy-plan.md`. The previous objective (EXP-0010C) is complete with its preregistered outcome CHANGE_WORKLOAD; its records are unchanged.
+**Status:** Stage 1 **in progress, timing paused** (protocol locked before measurement: `analysis/ternary_vs_int4/protocol_v1.json`, amendments 1-4 alongside). Quality (validated; BitNet macro 56.7, comparable to Qwen2.5-3B/SmolLM2 INT4) and static accounting are done; the timing runs stopped when the laptop went onto battery (the harness refuses to time off AC) and need the founder to plug the laptop in; the harness is resumable (`analysis/ternary_vs_int4/perf.py`). **Stage 2 (physical energy) is NOT approved**: it needs separate founder approval before any equipment purchase or hardware-dependent measurement; the plan is `experiments/EXP-0011-stage2-energy-plan.md`. The previous objective (EXP-0010C) is complete with its preregistered outcome CHANGE_WORKLOAD; its records are unchanged.
 
 **Owner / agent:** Claude (implementation); founder + ChatGPT (research direction/review).
 
@@ -21,3 +21,6 @@ There is exactly one active engineering objective at a time. This file is the si
 
 ## Primary records
 `experiments/EXP-0011-ternary-vs-int4-stage1.md`, `experiments/EXP-0011-stage2-energy-plan.md`, `reviews/MEMO-2026-11-05-commercial-validation-package.md`, `analysis/ternary_vs_int4/` (harness), `tests/test_ternary_vs_int4.py`. Strategy context: `reviews/MEMO-2026-11-04-workload-selection-decision.md`, `reviews/MEMO-2026-11-04-project-homerun-opportunity-search.md`. The second strategic report named in the directive is not in the repository.
+
+## Next gate
+The evidence gate is the timing grid, which is not reached. Needed: the laptop plugged in, awake with sleep disabled; then run `analysis/ternary_vs_int4/perf.py` (resumable; first re-measure the stalled cell). Review: `reviews/REV-2026-11-06-exp-0011-stage1-review.md`.

@@ -16,28 +16,31 @@
   "-t",
   "8",
   "-ngl",
-  "0"
+  "0",
+  "--override-kv",
+  "tokenizer.ggml.pre=str:llama-bpe"
  ],
  "returncode": 0,
- "wall_s": 141.3417718410492,
+ "wall_s": 186.7332751750946,
  "env_before": {
-  "time_utc": "2026-11-05T20:01:06Z",
+  "time_utc": "2026-11-06T06:11:11Z",
   "loadavg": [
-   8.1015625,
-   7.47265625,
-   4.65185546875
+   7.6513671875,
+   7.61572265625,
+   5.98779296875
   ],
-  "mem_available_mb": 4465,
+  "mem_available_mb": 4448,
   "power_check": {
-   "battery_status": 2,
-   "charge_pct": 100,
-   "on_ac": true,
-   "ok": true,
+   "battery_status": 1,
+   "charge_pct": 77,
+   "on_ac": false,
+   "ok": false,
    "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
   }
  },
- "acc": 72.6,
+ "acc": 72.2,
  "n": 500,
- "stderr_points": 1.9946127443691921,
- "output_tail": "_meta: model size       = 1.10 GiB (3.91 BPW) \nllm_load_print_meta: general.name     = bitnet2b\nllm_load_print_meta: BOS token        = 128000 '<|begin_of_text|>'\nllm_load_print_meta: EOS token        = 128001 '<|end_of_text|>'\nllm_load_print_meta: EOT token        = 128009 '<|eot_id|>'\nllm_load_print_meta: PAD token        = 128001 '<|end_of_text|>'\nllm_load_print_meta: LF token         = 128 '\u00c4'\nllm_load_print_meta: EOG token        = 128001 '<|end_of_text|>'\nllm_load_print_meta: EOG token        = 128009 '<|eot_id|>'\nllm_load_print_meta: max token length = 256\nllm_load_tensors: ggml ctx size =    0.15 MiB\nllm_load_tensors:        CPU buffer size =  1124.81 MiB\n...............................\nllama_new_context_with_model: n_ctx      = 2048\nllama_new_context_with_model: n_batch    = 2048\nllama_new_context_with_model: n_ubatch   = 512\nllama_new_context_with_model: flash_attn = 0\nllama_new_context_with_model: freq_base  = 500000.0\nllama_new_context_with_model: freq_scale = 1\nllama_kv_cache_init:        CPU KV buffer size =   150.00 MiB\nllama_new_context_with_model: KV self size  =  150.00 MiB, K (f16):   75.00 MiB, V (f16):   75.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     1.96 MiB\nllama_new_context_with_model:        CPU compute buffer size =   255.50 MiB\nllama_new_context_with_model: graph nodes  = 1116\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nwinogrande_score : loaded 1267 tasks from prompt.\nwinogrande_score : selecting 500 random tasks\nwinogrande_score : tokenizing selected tasks\nwinogrande_score : calculating winogrande score over selected tasks.\nFinal Winogrande score(500 tasks): 72.6000 +/- 1.9966\nllama_perf_context_print:        load time =    1152.45 ms\nllama_perf_context_print: prompt eval time =  137181.14 ms / 14906 tokens (    9.20 ms per token,   108.66 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time =  140025.87 ms / 14907 tokens\n"
+ "stderr_points": 2.0035768016225384,
+ "stdout_tail": "091   -2.229755  1  1\n465\t72.0430\t -2.611544   -2.071399  2  2\n466\t72.1030\t -4.686140   -4.449563  2  2\n467\t71.9486\t -4.378049   -4.230226  2  1\n468\t72.0085\t -4.579035   -3.512520  2  2\n469\t71.8550\t -1.495220   -0.619262  2  1\n470\t71.9149\t -1.831314   -1.458792  2  2\n471\t71.9745\t -2.403369   -2.625362  1  1\n472\t72.0339\t -2.416009   -2.350623  2  2\n473\t72.0930\t -3.256885   -2.236498  2  2\n474\t72.1519\t -3.979955   -5.236740  1  1\n475\t72.0000\t -2.115204   -2.412791  1  2\n476\t72.0588\t -4.020176   -3.457834  2  2\n477\t71.9078\t -4.307426   -4.583677  1  2\n478\t71.7573\t -2.353565   -2.191150  2  1\n479\t71.8163\t -3.644011   -3.844003  1  1\n480\t71.8750\t -3.478378   -3.121638  2  2\n481\t71.9335\t -1.689995   -1.802219  1  1\n482\t71.9917\t -4.287523   -3.574543  2  2\n483\t71.8427\t -3.835948   -3.772672  2  1\n484\t71.6942\t -2.462707   -2.079583  2  1\n485\t71.7526\t -1.576043   -2.168098  1  1\n486\t71.8107\t -1.529431   -2.525504  1  1\n487\t71.8686\t -2.642836   -2.050055  2  2\n488\t71.9262\t -3.222730   -2.469434  2  2\n489\t71.9836\t -2.365294   -3.492971  1  1\n490\t72.0408\t -3.252825   -3.562215  1  1\n491\t72.0978\t -3.967929   -3.235539  2  2\n492\t72.1545\t -5.250174   -4.097681  2  2\n493\t72.2110\t -0.482035   -1.655078  1  1\n494\t72.2672\t -3.433849   -3.085153  2  2\n495\t72.3232\t -3.758880   -3.789203  1  1\n496\t72.3790\t -3.640666   -3.036288  2  2\n497\t72.2334\t -4.527691   -4.400878  2  1\n498\t72.0884\t -1.839452   -2.210005  1  2\n499\t72.1443\t -2.709218   -3.454949  1  1\n500\t72.2000\t -4.977822   -4.420474  2  2\n\n\n",
+ "stderr_tail": "che_init:        CPU KV buffer size =   150.00 MiB\nllama_new_context_with_model: KV self size  =  150.00 MiB, K (f16):   75.00 MiB, V (f16):   75.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     1.96 MiB\nllama_new_context_with_model:        CPU compute buffer size =   255.50 MiB\nllama_new_context_with_model: graph nodes  = 1116\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nwinogrande_score : loaded 1267 tasks from prompt.\nwinogrande_score : selecting 500 random tasks\nwinogrande_score : tokenizing selected tasks\nwinogrande_score : calculating winogrande score over selected tasks.\nFinal Winogrande score(500 tasks): 72.2000 +/- 2.0056\nllama_perf_context_print:        load time =    1042.08 ms\nllama_perf_context_print: prompt eval time =  181988.05 ms / 14733 tokens (   12.35 ms per token,    80.96 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time =  185431.40 ms / 14734 tokens\n"
 }

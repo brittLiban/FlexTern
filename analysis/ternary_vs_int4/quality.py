@@ -54,6 +54,7 @@ def run_task(model_id: str, runtime: str, task: str) -> dict:
     spec, m = C.QUALITY_TASKS[task], C.MODELS[model_id]
     cmd = [str(C.RUNTIME_BIN[runtime] / "llama-perplexity"), "-m", str(C.MODELS_DIR / m["file"]), "-f", str(C.DATA_DIR / spec["data"]),
            spec["flag"], spec["n_flag"], str(spec["n"]), "-c", str(C.QUALITY_CTX), "-t", str(C.QUALITY_THREADS), "-ngl", "0"]
+    cmd += list(m.get("extra_args", []))
     if "np" in spec:
         cmd += ["-np", str(spec["np"])]     # protocol_v1_amendment1: ARC has 5-option questions
     t0 = time.time()

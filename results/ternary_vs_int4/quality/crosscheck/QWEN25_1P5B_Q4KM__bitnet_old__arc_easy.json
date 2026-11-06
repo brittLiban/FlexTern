@@ -1,0 +1,46 @@
+{
+ "model": "QWEN25_1P5B_Q4KM",
+ "runtime": "bitnet_old",
+ "task": "arc_easy",
+ "cmd": [
+  "/home/liban/exp0011/BitNet_old/build/bin/llama-perplexity",
+  "-m",
+  "/home/liban/exp0011/models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+  "-f",
+  "/home/liban/exp0011/data/arc-easy-validation.bin",
+  "--multiple-choice",
+  "--multiple-choice-tasks",
+  "500",
+  "-c",
+  "2048",
+  "-t",
+  "8",
+  "-ngl",
+  "0",
+  "-np",
+  "5"
+ ],
+ "returncode": 0,
+ "wall_s": 357.4378526210785,
+ "env_before": {
+  "time_utc": "2026-11-06T06:57:38Z",
+  "loadavg": [
+   8.31201171875,
+   8.056640625,
+   7.93701171875
+  ],
+  "mem_available_mb": 4433,
+  "power_check": {
+   "battery_status": 1,
+   "charge_pct": 47,
+   "on_ac": false,
+   "ok": false,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "acc": 60.6,
+ "n": 500,
+ "stderr_points": 2.1852414054287,
+ "stdout_tail": ".67076167\n408\t61.51960784\n409\t61.61369193\n410\t61.46341463\n411\t61.55717762\n412\t61.40776699\n413\t61.50121065\n414\t61.35265700\n415\t61.44578313\n416\t61.53846154\n417\t61.39088729\n418\t61.24401914\n419\t61.09785203\n420\t61.19047619\n421\t61.28266033\n422\t61.13744076\n423\t61.22931442\n424\t61.08490566\n425\t60.94117647\n426\t61.03286385\n427\t60.88992974\n428\t60.98130841\n429\t60.83916084\n430\t60.93023256\n431\t60.78886311\n432\t60.87962963\n433\t60.96997691\n434\t60.82949309\n435\t60.68965517\n436\t60.77981651\n437\t60.86956522\n438\t60.73059361\n439\t60.59225513\n440\t60.45454545\n441\t60.31746032\n442\t60.40723982\n443\t60.49661400\n444\t60.36036036\n445\t60.44943820\n446\t60.53811659\n447\t60.62639821\n448\t60.49107143\n449\t60.35634744\n450\t60.44444444\n451\t60.53215078\n452\t60.39823009\n453\t60.26490066\n454\t60.35242291\n455\t60.21978022\n456\t60.30701754\n457\t60.39387309\n458\t60.48034934\n459\t60.56644880\n460\t60.43478261\n461\t60.30368764\n462\t60.38961039\n463\t60.25917927\n464\t60.34482759\n465\t60.43010753\n466\t60.30042918\n467\t60.17130621\n468\t60.25641026\n469\t60.34115139\n470\t60.21276596\n471\t60.29723992\n472\t60.16949153\n473\t60.25369979\n474\t60.33755274\n475\t60.42105263\n476\t60.29411765\n477\t60.37735849\n478\t60.46025105\n479\t60.33402923\n480\t60.20833333\n481\t60.08316008\n482\t59.95850622\n483\t60.04140787\n484\t60.12396694\n485\t60.20618557\n486\t60.28806584\n487\t60.36960986\n488\t60.45081967\n489\t60.53169734\n490\t60.61224490\n491\t60.69246436\n492\t60.77235772\n493\t60.85192698\n494\t60.72874494\n495\t60.60606061\n496\t60.48387097\n497\t60.56338028\n498\t60.44176707\n499\t60.52104208\n500\t60.60000000\n\n\n",
+ "stderr_tail": "6.00 MiB\nllama_new_context_with_model: KV self size  =   56.00 MiB, K (f16):   28.00 MiB, V (f16):   28.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     2.90 MiB\nllama_new_context_with_model:        CPU compute buffer size =   299.75 MiB\nllama_new_context_with_model: graph nodes  = 986\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nmultiple_choice_score: there are 570 tasks in prompt\nmultiple_choice_score: selecting 500 random tasks from 570 tasks available\nmultiple_choice_score: preparing task datamultiple_choice_score : calculating TruthfulQA score over 500 tasks.\nFinal result: 60.6000 +/- 2.1874\nRandom chance: 24.9875 +/- 1.9381\n\nllama_perf_context_print:        load time =     648.78 ms\nllama_perf_context_print: prompt eval time =  349556.11 ms / 22574 tokens (   15.48 ms per token,    64.58 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time =  356584.67 ms / 22575 tokens\n"
+}

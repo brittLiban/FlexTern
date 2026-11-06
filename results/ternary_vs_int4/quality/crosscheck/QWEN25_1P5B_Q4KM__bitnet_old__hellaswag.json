@@ -1,0 +1,44 @@
+{
+ "model": "QWEN25_1P5B_Q4KM",
+ "runtime": "bitnet_old",
+ "task": "hellaswag",
+ "cmd": [
+  "/home/liban/exp0011/BitNet_old/build/bin/llama-perplexity",
+  "-m",
+  "/home/liban/exp0011/models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+  "-f",
+  "/home/liban/exp0011/data/hellaswag_val_full.txt",
+  "--hellaswag",
+  "--hellaswag-tasks",
+  "400",
+  "-c",
+  "2048",
+  "-t",
+  "8",
+  "-ngl",
+  "0"
+ ],
+ "returncode": 0,
+ "wall_s": 1161.1709656715393,
+ "env_before": {
+  "time_utc": "2026-11-06T06:47:34Z",
+  "loadavg": [
+   7.52880859375,
+   8.009765625,
+   7.8720703125
+  ],
+  "mem_available_mb": 4402,
+  "power_check": {
+   "battery_status": 1,
+   "charge_pct": 54,
+   "on_ac": false,
+   "ok": false,
+   "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  }
+ },
+ "acc": 65.75,
+ "n": 400,
+ "stderr_points": 2.372729177550611,
+ "stdout_tail": ".49511401\n308\t64.28571429\n309\t64.40129450\n310\t64.19354839\n311\t64.30868167\n312\t64.42307692\n313\t64.53674121\n314\t64.64968153\n315\t64.76190476\n316\t64.87341772\n317\t64.66876972\n318\t64.77987421\n319\t64.89028213\n320\t65.00000000\n321\t65.10903427\n322\t65.21739130\n323\t65.01547988\n324\t64.81481481\n325\t64.92307692\n326\t65.03067485\n327\t65.13761468\n328\t65.24390244\n329\t65.34954407\n330\t65.45454545\n331\t65.25679758\n332\t65.36144578\n333\t65.16516517\n334\t65.26946108\n335\t65.37313433\n336\t65.17857143\n337\t65.28189911\n338\t65.08875740\n339\t65.19174041\n340\t65.29411765\n341\t65.39589443\n342\t65.49707602\n343\t65.59766764\n344\t65.69767442\n345\t65.50724638\n346\t65.31791908\n347\t65.41786744\n348\t65.51724138\n349\t65.61604585\n350\t65.42857143\n351\t65.52706553\n352\t65.62500000\n353\t65.72237960\n354\t65.53672316\n355\t65.63380282\n356\t65.73033708\n357\t65.54621849\n358\t65.64245810\n359\t65.73816156\n360\t65.83333333\n361\t65.65096953\n362\t65.46961326\n363\t65.56473829\n364\t65.38461538\n365\t65.47945205\n366\t65.57377049\n367\t65.66757493\n368\t65.76086957\n369\t65.58265583\n370\t65.67567568\n371\t65.76819407\n372\t65.59139785\n373\t65.41554960\n374\t65.50802139\n375\t65.33333333\n376\t65.42553191\n377\t65.51724138\n378\t65.34391534\n379\t65.43535620\n380\t65.52631579\n381\t65.35433071\n382\t65.44502618\n383\t65.53524804\n384\t65.62500000\n385\t65.71428571\n386\t65.80310881\n387\t65.63307494\n388\t65.72164948\n389\t65.80976864\n390\t65.64102564\n391\t65.47314578\n392\t65.56122449\n393\t65.39440204\n394\t65.48223350\n395\t65.56962025\n396\t65.65656566\n397\t65.49118388\n398\t65.57788945\n399\t65.66416040\n400\t65.75000000\n\n\n",
+ "stderr_tail": "ma_new_context_with_model: freq_scale = 1\nllama_kv_cache_init:        CPU KV buffer size =    56.00 MiB\nllama_new_context_with_model: KV self size  =   56.00 MiB, K (f16):   28.00 MiB, V (f16):   28.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     2.32 MiB\nllama_new_context_with_model:        CPU compute buffer size =   299.75 MiB\nllama_new_context_with_model: graph nodes  = 986\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nhellaswag_score : loaded 10042 tasks from prompt.\n================================= is_spm = 0\nhellaswag_score : selecting 400 randomized tasks.\nhellaswag_score : calculating hellaswag score over selected tasks.\nllama_perf_context_print:        load time =    3276.73 ms\nllama_perf_context_print: prompt eval time = 1138737.69 ms / 65107 tokens (   17.49 ms per token,    57.17 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time = 1156412.45 ms / 65108 tokens\n"
+}

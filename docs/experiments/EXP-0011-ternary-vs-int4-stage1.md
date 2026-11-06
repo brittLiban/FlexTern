@@ -28,30 +28,33 @@ Before the lock the protocol was reviewed and revised (nothing had been measured
 ## Results
 **Status of the results: quality and static accounting complete; speed/TTFT/memory timing NOT complete** (paused when the laptop went onto battery; see KI-021). No speed or memory ratio is reported here because none has been measured under the locked conditions. Every failed or anomalous run is retained in `results/ternary_vs_int4/`.
 
-### R1. The first BitNet runtime was numerically broken (negative result; amendment 3, KI-020)
-The first BitNet quality run (official GGUF under bitnet.cpp main `0b341e5`, the build the repository's own instructions produce) scored macro 39.8 (HellaSwag 39.8, Winogrande 56.2, ARC-E 46.0, ARC-C 29.8, MMLU 27.4), far below every INT4 model and far below the model card. Diagnostics (post-hoc, not part of the decision rule):
+### R1. The ternary runtime had to be repaired before its quality meant anything (negative results; amendments 3 and 5, KI-020)
+Three successive BitNet quality runs, each later shown invalid or degraded, are retained: (a) official GGUF under bitnet.cpp main `0b341e5`, built by hand with CMake (not through `setup_env.py`): macro 39.8; (b) same GGUF under the release-era bitnet.cpp `765741d` with the file's missing pre-tokenizer type left at llama.cpp's default: macro 55.5; (c) the same with the Llama-3 BPE pre-tokenizer set: macro 56.7, the **valid** result. Diagnostics (post-hoc; not part of the decision rule):
 
-| Check | Result |
+| Check (wikitext perplexity, 20 chunks of 512 unless stated) | Result |
 |---|---|
-| wikitext perplexity (20 chunks of 512), official HF checkpoint, bf16 on GPU | 16.88 |
-| same, official GGUF under bitnet.cpp main | 118.6 (AVX2-only build 118.7; GGUF reconverted with main's converter 96.8; llama-bpe pre-tokenizer override 96.9; batch 512/64/8/1 identical; forced BOS identical) |
-| same, official GGUF under bitnet.cpp 765741d (2025-05-21) | **19.64** (+16% vs HF) |
-| Qwen2.5-1.5B Q4_K_M under the same pipeline (different tokenizer, sanity only) | 11.7 |
+| official HF checkpoint, bf16, GPU | 16.88 |
+| official GGUF, bitnet.cpp main | 118.6 (AVX2-only build 118.7; GGUF reconverted with main's converter 96.8; plus pre-tokenizer override 96.9; batch size 512/64/8/1 and forced BOS made no difference) |
+| official GGUF, bitnet.cpp 765741d, default pre-tokenizer | 19.64 (+16% vs HF) |
+| official GGUF, bitnet.cpp 765741d, `--override-kv tokenizer.ggml.pre=str:llama-bpe` | **16.80** (-0.5% vs HF) |
+| Qwen2.5-1.5B Q4_K_M, bitnet.cpp main (different tokenizer; sanity only) | 11.7 |
 | lm-eval on the HF checkpoint, 400 tasks each | ARC-E 78.0, Winogrande 75.5, HellaSwag acc 48.8 / acc_norm 60.5 |
 
-Conclusion (INFERRED from the table): the failure is in bitnet.cpp main as built here, not in the model; root cause not determined. The valid ternary runtime is bitnet.cpp 765741d. A ternary runtime is now accepted only if its perplexity is within 25% of the HF checkpoint's. The invalid scores must not be cited as evidence about ternary quality.
+The official BitNet 2B4T GGUF carries no `tokenizer.ggml.pre` entry, so llama.cpp falls back to its default pre-tokenizer; this degrades perplexity and task scores noticeably. Separately, bitnet.cpp main as built here has a further numerical defect (perplexity stays 97 even with the tokenizer fixed); its cause is undetermined and the claim is limited to "as built here by hand". The amendment-3 validity gate (+25% of HF) was chosen after seeing +16% and is post-hoc; the corrected runtime is within 0.5%.
 
-### R2. Quality at the valid runtime (MEASURED; 5 zero-shot log-likelihood tasks)
-| Model | HellaSwag (400) | Winogrande (500) | ARC-E (500) | ARC-C (299) | MMLU (500) | macro |
-|---|---|---|---|---|---|---|
-| BitNet b1.58 2B4T (bitnet.cpp 765741d) | 61.5 | 72.6 | 66.6 | 43.1 | 33.6 | **55.5** |
-| Qwen2.5-3B Q4_K_M | 72.5 | 70.8 | 58.0 | 42.8 | 38.0 | 56.4 |
-| SmolLM2-1.7B Q4_K_M | 70.8 | 68.4 | 61.6 | 40.5 | 35.2 | 55.3 |
-| Qwen2.5-1.5B Q4_K_M | 65.5 | 62.8 | 62.4 | 41.1 | 36.2 | 53.6 |
-| Qwen2.5-1.5B Q4_0 | 65.2 | 64.6 | 57.6 | 37.8 | 34.2 | 51.9 |
-| Llama-3.2-1B Q4_K_M | 59.0 | 63.8 | 60.0 | 34.1 | 34.4 | 50.3 |
+### R2. Quality at the valid configuration (MEASURED; 5 zero-shot log-likelihood tasks)
+| Model | HellaSwag (400) | Winogrande (500) | ARC-E (500) | ARC-C (299) | MMLU (500) | macro-5 | macro-4 (no MMLU, post-hoc) |
+|---|---|---|---|---|---|---|---|
+| BitNet b1.58 2B4T (bitnet.cpp 765741d, llama-bpe) | 65.5 | 72.2 | 68.0 | 44.1 | 33.6 | **56.7** | 62.5 |
+| Qwen2.5-3B Q4_K_M | 72.5 | 70.8 | 58.0 | 42.8 | 38.0 | 56.4 | 61.0 |
+| SmolLM2-1.7B Q4_K_M | 70.8 | 68.4 | 61.6 | 40.5 | 35.2 | 55.3 | 60.3 |
+| Qwen2.5-1.5B Q4_K_M | 65.5 | 62.8 | 62.4 | 41.1 | 36.2 | 53.6 | 58.0 |
+| Qwen2.5-1.5B Q4_0 | 65.2 | 64.6 | 57.6 | 37.8 | 34.2 | 51.9 | 56.3 |
+| Llama-3.2-1B Q4_K_M | 59.0 | 63.8 | 60.0 | 34.1 | 34.4 | 50.3 | 54.2 |
 
-Binomial standard error is about 2.4-2.5 points per task (2.9 for ARC-C) and about 1.1 points on the macro, so macro differences under about 2 points are noise. INT4 scores were produced under bitnet.cpp main (their perplexity pipeline behaves normally); BitNet's under 765741d. MMLU is near chance (25) for every model in this zero-shot format, so it adds little discrimination. BitNet is stronger than the 1.5B-class INT4 models on Winogrande and ARC, weaker on HellaSwag against SmolLM2/3B and on MMLU. Matched pools (INT4 macro >= BitNet minus tolerance): tolerance 0: {Qwen2.5-3B}; 3: {Qwen2.5-1.5B Q4_K_M, Qwen2.5-3B, SmolLM2}; 5 adds Qwen2.5-1.5B Q4_0. **So, on this evaluation, BitNet's quality is comparable to a 1.5B-3B INT4 model, not to the 1B one.**
+Binomial standard error is about 2.4-2.5 points per task (2.9 for ARC-C), about 1.1 on the macro: differences under about 2 points are noise. INT4 scores come from the bitnet.cpp-main build of `llama-perplexity`, BitNet's from the May-2025 build; **tool-version cross-check:** Qwen2.5-1.5B Q4_K_M re-scored on the May-2025 build gives macro 53.58 (HellaSwag 65.75, Winogrande 64.2, ARC-E 60.6, ARC-C 42.1, MMLU 35.2) against 53.61, so the tool-version offset is about 0.03 points on the macro (per-task offsets up to 1.4). MMLU is near chance (25) for every model in this zero-shot format and adds little; the locked 5-task macro was kept. BitNet's earlier HellaSwag file (default tokenizer) had `acc` null because the first parser expected a percent sign; its 61.5 was read by a fallback reparse of `stdout_tail`, and that run is superseded anyway.
+
+Matched pools (INT4 macro >= BitNet minus tolerance): tolerance 0: **empty** (Qwen2.5-3B is 0.27 below BitNet: a tie within noise, but the rule yields NO_MATCHED_COMPARATOR); tolerance 3: {Qwen2.5-3B, SmolLM2-1.7B}; tolerance 5 adds Qwen2.5-1.5B Q4_K_M (3.1 below BitNet) and Q4_0. Without MMLU (post-hoc) the tolerance-5 pool loses Q4_0 and the tolerance-3 pool is unchanged. **On this evaluation, BitNet's quality is comparable to Qwen2.5-3B and SmolLM2-1.7B INT4 and about 3 points above Qwen2.5-1.5B INT4**, so the headline comparators are the larger INT4 models, which stream more bytes per token than BitNet (R3).
 
 ### R3. Bytes streamed per decoded token (MEASURED from GGUF tensor types; bandwidth model INFERRED)
 | Model | weights streamed per token | of which F16 head/embedding | KV bytes per token (f16) | KV at 4,096 tokens |
@@ -62,13 +65,14 @@ Binomial standard error is about 2.4-2.5 points per task (2.9 for ARC-C) and abo
 | Qwen2.5-3B Q4_K_M | 1.924 GB | tied | 36.9 KB | 151 MB |
 | SmolLM2-1.7B Q4_K_M | 1.054 GB | tied | 196.6 KB | 805 MB |
 
-Only 0.52 GB of BitNet's 1.18 GB per token is ternary; 56% is a 128k-vocabulary F16 head. If decode were purely bandwidth-bound, BitNet would not be faster than Qwen2.5-1.5B Q4_K_M (weights 1.2x, KV 2.7x). This is the preregistered prediction; it is not yet tested by timing.
+Only 0.52 GB of BitNet's 1.18 GB per token is ternary; 56% is a 128k-vocabulary F16 head. If decode were purely bandwidth-bound, BitNet would not be faster than Qwen2.5-1.5B Q4_K_M (weights 1.2x, KV 2.7x); INT4-bytes / BitNet-bytes per decoded token (weights plus f16 KV at the stated depth): Qwen2.5-1.5B Q4_K_M 0.83 at depth 0, 0.78 at 2,048; Qwen2.5-3B 1.63 and 1.50; SmolLM2-1.7B 0.89 and 1.09 (its 32 KV heads make long contexts expensive). So bandwidth alone favours BitNet only against the 3B comparator (and SmolLM2 at long context), not against the 1.5B-class model. This is the preregistered prediction; it is not yet tested by timing.
 
 ### R4. Timing (INCOMPLETE)
-The thread sweep and main grid started under the locked harness. Nineteen sweep invocations completed (all with the laptop on AC, 100% charge) and the run then stopped because the harness detected battery power. Partial data are in `results/ternary_vs_int4/perf/sweep_interrupted_battery_event/`. They are **not** used: each cell has one or two repetitions and no complete comparison. One anomaly is retained: bitnet.cpp 765741d on Qwen2.5-1.5B Q4_K_M at 8 threads, prompt 2048, first-token run, reported a 281 s median against a 34 s total-latency run; this coincided with the power-state transition (KI-021) and must be re-measured.
+The thread sweep and main grid started under the locked harness. Nineteen sweep invocations completed (all recorded as AC, 100% charge) and the run then stopped because the harness detected battery power. Partial data are in `results/ternary_vs_int4/perf/sweep_interrupted_battery_event/`. They are **not** used: each cell has one or two repetitions and no complete comparison. One anomaly is retained: bitnet.cpp 765741d on Qwen2.5-1.5B Q4_K_M at 8 threads, prompt 2048, first-token run, took 537 s and 25 s in its two repetitions (median 281 s) against a 34 s total-latency run. It was recorded on AC (battery status 2), so a power transition does not explain it; a later quality job recorded a 32,432 s wall-clock time for a task that normally takes about 10 minutes, so a sleep/hibernate stall of the laptop is plausible but unproven. The cell must be re-measured first when timing resumes (if it reproduces, it is a defect of the old runtime on INT4, not of the laptop).
 
 ## Provisional reading (nothing below is a timing result)
-1. At matched quality the quality-matched INT4 comparators are 1.5B-3B models, and the byte accounting says the ternary model does not obviously stream fewer bytes per token than they do, because of its F16 head and larger KV cache. A ≥2x speed advantage would therefore exceed what bandwidth alone predicts (HYPOTHESIZED to be checked by timing).
+1. With the corrected quality, the headline comparators are Qwen2.5-3B and SmolLM2-1.7B INT4. Against Qwen2.5-3B the byte accounting favours BitNet (1.18 GB vs 1.92 GB per token); against SmolLM2 it is roughly even at short context and favours BitNet at long context (SmolLM2's KV traffic is large); against Qwen2.5-1.5B it favours the INT4 model. So a ternary speed advantage is plausible against the 3B comparator, but not by a large factor against the best 1.5B-class model (HYPOTHESIZED; to be checked by timing).
+   **Framing of any timing result:** the ternary side runs a May-2025 I2_S kernel (the newer kernel failed numerically here, and TL2 was not built) while INT4 runs current upstream llama.cpp. A low speed ratio therefore means 'the validated ternary runtime does not win', not 'the ternary format cannot win'.
 2. The ternary format's own advantage sits in the ternary matmul weights (0.52 GB vs about 0.6-0.8 GB for INT4 body weights of comparable models), not in the whole model; a future ternary model with a quantized head and fewer KV heads would change this and is a model-design question, not a bitnet.cpp question.
 3. bitnet.cpp's published speedups were not reproduced or refuted: the latest main failed numerically, and the release-era runtime was used.
 

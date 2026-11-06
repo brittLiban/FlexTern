@@ -1,0 +1,14 @@
+{
+ "amendment": 5,
+ "to": "protocol_v1.json",
+ "made": "after the pre-timing review, before any timing",
+ "finding": "the official BitNet 2B4T GGUF carries no tokenizer.ggml.pre entry; llama.cpp then falls back to its 'default' pre-tokenizer instead of the Llama-3 BPE one. Under bitnet.cpp 765741d, wikitext perplexity on the official GGUF is 19.64 as scored in amendment 3 and 16.80 with --override-kv tokenizer.ggml.pre=str:llama-bpe, versus 16.88 for the official HF checkpoint (bf16, GPU): the corrected runtime reproduces the reference within 0.5%. (Under bitnet.cpp main the same override only moves 118.6 to 96.9: main has a further defect.)",
+ "consequence": "the BitNet quality scores of amendments 3-4 (macro 55.49) were produced with the wrong pre-tokenizer and are retained under quality/failed_default_pretokenizer/. They are replaced by a re-run with the override. The amendment-3 validity gate (+25% of HF) was set after seeing +16% and is therefore POST-HOC; the correctly configured runtime is within 0.5%.",
+ "change": "BitNet quality tasks are run with --override-kv tokenizer.ggml.pre=str:llama-bpe. Speed measurements use llama-bench with synthetic tokens, which is unaffected by pre-tokenization. INT4 GGUFs carry their own pre-tokenizer metadata (not changed).",
+ "also": "scoring-tool version: BitNet is scored with the May-2025 llama-perplexity, INT4 models with main's. Qwen2.5-1.5B Q4_K_M is re-scored on bitnet.cpp 765741d (tag crosscheck) to bound the tool-version offset; if it differs from the main-build score by more than 1.5 macro points all pool INT4 models are re-scored on 765741d.",
+ "reparse_disclosure": "BitNet's earlier HellaSwag result file has acc=null because the first parser expected a percent sign; its value was read by the load_quality fallback from stdout_tail (61.5).",
+ "code_sha256_after": {
+  "config.py": "cb201d8f415f8af6458030c95c44f947cfccab6832251d347619b685b6f280b7",
+  "quality.py": "0008f447eaa53c0f43ea942f84bc124c6fa88a85e3b91f406b6775a053e373d1"
+ }
+}

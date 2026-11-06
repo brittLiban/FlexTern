@@ -17,29 +17,32 @@
   "8",
   "-ngl",
   "0",
+  "--override-kv",
+  "tokenizer.ggml.pre=str:llama-bpe",
   "-np",
   "5"
  ],
  "returncode": 0,
- "wall_s": 200.35924744606018,
+ "wall_s": 268.0452661514282,
  "env_before": {
-  "time_utc": "2026-11-05T20:04:27Z",
+  "time_utc": "2026-11-06T06:15:40Z",
   "loadavg": [
-   8.06591796875,
-   7.77099609375,
-   5.3232421875
+   8.22802734375,
+   7.96142578125,
+   6.544921875
   ],
-  "mem_available_mb": 4465,
+  "mem_available_mb": 4463,
   "power_check": {
-   "battery_status": 2,
-   "charge_pct": 100,
-   "on_ac": true,
-   "ok": true,
+   "battery_status": 1,
+   "charge_pct": 74,
+   "on_ac": false,
+   "ok": false,
    "plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
   }
  },
- "acc": 66.6,
+ "acc": 68.0,
  "n": 500,
- "stderr_points": 2.1092368288079935,
- "output_tail": "W) \nllm_load_print_meta: general.name     = bitnet2b\nllm_load_print_meta: BOS token        = 128000 '<|begin_of_text|>'\nllm_load_print_meta: EOS token        = 128001 '<|end_of_text|>'\nllm_load_print_meta: EOT token        = 128009 '<|eot_id|>'\nllm_load_print_meta: PAD token        = 128001 '<|end_of_text|>'\nllm_load_print_meta: LF token         = 128 '\u00c4'\nllm_load_print_meta: EOG token        = 128001 '<|end_of_text|>'\nllm_load_print_meta: EOG token        = 128009 '<|eot_id|>'\nllm_load_print_meta: max token length = 256\nllm_load_tensors: ggml ctx size =    0.15 MiB\nllm_load_tensors:        CPU buffer size =  1124.81 MiB\n...............................\nllama_new_context_with_model: n_ctx      = 2048\nllama_new_context_with_model: n_batch    = 2048\nllama_new_context_with_model: n_ubatch   = 512\nllama_new_context_with_model: flash_attn = 0\nllama_new_context_with_model: freq_base  = 500000.0\nllama_new_context_with_model: freq_scale = 1\nllama_kv_cache_init:        CPU KV buffer size =   150.00 MiB\nllama_new_context_with_model: KV self size  =  150.00 MiB, K (f16):   75.00 MiB, V (f16):   75.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     2.45 MiB\nllama_new_context_with_model:        CPU compute buffer size =   255.50 MiB\nllama_new_context_with_model: graph nodes  = 1116\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nmultiple_choice_score: there are 570 tasks in prompt\nmultiple_choice_score: selecting 500 random tasks from 570 tasks available\nmultiple_choice_score: preparing task datamultiple_choice_score : calculating TruthfulQA score over 500 tasks.\nFinal result: 66.6000 +/- 2.1113\nRandom chance: 24.9875 +/- 1.9381\n\nllama_perf_context_print:        load time =     970.34 ms\nllama_perf_context_print: prompt eval time =  196040.12 ms / 23641 tokens (    8.29 ms per token,   120.59 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time =  199179.06 ms / 23642 tokens\n"
+ "stderr_points": 2.0861447696648474,
+ "stdout_tail": ".30466830\n408\t68.38235294\n409\t68.45965770\n410\t68.53658537\n411\t68.36982968\n412\t68.20388350\n413\t68.28087167\n414\t68.11594203\n415\t68.19277108\n416\t68.26923077\n417\t68.34532374\n418\t68.18181818\n419\t68.01909308\n420\t68.09523810\n421\t68.17102138\n422\t68.00947867\n423\t68.08510638\n424\t68.16037736\n425\t68.00000000\n426\t68.07511737\n427\t67.91569087\n428\t67.99065421\n429\t68.06526807\n430\t68.13953488\n431\t67.98143852\n432\t68.05555556\n433\t68.12933025\n434\t67.97235023\n435\t68.04597701\n436\t68.11926606\n437\t68.19221968\n438\t68.03652968\n439\t67.88154897\n440\t67.72727273\n441\t67.80045351\n442\t67.87330317\n443\t67.94582393\n444\t67.79279279\n445\t67.86516854\n446\t67.93721973\n447\t68.00894855\n448\t67.85714286\n449\t67.92873051\n450\t68.00000000\n451\t68.07095344\n452\t68.14159292\n453\t67.99116998\n454\t68.06167401\n455\t67.91208791\n456\t67.98245614\n457\t68.05251641\n458\t68.12227074\n459\t68.19172113\n460\t68.04347826\n461\t67.89587852\n462\t67.96536797\n463\t67.81857451\n464\t67.88793103\n465\t67.95698925\n466\t67.81115880\n467\t67.66595289\n468\t67.73504274\n469\t67.80383795\n470\t67.87234043\n471\t67.94055202\n472\t67.79661017\n473\t67.86469345\n474\t67.93248945\n475\t68.00000000\n476\t68.06722689\n477\t68.13417191\n478\t68.20083682\n479\t68.05845511\n480\t67.91666667\n481\t67.77546778\n482\t67.84232365\n483\t67.90890269\n484\t67.97520661\n485\t68.04123711\n486\t68.10699588\n487\t68.17248460\n488\t68.03278689\n489\t68.09815951\n490\t68.16326531\n491\t68.22810591\n492\t68.08943089\n493\t68.15415822\n494\t68.01619433\n495\t67.87878788\n496\t67.74193548\n497\t67.80684105\n498\t67.87148594\n499\t67.93587174\n500\t68.00000000\n\n\n",
+ "stderr_tail": ".00 MiB\nllama_new_context_with_model: KV self size  =  150.00 MiB, K (f16):   75.00 MiB, V (f16):   75.00 MiB\nllama_new_context_with_model:        CPU  output buffer size =     2.45 MiB\nllama_new_context_with_model:        CPU compute buffer size =   255.50 MiB\nllama_new_context_with_model: graph nodes  = 1116\nllama_new_context_with_model: graph splits = 1\ncommon_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)\n\nsystem_info: n_threads = 8 (n_threads_batch = 8) / 16 | AVX = 1 | AVX_VNNI = 0 | AVX2 = 1 | AVX512 = 1 | AVX512_VBMI = 1 | AVX512_VNNI = 1 | AVX512_BF16 = 1 | FMA = 1 | NEON = 0 | SVE = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | RISCV_VECT = 0 | WASM_SIMD = 0 | BLAS = 0 | SSE3 = 1 | SSSE3 = 1 | VSX = 0 | MATMUL_INT8 = 0 | LLAMAFILE = 1 | \nmultiple_choice_score: there are 570 tasks in prompt\nmultiple_choice_score: selecting 500 random tasks from 570 tasks available\nmultiple_choice_score: preparing task datamultiple_choice_score : calculating TruthfulQA score over 500 tasks.\nFinal result: 68.0000 +/- 2.0882\nRandom chance: 24.9875 +/- 1.9381\n\nllama_perf_context_print:        load time =     905.89 ms\nllama_perf_context_print: prompt eval time =  263623.13 ms / 23015 tokens (   11.45 ms per token,    87.30 tokens per second)\nllama_perf_context_print:        eval time =       0.00 ms /     1 runs   (    0.00 ms per token,      inf tokens per second)\nllama_perf_context_print:       total time =  266843.09 ms / 23016 tokens\n"
 }
