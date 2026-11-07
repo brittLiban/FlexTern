@@ -22,7 +22,7 @@ See the closeout record section 11 and `results/predictive_state_phase1_1_closeo
 
 ## Actual Results
 
-MEASURED: v1 reproduces exactly; 163-193/200 (LA_NOM) and 195-200/200 (LA_OCC) episodes had different blackout sequences between controllers under v1; paired replay: obs_B 1.000/1.000/1.000, obs_A 0.995/0.970/0.560, oracle 1.000 (87 unique layouts). Latency on host-reported AC: lean legacy skipping -28% batch-1, shared runner -4%, batched CPU -9..-25%, batched CUDA +6..+16%; energy not measured.
+MEASURED: v1 reproduces exactly; 114-130/200 (LA_NOM) and 177-192/200 (LA_OCC) episodes had different blackout sequences between controllers while both were acting under v1; paired replay: obs_B 1.000/1.000/1.000, obs_A 0.995/0.970/0.560, oracle 1.000 (87 unique layouts). Latency on host-reported AC: lean legacy skipping -28% batch-1, shared runner -4%, batched CPU -9..-25%, batched CUDA +6..+16%; energy not measured.
 
 ## Remaining Problems
 

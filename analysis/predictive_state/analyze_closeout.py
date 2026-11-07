@@ -68,9 +68,19 @@ def finish_stats(fin, ok):
 
 
 def first_diff_counts(logs_a, logs_b):
-    """Episodes whose valid sequences differ anywhere on the common prefix of two runs."""
+    """Episodes whose valid sequences differ anywhere on the common prefix of two runs (includes steps after an episode ended)."""
     L = min(len(logs_a[0]), len(logs_b[0]))
     return int(sum(a[:L] != b[:L] for a, b in zip(logs_a, logs_b))), L
+
+
+def live_diff_counts(logs_a, logs_b, fin_a, fin_b):
+    """Episodes whose blackout sequence differed over the observations BOTH controllers acted on: indices 0 .. min(finish_a, finish_b) - 1
+    (index 0 = reset observation). Draws after an episode ended cannot change any outcome, so this is the count that matters for pairing."""
+    n = 0
+    for a, b, fa, fb in zip(logs_a, logs_b, fin_a, fin_b):
+        w = min(fa if fa > 0 else len(a), fb if fb > 0 else len(b))
+        n += a[:w] != b[:w]
+    return int(n)
 
 
 def reproduction(hist, repro):
@@ -89,11 +99,12 @@ def v1_defect(repro):
     """How many episodes saw a different blackout schedule under different controllers in the historical (shared RNG) protocol."""
     out = {}
     for cn in CONDS:
-        logs = {c: repro[cn]["controllers"][c]["valid_log"] for c in CTRLS}
+        cc = repro[cn]["controllers"]
         out[cn] = {}
         for a, b in PAIRS + (("greedy", "oracle_descent"),):
-            n_diff, L = first_diff_counts(logs[a], logs[b])
-            out[cn][f"{a}|{b}"] = {"episodes_with_different_valid_sequence": n_diff, "common_steps_compared": L, "of": len(logs[a])}
+            n_diff, L = first_diff_counts(cc[a]["valid_log"], cc[b]["valid_log"])
+            out[cn][f"{a}|{b}"] = {"episodes_with_different_valid_sequence_while_live": live_diff_counts(cc[a]["valid_log"], cc[b]["valid_log"], cc[a]["finish"], cc[b]["finish"]),
+                                   "episodes_with_different_valid_sequence_whole_run": n_diff, "common_steps_compared_whole_run": L, "of": len(cc[a]["valid_log"])}
     return out
 
 
@@ -166,10 +177,11 @@ def markdown(out):
     L += ["## Reproduction of the historical per-episode outcomes with unchanged code", "", "| cond | controllers with identical per-episode success@65 (of 5) |", "|---|---|"]
     for cn, rows in out["reproduction_of_historical"].items():
         L.append(f"| {cn} | {sum(r['identical_per_episode_success_at_65'] for r in rows.values())} |")
-    L += ["", "## Historical (v1 shared RNG) defect: episodes (of 200) whose blackout sequence differed between two controllers", "", "| pair | LA_CLEAR | LA_NOM | LA_OCC |", "|---|---|---|---|"]
+    L += ["", "## Historical (v1 shared RNG) defect: episodes (of 200) whose blackout sequence differed between two controllers", "",
+          "Headline = while live under both controllers (observations both acted on); in brackets = over the whole common run length (includes steps after an episode ended).", "", "| pair | LA_CLEAR | LA_NOM | LA_OCC |", "|---|---|---|---|"]
     for k in out["historical_defect_measured"]["LA_NOM"]:
         kk = k.replace(chr(124), " vs ")
-        L.append(f"| {kk} | " + " | ".join(str(out["historical_defect_measured"][cn][k]["episodes_with_different_valid_sequence"]) for cn in CONDS) + " |")
+        L.append(f"| {kk} | " + " | ".join("%d (%d)" % (out["historical_defect_measured"][cn][k]["episodes_with_different_valid_sequence_while_live"], out["historical_defect_measured"][cn][k]["episodes_with_different_valid_sequence_whole_run"]) for cn in CONDS) + " |")
     for cn, b in out["paired_replay"]["conds"].items():
         L += ["", f"## Paired replay, {cn}: {b['n_episodes']} episodes, {b['unique_layouts']} unique layouts, schedule id `{b['schedule_identifier']}`, dark steps {b['blackout_schedule_first_65_steps']['dark_step_fraction']:.3f}, episodes with a blackout {b['blackout_schedule_first_65_steps']['episodes_with_any_blackout']:.3f}", "",
               "| controller | success@65 | success@80 | Wilson95 (episodes) | layout-cluster bootstrap95 | exact 95% failure bound (unique layouts) | median finish (successes) | timeouts | v1 hist @65 | delta |", "|---|---|---|---|---|---|---|---|---|---|"]
@@ -202,7 +214,7 @@ def main():
         print(cn, {c: (r["identical_per_episode_success_at_65"], r["n_differing_episodes"]) for c, r in rows.items()})
     print("== historical defect: episodes with different blackout sequences between controllers")
     for cn, rows in out["historical_defect_measured"].items():
-        print(cn, {k: v["episodes_with_different_valid_sequence"] for k, v in rows.items()})
+        print(cn, {k: (v["episodes_with_different_valid_sequence_while_live"], v["episodes_with_different_valid_sequence_whole_run"]) for k, v in rows.items()})
     print("== paired replay")
     for cn, blk in out["paired_replay"]["conds"].items():
         print(cn, "layouts", blk["unique_layouts"], "sched", blk["schedule_identifier"], "invariants",

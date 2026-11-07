@@ -3,9 +3,9 @@ LA_CLEAR {'greedy': (True, 0), 'reactive_memory': (True, 0), 'oracle_descent': (
 LA_NOM {'greedy': (True, 0), 'reactive_memory': (True, 0), 'oracle_descent': (True, 0), 'obs_A_single_frame': (True, 0), 'obs_B_map_memory': (True, 0)}
 LA_OCC {'greedy': (True, 0), 'reactive_memory': (True, 0), 'oracle_descent': (True, 0), 'obs_A_single_frame': (True, 0), 'obs_B_map_memory': (True, 0)}
 == historical defect: episodes with different blackout sequences between controllers
-LA_CLEAR {'obs_A_single_frame|obs_B_map_memory': 0, 'obs_B_map_memory|oracle_descent': 0, 'obs_A_single_frame|oracle_descent': 0, 'obs_B_map_memory|reactive_memory': 0, 'obs_A_single_frame|greedy': 0, 'greedy|oracle_descent': 0}
-LA_NOM {'obs_A_single_frame|obs_B_map_memory': 169, 'obs_B_map_memory|oracle_descent': 169, 'obs_A_single_frame|oracle_descent': 163, 'obs_B_map_memory|reactive_memory': 170, 'obs_A_single_frame|greedy': 193, 'greedy|oracle_descent': 164}
-LA_OCC {'obs_A_single_frame|obs_B_map_memory': 195, 'obs_B_map_memory|oracle_descent': 199, 'obs_A_single_frame|oracle_descent': 197, 'obs_B_map_memory|reactive_memory': 200, 'obs_A_single_frame|greedy': 200, 'greedy|oracle_descent': 198}
+LA_CLEAR {'obs_A_single_frame|obs_B_map_memory': (0, 0), 'obs_B_map_memory|oracle_descent': (0, 0), 'obs_A_single_frame|oracle_descent': (0, 0), 'obs_B_map_memory|reactive_memory': (0, 0), 'obs_A_single_frame|greedy': (0, 0), 'greedy|oracle_descent': (0, 0)}
+LA_NOM {'obs_A_single_frame|obs_B_map_memory': (114, 169), 'obs_B_map_memory|oracle_descent': (130, 169), 'obs_A_single_frame|oracle_descent': (122, 163), 'obs_B_map_memory|reactive_memory': (123, 170), 'obs_A_single_frame|greedy': (123, 193), 'greedy|oracle_descent': (125, 164)}
+LA_OCC {'obs_A_single_frame|obs_B_map_memory': (177, 195), 'obs_B_map_memory|oracle_descent': (189, 199), 'obs_A_single_frame|oracle_descent': (180, 197), 'obs_B_map_memory|reactive_memory': (189, 200), 'obs_A_single_frame|greedy': (192, 200), 'greedy|oracle_descent': (187, 198)}
 == paired replay
 LA_CLEAR layouts 87 sched 886db08b80c0b145 invariants True True True
    greedy 0.235 0.235 wilson [0.182, 0.298] cluster [0.15458102065988283, 0.3197969543147208] ub0 None delta_v1 -0.005

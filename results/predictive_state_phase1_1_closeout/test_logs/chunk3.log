@@ -1,0 +1,9 @@
+-- chunk 3: ['test_predictive_state', 'test_reference', 'test_roofline', 'test_split_guard', 'test_sram_retention', 'test_sram_retention_correction', 'test_sram_validation'] (estimated 840 s)
+{'module': 'test_predictive_state', 'status': 'OK', 'tests': 17, 'skipped': 0, 'seconds': 11.2}
+{'module': 'test_reference', 'status': 'OK', 'tests': 19, 'skipped': 0, 'seconds': 0.1}
+{'module': 'test_roofline', 'status': 'OK', 'tests': 26, 'skipped': 0, 'seconds': 0.1}
+{'module': 'test_split_guard', 'status': 'OK', 'tests': 5, 'skipped': 0, 'seconds': 0.5}
+{'module': 'test_sram_retention', 'status': 'OK', 'tests': 21, 'skipped': 0, 'seconds': 0.4}
+{'module': 'test_sram_retention_correction', 'status': 'OK', 'tests': 15, 'skipped': 0, 'seconds': 0.3}
+{'module': 'test_sram_validation', 'status': 'OK', 'tests': 15, 'skipped': 0, 'seconds': 0.1}
+TOTAL: modules 7 tests 118 skipped 0 seconds 12.7 failed []

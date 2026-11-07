@@ -1,0 +1,9 @@
+-- chunk 2: ['test_env_la', 'test_env_paired', 'test_executed_work', 'test_hardware_gate', 'test_inference_skip', 'test_memory_residency', 'test_model_precision'] (estimated 840 s)
+{'module': 'test_env_la', 'status': 'OK', 'tests': 16, 'skipped': 0, 'seconds': 13.2}
+{'module': 'test_env_paired', 'status': 'OK', 'tests': 10, 'skipped': 0, 'seconds': 4.4}
+{'module': 'test_executed_work', 'status': 'OK', 'tests': 10, 'skipped': 0, 'seconds': 3.1}
+{'module': 'test_hardware_gate', 'status': 'TIMEOUT', 'tests': None, 'skipped': 0, 'seconds': 900}
+{'module': 'test_inference_skip', 'status': 'OK', 'tests': 24, 'skipped': 0, 'seconds': 8.4}
+{'module': 'test_memory_residency', 'status': 'OK', 'tests': 17, 'skipped': 0, 'seconds': 0.1}
+{'module': 'test_model_precision', 'status': 'OK', 'tests': 11, 'skipped': 6, 'seconds': 6.8}
+TOTAL: modules 7 tests 88 skipped 6 seconds 936.0 failed ['test_hardware_gate']

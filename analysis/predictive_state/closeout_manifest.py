@@ -61,7 +61,7 @@ def main():
             "python -m analysis.predictive_state.closeout_paired COND results/predictive_state_phase1_1_closeout/paired_replay_COND.json   (~5 min each)",
             "python -m analysis.predictive_state.analyze_closeout   -> closeout_summary.json, closeout_tables.md",
             "powershell -File scripts/capture_power_state.ps1 LABEL >> power_state.jsonl   (read-only)",
-            "WSL: python -m analysis.predictive_state.phase11_timing results/predictive_state/checkpoints/G_s0.pt results/predictive_state_phase1_1_closeout/timing_retime_train_trace.json 12   (~6 min; trace split TRAIN by default)",
+            "WSL (what was actually run): cp results/predictive_state/checkpoints/G_s0.pt /tmp/G_s0_repo.pt (same sha256); python -m analysis.predictive_state.phase11_timing /tmp/G_s0_repo.pt results/predictive_state_phase1_1_closeout/timing_retime_train_trace.json 12   (~6 min; trace split TRAIN by default; env TORCHDYNAMO_DISABLE=1)",
             "python scripts/run_tests.py smoke|benchmark|predictive|full --chunk K"],
         "timing": {"checkpoint": "results/predictive_state/checkpoints/G_s0.pt", "checkpoint_sha256": sha("results/predictive_state/checkpoints/G_s0.pt"),
                    "triggers": {"full": "full", "fixed": "fixed:0.25", "pix": "pix:0.0199", "learned": "learned:0.1445"}, "trace_split": "train",

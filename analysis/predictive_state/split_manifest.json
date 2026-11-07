@@ -11,11 +11,11 @@
   "analyze_state.py": "EXP-0012 state-probe analysis; defaults to the TEST split (PS_PROBE_SPLIT); EXP-0012 diagnostic, not used by EXP-0013",
   "latency.py": "EXP-0012 batch-1 latency traces recorded on TEST layouts with the DIST condition (timing only, no task scoring)",
   "_latency_exp0012.py": "frozen copy of the EXP-0012 latency step from git history (timing only)",
-  "phase11_timing.py": "EXP-0013 Phase 1.1 timing: historical traces were recorded on TEST layouts (timing only, no task scoring); closeout makes TRAIN the default and TEST an explicit opt-in (FLEXTERN_ALLOW_TEST_SPLIT=1)"
+  "phase11_timing.py": "EXP-0013 Phase 1.1 timing: historical traces were recorded on TEST layouts (timing only, no task scoring; the Phase 1.1 encoder-fraction, MAC and latency figures were measured on them); closeout makes TRAIN the default and TEST an explicit opt-in (FLEXTERN_ALLOW_TEST_SPLIT=1)"
  },
  "historical_test_exposure": {
   "exp0012_task_scoring": "run_eval.py / report.py: preregistered TEST evaluation of the EXP-0012 arms (before EXP-0013)",
-  "exp0013_phase1_1_timing_traces": "phase11_timing.record built E.BatchEnv(1, 'test', DIST) for 15 episodes per trigger (seeds 31..45; layout ids drawn from 2000-2199); used only to time inference; no success metric, tuning, code selection or claim depends on it",
+  "exp0013_phase1_1_timing_traces": "phase11_timing.record built E.BatchEnv(1, 'test', DIST) for 15 episodes per trigger (seeds 31..45; layout ids drawn from 2000-2199); used only to time inference; no success metric, tuning or code selection depends on it, but the Phase 1.1 latency and encoder-fraction figures were measured on them",
   "exp0013_la_task_scoring_on_test": "none: no OccPick2D-LA environment was ever constructed on the test split"
  }
 }

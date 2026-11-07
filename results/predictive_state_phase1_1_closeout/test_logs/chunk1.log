@@ -1,0 +1,9 @@
+-- chunk 1: ['test_analysis', 'test_analysis_cross_model', 'test_control_gate', 'test_control_semantics', 'test_controllers_obs', 'test_datacenter_gate', 'test_edge_inference'] (estimated 840 s)
+{'module': 'test_analysis', 'status': 'OK', 'tests': 16, 'skipped': 0, 'seconds': 1.2}
+{'module': 'test_analysis_cross_model', 'status': 'OK', 'tests': 21, 'skipped': 0, 'seconds': 0.2}
+{'module': 'test_control_gate', 'status': 'OK', 'tests': 20, 'skipped': 0, 'seconds': 0.4}
+{'module': 'test_control_semantics', 'status': 'OK', 'tests': 21, 'skipped': 0, 'seconds': 1.1}
+{'module': 'test_controllers_obs', 'status': 'OK', 'tests': 18, 'skipped': 0, 'seconds': 42.1}
+{'module': 'test_datacenter_gate', 'status': 'OK', 'tests': 16, 'skipped': 0, 'seconds': 0.1}
+{'module': 'test_edge_inference', 'status': 'OK', 'tests': 42, 'skipped': 11, 'seconds': 4.0}
+TOTAL: modules 7 tests 154 skipped 11 seconds 49.1 failed []

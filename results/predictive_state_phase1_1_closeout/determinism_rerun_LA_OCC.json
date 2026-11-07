@@ -1,0 +1,7 @@
+{
+ "condition": "LA_OCC",
+ "committed_file_repo_sha": "6cbd44b2f93721a4f63201ebbc796e62985e4f3a",
+ "rerun_repo_sha": "417601ff0a1e670047c68be564ff8dd7c7648fb0",
+ "fields_compared": "success_at_budget,success_at_80,finish,fail_kind,spawn_digest,schedule_digest,layout_id,episode_id,effort,valid_log,n_observations,realized_valid_equals_schedule (5 controllers x 200 episodes)",
+ "all_identical": true
+}

@@ -8,8 +8,9 @@
   python scripts/run_tests.py list         tiers, modules and recorded durations
 
 Estimated durations come from tests/test_budget.json (measured on the founder's laptop, Windows host Python 3.12, one module per process).
-A chunk whose estimate exceeds BUDGET_S (900 s = the 15-minute rule) is refused unless --approved is passed; `full` splits modules into chunks
-that each fit the budget, and every chunk is an independently valid run (modules are independent processes). The exit code is non-zero if any
+A chunk whose estimate exceeds BUDGET_S (900 s = the 15-minute rule) is refused unless --approved is passed (which also lifts the per-module timeout);
+`full` splits modules into chunks that each fit the budget, and every chunk is an independently valid run (modules are independent processes). A single
+module is never split; if one alone is estimated above the budget, it needs approval. The exit code is non-zero if any
 module fails. Prints what actually ran, outcome, skipped count and measured seconds per module.
 """
 import json
@@ -35,6 +36,7 @@ def est(mods):
 
 
 def chunks(mods):
+    """Greedy chunking by recorded duration; a module whose own estimate exceeds the budget gets a chunk of its own and is refused without --approved."""
     out, cur = [], []
     for m in mods:
         if cur and est(cur + [m]) > BUDGET_S:
@@ -43,10 +45,10 @@ def chunks(mods):
     return out + ([cur] if cur else [])
 
 
-def run_module(m):
+def run_module(m, approved=False):
     t0 = time.perf_counter()
     try:
-        p = subprocess.run([sys.executable, "-m", "unittest", f"tests.{m}"], cwd=ROOT, capture_output=True, text=True, timeout=BUDGET_S)
+        p = subprocess.run([sys.executable, "-m", "unittest", f"tests.{m}"], cwd=ROOT, capture_output=True, text=True, timeout=None if approved else BUDGET_S)
     except subprocess.TimeoutExpired:
         return {"module": m, "status": "TIMEOUT", "tests": None, "skipped": 0, "seconds": BUDGET_S}
     out = p.stderr + p.stdout
@@ -80,9 +82,12 @@ def main():
     for i, ch in enumerate(chunks(mods) if tier == "full" else [mods]):
         if only is not None and i + 1 != only:
             continue
+        if est(ch) > BUDGET_S and not approved:
+            print(f"refused chunk {i + 1} {ch}: estimated {est(ch)} s exceeds the {BUDGET_S} s budget; get founder approval and pass --approved (a single module is never split)")
+            return 2
         print(f"-- chunk {i + 1}: {ch} (estimated {est(ch)} s)", flush=True)
         for m in ch:
-            r = run_module(m); results.append(r); print(r, flush=True)
+            r = run_module(m, approved); results.append(r); print(r, flush=True)
     print("TOTAL: modules", len(results), "tests", sum(r["tests"] or 0 for r in results), "skipped", sum(r["skipped"] for r in results),
           "seconds", round(sum(r["seconds"] for r in results), 1), "failed", [r["module"] for r in results if r["status"] != "OK"])
     return 0 if all(r["status"] == "OK" for r in results) else 1

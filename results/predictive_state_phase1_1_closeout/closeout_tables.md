@@ -10,14 +10,16 @@
 
 ## Historical (v1 shared RNG) defect: episodes (of 200) whose blackout sequence differed between two controllers
 
+Headline = while live under both controllers (observations both acted on); in brackets = over the whole common run length (includes steps after an episode ended).
+
 | pair | LA_CLEAR | LA_NOM | LA_OCC |
 |---|---|---|---|
-| obs_A_single_frame vs obs_B_map_memory | 0 | 169 | 195 |
-| obs_B_map_memory vs oracle_descent | 0 | 169 | 199 |
-| obs_A_single_frame vs oracle_descent | 0 | 163 | 197 |
-| obs_B_map_memory vs reactive_memory | 0 | 170 | 200 |
-| obs_A_single_frame vs greedy | 0 | 193 | 200 |
-| greedy vs oracle_descent | 0 | 164 | 198 |
+| obs_A_single_frame vs obs_B_map_memory | 0 (0) | 114 (169) | 177 (195) |
+| obs_B_map_memory vs oracle_descent | 0 (0) | 130 (169) | 189 (199) |
+| obs_A_single_frame vs oracle_descent | 0 (0) | 122 (163) | 180 (197) |
+| obs_B_map_memory vs reactive_memory | 0 (0) | 123 (170) | 189 (200) |
+| obs_A_single_frame vs greedy | 0 (0) | 123 (193) | 192 (200) |
+| greedy vs oracle_descent | 0 (0) | 125 (164) | 187 (198) |
 
 ## Paired replay, LA_CLEAR: 200 episodes, 87 unique layouts, schedule id `886db08b80c0b145`, dark steps 0.000, episodes with a blackout 0.000
 

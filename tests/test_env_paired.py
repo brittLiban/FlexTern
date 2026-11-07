@@ -57,9 +57,10 @@ class PairedEnvTests(unittest.TestCase):
         self.assertGreater(np.abs(res["random"][2].astype(int) - base[2].astype(int)).sum(), 0)
 
     def test_realized_valid_equals_closed_form_schedule(self):
-        env = P.PairedLAEnv(24, "dev", COND, seed=3)
+        env = P.PairedLAEnv(24, "dev", COND, seed=3, t_limit=30)      # every episode times out at step 30 < T = 60
         v, _ = rollout(env, random_fast(2))
-        # episodes finish at different times: a done episode's t_pick freezes, but the schedule must keep running regardless
+        self.assertTrue(env.done.all())
+        # a done episode's t_pick freezes, but the schedule must keep running regardless
         self.assertTrue((v == env.scheduled_valid(T)).all())
 
     def test_noise_is_a_pure_function_of_episode_and_time(self):

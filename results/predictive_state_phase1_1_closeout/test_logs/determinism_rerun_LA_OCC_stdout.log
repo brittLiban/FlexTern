@@ -1,0 +1,5 @@
+LA_OCC greedy 0.235 0.235 81 True 4.7
+LA_OCC reactive_memory 0.29 0.38 81 True 5.3
+LA_OCC oracle_descent 1.0 1.0 54 True 7.6
+LA_OCC obs_A_single_frame 0.56 0.725 81 True 79.8
+LA_OCC obs_B_map_memory 1.0 1.0 55 True 58.9

@@ -84,6 +84,8 @@ class TestObservationOnly(unittest.TestCase):
             self.assertLessEqual(obs.used, {"img", "valid", "prop", "task"})
 
     def test_paired_episodes_identical_across_controllers(self):
+        """Initial state only (layouts, spawn, goal for the same seed). This is NOT a proof of pairing: v1 blackout/noise streams still diverge with
+        the actions (see tests/test_env_paired.py::test_v1_shared_rng_is_not_paired and env_paired.PairedLAEnv)."""
         starts = []
         for _ in range(2):
             env = L.LAEnv(16, "train", CLEAR, 5001, t_limit=80)

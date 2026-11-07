@@ -1,4 +1,27 @@
 {
- "_doc": "Recorded per-module wall seconds (one module per process, Windows host Python 3.12, founder laptop) used by scripts/run_tests.py to build chunks under the 900 s budget. Modules not listed default to 120 s. Refreshed by the closeout profiling run; see EXP-0013-phase1-1-closeout.md section 11.",
- "modules_seconds": {}
+ "_doc": "Recorded per-module wall seconds (one module per process, Windows host Python 3.12, founder laptop, 2026-11-07 closeout) used by scripts/run_tests.py to build chunks under the 900 s budget. test_hardware_gate (RTL simulations with iverilog/vvp) hit the 900 s timeout in the closeout run and is therefore NOT measured; 1750 s is INFERRED from the Phase 1.1 full-suite total (1863 s) minus the other modules, so the runner refuses it without --approved. Modules not listed default to 120 s.",
+ "modules_seconds": {
+  "test_analysis": 1.2,
+  "test_analysis_cross_model": 0.2,
+  "test_control_gate": 0.4,
+  "test_control_semantics": 1.1,
+  "test_controllers_obs": 42.1,
+  "test_datacenter_gate": 0.1,
+  "test_edge_inference": 4.0,
+  "test_env_la": 13.2,
+  "test_env_paired": 4.4,
+  "test_executed_work": 3.1,
+  "test_hardware_gate": 1750.0,
+  "test_inference_skip": 8.4,
+  "test_memory_residency": 0.1,
+  "test_model_precision": 6.8,
+  "test_predictive_state": 11.2,
+  "test_reference": 0.1,
+  "test_roofline": 0.1,
+  "test_split_guard": 0.5,
+  "test_sram_retention": 0.4,
+  "test_sram_retention_correction": 0.3,
+  "test_sram_validation": 0.1,
+  "test_ternary_vs_int4": 0.2
+ }
 }

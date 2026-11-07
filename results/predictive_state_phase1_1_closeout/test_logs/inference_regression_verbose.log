@@ -1,0 +1,46 @@
+test_all_finished_does_nothing (tests.test_executed_work.TestExecutedWorkAccounting.test_all_finished_does_nothing) ... ok
+test_all_skipped_vision_no_encoder_but_cell_and_policy_run (tests.test_executed_work.TestExecutedWorkAccounting.test_all_skipped_vision_no_encoder_but_cell_and_policy_run) ... ok
+test_blackout_rows_never_reach_encoder_all_triggers (tests.test_executed_work.TestExecutedWorkAccounting.test_blackout_rows_never_reach_encoder_all_triggers) ... ok
+test_counters_equal_spies_mixed_active_finished (tests.test_executed_work.TestExecutedWorkAccounting.test_counters_equal_spies_mixed_active_finished) ... ok
+test_finished_rows_cannot_change_active_outputs (tests.test_executed_work.TestExecutedWorkAccounting.test_finished_rows_cannot_change_active_outputs)
+Arbitrary garbage in the finished rows' inputs leaves the active rows' actions, states and decisions bit-identical. ... ok
+test_full_batch_mode_counts_finished_rows_as_executed (tests.test_executed_work.TestExecutedWorkAccounting.test_full_batch_mode_counts_finished_rows_as_executed) ... ok
+test_row_finishing_midway_is_frozen (tests.test_executed_work.TestExecutedWorkAccounting.test_row_finishing_midway_is_frozen) ... ok
+test_selective_equals_full_batch_for_active_rows (tests.test_executed_work.TestExecutedWorkAccounting.test_selective_equals_full_batch_for_active_rows) ... ok
+test_state_advances_from_action_and_proprio_when_vision_skipped (tests.test_executed_work.TestExecutedWorkAccounting.test_state_advances_from_action_and_proprio_when_vision_skipped) ... ok
+test_trigger_skipped_all_rows_no_encoder_call (tests.test_executed_work.TestExecutedWorkAccounting.test_trigger_skipped_all_rows_no_encoder_call) ... ok
+test_gated_collection_matches_encode_everything (tests.test_inference_skip.TestDagger.test_gated_collection_matches_encode_everything) ... ok
+test_all_needed (tests.test_inference_skip.TestGatedEncode.test_all_needed) ... ok
+test_mixed_batch_encodes_only_selected_rows (tests.test_inference_skip.TestGatedEncode.test_mixed_batch_encodes_only_selected_rows) ... ok
+test_none_needed_never_calls_encoder (tests.test_inference_skip.TestGatedEncode.test_none_needed_never_calls_encoder) ... ok
+test_latency_full_has_no_trigger_cost_and_encodes_valid_frames_only (tests.test_inference_skip.TestLatencyPath.test_latency_full_has_no_trigger_cost_and_encodes_valid_frames_only) ... ok
+test_latency_uses_same_runner_and_supports_fixed (tests.test_inference_skip.TestLatencyPath.test_latency_uses_same_runner_and_supports_fixed) ... ok
+test_decisions_outcomes_and_true_encoder_work (tests.test_inference_skip.TestRolloutEquivalence.test_decisions_outcomes_and_true_encoder_work) ... ok
+test_deterministic_under_fixed_seed (tests.test_inference_skip.TestRolloutEquivalence.test_deterministic_under_fixed_seed) ... ok
+test_non_recurrent_arm_falls_back_to_legacy (tests.test_inference_skip.TestRolloutEquivalence.test_non_recurrent_arm_falls_back_to_legacy) ... ok
+test_skipping_reduces_executed_samples (tests.test_inference_skip.TestRolloutEquivalence.test_skipping_reduces_executed_samples) ... ok
+test_all_samples_encoded_full (tests.test_inference_skip.TestRunnerSemantics.test_all_samples_encoded_full) ... ok
+test_blackout_rows_never_encoded_even_when_forced (tests.test_inference_skip.TestRunnerSemantics.test_blackout_rows_never_encoded_even_when_forced) ... ok
+test_finished_rows_never_encoded (tests.test_inference_skip.TestRunnerSemantics.test_finished_rows_never_encoded) ... ok
+test_first_frame_forced_for_every_trigger (tests.test_inference_skip.TestRunnerSemantics.test_first_frame_forced_for_every_trigger) ... ok
+test_fixed_rate_schedule_exact (tests.test_inference_skip.TestRunnerSemantics.test_fixed_rate_schedule_exact) ... ok
+test_full_perception_matches_original_open_loop (tests.test_inference_skip.TestRunnerSemantics.test_full_perception_matches_original_open_loop)
+Gated runner reproduces the EXP-0012 computation (encode everything, mask by validity) step by step. ... ok
+test_learned_trigger_threshold_controls_rows (tests.test_inference_skip.TestRunnerSemantics.test_learned_trigger_threshold_controls_rows) ... ok
+test_max_skip_forced (tests.test_inference_skip.TestRunnerSemantics.test_max_skip_forced) ... ok
+test_mixed_batch_inputs_are_exactly_eligible_rows (tests.test_inference_skip.TestRunnerSemantics.test_mixed_batch_inputs_are_exactly_eligible_rows) ... ok
+test_no_samples_encoded_but_state_advances (tests.test_inference_skip.TestRunnerSemantics.test_no_samples_encoded_but_state_advances) ... ok
+test_pixel_change_trigger (tests.test_inference_skip.TestRunnerSemantics.test_pixel_change_trigger) ... ok
+test_runner_batched_equals_per_row_runner (tests.test_inference_skip.TestRunnerSemantics.test_runner_batched_equals_per_row_runner)
+latency (n=1) and evaluation (batched) share the runner: identical decisions and states row by row. ... ok
+test_slip_forced (tests.test_inference_skip.TestRunnerSemantics.test_slip_forced) ... ok
+test_task_change_forced (tests.test_inference_skip.TestRunnerSemantics.test_task_change_forced) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 7.891s
+
+OK
+
+real	0m11.992s
+user	0m0.031s
+sys	0m0.015s
