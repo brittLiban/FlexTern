@@ -41,6 +41,23 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **What would answer it:** External ecosystem developments; cannot be answered inside this repo.
 **Status:** Open.
 
+### Q-029 (Phase 1.2, opened 2026-11-07) - Authorize and fix the preregistered v2 criteria
+**Question:** Does the founder approve the v2 falsification criteria (`experiments/EXP-0013-phase1-2-design.md` section 8: thresholds 6 steps / 0.10 / 0.05, DELTA=12, W=8, inherited 1.5x deadline with deadline-free regret as the deciding metric, twin yield minimums, one TRAIN-only recalibration) and authorize Stage 1 (software simulator, oracle, hand-coded controllers C1/C1+/C2/C3/C4; no training)?
+**Why it matters:** The criteria are only meaningful if fixed before results exist.
+**What would answer it:** Founder (with ChatGPT) amends or approves; record as an ADR or a CURRENT_WORK objective.
+
+### Q-030 (Phase 1.2) - Order of the pending closeout merge and the RTL chunk
+**Question:** Merge `exp-0013-phase1-1-closeout` (after a run or waiver of `test_hardware_gate`, ~29 min) before Stage 1 branches, or branch from the closeout?
+**What would answer it:** Founder decision per AGENTS.md section 10.
+
+### Q-031 (Phase 1.2) - Held-out range for v2
+**Question:** Reserve layout ids 3000-3999 as HELDOUT-V2 and add it to `split_manifest.json` and `split_policy.py`?
+**What would answer it:** Founder confirmation.
+
+### Q-032 (Phase 1.2) - Scope of a positive result
+**Question:** Is a GO that shows only "timing prediction from action history beats memory-only controllers" (a hand-coded timer FSM will likely solve v2-B) enough to justify later authorizing learned-model work, or is a harder variant (per-episode latent timing, several switches, stochastic delays; needed for any claim that a learned model beats a hand-coded predictor) required first?
+**What would answer it:** Founder and ChatGPT after Stage 1.
+
 ## Architecture-level (not yet relevant)
 
 ### Q-009

@@ -2,6 +2,8 @@
 
 Date: 2026-11-07. Status: **DESIGN ONLY, awaiting founder review. Nothing here is implemented, trained or measured, except the two geometry numbers in section 1 (MEASURED from the unmodified v1 code on TRAIN layouts).** Branch `exp-0013-phase1-2-design` (from `exp-0013-phase1-1-closeout` @ `2810a56`; the closeout is **not merged** and has no recorded merge approval, see the decision memo).
 
+Revision 2 (same day, after advisor review `../reviews/REV-2026-11-07-exp-0013-phase1-2-design-review.md`): added the memory-only controller C1+ and split the evidence ladder into event memory vs timing prediction; the deadline rule is the inherited 1.5x with a deadline-free deciding metric; v2-A has an explicit C2 definition and a wait-fits-in-budget requirement; twin yields are preregistered.
+
 Companion documents: `EXP-0013-phase1-2-literature.md` (prior art), `../reviews/MEMO-2026-11-07-exp-0013-phase1-2-decision.md` (decision memo). Evidence labels follow AGENTS.md section 7.
 
 Question this design must be able to answer: **is there a task, simple enough to simulate exactly, on which carrying action-conditioned predictive state forward measurably beats the best non-predictive controllers, and does that gap survive an honest hand-coded predictor?** The design is built so that the answer can be NO.
@@ -66,7 +68,8 @@ Consequence (closed form, used as a test oracle): a press at step `s` makes the 
 
 - Task: pick the target colour, carry it through the gate, release inside the goal square.
 - Return (defined for regret and for any later RL baseline): `r_t = -1/T_D` per step, `+1` on success; success = release in goal at `finish <= T_D`.
-- Deadline `T_D = ceil(1.25 x p95(oracle finish on TRAIN))` per variant (rule preregistered now; v1 used 1.5x, which here would leave enough slack for blind retry loops to hide the effect, so the multiplier is fixed in advance rather than chosen after seeing baselines; the **deadline sweep** 1.0x-2.0x is reported so no conclusion rests on one multiplier). Simulator cap `T_CAP = T_D + 15`.
+- Deadline `T_D = ceil(1.5 x p95(oracle finish on TRAIN))` per variant, the same rule v1 used (so it is inherited, not tuned to this benchmark). For v2-A the rule is `T_D,A = max(ceil(1.5 x p95_A), p95_A + P)` so that a full period of waiting at the gate always fits (a requirement, checked on TRAIN, not assumed). The **deadline sweep** 1.0x-2.0x of p95 is reported, and the deciding metric (section 7.3) is the deadline-free regret.
+- Simulator cap `T_CAP = ceil(2 x p95(oracle finish on TRAIN))`, independent of `T_D`; the regret of a failure is censored at `T_CAP`. **Implementation note:** v1's base `BatchEnv.step` hard-codes a timeout at `T_PICK = 80`. If `T_CAP > 80`, the v2 subclass must carry its own copy of that timeout (a few lines, covered by the v1 non-regression test for `T <= 80`); `env.py` is not edited.
 - Terminals: success; `wrong_pick` (pick of a distractor); `timeout` at `t_pick >= T_CAP`. No other failure kind.
 
 ### 2.7 Exogenous randomness
@@ -81,13 +84,13 @@ All three types are constructed by scripted prefixes on the same episode (same l
 
 | type | observation at `t*` | hidden difference | what each state needs |
 |---|---|---|---|
-| alpha (pending vs idle) | valid frame, gate drawn closed, effector at the same point near S | `s`: PENDING (`k` = 3); `s'`: IDLE (never pressed) | `s`: head for the gate now. `s'`: press S first |
-| beta (open vs pending) | blackout (gray), effector at `q` on the route to the gate | `s`: OPEN (`k` = W-2); `s'`: PENDING (`k` = DELTA-4) | `s`: rush through now, window closes in 6 steps. `s'`: keep approaching and wait at the gate (it opens in 8 steps); turning back to re-press would waste a round trip |
-| gamma (late vs early in the window) | blackout, same `q` | both OPEN, `k` = 2 vs `k` = 7 | `k=2`: cannot make it (travel 5 steps), return and re-press. `k=7`: go now |
+| alpha (**event-memory** twin: pending vs idle) | valid frame, gate drawn closed, effector at the same point near S | `s`: PENDING (`k` = 3); `s'`: IDLE (never pressed) | `s`: head for the gate now. `s'`: press S first |
+| beta (**timing** twin: open vs pending) | blackout (gray), effector at `q` on the route to the gate | `s`: OPEN (`k` = W-2); `s'`: PENDING (`k` = DELTA-4) | `s`: rush through now, window closes in 6 steps. `s'`: keep approaching and wait at the gate (it opens in 8 steps); turning back to re-press would waste a round trip |
+| gamma (**timing** twin: late vs early in the window) | blackout, same `q` | both OPEN, `k` = 2 vs `k` = 7 | `k=2`: cannot make it (travel 5 steps), return and re-press. `k=7`: go now |
 
 **What makes them distinguishable over time (the only thing).** The time elapsed since the effector last entered the switch disc, i.e. the agent's own proprioceptive/action history. Construction for beta: prefix 1 enters S at step `t1`, walks to `q`, arrives at `t*`; prefix 2 enters S at `t1' = t* - DELTA - 2`, walks to `q`, loiters. Both effector traces end at `q`, held/grip equal. For (v) to hold, no valid frame may occur in `[press + DELTA, t*]` of either history; the construction picks `t*` inside a scheduled blackout and rejects episodes where this fails. alpha uses a valid frame at `t*` and requires that the visible gate is closed in both (PENDING draws closed). A state-fork utility (deep copy of the env at `t*`, continuing under two action sequences, exogenous streams keyed so both branches see the same future) turns each twin into a labelled counterfactual pair for the prediction metrics.
 
-**Why an observation-only memory policy cannot resolve them.** It sees identical current frames; its memory of past frames is identical in the image channel by (v); only the proprio trace differs, and a memory that stores walls/target/goal/last-seen gate state does not store press events or timers. A controller that **does** store "time since I entered S" is exactly the finite-state/timer predictor C2 below, which therefore must solve the twins. That is the point of the benchmark: the twin shows what information is needed, C2 shows it is sufficient.
+**Which controller resolves which twin.** C1 sees identical frames and image memory by (v) and stores no press, so it cannot resolve any type. C1+ (one remembered fact) resolves **alpha only**: it knows it has pressed, so the state is not IDLE. Beta and gamma need the elapsed time and the DELTA/W model, i.e. forecasting, which is C2. The twin shows what information is needed; C1+ and C2 show which part of it is mere memory and which is prediction.
 
 v2-A has no twins by design: its gate state is not a function of the agent's history; the validity gate V5 checks that A produces none (regret < EPS for every constructed pair).
 
@@ -98,14 +101,15 @@ All observation-only controllers receive exactly `obs_t` plus their own declared
 | id | name | information access (summary; full matrix in section 5) | why it might succeed | why it might fail |
 |---|---|---|---|---|
 | C0 | oracle | true `h_t`, true dynamics, exact-dynamics time-expanded search | defines the achievable optimum; plans press timing around the pick | not realisable; search is discretised, so "oracle" = best known (verified against brute force on small cases) |
-| C1 | `ObsB2` map+memory, last-seen | v1 `ObsB` memory (walls, target, goal) plus switch position and last-seen gate state. Knows the rule "entering S eventually opens the gate"; keeps a persistent "S visited" bit only if it can read it from its own proprio *now* (i.e., no history) | on v2-A it should be near-optimal: go to the gate, wait, cross when seen/bumped open. On v2-B it succeeds when blackouts are short or the deadline is slack | cannot tell PENDING from IDLE or from an expired window after a blackout: re-presses or waits wrongly; stale "closed" memory |
-| C2 | finite-state timer tracker (hand-coded predictor) | C1 plus a log of "entered S at step u" from its own proprio, and the constants DELTA, W | reconstructs `(phase, k)` exactly from the press log; should match C0 up to planning quality | needs DELTA, W known (given); has no way to cope with unmodelled rule changes (B2, out of scope); if the dynamics were stochastic it would need a belief state |
+| C1 | `ObsB2` map+memory, last-seen | v1 `ObsB` memory (walls, target, goal) plus switch position and last-seen gate state. Knows the rule "entering S eventually opens the gate". No record of its own presses | on v2-A it should be near-optimal: go to the gate, wait, cross when seen/bumped open. On v2-B it succeeds when blackouts are short | cannot tell PENDING from IDLE, or an expired window from a pending one, after a blackout: re-presses or waits wrongly; stale "closed" memory |
+| C1+ | `ObsB2` plus event memory (non-predictive) | C1 plus ONE persistent flag "I have entered S" (and optionally the last entry step, used only for ordering, never to forecast); **no countdown, no use of DELTA or W** | removes the alpha ambiguity (pending vs idle) with memory of a fact; avoids re-pressing; the strongest *memory-only* controller | cannot decide when the gate will be open or closing, so it cannot tell beta/gamma twins apart; it must bump-probe or wait |
+| C2 | finite-state timer tracker (hand-coded **predictor**) | C1+ plus the constants DELTA, W and a countdown: from the press log it reconstructs `(phase, k)` and forecasts `g_{t+j}` | reconstructs the hidden state exactly from the press log; should match C0 up to planning quality | needs DELTA, W given; cannot cope with unmodelled rule changes (B2, out of scope); with stochastic delays it would need a belief state. **In v2-A:** gets the period `P` and open length and extrapolates the phase from the last gate transition it saw (time since transition mod `P`); with no valid transition seen yet it behaves like C1 |
 | C3 | non-predictive stateless value policy `ObsA2` | current frame only, geodesic value field treating the gate as passable iff drawn open; no memory | when frames are valid and the gate is open it crosses at once | blackout frames carry no information: it idles; blind to timing |
 | C4 | non-predictive probe-and-retry | proprio and bump feedback only: after picking, drive at the gate; if blocked for `K` steps go press S and return; `K` tuned on TRAIN. Uses haptics (a blocked move is observable in proprio) | strong where the deadline is slack: needs no model, only repeated trials | wastes a round trip (about 2 x 5 steps) plus up to `DELTA` waiting per failed cycle; cannot schedule the press around the pick |
 | C5 (specified, not run in Phase 1.2) | learned non-predictive recurrent policy | EXP-0012 arm `G0` (behaviour cloning, no predictor head, no JEPA loss) trained on the same data as C6 | the cleanest learned baseline for "does the predictive objective help" | needs training: **not authorized** |
 | C6 (specified, not run) | learned predictive-state model | EXP-0012 arm `G`/successor with explicit `observation_status` | the object of the eventual claim | needs training: **not authorized** |
 
-C1 is "the existing map+memory method lifted to v2 with the minimum change needed to be applicable". C4 is the strongest non-model heuristic I can write; including it prevents the benchmark from winning only against a strawman. Both are tuned (K, wall dilation) on TRAIN only and frozen before DEV2 scoring.
+C1 is "the existing map+memory method lifted to v2 with the minimum change needed to be applicable". **C1+ exists so that the benchmark separates memory from prediction:** C1+ remembers a fact (I pressed); only C2 forecasts (when will it open and close). The "non-predictive set" used in V2 and GO-1 is {C1, C1+, C3, C4}; a GO therefore means timing prediction beats the best memory-only and heuristic controller, not merely that remembering a press helps. C4 is the strongest non-model heuristic I can write. All are tuned (K, wall dilation) on TRAIN only and frozen before DEV2 scoring.
 
 ## 5. Baseline information-access matrix
 
@@ -117,13 +121,14 @@ Legend: Y = has it, N = does not, ~ = partial (note). `visible gate` = gate stat
 | past frames (static map, target, goal memory) | Y | Y | Y | N | ~ (map from first frame) | ~ (recurrent state) | ~ (recurrent state) |
 | last-seen gate state | Y | Y | Y | N | N | ~ | ~ |
 | proprio now (incl. blocked-move feedback) | Y | Y | Y | Y | Y | Y | Y |
-| own press/action history (entry times into S) | Y | N | **Y** | N | ~ (only "blocked for K steps") | ~ (learned) | ~ (learned) |
+| one persistent "I entered S" event bit | Y | N | Y | N | ~ ("blocked for K steps") | ~ (learned) | ~ (learned) |
+| press timestamps + timer model (forecast of open/close) | Y | N | **Y** | N | N | ~ (learned) | ~ (learned) |
 | constants DELTA, W | Y | Y (rule only, not timing) | **Y** | N | N | learned | learned |
 | true hidden state `(phase, k)` | **Y** | N | reconstructed | N | N | N | N |
 | future exogenous schedule (blackouts) | Y | N | N | N | N | N | N |
 | privileged geometry (walls, goal) | Y | N (parsed) | N (parsed) | N (parsed) | ~ | N | N |
 
-The two rows in bold are the experiment: C2 differs from C1 by exactly the press log and the timing constants, and C2 differs from C0 by exactly the true hidden state (which it reconstructs). Any C2-over-C1 gap is therefore attributable to *action-history predictive state*, not to better perception or planning. The same planner and parser are used by C1, C2 and C3.
+(C1+ has the event-bit row but not the timer row; it is listed separately in section 4 to keep the table readable.) The bold row is the experiment: C2 differs from C1+ by exactly the timestamps and the timer model, and C2 differs from C0 by exactly the true hidden state (which it reconstructs). A C2-over-C1+ gap is therefore attributable to *timing prediction*, not to memory of a fact, perception or planning. The same planner and parser are used by C1, C1+, C2 and C3.
 
 ## 6. Simulator test plan (before any result is believed)
 
@@ -131,7 +136,7 @@ Numpy-only fast tests, each asserting that the intended event occurred and, wher
 
 1. **Gate machine vs closed form.** Random press times; realised `g_t`, `phase_t`, `k_t` equal the closed-form schedule; passability exactly `W` steps.
 2. **Rule fixtures.** Press -> PENDING -> OPEN -> IDLE; presses during PENDING/OPEN ignored; deferred close with the effector in the slot; closed gate blocks and slides; open gate passes; effector never trapped.
-3. **v1 non-regression.** With the gate permanently open and the switch inert, v2 physics equals `LAEnv` step for step on random and scripted actions.
+3. **v1 non-regression.** With the gate permanently open and the switch inert, v2 physics equals `LAEnv` step for step on random and scripted actions for `T <= 80` (the range where v1's own timeout applies; beyond it v2's own timeout is tested directly).
 4. **v2-A schedule.** `g_t` equals `((t+phi) mod P) < 12` regardless of actions; phase is a function of `(seed, episode_id)` only.
 5. **Exogenous pairing.** Different controllers on one episode have identical spawn, blackout, noise and v2-A phase digests; the v2-B hidden trajectory differs only through presses. Batch size/order independence (as `env_paired`).
 6. **Fork/restore.** `deepcopy` at `t*`, identical action tail -> identical trajectory; different tails -> different gate states, identical exogenous streams.
@@ -161,8 +166,8 @@ v1 DEV ids 1000-1099 are not used (their geometry was examined under v1 mechanic
 
 | metric | definition | role |
 |---|---|---|
-| success@T_D | released in goal by step `T_D` | confirmatory |
-| decision regret (steps) | `finish(controller) - finish(oracle)` on the same episode; failures censored at `T_CAP` | **primary** (deadline-free) |
+| success@T_D | released in goal by step `T_D` (inherited 1.5x rule) | confirmatory |
+| decision regret (steps) | `finish(controller) - finish(oracle)` on the same episode; failures censored at `T_CAP = ceil(2 x p95 oracle)` (not derived from `T_D`) | **primary, deciding** (deadline-free) |
 | deadline sweep | success vs multiplier 1.0x-2.0x of p95 oracle finish | robustness of the conclusion |
 | prediction accuracy | for forks at snapshot times: accuracy of predicted `g_{t+k}`, `k in {1,2,4,8,16}`, conditional on action continuation; MAE of time-to-open when PENDING; reported by observation status (valid / blackout / long blackout) | for any predictor incl. C2 and later C6 |
 | calibration | Brier score and ECE (10 bins) of predicted P(`g_{t+k}`=1); meaningful only for probabilistic predictors (C2 is deterministic and reports accuracy only) | C6 |
@@ -186,23 +191,24 @@ Layout-clustered percentile bootstrap (unit = layout, B=4000) for differences; p
 | gate | condition |
 |---|---|
 | V1 solvable | oracle success@T_D >= 0.99 in A and B (both blackout conditions) |
-| V2 information necessity (B) | in B (both blackout conditions, DEV2), the best non-predictive controller among C1, C3, C4 has median regret >= 6 steps above C2 **and** success@T_D >= 0.10 below C2 (same thresholds as GO-1, so the gate cannot pass on DEV2 and then fail for a different reason on held-out) |
+| V2 information necessity (B) | in B (both blackout conditions, DEV2), the best non-predictive controller among C1, C1+, C3, C4 has median regret >= 6 steps above C2 **and** success@T_D >= 0.10 below C2 (same thresholds as GO-1, so the gate cannot pass on DEV2 and then fail for a different reason on held-out) |
 | V3 information sufficiency | C2 success@T_D >= oracle - 0.05 in A and B (the needed information is available to a bounded observer) |
-| V4 control (A) | in A the best non-predictive controller is within 0.05 success and 3 steps median regret of C2 |
-| V5 twins | all constructed twins satisfy conditions (i)-(v); A yields none |
+| V4 control (A) | in A the best of C1, C1+, C3, C4 is within 0.05 success and 3 steps median regret of C2 (C2 in A as specified in section 4) |
+| V5 twins | (a) every constructed twin satisfies (i)-(v); (b) **minimum yield on DEV2, built from the full 100-layout pool with several `t*` per episode** (TARGET, fixed now): alpha >= 100 twins in each blackout condition; beta and gamma >= 60 each in LA_OCC. LA_NOM blackouts (5-15 steps) rarely cover the whole opening, so beta/gamma twins are expected to come mostly from LA_OCC and the LA_NOM yield is only reported; (c) A yields none (regret < EPS for every constructed pair). Failing the yield means the condition is not testable, not that the minimum is relaxed |
 | V6 pairing/tests | section 6 tests pass; exogenous digests identical across controllers |
 
 ### 8.2 Decision
 
 - **NO-GO (benchmark)** if V1, V2 or V3 fails after the single permitted recalibration, or V4/V5/V6 fail. Interpretation: this family of hidden-state tasks does not isolate a need for predictive state (V2/V4), or is not solvable from the available information (V1/V3). Do not train; return to the founder with the evidence and the option of a different benchmark or a different thesis.
-- **GO-1, "predictive information matters"** (confirmatory, one run on HELDOUT-V2, controllers frozen): in B, for both blackout conditions, (a) median regret(best non-predictive) - median regret(C2) >= 6 steps with bootstrap 95% lower bound > 3; and (b) success@T_D(C2) - success@T_D(best non-predictive) >= 0.10 with 95% lower bound > 0; and in A the V4 bounds hold. "Best non-predictive" is fixed from DEV2, not from the held-out result.
+- **GO-1, "predictive information matters"** (confirmatory, one run on HELDOUT-V2, controllers frozen): in B, for both blackout conditions, (a) median regret(best of C1, C1+, C3, C4) - median regret(C2) >= 6 steps with bootstrap 95% lower bound > 3; and (b) success@T_D(C2) - success@T_D(best of C1, C1+, C3, C4) >= 0.10 with 95% lower bound > 0; and in A the V4 bounds hold. "Best non-predictive" is fixed from DEV2, not from the held-out result.
 - **GO-1 fails on held-out** -> NO-GO, record as a negative result; do not re-tune.
 
 ### 8.3 Evidence ladder: what each result would and would not mean
 
 | claim | evidence needed | settled by Phase 1.2? |
 |---|---|---|
-| E1 predictive (action-history) information matters | GO-1 (C2 and C0 vs C1/C3/C4) | **Yes, this is the only claim Phase 1.2 can establish** |
+| E1a remembering one's own action (event bit) matters | C1+ vs C1, C3, C4 | Yes (reported; not what GO-1 tests) |
+| E1b timing **prediction** from action history matters | GO-1: C2 vs the best of C1, C1+, C3, C4 | **Yes, the only predictive claim Phase 1.2 can establish** |
 | E2 the information is sufficient for a bounded observer | V3 (C2 ~ C0) | Yes |
 | E3 a learned recurrent state beats a learned non-predictive one | C6 vs C5, paired, same data | No (training not authorized) |
 | E4 a learned model is non-inferior to the hand-coded predictor | C6 >= C2 - 0.03 on held-out (stated now as the future bar) | No |
