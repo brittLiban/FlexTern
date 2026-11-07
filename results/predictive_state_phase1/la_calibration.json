@@ -1,0 +1,12 @@
+{
+ "split": "train",
+ "n": 400,
+ "seed": 424242,
+ "oracle_success_at_300": 1.0,
+ "finish_p50": 31.0,
+ "finish_p95": 43.0,
+ "finish_max": 54,
+ "rule": "LA_T_PICK = ceil(1.5 * p95)",
+ "locked_budget": 65,
+ "note": "base env.BatchEnv still enforces its own hard cap of 80 steps per pick"
+}
