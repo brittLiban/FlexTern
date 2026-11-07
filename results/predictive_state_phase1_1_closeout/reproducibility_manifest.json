@@ -2,7 +2,7 @@
  "created_by": "analysis/predictive_state/closeout_manifest.py",
  "base_main_sha": "6cbd44b2f93721a4f63201ebbc796e62985e4f3a",
  "branch": "exp-0013-phase1-1-closeout",
- "code_sha_at_manifest_time": "cba08a93fe873576deb3c50ee811ab28d1d75ba1",
+ "code_sha_at_manifest_time": "3990b68de2a21df172e313b73bd61f78d5e07991",
  "working_tree_dirty_at_manifest_time": false,
  "environment": {
   "host_python": "3.12.10",
@@ -307,6 +307,262 @@
    "tests": 13,
    "skipped": 0,
    "seconds": 0.2
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_analysis",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 1.0
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_analysis_cross_model",
+   "status": "OK",
+   "tests": 21,
+   "skipped": 0,
+   "seconds": 0.2
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_control_gate",
+   "status": "OK",
+   "tests": 20,
+   "skipped": 0,
+   "seconds": 0.3
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_control_semantics",
+   "status": "OK",
+   "tests": 21,
+   "skipped": 0,
+   "seconds": 0.8
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_controllers_obs",
+   "status": "OK",
+   "tests": 18,
+   "skipped": 0,
+   "seconds": 73.6
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_datacenter_gate",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_edge_inference",
+   "status": "OK",
+   "tests": 42,
+   "skipped": 11,
+   "seconds": 3.6
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_env_la",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 19.5
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_env_paired",
+   "status": "OK",
+   "tests": 18,
+   "skipped": 0,
+   "seconds": 6.0
+  },
+  {
+   "log": "final_chunk1.log",
+   "module": "test_executed_work",
+   "status": "OK",
+   "tests": 10,
+   "skipped": 0,
+   "seconds": 4.0
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_inference_skip",
+   "status": "OK",
+   "tests": 24,
+   "skipped": 0,
+   "seconds": 11.2
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_inference_startup",
+   "status": "OK",
+   "tests": 3,
+   "skipped": 0,
+   "seconds": 2.9
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_memory_residency",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_model_precision",
+   "status": "OK",
+   "tests": 11,
+   "skipped": 6,
+   "seconds": 6.3
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_predictive_state",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 9.4
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_reference",
+   "status": "OK",
+   "tests": 19,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_roofline",
+   "status": "OK",
+   "tests": 26,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_split_guard",
+   "status": "OK",
+   "tests": 11,
+   "skipped": 0,
+   "seconds": 2.9
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_sram_retention",
+   "status": "OK",
+   "tests": 21,
+   "skipped": 0,
+   "seconds": 0.4
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_sram_retention_correction",
+   "status": "OK",
+   "tests": 15,
+   "skipped": 0,
+   "seconds": 0.2
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_sram_validation",
+   "status": "OK",
+   "tests": 15,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_ternary_vs_int4",
+   "status": "OK",
+   "tests": 13,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "final_chunk3.log",
+   "module": "test_transition_events",
+   "status": "OK",
+   "tests": 9,
+   "skipped": 0,
+   "seconds": 0.6
+  },
+  {
+   "log": "final_predictive.log",
+   "module": "test_split_guard",
+   "status": "OK",
+   "tests": 11,
+   "skipped": 0,
+   "seconds": 3.0
+  },
+  {
+   "log": "final_predictive.log",
+   "module": "test_env_paired",
+   "status": "OK",
+   "tests": 18,
+   "skipped": 0,
+   "seconds": 5.8
+  },
+  {
+   "log": "final_predictive.log",
+   "module": "test_transition_events",
+   "status": "OK",
+   "tests": 9,
+   "skipped": 0,
+   "seconds": 0.6
+  },
+  {
+   "log": "final_predictive.log",
+   "module": "test_env_la",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 18.5
+  },
+  {
+   "log": "final_predictive.log",
+   "module": "test_controllers_obs",
+   "status": "OK",
+   "tests": 18,
+   "skipped": 0,
+   "seconds": 70.7
+  },
+  {
+   "log": "final_predictive.log",
+   "module": "test_predictive_state",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 9.1
+  },
+  {
+   "log": "final_predictive.log",
+   "module": "test_inference_skip",
+   "status": "OK",
+   "tests": 24,
+   "skipped": 0,
+   "seconds": 8.8
+  },
+  {
+   "log": "final_predictive.log",
+   "module": "test_inference_startup",
+   "status": "OK",
+   "tests": 3,
+   "skipped": 0,
+   "seconds": 2.5
+  },
+  {
+   "log": "final_predictive.log",
+   "module": "test_executed_work",
+   "status": "OK",
+   "tests": 10,
+   "skipped": 0,
+   "seconds": 2.9
   },
   {
    "log": "hardening_chunk1.log",
