@@ -103,6 +103,7 @@ def main():
                 lo = float(np.percentile(d, 5)) if d is not None else float("nan")
                 ratio = rows[a]["macro"] / G["macro"]
                 gates[f"G2_{a}"] = {"ratio": ratio, "ratio_lower95_onesided": lo, "abs_macro": rows[a]["macro"],
+                                    "relative_pass": bool(ratio >= 0.95 and lo >= 0.90), "absolute_pass": bool(rows[a]["macro"] >= 0.60),
                                     "pass": bool(ratio >= 0.95 and lo >= 0.90 and rows[a]["macro"] >= 0.60)}
             if a in rows and rows["G"]["long_complete"] > 0:
                 gates[f"G5_long_{a}"] = {"picks_ratio": rows[a]["long_picks_frac"] / G["long_picks_frac"],
@@ -144,6 +145,11 @@ def main():
                                 "learned_minus_best_control_macro": L["macro"] - max(others) if others else None,
                                 "pass": bool(red >= 0.5 and L["macro"] / Fu["macro"] >= 0.95 and L["cells"][2] / Fu["cells"][2] >= 0.90
                                              and others and L["macro"] - max(others) >= 0.03)}
+    md.append("\n## Exploratory (post-hoc, not gated): long blackouts (30-50 steps)\n")
+    md.append("| arm | BLK40 | BLK40D (+displacement) | seeds |\n|---|---|---|---|")
+    for a in full_arms:
+        b1, b2 = mean_over_seeds(vecs(res, a, "BLK40")), mean_over_seeds(vecs(res, a, "BLK40D"))
+        md.append(f"| {a} | {fmt(b1)} | {fmt(b2)} | {len(vecs(res, a, 'BLK40'))} |")
     # ---- G4 analytical cost
     md.append("\n## Analytical per-step cost (ANALYTICAL; weight+state bytes and MACs; not measured)\n")
     md.append("| arm | enc fraction | MACs/step (k) | bytes/step (kB) |\n|---|---|---|---|")
@@ -156,19 +162,21 @@ def main():
         eligible = [a for a in ("G-I4a", "G-I4u", "G-I8a") if a in rows and rows[a]["macro"] >= 0.95 * G["macro"]]
         md.append(f"\nControls retaining >=95% of G macro success: {eligible or 'none'}.\n")
         md.append("\n### G4 pairs: candidate vs strongest eligible control under the SAME learned trigger (measured test encoder fraction), analytical ratio control/candidate\n")
-        md.append("| candidate | control | enc frac cand/control | bytes ratio | MACs ratio |\n|---|---|---|---|---|")
+        md.append("(all INT4/INT8 controls listed; 'eligible' = retains >=95% of G macro success, the locked eligibility rule. Scope matters: G-Ta quantizes encoder+updater, G-Tu only the updater; the like-for-like INT4 control is the same scope.)\n")
+        md.append("| candidate | control | eligible | enc frac cand/control | bytes ratio | MACs ratio |\n|---|---|---|---|---|---|")
         for cand in ("G-Ta", "G-Tu"):
             if (cand, "learned@0.33") not in adapt:
                 continue
             fc = adapt[(cand, "learned@0.33")]["enc_frac"]
-            for ctl in eligible:
+            for ctl in ("G-I4a", "G-I4u"):
                 if (ctl, "learned@0.33") not in adapt:
                     continue
                 fk = adapt[(ctl, "learned@0.33")]["enc_frac"]
                 cc, ck = C.step_cost(cand, fc, True), C.step_cost(ctl, fk, True)
                 br, mr = ck["bytes"] / cc["bytes"], ck["macs"] / cc["macs"]
-                md.append(f"| {cand} | {ctl} | {fc:.2f}/{fk:.2f} | {br:.2f} | {mr:.2f} |")
-                gates[f"G4_{cand}_vs_{ctl}"] = {"bytes_ratio": br, "macs_ratio": mr, "pass_analytical": bool(br >= 2 and mr >= 2)}
+                el = ctl in eligible
+                md.append(f"| {cand} | {ctl} | {'yes' if el else 'no'} | {fc:.2f}/{fk:.2f} | {br:.2f} | {mr:.2f} |")
+                gates[f"G4_{cand}_vs_{ctl}"] = {"eligible_control": el, "bytes_ratio": br, "macs_ratio": mr, "pass_analytical": bool(br >= 2 and mr >= 2)}
             cc = C.step_cost(cand, fc, True); cg = C.step_cost("G", 1.0, False)
             gates[f"G4_{cand}_vs_G_full"] = {"bytes_ratio": cg["bytes"] / cc["bytes"], "macs_ratio": cg["macs"] / cc["macs"]}
     # ---- probe, prediction, latency

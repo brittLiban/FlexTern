@@ -1,6 +1,6 @@
 # EXP-0012 — Ternary predictive-state architecture for robotics (algorithmic feasibility)
 
-Status: **in progress** (Stage A done, protocol locked; see "Lock" below). Branch `exp-0012-predictive-state`, not merged to main.
+Status: **complete; verdict STOP under the locked rules** (see Results). Founder + ChatGPT review pending. Branch `exp-0012-predictive-state`, not merged to main.
 Authorized by the founder directive of 2026-11-07. Owner: Claude (implementation); founder + ChatGPT (direction).
 Literature review: `EXP-0012-literature-review.md`. Protocol (machine-readable): `analysis/predictive_state/protocol_v1.json`.
 
@@ -46,7 +46,50 @@ Per control step at full perception: the encoder is 85% of MACs (831k of ~977k) 
 `protocol_v1.json` fixes constants, gates, verdict rules and code hashes; it was written before any learned-policy measurement. Founder-provided gates were turned into numbers there (absolute floor, retention CI rule, 2x encoder reduction, long-horizon probe drift, cost metric hierarchy). Changes after the lock are recorded below as numbered amendments; old results are kept.
 
 ## Results
-(to be filled)
+Everything below is MEASURED in simulation on the OccPick2D benchmark (one machine; PyTorch 2.11 / CPython 3.14 in WSL2; per-episode vectors in `results/predictive_state/test_all.json`, tables in `results/predictive_state/report.md`). TEST split, 300 episodes per cell per seed (LONG 100), seeds 0-2 unless noted. Seed-to-seed spread is large (KI-022); episode-bootstrap CIs understate it, so differences under ~0.1 are not rankings. G-I4u has seeds 0-1, G-I8a and G-Ta-s8 seed 0 only (compute; recorded in amendments 4-5).
+
+### R1. Full-perception success (mean over seeds; macro = mean of NOM, OCC, DIST, HARD)
+| arm | NOM | OCC | DIST | HARD | macro | per-seed macro |
+|---|---|---|---|---|---|---|
+| T16 (transformer, 16-step window) | .731 | .688 | .671 | .512 | **.651** | .63 .58 .75 |
+| G0 (GRU, no JEPA) | .664 | .631 | .596 | .493 | .596 | .61 .57 .61 |
+| S4 (4-frame stack) | .700 | .489 | .636 | .339 | .541 | .48 .49 .65 |
+| G-Ta (ternary encoder+updater, JEPA) | .596 | .599 | .529 | .424 | .537 | .53 .60 .49 |
+| R (single frame) | .707 | .461 | .622 | .336 | .531 | .50 .64 .45 |
+| G-Tu (ternary updater, JEPA) | .566 | .522 | .521 | .420 | .507 | .49 .47 .56 |
+| G (FP16 GRU + JEPA; Baselines B and D) | .518 | .477 | .459 | .356 | .452 | .50 .51 .34 |
+| G-I4u (INT4 updater, seeds 0-1) | .537 | .475 | .465 | .353 | .458 | .59 .33 |
+| G-I4a (INT4 encoder+updater) | .487 | .410 | .469 | .322 | .422 | .44 .36 .46 |
+| G-I8a (INT8, seed 0) | .463 | .487 | .400 | .360 | .427 | .43 |
+| G-Ta-s8 (ternary + INT8 state, seed 0) | .570 | .497 | .530 | .363 | .490 | .49 |
+
+The privileged expert scores 100% in every condition (unit-tested). LONG (10 sequential picks, no state reset): full completion is 0-8% for every arm (R .05, S4 .08, T16 .08, G0 .01, G .01, G-Ta .01); per-pick conditional success is 0.5-0.8 and only 13-60 of 300 episodes reach pick 6, so LONG is thin evidence about drift.
+
+### R2. Locked gates (computed by `report.py`; amendments 1-5 in force)
+| Gate | Outcome | Numbers |
+|---|---|---|
+| G0 discrimination (DEV, 3 seeds, 300/cell): G minus max(R,S4) on mean(OCC,HARD) >= 0.15 | **FAIL** | -0.012 (`results/predictive_state/dev_gate.json`). The no-JEPA GRU G0 gives +0.12 over R/S4 (0.555 vs 0.43), also below 0.15. |
+| G1 floor (G macro >= .60 and NOM >= .70) | **FAIL** | macro .452, NOM .518 |
+| G2 ternary retention (ratio >= .95, one-sided lower bound >= .90, absolute macro >= .60) | **FAIL (absolute part only)** | ratio to G: G-Tu 1.12 (lower bound 1.08), G-Ta 1.19 (1.14); absolute macros .51 / .54 are below .60 because G itself is weak |
+| G3 adaptive (learned trigger, about 0.27 encoder fraction) | **FAIL** | encoder runs cut 59-60% (0.65 to 0.27 per control step; blackout steps cannot be encoded); success ratio to own full-perception macro: G .93, G-Tu .99, G-Ta .91; DIST ratio >= .99; but the learned trigger is **below** the best matched control by 0.03-0.05 macro (needs +0.03) |
+| G4 cost (ANALYTICAL; >= 2x bytes AND >= 2x MACs vs strongest eligible INT4 control, same trigger) | **FAIL** | G-Ta vs G-I4u (the only control within 95% of G): bytes 3.09x, MACs 0.96x. Same-scope control G-I4a (not eligible: 0.422 vs 0.95 x 0.452 = 0.429): bytes 2.01x, MACs 1.02x. Ternary leaves the MAC (add) count unchanged, so a 2x MAC gain can only come from skipping, which applies equally to the control. Against FP16 full perception (G): G-Ta with the learned trigger is 11.3x in bytes and 2.7x in MACs |
+| G5 stability | **Partial / inconclusive** | LONG picks ratio to G: G-Tu 1.32, G-Ta 1.44 (pass); mean abs h early vs late identical, no NaN (tanh state); probe R^2 drop vs G on the late window: G-Ta 0.038 (pass), G-Tu 0.075 (fail), but per-seed probe values range 0.33-0.75, so this is within noise |
+| G6 vs best conventional | not reached | G2 and G4 failed |
+
+**Verdict under the locked rules: STOP** (G0 failed on DEV; G1 failed on TEST). Questions A-D below are therefore descriptive, not gated.
+
+### R3. The four questions (descriptive)
+- **A. Persistent state.** Without the JEPA loss a recurrent state helps under occlusion: G0 beats the reactive R and S4 on OCC/HARD by about 0.14-0.17 (TEST OCC .631 vs .461/.489, HARD .493 vs .336/.339) and on the exploratory long-blackout conditions (BLK40 .627 vs .484/.500; BLK40D .536 vs .299/.327; post-hoc, not gated). The state does carry the occluded target: a ridge probe from h recovers its position with R^2 0.4-0.7 on blackout frames (z on visible frames gives 0.5-0.8). But the history-window transformer T16 is as good or better (macro .651; BLK40 .611) at 1.5x the analytical bytes of the GRU, and the **JEPA-trained GRU (G) shows no benefit over R**. Persistent state is a reasonable memory mechanism here, not a unique one. It did enable skipping the encoder (D below); R and T16 cannot skip.
+- **B. JEPA.** In this implementation (weight 1.0, EMA 0.995, one-step action-conditioned predictor, no tuning) the JEPA loss **hurt**: G minus G0 = -0.144 macro (episode-bootstrap 95% [-0.164, -0.124]; same sign in all three seeds: .50/.51/.34 vs .61/.57/.61). No embedding collapse (final z std 0.32-0.45). The predictor beats a persistence baseline only from k >= 4 steps open loop (k=1 cosine .95-.96 vs persistence .96-.98; k=8 .84-.89 vs .71-.85) and uses the action only weakly (shuffled-action control within .003 at k=1 and .03 at k=8). The JEPA weight and target design were not swept, so this does not show JEPA cannot help; it shows this recipe did not.
+- **C. Ternary.** No measurable quality loss: ternary-all G-Ta (.537) and ternary-updater G-Tu (.507) are at or above FP16 G (.452) and the INT4/INT8 QAT arms (.42-.46). Given G's own weakness and the large seed spread this reads as "ternary QAT did not degrade this policy", not "ternary beats FP16". **Caveat:** the INT4 and INT8 QAT recipes are untuned (per-channel absmax or 3x-mean clipping, no learned clipping), so ternary >= INT4 may reflect a weak control. INT8 recurrent state cost 0.05 macro for one seed (.490 vs .531, within noise). Long horizon: no drift in state magnitude, per-pick success does not fall at picks 6-10 for ternary, state probe unchanged within noise; the 10-pick episodes are too few to rule out slow drift.
+- **D. Adaptive perception.** Encoder runs can be cut by about 57-60% with little loss of success in this toy, **even by a fixed-rate schedule**: fixed@0.33 (0.28 encoder fraction) keeps macro success at 1.00x (G), 0.96x (G-Ta), 1.08x (G-Tu) of full perception; pixel-difference gating is similar (0.98 / 0.97 / 1.09). The learned surprise trigger (recurrent state plus 8x8 pooled pixels) was **not better** than either (0.93 / 0.91 / 0.99). At 0.16-0.18 encoder fraction every method loses 3-22% success (fixed-rate on G the least, learned trigger on G-Ta the most). Disturbance recovery (DIST) is retained at every 0.33 budget. Measured CPU latency (PyTorch FP32, batch 1, one thread, p50): full 0.80 ms, learned@0.33 0.58 ms (1.4x), pixel-diff@0.33 0.42 ms (1.9x); the 41 ms max is a first-call outlier (8 ms with 4 threads). Quantized and ternary models were **not timed** (no packed kernel; fake-quant graphs would measure simulation overhead).
+
+### R4. Limitations and negative results to carry forward
+- The encoder is the cost center in this toy (85-89% of MACs); ternarizing only the updater (G-Tu) changes weight bytes by at most 1.7x vs FP16 and MACs not at all.
+- The benchmark is a 2D toy with brief blackouts: a reactive policy recovers after the camera returns, which is why persistent state shows an advantage only with long blackouts. It cannot speak to 3D contact, real cameras, real encoders or real robots.
+- BC only; no RL, no latent planning (CEM/MPC on the predictor was not attempted). Models are small (~0.1-0.15 M parameters each for encoder and GRU), 6000 steps x batch 48, 3 seeds (fewer for some arms).
+- Four post-lock amendments (plus the pre-test fairness changes) were needed to get usable baselines; all pre-amendment results are retained. The first-pass floor effect was a perception bug in my architecture, not a property of ternary or recurrence.
+- Hyperparameters were chosen on DEV with R and T16 only; JEPA weight, EMA decay, INT4/INT8 recipes and the trigger head were not tuned.
 
 ## Amendments
 All three were made after the lock and before any TEST-split measurement; every pre-amendment run is kept in `results/predictive_state/stage_b_history/`. Dev numbers below are single seed (seed 0), ~100 episodes per cell, so differences of ~0.1 are within noise.
