@@ -1,4 +1,8 @@
-"""Closed-loop evaluation with optional adaptive perception (encoder gating). Inference-time information only."""
+"""Closed-loop evaluation with optional adaptive perception (encoder gating). Inference-time information only.
+
+EXP-0013 Phase 1: `rollout` runs recurrent arms through `infer.RecurrentRunner` (the encoder only sees rows that need a new
+embedding). `rollout_legacy` is the unmodified EXP-0012 implementation (encoder executed on every row at every step, skipping
+only masks the result); it is kept as the reference for equivalence tests and before/after measurements."""
 from __future__ import annotations
 
 import numpy as np
@@ -21,7 +25,8 @@ def parse_trigger(trig):
 
 
 @torch.no_grad()
-def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, collect=False, layout_ids=None):
+def rollout_legacy(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, collect=False, layout_ids=None):
+    """Unmodified EXP-0012 closed-loop rollout (reference): the encoder runs on every row at every step; skipping only masks z."""
     cfg = net.cfg
     kind, par = parse_trigger(trigger)
     if kind != "full" and cfg.kind != "rec":
@@ -115,6 +120,49 @@ def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, colle
     res = {"success": s["success"], "picks_done": s["picks_done"], "failed_grasps": s["failed_grasps"],
            "fail_kind": s["fail_kind"], "enc_count": enc_count, "alive_steps": alive_steps,
            "enc_frac": float(enc_count.sum() / max(alive_steps.sum(), 1))}
+    if collect:
+        res["rec"] = {k: np.stack(v, 1) for k, v in rec.items()}
+    return res
+
+
+@torch.no_grad()
+def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, collect=False, layout_ids=None, timing=False):
+    """Closed-loop rollout. Recurrent arms use the shared gated runner (true encoder skipping, instrumented); other arms
+    use the unchanged EXP-0012 path (`rollout_legacy`). Same signature and result keys as before, plus `counters`."""
+    if net.cfg.kind != "rec":
+        return rollout_legacy(net, split, cond, seed, n, trigger, dev, T, collect, layout_ids)
+    from . import infer as I
+    env = E.BatchEnv(n, split, cond, seed=seed, layout_ids=layout_ids)
+    T = T or (E.T_PICK * cond.n_picks + 2)
+    obs = env.reset()
+    runner = I.RecurrentRunner(net, trigger, n, dev, timing=timing)
+    enc_count = np.zeros(n)
+    alive_steps = np.zeros(n)
+    rec = {"h": [], "z": [], "target": [], "goal": [], "held": [], "valid": [], "alive": [], "enc": []} if collect else None
+    for t in range(T):
+        alive = ~env.done
+        if not alive.any():
+            break
+        img = torch.from_numpy(obs["img"]).to(dev)
+        valid_env = torch.from_numpy(obs["valid"]).to(dev)
+        prop = torch.from_numpy(obs["prop"]).to(dev)
+        task = torch.from_numpy(obs["task"]).to(dev)
+        act, enc_mask = runner.step(img, valid_env, prop, task, torch.from_numpy(alive).to(dev))
+        am = alive.copy()
+        enc_count += (enc_mask.cpu().numpy() & am)
+        alive_steps += am
+        if collect:
+            rec["h"].append(runner.h.cpu().numpy())
+            pv = env.privileged()
+            rec["z"].append(runner.last_z.cpu().numpy())
+            rec["goal"].append(pv["goal"])
+            rec["target"].append(pv["target"]); rec["held"].append(pv["held"]); rec["valid"].append(obs["valid"].copy())
+            rec["alive"].append(am.copy()); rec["enc"].append(enc_mask.cpu().numpy())
+        obs, _ = env.step(act.cpu().numpy())
+    s = X.success_summary(env)
+    res = {"success": s["success"], "picks_done": s["picks_done"], "failed_grasps": s["failed_grasps"],
+           "fail_kind": s["fail_kind"], "enc_count": enc_count, "alive_steps": alive_steps,
+           "enc_frac": float(enc_count.sum() / max(alive_steps.sum(), 1)), "counters": runner.counters.as_dict()}
     if collect:
         res["rec"] = {k: np.stack(v, 1) for k, v in rec.items()}
     return res
