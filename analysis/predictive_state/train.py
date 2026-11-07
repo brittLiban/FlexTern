@@ -47,11 +47,15 @@ def gen_train(seed=0, n=N_TRAIN_EPISODES):
 
 
 def load_gpu(path, dev):
-    d = np.load(path)
+    paths = path if isinstance(path, (list, tuple)) else [path]
     g = {}
     for k in ("img", "valid", "prop", "task", "a_exec", "a_label", "mask"):
-        t = torch.from_numpy(d[k])
-        g[k] = t.to(dev)
+        parts = []
+        for p in paths:
+            d = np.load(p)
+            parts.append(torch.from_numpy(d[k]).to(dev))
+        g[k] = parts[0] if len(parts) == 1 else torch.cat(parts, 0)
+        del parts
     g["mask"] = g["mask"].bool()
     g["valid"] = g["valid"].bool()
     return g

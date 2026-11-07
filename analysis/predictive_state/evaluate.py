@@ -71,11 +71,11 @@ def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, colle
         if cfg.kind == "stack":
             frames.append((x.view(n, 3, 32, 32) * validf[:, None, None, None], validf))
             fs = [frames[-1 - k] if len(frames) > k else (torch.zeros_like(frames[-1][0]), torch.zeros(n, device=dev)) for k in range(4)]
-            z = net.enc(torch.cat([f[0] for f in fs], 1))
+            z = net.enc(torch.cat([f[0] for f in fs], 1), task)
             feat = torch.cat([z, torch.stack([f[1] for f in fs[1:]], -1), validf[:, None], prop, task, a_prev], -1)
             logits = net.pol(feat)
         else:
-            z = net.enc(x)
+            z = net.enc(x, task)
             if cfg.kind == "react":
                 logits = net.pol(torch.cat([z * validf[:, None], validf[:, None], prop, task, a_prev], -1))
             elif cfg.kind == "trans":
@@ -88,7 +88,7 @@ def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, colle
                 logits = net.pol(torch.cat([hh, prop, task], -1))
             else:
                 h = net.cell_step(h, z, validf, prop, task, a_prev)
-                logits = net.policy(h, prop, task)
+                logits = net.policy(h, prop, task, z * validf[:, None])
         if cfg.kind == "rec" and kind != "full":
             since = torch.where(enc_mask, torch.zeros_like(since), since + 1)
             lp = M.pool_feat(img)

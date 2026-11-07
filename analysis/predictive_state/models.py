@@ -49,17 +49,24 @@ ARMS = {
 
 
 class Encoder(nn.Module):
-    """32x32x3 -> Z. First conv stays full precision (3-channel input); the rest follows `mode`."""
+    """32x32x3 -> Z, conditioned on the task code (colour one-hot broadcast as channels) and CoordConv x/y channels
+    (amendment 1: the unconditioned encoder could not localize the target, see the experiment record).
+    First conv stays full precision; the rest follows `mode`."""
 
     def __init__(self, in_ch=3, mode="fp"):
         super().__init__()
-        self.c1 = QConv2d(in_ch, 16, 3, 2, 1, "fp")
+        self.c1 = QConv2d(in_ch + E.N_COLORS + 2, 16, 3, 2, 1, "fp")
         self.c2 = QConv2d(16, 32, 3, 2, 1, mode)
         self.c3 = QConv2d(32, 64, 3, 2, 1, mode)
         self.fc = QLinear(1024, Z, mode)
         self.ln = nn.LayerNorm(Z)
+        c = (torch.arange(E.RES).float() + 0.5) / E.RES
+        yy, xx = torch.meshgrid(c, c, indexing="ij")
+        self.register_buffer("coords", torch.stack([xx, yy])[None], persistent=False)
 
-    def forward(self, x):                      # x float (N, C, 32, 32) in [-0.5, 0.5]
+    def forward(self, x, task):               # x (N, C, 32, 32) in [-0.5, 0.5]; task (N, N_COLORS)
+        n = x.shape[0]
+        x = torch.cat([x, task[:, :, None, None].expand(-1, -1, E.RES, E.RES), self.coords.expand(n, -1, -1, -1)], 1)
         x = F.relu(self.c1(x))
         x = F.relu(self.c2(x))
         x = F.relu(self.c3(x))
@@ -111,7 +118,7 @@ class Net(nn.Module):
         extra = 1 + 4 + E.N_COLORS + 3                       # valid, prop, task, a_prev
         if c.kind == "rec":
             self.cell = GRUCell(Z + extra, H, up_mode)
-            self.pol = mlp(H + 4 + E.N_COLORS, 128, 3, up_mode)
+            self.pol = mlp(H + 4 + E.N_COLORS + Z, 128, 3, up_mode)   # state + prop + task + current (masked) embedding
             self.pred = mlp(H + 3, 128, Z, up_mode)
             self.trig = mlp(H + 3 + POOL_DIM, 64, 1, up_mode)
         elif c.kind in ("react", "stack"):
@@ -141,8 +148,9 @@ class Net(nn.Module):
         x = torch.cat([z * valid[:, None], valid[:, None], prop, task, a_prev], -1)
         return fq_state(self.cell(x, h), self.cfg.state_bits)
 
-    def policy(self, h, prop, task):
-        return self.pol(torch.cat([h, prop, task], -1))
+    def policy(self, h, prop, task, zin):
+        """zin = z_t * valid_t (zeros on skipped/blacked-out frames): amendment 2, feed-through of the current embedding."""
+        return self.pol(torch.cat([h, prop, task, zin], -1))
 
     # ---------------------------------------------------------------- sequence forward (training)
     def forward_seq(self, b, jepa_w=1.0):
@@ -152,6 +160,7 @@ class Net(nn.Module):
         c = self.cfg
         a_prev = torch.cat([torch.zeros(B, 1, 3, device=dev), b["a_exec"][:, :-1]], 1)
         x = to_x(b["img"])
+        tflat = b["task"].reshape(B * T, -1)
         valid = b["valid_in"].float()
         out = {}
         if c.kind == "stack":
@@ -161,11 +170,11 @@ class Net(nn.Module):
                 st.append(F.pad(xs, (0, 0, 0, 0, 0, 0, k, 0))[:, :T])
                 vs.append(F.pad(valid, (k, 0))[:, :T])
             xstack = torch.cat(st, 2).reshape(B * T, 12, 32, 32)
-            z = self.enc(xstack).view(B, T, Z)
+            z = self.enc(xstack, tflat).view(B, T, Z)
             feat = torch.cat([z, torch.stack(vs[1:], -1), valid[..., None], b["prop"], b["task"], a_prev], -1)
             logits = self.pol(feat)
         else:
-            z = self.enc(x).view(B, T, Z)
+            z = self.enc(x, tflat).view(B, T, Z)
             if c.kind == "react":
                 feat = torch.cat([z * valid[..., None], valid[..., None], b["prop"], b["task"], a_prev], -1)
                 logits = self.pol(feat)
@@ -182,7 +191,7 @@ class Net(nn.Module):
                     h = self.cell_step(h, z[:, t], valid[:, t], b["prop"][:, t], b["task"][:, t], a_prev[:, t])
                     hs.append(h)
                 hs = torch.stack(hs, 1)
-                logits = self.policy(hs, b["prop"], b["task"])
+                logits = self.policy(hs, b["prop"], b["task"], z * valid[..., None])
                 out["h"] = hs
         m = b["mask"].float()
         lab = b["a_label"]
@@ -192,7 +201,7 @@ class Net(nn.Module):
         loss = out["bc"]
         if c.kind == "rec" and c.jepa:
             with torch.no_grad():
-                zt = F.normalize(self.ema(x).view(B, T, Z), dim=-1)
+                zt = F.normalize(self.ema(x, tflat).view(B, T, Z), dim=-1)
             zhat = self.pred(torch.cat([hs[:, :-1], b["a_exec"][:, :-1]], -1))
             zhat_n = F.normalize(zhat, dim=-1)
             tv = (b["valid_env"][:, 1:].float() * m[:, 1:])

@@ -51,20 +51,20 @@ def layer_table(arm):
     with torch.no_grad():
         extra = 1 + 4 + E.N_COLORS + 3
         if c.kind == "stack":
-            z = net.enc(torch.zeros(1, 12, 32, 32))
+            z = net.enc(torch.zeros(1, 12, 32, 32), torch.zeros(1, E.N_COLORS))
             net.pol(torch.zeros(1, M.Z + extra + 3))
         elif c.kind == "react":
-            z = net.enc(torch.zeros(1, 3, 32, 32))
+            z = net.enc(torch.zeros(1, 3, 32, 32), torch.zeros(1, E.N_COLORS))
             net.pol(torch.zeros(1, M.Z + extra))
         elif c.kind == "trans":
-            z = net.enc(torch.zeros(1, 3, 32, 32))
+            z = net.enc(torch.zeros(1, 3, 32, 32), torch.zeros(1, E.N_COLORS))
             net.inp(torch.zeros(1, M.Z + extra))
             net.pol(torch.zeros(1, 128 + 4 + E.N_COLORS))
         else:
-            z = net.enc(torch.zeros(1, 3, 32, 32))
+            z = net.enc(torch.zeros(1, 3, 32, 32), torch.zeros(1, E.N_COLORS))
             h = torch.zeros(1, M.H)
             net.cell_step(h, z, torch.ones(1), torch.zeros(1, 4), torch.zeros(1, E.N_COLORS), torch.zeros(1, 3))
-            net.policy(h, torch.zeros(1, 4), torch.zeros(1, E.N_COLORS))
+            net.policy(h, torch.zeros(1, 4), torch.zeros(1, E.N_COLORS), torch.zeros(1, M.Z))
             net.pred(torch.zeros(1, M.H + 3))
             net.trig(torch.zeros(1, M.H + 3 + M.POOL_DIM))
     for h in hooks:

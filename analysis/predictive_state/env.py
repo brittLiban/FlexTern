@@ -52,7 +52,7 @@ TEST_CONDS = {
     "OCC": Cond("OCC", 0.05, (10, 30), 0.0, 3),
     "DIST": Cond("DIST", 0.02, (5, 15), 1.0, 2),
     "HARD": Cond("HARD", 0.05, (10, 30), 1.0, 4),          # K=4 distractors never seen in training
-    "LONG": Cond("LONG", 0.03, (5, 20), 0.5, 2, n_picks=5),  # 5 sequential picks, no state reset
+    "LONG": Cond("LONG", 0.03, (5, 20), 0.5, 2, n_picks=10),  # 10 sequential picks (~400 steps, 2.5x the 160-step training length), no state reset (amendment 3: was 5)
 }
 
 
