@@ -161,6 +161,8 @@ class TransitionEvents(unittest.TestCase):
             act = np.asarray(act, np.float32).reshape(1, 3)
             ob, _ = pe.step(act.copy())
             v1.step(act.copy())
+            for k in PHYS:
+                assert (getattr(pe, k) == getattr(v1, k)).all(), f"{k} diverged between paired and v1 at step {t} (blackout fixture)"
             valids.append(ob["valid"].copy())
             if pe.done[0] and done_at is None:
                 done_at, dark_at_done = t, int(pe.black_left[0])
