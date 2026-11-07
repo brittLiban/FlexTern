@@ -15,9 +15,9 @@ from . import models as M
 DATA_DIR = os.environ.get("PS_DATA", os.path.expanduser("~/ps_data"))
 
 # --- budget shared by all arms (locked in protocol_v1.json)
-STEPS = int(os.environ.get("PS_STEPS", 3000))
-BATCH = 24
-LR = 2e-3
+STEPS = int(os.environ.get("PS_STEPS", 6000))   # amendment 4: was 3000 (and batch 24)
+BATCH = int(os.environ.get("PS_BATCH", 48))
+LR = float(os.environ.get("PS_LR", 2e-3))
 T_TRAIN = 160
 N_TRAIN_EPISODES = 2000
 DROP_P = 0.05
