@@ -501,9 +501,42 @@ Description:      The Phase 1.1 latency/timing runs used one checkpoint (G_s0) o
                   within-run differences are claimed. ObsA/ObsB were not timed; quantized arms are not timed (no packed kernel).
 Impact:           Absolute ms figures are indicative; signs and sizes of paired differences were consistent across the two runs.
 Workaround:       Repeat phase11_timing.py on AC power with nothing else running before quoting any absolute latency.
+Update 2026-11-07:  Closeout repeat done with host-reported AC power before and after (BatteryStatus 2, PowerOnline true), same checkpoint (sha256
+                  d67dd85a...), TRAIN trace instead of TEST; qualitative conclusions reproduce (EXP-0013-phase1-1-closeout.md section 9). Still single
+                  checkpoint/machine; WSL2 clock and thermal state uncontrolled; energy unmeasured. Status: partially resolved.
+```
+
+```
+KI-030
+Status:           Open (documented; guarded)
+Severity:         Minor (reporting integrity)
+First observed:   2026-11-07 (closeout audit)
+Relevant commit:  EXP-0013 Phase 1.1 (36bbf13..6cbd44b)
+Description:      phase11_timing.record built E.BatchEnv(1, "test", DIST) for 15 latency-trace episodes per trigger (EXP-0012's latency.py and
+                  _latency_exp0012.py do the same), so the Phase 1.1 claim "TEST layouts untouched / no Phase 1.1 script references the test range"
+                  was false as worded. No task metric, tuning or code choice used these traces; OccPick2D-LA was never constructed on "test".
+Impact:           Layout ids 2000-2199 share occluder geometry between the EXP-0012 env and LA, so that range is not a clean held-out range for v2.
+Workaround:       Use a fresh held-out range for v2 (reserve before coding). phase11_timing now defaults to TRAIN (TEST only with
+                  FLEXTERN_ALLOW_TEST_SPLIT=1); tests/test_split_guard.py + analysis/predictive_state/split_manifest.json fail on unlisted "test" use.
 ```
 
 ## Closed
+
+```
+KI-029
+Status:           Closed (2026-11-07, EXP-0013 Phase 1.1 closeout)
+Severity:         Major (statistical validity of the Phase 1.1 paired comparisons)
+First observed:   2026-11-07
+Relevant commit:  defect in env.py/env_la.py (shared RNG); repaired by env_paired.py on branch exp-0013-phase1-1-closeout
+Description:      One generator serves spawn, blackouts and pixel noise for the whole batch, and LAEnv.render draws a position-dependent number of
+                  samples, so controllers that act differently saw different blackout schedules: 163-193/200 LA_NOM and 195-200/200 LA_OCC episodes
+                  differed between controller pairs (MEASURED by reproducing paired.json exactly with a passive logger). The Phase 1.1 McNemar tests
+                  were therefore not controlled paired tests.
+Impact:           Historical p-values unusable as paired tests; effect sizes changed little (A-B: 0/-2/-38.5 points -> -0.5/-3.0/-44.0).
+Resolution:       PairedLAEnv (protocol la-paired-replay-1.1; randomness-only; 10 tests incl. a v1 negative control and transition equivalence),
+                  corrected re-evaluation and layout-clustered statistics; v1 files and paired.json kept untouched.
+```
+
 
 ```
 KI-010

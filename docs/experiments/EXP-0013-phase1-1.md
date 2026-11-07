@@ -1,5 +1,13 @@
 # EXP-0013 Phase 1.1 — Scientific corrections, fair baselines, planning-benchmark validation
 
+> **Correction notes (2026-11-07, EXP-0013 Phase 1.1 closeout; see `EXP-0013-phase1-1-closeout.md`; the text below is otherwise unchanged and was accurate as written at the time).**
+> 1. *Merge status:* this record says the branch is unmerged; `exp-0013-predictive-planning` and `exp-0012-predictive-state` were merged into `main` at `6cbd44b`.
+> 2. *Pairing:* the `paired.json` comparisons were **not** fully paired on exogenous events (shared RNG; blackout schedules differed between controllers in 163-193/200 LA_NOM and 195-200/200 LA_OCC episodes, MEASURED). The McNemar p-values in this record are historical and must not be cited as controlled paired tests; corrected paired results (obs_B 200/200 in all three conditions, obs_A 0.995 / 0.970 / 0.560) are in the closeout record.
+> 3. *Repeated layouts:* the 200 episodes use 87 unique layouts; episode-level Wilson intervals do not measure uncertainty over unseen layouts (layout-clustered intervals are in the closeout record).
+> 4. *TEST split:* the statements "TEST layouts untouched" / "no Phase 1.1 script references the test range" are wrong as worded: `phase11_timing.py` recorded its latency traces on the TEST layout range with the EXP-0012 environment (timing only; no success metric, tuning or claim depends on it). OccPick2D-LA itself was never run on TEST.
+> 5. *Power state:* the timing was probably on battery; an AC power repeat (host-reported AC before and after, TRAIN trace) confirms the qualitative conclusions (closeout section 9).
+> 6. *Planning wording:* "one-step descent" on the exact geodesic field is a global value-function policy, not a purely reactive one; the Phase 1 anchor confounded horizon with search effort (B = 64·H); the deeper-horizon degradation is a sampler/objective effect at those budgets, not evidence that longer rollouts are harmful (closeout section 10).
+
 Date: 2026-11-07 · Branch `exp-0013-predictive-planning` · Inspected checkpoint: `789b5a887fc9099be5e4b040e687ff72ebe2e01a` (HEAD at start; unchanged by anyone else). Authorization: Phase 1.1 only. No Phase 2 training, no GPU training, no sweeps, no merge, TEST layouts (2000-2199) never used. Labels per AGENTS.md §7. Results: `results/predictive_state_phase1_1/`. Phase 1 record (`EXP-0013-phase1.md`) is preserved; where this record disagrees with it, this record supersedes the *interpretation* (section 8), not the data.
 
 ## 0. Founder decision memo (read this first)

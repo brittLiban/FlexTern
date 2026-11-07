@@ -251,3 +251,9 @@ Then report to the founder: what was done, what was measured, what remains uncer
 ## 10. Commits
 
 Commit only when authorized or requested by the founder. Commit messages state what changed and why. Reference experiment IDs (`EXP-XXXX`) and ADR IDs where relevant so results stay traceable to commits.
+
+**Merge discipline (founder rule, 2026-11-07).** All experimental work stops before merging. An agent never merges an experiment or closeout branch into `main` (and never pushes experimental work to `main`) unless the founder explicitly approves that specific merge. Work on a dedicated branch, commit there, report the exact commit SHA, and stop for founder review. Approval of one merge does not extend to later branches.
+
+**Test-budget discipline.** Fast checks (`python scripts/run_tests.py smoke|predictive`) are the default during research iteration; the slow full suite (`... full`, about 31 minutes on the founder's laptop) is run only for a merge-readiness check and must be split into independently valid chunks under 15 minutes (the runner does this). Estimate runtime from recorded evidence before any long invocation; if it is expected to exceed 15 minutes, stop and request approval. See `tests/README.md`.
+
+**Reserved evaluation splits.** The simulation layout split named `"test"` (ids 2000-2199) is reserved for locked held-out evaluations. Exploratory, timing and diagnostic scripts must use `"train"` or `"dev"`. `tests/test_split_guard.py` and `analysis/predictive_state/split_manifest.json` enforce this; do not add a file to the manifest's allow-list to bypass it.

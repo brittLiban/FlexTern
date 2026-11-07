@@ -1,5 +1,7 @@
 # EXP-0013 Phase 1 — Inference repair, measurement integrity, lookahead benchmark
 
+> **Correction notes (2026-11-07, closeout):** merged into `main` at `6cbd44b` (this record's "not merged" statements predate the merge). The statement that "the TEST range was not used" is true for OccPick2D-LA task scoring but incomplete: Phase 1.1 timing traces (not this phase's) used the TEST layout range with the EXP-0012 environment (closeout section 7). The Phase 1 table's `reactive`/`greedy` comparisons used shared-RNG, non-observation-matched controllers (already superseded by Phase 1.1).
+
 > **Phase 1.1 addendum (2026-11-07):** the data below are unchanged, but some interpretations are superseded - Gate C is downgraded (the benchmark is solved by a non-learned observation-matched baseline), the `rec_updates` counter and the latency reading are corrected, and the shooting degradation is attributed to the sampler/objective. See `EXP-0013-phase1-1.md`.
 
 Date: 2026-11-07 · Branch `exp-0013-predictive-planning` · Authorization: Phase 1 only. No learned world model, no training, no quantization, no merge. Audit: `EXP-0013-audit.md`. Labels per AGENTS.md §7.

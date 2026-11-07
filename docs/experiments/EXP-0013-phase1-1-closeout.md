@@ -1,0 +1,179 @@
+# EXP-0013 Phase 1.1 closeout: correctness, reproducibility and experimental integrity
+
+Date: 2026-11-07 · Branch `exp-0013-phase1-1-closeout` (from `main` @ `6cbd44b2f93721a4f63201ebbc796e62985e4f3a`, first parent `9929495`, second parent `0074a33` = the merged Phase 1/1.1 branch) · **NOT merged; STOPPED for founder review.** Labels per AGENTS.md §7. Raw results: `results/predictive_state_phase1_1_closeout/`; every table below is produced by `python -m analysis.predictive_state.analyze_closeout` from the committed raw files (`closeout_tables.md`). No training, no new TEST evaluation, no horizon sweep, no controller change, no power setting changed.
+
+Authorization: founder directive "Phase 1.1 Closeout" (correct and close outstanding Phase 1.1 issues; do not begin Phase 1.2 or Phase 2).
+
+## 1. Executive verdict
+
+1. **The headline survives.** Under a genuinely paired protocol the frozen observation-matched map+memory controller `obs_B_map_memory` solves OccPick2D-LA v1: 200/200 within 65 steps in LA_CLEAR, LA_NOM and LA_OCC (87 unique layouts; exact one-sided 95% failure bound 3.4% over layouts); the single-frame map `obs_A_single_frame` gets 0.995 / 0.970 / 0.560. The privileged oracle is 1.00. (MEASURED, DEV re-evaluation of an already examined set, not a holdout.)
+2. **The pairing defect was real and large.** Reproducing Phase 1.1 with unchanged code matches `paired.json` exactly (15/15 controller×condition rows identical per episode) and shows that between two controllers **163-193 of 200 LA_NOM episodes and 195-200 of 200 LA_OCC episodes saw different blackout sequences** (LA_CLEAR has no blackouts: 0). The historical McNemar p-values were therefore not controlled paired comparisons. Corrected effect sizes are close to the historical ones (A-B −0.5 / −3.0 / −44.0 points vs historical 0 / −2 / −38.5).
+3. **TEST was not literally untouched.** `phase11_timing.record` built `E.BatchEnv(1, "test", DIST)` for 15 latency-trace episodes per trigger (EXP-0012's older timing scripts do the same). No task-success evaluation, tuning, code selection or claim used it; but the statement "TEST layouts untouched / no Phase 1.1 script references the test range" was false and is corrected (section 6).
+4. **Inference execution is verified, unchanged** (34 regression tests pass; no defect found; section 7).
+5. **Latency, re-measured on AC power (host-reported before and after): the Phase 1.1 conclusion stands.** Lean legacy path: skipping cuts batch-1 time by ~28%; the shared instrumented runner gives most of it back (−4%); batched CPU −9% to −24%; batched CUDA +6% to +16%. Energy remains unmeasured. The retime used a TRAIN trace, so it is a comparable but not identical re-measurement (section 8).
+6. **Planning-horizon claims tightened** (section 9): the geodesic H=1 controller is a global value-function policy, not a "reactive" one; the Phase 1 anchor confounded horizon with search effort; deeper random shooting is not inherently harmful.
+7. Gates: **A PASS, B PASS, C PASS, D PASS, E PASS, F PASS** (section 12), with the unresolved items listed in section 13. No blocker makes Phase 1.2 premature; one founder decision is needed first (section 14).
+
+## 2. Repository state and branch history
+
+| item | value |
+|---|---|
+| verified `main` HEAD at start | `6cbd44b2f93721a4f63201ebbc796e62985e4f3a` "Merge EXP-0013 Phase 1 and 1.1 ..." (merge commit; parents `9929495dff9f...` and `0074a331645720...`) |
+| working tree at start | clean |
+| branches | `main`, `exp-0012-predictive-state`, `exp-0013-predictive-planning` (+ remotes). `git branch --merged main` lists all three: **EXP-0012 and EXP-0013 Phase 1/1.1 are merged into `main`** (`git merge-base --is-ancestor exp-0012-predictive-state main` → true). The docs saying "EXP-0012 not merged to main" / "EXP-0013 branch not merged" were stale (fixed in `CURRENT_WORK.md` / `PROJECT_STATE.md`). |
+| closeout branch | `exp-0013-phase1-1-closeout`, created from `main` (not from the old feature branch) |
+| unexpected differences | none in history. One note: `env.py` differs from the EXP-0012 checkpoint `ca54fb4` by the exploratory `EXPLORATORY_CONDS` block, which is an **EXP-0012** lock commit (`a6cccb4`), not an EXP-0013 change; `models.py` and `train.py` are byte-identical to `ca54fb4`. |
+| historical result files | untouched (`results/predictive_state_phase1*/` unmodified; git shows no change) |
+
+## 3. Changes made and why
+
+| file | change | reason |
+|---|---|---|
+| `analysis/predictive_state/env_paired.py` (new) | `PairedLAEnv`: paired-replay variant, protocol `la-paired-replay-1.1` | P0 pairing fix; subclass, `env.py`/`env_la.py` untouched |
+| `analysis/predictive_state/closeout_repro_v1.py` (new) | passive `valid` logger around the unchanged v1 `LAEnv`; reruns the historical paired run | prove the historical outcomes reproduce and measure the defect |
+| `analysis/predictive_state/closeout_paired.py` (new) | corrected diagnostic re-evaluation, raw per-episode rows | P0 re-evaluation |
+| `analysis/predictive_state/analyze_closeout.py` (new) | all closeout tables, statistics v`closeout-stats-1` | P0 statistics, reproducible tables |
+| `tests/test_env_paired.py` (new, 10) | pairing, batch-independence, transition-equivalence tests | Gate B |
+| `analysis/predictive_state/split_manifest.json`, `tests/test_split_guard.py` (new, 5) | reserved-split manifest and static guard | P1 split audit |
+| `analysis/predictive_state/phase11_timing.py` | trace split defaults to TRAIN; TEST only with `FLEXTERN_ALLOW_TEST_SPLIT=1` | P1 split audit; historical results not relabeled |
+| `scripts/run_tests.py`, `tests/test_budget.json`, `tests/README.md` | tiered test runner with chunking by recorded durations | P1 test budget |
+| `scripts/capture_power_state.ps1` | read-only power-state snapshot | P1 latency |
+| `AGENTS.md` §10, `docs/*` | merge discipline, test budget, reserved split rules; status corrections; correction notes on Phase 1/1.1 records | P1 governance |
+
+Not changed: `infer.py`, `evaluate.py`, `latency.py`, `models.py`, `train.py`, controllers, `env.py`, `env_la.py`, protocol/budget (LA_T_PICK 65, cap 80), dilation (1).
+
+## 4. Paired-replay environment and evidence (P0 A-D)
+
+**Defect (confirmed).** In v1 one `np.random.Generator` serves spawning, blackout starts/durations and pixel noise for the whole batch; `LAEnv.render` draws `normal(…, (em.sum(), 3))` with an end-effector pixel count that depends on where the effector is, so controllers that move differently consume different numbers of samples and every later blackout draw (for that episode and for all later rows of the batch) diverges. Matching layouts and spawns did not give matching blackouts. The privileged controllers (`greedy`, `reactive_memory`, `oracle_descent`) never read `valid`, so their outcomes were unaffected by the *schedule* (they only see different pixel noise they ignore); only the observation baselines' comparisons were compromised. **Measured** by `closeout_repro_v1.py` (below).
+
+**Protocol `la-paired-replay-1.1`** (`env_paired.py`). A **randomness-only** change: `BatchEnv.step`, dynamics, rendering geometry and `LAEnv` are inherited unchanged (the guarded RNG stand-in serves exactly the draws `step` makes), and a test proves physics equality with v1.
+- *Streams:* spawn = one stream per episode keyed `(seed, episode_id, SPAWN)`; blackouts = per-episode uniforms and durations for every step `t` precomputed from `(seed, episode_id, BLACKOUT)` (valid because with `n_picks=1` `t_pick == t` while alive and `black_left` evolves independently of the state; asserted); pixel noise = one full-frame N(0, 6) field per `(seed, episode_id, RENDER, t)`, added after the noise-free render and clipped (per-pixel marginals identical to v1; only the realization differs); any other draw from the shared generator raises; displacement events and `n_picks>1` are refused; the reserved `"test"` split is refused.
+- *Identities:* `episode_id` (default `arange(n)`) keys the streams; the 200 layout ids are the Phase 1.1 ones (same `default_rng([5001, 777])` recipe). **Spawns are not bit-identical to v1** (they come from per-episode streams so they cannot depend on batch order); aggregate rates are therefore compared with v1, not episode by episode.
+- *Common random numbers across conditions:* the same `episode_id` shares its blackout uniforms in LA_NOM and LA_OCC (LA_OCC has the larger `p_blackout`/durations).
+
+**Tests (`tests/test_env_paired.py`, 10, all pass; numpy, 4.4 s)** include: stand-still / random-max-speed / drive-right controllers on the same episode ids give identical spawn digests, identical blackout sequences over all steps (non-vacuous: >100 dark steps) and different images; realized `valid` equals an independent closed-form reference recurrence (including after episodes terminate); noise is a pure function of `(episode, t)`; one episode alone, in a 3-subset, in a reversed batch of 20 sees the same spawn and blackouts as in the batch of 20; forcing one episode done at t=0 does not change any other episode; **`test_v1_shared_rng_is_not_paired` documents that v1 fails the same check**; **`test_transition_equivalence_with_v1`**: from the same state with random actions including grasps, 80 steps, `ee/pos/held/grip/done/failed/t_pick/picks_done/fail_kind` equal v1's exactly; the shared generator is unreachable; TEST refused.
+
+**Corrected evaluation invariants** (`closeout_summary.json`, per condition; the same for all five controllers): identical episode ids, layout ids, spawn digests and schedule digests (`886db08b…` LA_CLEAR, `e77aea56…` LA_NOM, `4ecfb3bf…` LA_OCC); the realized `valid` sequences are identical across controllers over the common steps and equal the closed-form schedule for every controller. Dark-step fraction over the first 65 steps: 0 / 0.172 / 0.478; episodes with a blackout 0 / 0.76 / 0.955.
+
+## 5. Original versus corrected results (P0 re-evaluation)
+
+*Reproduction of Phase 1.1 with unchanged code (v1, passive logger):* per-episode success@65 identical to `paired.json` for **15/15** rows. Episodes (of 200) whose blackout sequence differed between two controllers under v1: obs_A vs obs_B 0 / **169** / **195** (LA_CLEAR / NOM / OCC); B vs oracle 0 / 169 / 199; A vs greedy 0 / 193 / 200; greedy vs oracle 0 / 164 / 198 (full table in `closeout_tables.md`).
+
+*Corrected diagnostic re-evaluation (DEV seed 5001, 200 episodes, 87 unique layouts from ids 1000-1099; success@65 [success@80]; frozen controllers, no tuning; labelled a re-evaluation of an already examined set):*
+
+| controller | LA_CLEAR | LA_NOM | LA_OCC | historical v1 @65 (CLEAR / NOM / OCC) |
+|---|---|---|---|---|
+| greedy (PRIV) | 0.235 [0.235] | 0.235 [0.235] | 0.235 [0.235] | 0.240 / 0.240 / 0.250 |
+| reactive_memory (PRIV) | 0.290 [0.380] | 0.290 [0.380] | 0.290 [0.380] | 0.295 / 0.295 / 0.295 |
+| oracle_descent (PRIV) | 1.000 | 1.000 | 1.000 | 1.00 / 1.00 / 1.00 |
+| obs_A_single_frame | 0.995 [0.995] | 0.970 [0.995] | 0.560 [0.725] | 1.000 / 0.980 / 0.615 |
+| obs_B_map_memory | **1.000** | **1.000** | **1.000** | 1.00 / 1.00 / 1.00 |
+
+Changes vs v1 are within −0.055 (largest for obs_A under LA_OCC) and expected from different spawns and blackout realizations; the 100% result **remains 100%** for obs_B and the oracle. Privileged controllers are identical across conditions, as they must be (they ignore `valid`; the shared stream also makes their spawns identical). Finish steps (successes): obs_B median 31 / p95 44 / max 54 in all three conditions (identical to the oracle's median 31, p95 43, max 53); obs_A median 31 / 37 / 49 (LA_OCC: p95 77, 33 successes later than step 65); failures are all `timeout` (obs_A 1 / 1 / 55 within the 80-step cap; reactive_memory 124, greedy 153). Episode-level outcomes, layout ids, episode ids, digests and compute effort are in `paired_replay_<COND>.json` (e.g. obs_B LA_OCC: 6371 decisions, 876 Dijkstra runs, 3794 frame parses; oracle: 113,292 simulated transitions over 6294 decisions ≈ 18 per decision plus 1,356,668 Dijkstra node expansions in total).
+
+*Why blackouts cost obs_B nothing in v1 (INFERRED):* the scene is static after t=0, blackouts cannot start before `t_pick = 3`, and the first frames are always valid, so a map+target+goal memory taken from the first frames loses nothing during a blackout; position comes from proprioception. v1 blackouts therefore never hide information that the task needs after step 2.
+
+## 6. Statistics and uncertainty (P0 statistics)
+
+- **Historical statistics, retained, labelled.** `analyze_phase11.py` / `summary.json` apply exact McNemar to controller pairs and Wilson intervals to episode counts as originally reported (A vs B: LA_NOM 0/4, p=0.125; LA_OCC 0/77, p=1.3e-23). They assumed paired outcomes on shared exogenous events, which v1 does not provide (above), and treat 200 episodes as independent although they come from 87 unique layouts. They are kept unchanged and **must not be cited as controlled paired comparisons**.
+- **Corrected method (`closeout-stats-1`).** (i) Paired outcomes from the replay protocol. (ii) Episode-level Wilson interval = uncertainty over *these 200 episode instances*. (iii) Layout-clustered percentile bootstrap (resample the 87 layouts with replacement, ratio estimator, B=4000, seed 0) = uncertainty about *unseen layouts from the layout generator*, treating the sampled layouts as an i.i.d. draw; it does not cover spawn/blackout variance beyond what the sampled episodes contain nor any generator mismatch. (iv) When the statistic never varies (all successes) the bootstrap is degenerate and is reported as "n/a"; instead the exact one-sided 95% (Clopper-Pearson) failure bound with the number of unique layouts as effective n is given: **≤ 0.034** for obs_B and the oracle. (v) McNemar is reported only as a descriptive episode-level statistic and as "0 discordant pairs: no test is defined" when there are none. Effect sizes and cluster intervals are the primary evidence.
+- **Corrected comparisons (success@65; a−b; cluster-bootstrap 95% of the difference; discordant a-only/b-only):**
+
+| comparison | LA_CLEAR | LA_NOM | LA_OCC |
+|---|---|---|---|
+| obs_A − obs_B | −0.005 [−0.016, 0.000]; 0/1 | −0.030 [−0.055, −0.009]; 0/6 (McNemar p=0.031) | −0.440 [−0.524, −0.362]; 0/88 (p=6.5e-27, descriptive) |
+| obs_B − oracle | 0.000; 0 discordant pairs | 0.000; 0 discordant pairs | 0.000; 0 discordant pairs |
+| obs_B − reactive_memory (PRIV) | +0.710 [0.612, 0.806] | same | same |
+
+  Interpretation: the LA_OCC A-vs-B gap is large and robust to layout clustering; the LA_NOM gap is small (6 episodes) with a lower cluster limit near zero and should not be called significant on its own; LA_CLEAR shows no meaningful difference (one episode).
+- No claim in this record depends on a p-value; unique-layout counts are stated for every table.
+
+## 7. Audit of TEST-split exposure (P1)
+
+Verified by reading every `analysis/predictive_state/*.py` and `tests/` use of a split (`rg` of `BatchEnv(`, `LAEnv(`, `make_env(`, `rollout(`, `"test"`), recorded in `split_manifest.json`.
+
+| use of the `"test"` layout range (ids 2000-2199) | experiment | nature |
+|---|---|---|
+| `run_eval.py`, `report.py` | EXP-0012 | preregistered locked TEST scoring of EXP-0012 models (legitimate; before EXP-0013) |
+| `analyze_state.py` (default `PS_PROBE_SPLIT=test`) | EXP-0012 | state-probe diagnostic, EXP-0012 only |
+| `latency.py`, `_latency_exp0012.py` | EXP-0012 | batch-1 latency traces (DIST), timing only |
+| **`phase11_timing.py:record`** | **EXP-0013 Phase 1.1** | latency traces: `E.BatchEnv(1, "test", DIST)`, 15 episodes/trigger (seeds 31-45), timing only |
+| OccPick2D-LA (`LAEnv`, all `run_la_benchmark`, `run_phase11_benchmark`, controllers) | EXP-0013 | **never** constructed on `"test"` (TRAIN: calibration, dilation selection, ablation; DEV: scoring) |
+
+Findings. (1) The Phase 1.1 claims "TEST layouts untouched" and "no Phase 1.1 script references the test range" were **false as worded**: the existing test `test_test_range_never_used` only checks the ids drawn by two LA environments, and the timing script was not covered. (2) The exposure is a *timing-trace* exposure on the EXP-0012 environment: occluder geometry of ids 2000-2199 comes from the same `layout_from_id`, so LA TEST layouts would share those occluders (not walls/goal). No tuning, architecture choice, code change, controller design, threshold selection or reported task metric used these traces; thresholds are EXP-0012 DEV calibrations. (3) The checkpoint `G_s0` itself was trained and TEST-scored in EXP-0012. **Consequence:** the OccPick2D-LA TEST range remains unused for task scoring, but should be considered *burned for any v2 held-out claim that shares the EXP-0012 environment's occluders*; Phase 1.2 must use a fresh held-out range (section 14).
+
+Actions: `phase11_timing.trace_split()` now defaults to TRAIN and returns TEST only with `FLEXTERN_ALLOW_TEST_SPLIT=1`; previous timing results are kept with their original origin (`timing_paired*.json`, `op_counts.json` were recorded on TEST traces); `tests/test_split_guard.py` (5 tests) statically fails if any `analysis/predictive_state/*.py` file contains the literal `"test"` and is not in the manifest (docstrings excluded), checks that the closeout/benchmark/controller scripts are TEST-free and that the manifest matches `LAYOUT_RANGES`. `PairedLAEnv` refuses `"test"` at runtime. The guard is about the simulation split, not `tests/test_*.py` files.
+
+## 8. Inference-counter and execution validation (P1) — verified, unchanged
+
+Re-read `infer.py` (200 lines) and ran `tests.test_executed_work tests.test_inference_skip` this session: **34 tests OK in 7.9 s** (host Python 3.12, torch 2.11.0+cu128, CUDA available). No defect found; no code changed in `infer.py`, `evaluate.py`, `latency.py`. Mapping of the directive's checks to evidence:
+
+1. Skipped images never reach the encoder: `TestGatedEncode.test_none_needed_never_calls_encoder`, `test_mixed_batch_encodes_only_selected_rows` (spy on `net.enc.forward`).
+2. Encoder forward-call count vs encoded-image count: `Counters.enc_calls`/`enc_samples`; `test_counters_equal_spies_mixed_active_finished` (spies on encoder, cell, policy, trigger head, pixel pooling).
+3. Mixed active/finished batches run only the intended work: same test, `test_full_batch_mode_counts_finished_rows_as_executed`, `test_all_finished_does_nothing`.
+4. Counters match module execution: as 2.
+5. Finished rows cannot alter active rows: `test_finished_rows_cannot_change_active_outputs` (garbage in finished rows → bit-identical active outputs), `test_row_finishing_midway_is_frozen`.
+6. Active behaviour matches the reference: `test_selective_equals_full_batch_for_active_rows`, `test_full_perception_matches_original_open_loop`, `TestRolloutEquivalence` (per-episode identity vs `rollout_legacy`, 3 triggers).
+7. Previous action alignment: `a_prev` is the action executed before the current observation and is used in `cell_step` before being replaced (`infer.py:160-183`); `test_state_advances_from_action_and_proprio_when_vision_skipped`, `test_full_perception_matches_original_open_loop`.
+8. Trigger semantics: `test_fixed_rate_schedule_exact`, `test_pixel_change_trigger`, `test_learned_trigger_threshold_controls_rows`, `test_first_frame_forced_for_every_trigger`, `test_max_skip_forced`, `test_task_change_forced`, `test_slip_forced`; `full` = valid∧alive only.
+9. Blackout rows never encoded: `test_blackout_rows_never_encoded_even_when_forced`, `test_blackout_rows_never_reach_encoder_all_triggers`.
+10. Training masking/EMA targets: `models.py` and `train.py` are byte-identical to the EXP-0012 checkpoint (`git diff ca54fb4 6cbd44b` empty); the only EXP-0013 change on the data path is `dagger.py` gated collection, covered by `TestDagger.test_gated_collection_matches_encode_everything` (collection was not re-run; no training happened).
+
+Remaining trigger cost (read from code, MEASURED in section 9): pooling runs on the full batch for non-`full` triggers (`trigger_rows` counts this honestly, including finished rows); `n_alive = int(alive.sum())`, `nonzero`/indexing and `track=True` each add a device→host sync (on CPU these are cheap; on CUDA they are part of the measured slowdown). Observation (no defect in this environment): at t=0 `last_pool` is initialised for every row including a row whose frame is invalid; v1 blackouts cannot start before step 3 so this cannot occur in the benchmark, but a future environment with blackouts at t=0 should initialise `last_pool` only from encoded rows.
+
+## 9. Latency (P1)
+
+Setup (all `phase11_timing.py` defaults, unchanged): checkpoint `G_s0.pt` FP32, **sha256 `d67dd85a6647…2f3` — identical for the WSL copy and the repository copy `results/predictive_state/checkpoints/G_s0.pt`** (so it is reproducible from the repo); one closed-loop trace per trigger recorded once and replayed by every variant (identical inputs, trigger parameters and thread counts within a run), variants interleaved and rotated across 12 reps, 3 warm-up episodes discarded, GC off, `perf_counter` with `cuda.synchronize` for device timing; batch-1 CPU timing with 1 and 4 intra-op threads; batched 32 episodes CPU ×5 reps, 64 episodes CUDA ×7 reps; per-episode success identical across variants in every batched pair. Hardware: AMD Ryzen 7 260 (16 logical), RTX 5060 Laptop GPU, WSL2 Ubuntu on Windows 11, torch 2.11.0+cu128. **Power: `scripts/capture_power_state.ps1` (read-only) immediately before (18:04:30) and after (18:10:49): `BatteryStatus=2`, `PowerOnline=true`, not charging/discharging, charge 100%, scheme Balanced** (`power_state.jsonl`). This is host-reported AC power; CPU/GPU clock and thermal state inside the WSL2 VM were not controlled. The historical runs were probably on battery (documented in Phase 1.1); no setting was changed. **Difference from the historical run: the trace split is TRAIN (new default), not TEST, so encoder fractions differ slightly (e.g. `full` 0.85 vs 0.88); this is a comparable re-measurement, not a bit-identical repeat.** Raw: `timing_retime_train_trace.json`, summary `timing_retime_summary.json`.
+
+Batch-1 CPU, mean ms/step (AC retime; historical in brackets), 1 thread:
+
+| trigger (enc frac) | legacy (lean) | runner (instrumented) | runner no stats sync | runner − legacy | components of `runner_tm`: trigger / encoder / update |
+|---|---|---|---|---|---|
+| full (0.85) | 0.589 [0.799] | 0.591 [0.787] | 0.530 [0.734] | +0.001 | 0.004 / 0.272 / 0.226 |
+| fixed:0.25 (0.24) | 0.422 [0.563] | 0.569 [0.745] | 0.566 [0.700] | +0.148 | 0.168 / 0.106 / 0.295 |
+| pix:0.0199 (0.28) | 0.492 [0.646] | 0.638 [0.822] | 0.577 [0.751] | +0.146 | 0.177 / 0.136 / 0.331 |
+| learned:0.1445 (0.34) | 0.505 [0.638] | 0.709 [0.858] | 0.641 [0.798] | +0.204 | 0.243 / 0.173 / 0.347 |
+
+(4-thread rows and p50/p95 are in `timing_retime_summary.json`: runner p50/p95 e.g. fixed:0.25, 1 thread 0.43 / 0.82 ms.) Theoretical MAC saving (INFERRED from layer shapes): 13% (full, blackouts only), 67% (fixed:0.25), 64% (pix), 59% (learned).
+
+Batched wall time vs `rollout_legacy` (AC retime [historical]): CPU full −21% [−9%], fixed −25% [−19%], pix −17% [−18%] (full-batch gated) and −18/−23/−9% with selective rows; **CUDA +8/+7/+6% [+9/+4/+7%] full-batch, +16/+16/+14% [+11/+9/+11%] selective**.
+
+Conclusions (MEASURED unless noted): (a) in the **lean legacy batch-1 path** skipping cuts latency (full 0.589 → fixed:0.25 0.422 ms, −28%; across different traces); (b) the **instrumented shared runner** gives most of that back — the extra 0.15-0.20 ms is trigger computation and bookkeeping (trigger component 0.17-0.24 ms; stats sync costs 0.00-0.07 ms; INFERRED Python/dispatch overhead on tiny tensors, consistent with the historical op counts), so within the runner skipping changes time by −4% (fixed:0.25), +8% (pix) and +20% (learned) relative to its own `full`; (c) **batched CPU** improves 9-25%; **batched CUDA is slower**, more so with selective active-row execution (GPU launch/sync-bound for a 1.1 MMAC encoder; cause INFERRED, no GPU profile taken); (d) "full-batch" vs "selective" recurrent execution: selective helps CPU little and hurts CUDA; (e) encoder time falls with skipping (0.27 → 0.11 ms) but is dominated by trigger+update at this model size. **Physical energy: not measured; no energy claim is made.** Do not read a faster research harness as a faster deployable implementation: the lean legacy step is a research reference, the runner is instrumented, and no optimized batch-1 trigger path exists. Open item: the historical TEST-trace timing could be regenerated only with `FLEXTERN_ALLOW_TEST_SPLIT=1`; it was not (not independently reproduced bit-for-bit; its qualitative conclusions are reproduced above).
+
+## 10. Corrected planning-horizon interpretation (documentation only)
+
+Reviewed `planning_diag.py`, `controllers_la.py` and `horizon_*.json`; no implementation inconsistency was found, so no new run was made. Re-tabulated with the search structure explicit in `closeout_tables.md` (last table). Key facts:
+- **Effort per decision.** `rs_walk/rs_const`: N = B//H sequences of length H (≈ B transitions: 320 at B=320); `cem`: B//(4H) samples × 4 iterations (≈ B); `beam`: width W = B//(17H), 17 expansions per node → **17 / 221 / 170 / 340 transitions for H = 1 / 5 / 10 / 20 at "B=320" (and 17 at H=1 for any B)**, i.e. beam does not use the nominal budget and its effort is horizon dependent. The Phase 1 anchor (`horizon_anchor.json`) used **B = 64·H** (64 → 1280), so horizon and total effort were confounded there while the number of candidate sequences was constant (64); in the fixed-B grid, deeper horizons get *fewer* candidates (320, 64, 32, 16 sequences at B=320).
+- **Findings preserved (n=80 in the grid; single seed; DEV LA_NOM; success@65).** Exact geodesic value: random-walk shooting with terminal cost: 1.00 / 0.49 / 0.06 / 0.06 (H = 1/5/10/20); with the *summed* per-step cost: 1.00 / 0.99 / 0.94 / 0.75; CEM: 1.00 / 0.91 / 0.36 / 0.09; **beam: 1.00 at every H**. Euclid cost (no map-derived value): at best 0.16-0.36 for any planner/horizon, with a modest lookahead gain for the summed objective (0.16 → 0.25 at B=320; 0.175 → 0.36 at B=2720) that stays far below the value-based controllers.
+- **Tightened claims.** (i) A one-step descent on a precomputed exact geodesic field is **not** a purely reactive policy: the field is a Dijkstra cost-to-go over the full wall map to the waypoint, so every value already contains global future-path information (a value function can encode the optimal multi-step decision; explicit rollouts are not mathematically necessary when it is available). (ii) The deeper-horizon degradation is **a property of the sampler and objective at these budgets, not evidence that longer rollouts are harmful**: with the same value function, beam search (deterministic expansion), the summed objective, or enough samples avoid it. (iii) v1 therefore shows *no benefit from explicit multi-step rollouts given an exact map-derived value* and shows that without a value function lookahead helps only slightly; it does not test whether rollouts help when the value must be learned or the dynamics are hidden. (iv) Effort numbers: oracle_descent ≈ 18 simulated transitions + amortised Dijkstra per decision; obs_B/A: one parse plus Dijkstra only when the waypoint changes (876 Dijkstra runs for 6371 decisions in LA_OCC).
+
+## 11. Regression test commands and observed outcomes (P1)
+
+All on the Windows host, Python 3.12, torch 2.11.0+cu128 (importable; Smart App Control no longer blocks it on this machine), runs as `python scripts/run_tests.py …` or `python -m unittest tests.<module>`. {{TESTS}}
+
+## 12. Gates
+
+| Gate | Verdict | Basis |
+|---|---|---|
+| A — software correctness | **PASS** | section 8: 34 tests incl. spies on encoder/cell/policy/trigger/pooling, mixed active/finished, causal alignment; no inference code changed; `models.py`/`train.py` identical to EXP-0012. |
+| B — experimental reproducibility | **PASS** | section 4: exogenous schedule is a function of `(seed, episode_id, t)`; 10 tests incl. forced divergence, batch size/order independence, v1 negative control, transition equivalence; identical digests/valid sequences across controllers in the corrected runs; provenance in raw files and `reproducibility_manifest.json`; commands in section 11/manifest. Limitation: spawns are not bit-identical to v1. |
+| C — statistical validity | **PASS** | section 6: corrected paired data, layout-clustered intervals, 87 unique layouts stated, zero-discordance and zero-variance cases handled, historical statistics retained and qualified. The cluster bootstrap assumes layouts are an i.i.d. draw from the generator. |
+| D — reporting integrity | **PASS** | TEST exposure documented (section 7); stale merge/status statements corrected; historical files untouched; latency caveats and unmeasured energy explicit; no model-performance claim (no model was trained). |
+| E — scientific conclusion | **PASS** (answers below) | |
+| F — Phase 1.2 readiness | **PASS** | section 14. |
+
+**Gate E answers.** (1) *Is a static observation-matched map sufficient when the frame is visible?* **Yes** on v1: obs_A 0.995 (199/200) in LA_CLEAR and 1.000 for the same parser+planner once memory is added. (2) *Does hand-coded memory close the blackout gap?* **Yes**: LA_OCC obs_A 0.560 → obs_B 1.000 (difference 0.44, cluster CI [0.36, 0.52]); LA_NOM 0.970 → 1.000 (small). (3) *Does v1 require learned action-conditioned prediction?* **No**: a non-learned controller with a 15-line memory equals the privileged oracle on 87 layouts. (4) *Does v1 demonstrate a benefit from explicit multi-step latent rollouts?* **No** (section 10); that is a statement about v1, not about the hypothesis. (5) *Does encoder skipping improve end-to-end inference time on the measured deployment paths?* **Not on the shared batch-1 runner (−4% / +8% / +20% for fixed / pix / learned vs its own full; slower than the lean legacy skip path) nor on batched CUDA (+6-16%); yes on batched CPU (−9 to −25%) and in the lean legacy batch-1 path (−28%).** Energy unmeasured. (6) *Missing evidence:* any learned model on any benchmark; a task whose required state is hidden and dynamic; multi-seed/multi-checkpoint timing; quantized or batch-1 optimized runner timing; physical energy; held-out TEST layouts for LA; hand-coded baselines for v2.
+
+## 13. Remaining technical debt
+
+- Historical timing (TEST traces) not regenerated; AC retime used a TRAIN trace and one checkpoint (`G_s0`), 12 reps, one machine; WSL2 clock/thermal state uncontrolled; no GPU profile; batch-1 trigger fast path not implemented (~0.1-0.2 ms recoverable, INFERRED).
+- The OccPick2D-LA v1 spawns are not reproducible bit-for-bit under the paired protocol; `analyze_phase11.py` historical tables retained but qualified; `paired.json` stays as originally committed.
+- Layout generator: DEV has 100 ids (87 sampled); `n=200` episodes are not 200 independent layouts. A bigger DEV layout pool would be needed for tighter layout-level bounds.
+- `phase11_timing.record` for the n=1 trace still uses the EXP-0012 `BatchEnv` with DIST (displacement) rather than LA; acceptable for timing, not for task claims.
+- Slow tests: the full suite is ~31 minutes; now tiered (section 11) but chunk estimates need refreshing as modules change.
+- `last_pool` initialisation note (section 8).
+- No ADR written: no durable architecture decision was taken; the governance rules went into `AGENTS.md` §10.
+
+## 14. Phase 1.2 readiness memo
+
+*Repaired:* pairing (new protocol, tested), statistical treatment, split-exposure documentation and guard, stale status, test-budget policy, AC power re-check of timing. *Remaining limitations:* section 13. *Carry forward to v2:* `env_paired.py` pattern (episode-keyed streams, guarded RNG, closed-form schedule oracle, digests and invariants asserted in the raw output), `analyze_closeout` statistics (cluster bootstrap + exact bound + zero-discordance handling), `split_manifest.json` + guard, observation-only information-matrix test, privileged-control + observation-matched baseline + hand-coded predictor ladder, spy-verified executed-work counters, the tiered test runner. *Do not reuse:* v1 task as evidence for or against predictive state (it is saturated by a 15-line memory); the shared-RNG `LAEnv`/`BatchEnv` for any paired comparison; the Phase 1.1 McNemar p-values; the TEST traces; the claim "TEST untouched". *Evaluation controls necessary for the next experiment:* a **fresh held-out layout range** reserved before any v2 code runs (the existing 2000-2199 shares occluders with the exposed timing traces); paired-replay streams for every exogenous process of the new hidden state (switch delay, gate phase) so that controller actions cannot shift them; preregistered hand-coded predictor/last-seen-memory baseline as the bar; effort-matched baselines; ≥5 seeds before any learned claim; unique-layout counts and cluster intervals in every table; no merge before founder approval. *Blockers:* none technical. **Founder decision needed before Phase 1.2:** approve the v2-B (action-dependent hidden consequence) specification direction recommended in Phase 1.1, and reserve the fresh held-out range. Do not start Phase 1.2 or any training until then.

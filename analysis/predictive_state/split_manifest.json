@@ -1,0 +1,21 @@
+{
+ "_doc": "Reserved-split manifest (EXP-0013 Phase 1.1 closeout). The layout range named \"test\" (ids 2000-2199) is reserved for locked held-out evaluations. tests/test_split_guard.py fails if any analysis/predictive_state/*.py file contains the string literal \"test\" and is not listed here. Listing a file records its historical exposure; it is not permission to add new uses. New exploratory scripts must use \"train\" or \"dev\".",
+ "reserved_split": "test",
+ "layout_ranges": {"train": [0, 400], "dev": [1000, 1100], "test": [2000, 2200]},
+ "allowed_files": {
+  "env.py": "defines the split table (LAYOUT_RANGES) and EXP-0012 TEST_CONDS; no evaluation",
+  "env_paired.py": "refuses the \"test\" split (guard)",
+  "lock.py": "EXP-0012 preregistration text listing the layout ranges",
+  "run_eval.py": "EXP-0012 locked TEST evaluation (preregistered gate G1; legitimate held-out scoring of the EXP-0012 models)",
+  "report.py": "EXP-0012 report generator reading the TEST results",
+  "analyze_state.py": "EXP-0012 state-probe analysis; defaults to the TEST split (PS_PROBE_SPLIT); EXP-0012 diagnostic, not used by EXP-0013",
+  "latency.py": "EXP-0012 batch-1 latency traces recorded on TEST layouts with the DIST condition (timing only, no task scoring)",
+  "_latency_exp0012.py": "frozen copy of the EXP-0012 latency step from git history (timing only)",
+  "phase11_timing.py": "EXP-0013 Phase 1.1 timing: historical traces were recorded on TEST layouts (timing only, no task scoring); closeout makes TRAIN the default and TEST an explicit opt-in (FLEXTERN_ALLOW_TEST_SPLIT=1)"
+ },
+ "historical_test_exposure": {
+  "exp0012_task_scoring": "run_eval.py / report.py: preregistered TEST evaluation of the EXP-0012 arms (before EXP-0013)",
+  "exp0013_phase1_1_timing_traces": "phase11_timing.record built E.BatchEnv(1, 'test', DIST) for 15 episodes per trigger (seeds 31..45; layout ids drawn from 2000-2199); used only to time inference; no success metric, tuning, code selection or claim depends on it",
+  "exp0013_la_task_scoring_on_test": "none: no OccPick2D-LA environment was ever constructed on the test split"
+ }
+}

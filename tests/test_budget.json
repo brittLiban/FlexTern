@@ -1,0 +1,4 @@
+{
+ "_doc": "Recorded per-module wall seconds (one module per process, Windows host Python 3.12, founder laptop) used by scripts/run_tests.py to build chunks under the 900 s budget. Modules not listed default to 120 s. Refreshed by the closeout profiling run; see EXP-0013-phase1-1-closeout.md section 11.",
+ "modules_seconds": {}
+}

@@ -1,0 +1,42 @@
+== reproduction of the historical per-episode outcomes (unchanged code)
+LA_CLEAR {'greedy': (True, 0), 'reactive_memory': (True, 0), 'oracle_descent': (True, 0), 'obs_A_single_frame': (True, 0), 'obs_B_map_memory': (True, 0)}
+LA_NOM {'greedy': (True, 0), 'reactive_memory': (True, 0), 'oracle_descent': (True, 0), 'obs_A_single_frame': (True, 0), 'obs_B_map_memory': (True, 0)}
+LA_OCC {'greedy': (True, 0), 'reactive_memory': (True, 0), 'oracle_descent': (True, 0), 'obs_A_single_frame': (True, 0), 'obs_B_map_memory': (True, 0)}
+== historical defect: episodes with different blackout sequences between controllers
+LA_CLEAR {'obs_A_single_frame|obs_B_map_memory': 0, 'obs_B_map_memory|oracle_descent': 0, 'obs_A_single_frame|oracle_descent': 0, 'obs_B_map_memory|reactive_memory': 0, 'obs_A_single_frame|greedy': 0, 'greedy|oracle_descent': 0}
+LA_NOM {'obs_A_single_frame|obs_B_map_memory': 169, 'obs_B_map_memory|oracle_descent': 169, 'obs_A_single_frame|oracle_descent': 163, 'obs_B_map_memory|reactive_memory': 170, 'obs_A_single_frame|greedy': 193, 'greedy|oracle_descent': 164}
+LA_OCC {'obs_A_single_frame|obs_B_map_memory': 195, 'obs_B_map_memory|oracle_descent': 199, 'obs_A_single_frame|oracle_descent': 197, 'obs_B_map_memory|reactive_memory': 200, 'obs_A_single_frame|greedy': 200, 'greedy|oracle_descent': 198}
+== paired replay
+LA_CLEAR layouts 87 sched 886db08b80c0b145 invariants True True True
+   greedy 0.235 0.235 wilson [0.182, 0.298] cluster [0.15458102065988283, 0.3197969543147208] ub0 None delta_v1 -0.005
+   reactive_memory 0.29 0.38 wilson [0.232, 0.356] cluster [0.1943121191604604, 0.38786923151421243] ub0 None delta_v1 -0.005
+   oracle_descent 1.0 1.0 wilson [0.981, 1.0] cluster None ub0 0.03384761068161957 delta_v1 0.0
+   obs_A_single_frame 0.995 0.995 wilson [0.972, 0.999] cluster [0.9835164835164835, 1.0] ub0 None delta_v1 -0.005
+   obs_B_map_memory 1.0 1.0 wilson [0.981, 1.0] cluster None ub0 0.03384761068161957 delta_v1 0.0
+   obs_A_single_frame|obs_B_map_memory -0.005 [-0.016483516483516536, 0.0] {'a_only': 0, 'b_only': 1, 'discordant': 1, 'p_exact': 1.0, 'note': ''}
+   obs_B_map_memory|oracle_descent 0.0 None {'a_only': 0, 'b_only': 0, 'discordant': 0, 'p_exact': None, 'note': '0 discordant pairs: no test is defined'}
+   obs_A_single_frame|oracle_descent -0.005 [-0.016483516483516536, 0.0] {'a_only': 0, 'b_only': 1, 'discordant': 1, 'p_exact': 1.0, 'note': ''}
+   obs_B_map_memory|reactive_memory 0.71 [0.6121307684857876, 0.8056878808395396] {'a_only': 142, 'b_only': 0, 'discordant': 142, 'p_exact': 3.587324068671532e-43, 'note': ''}
+   obs_A_single_frame|greedy 0.76 [0.6749969211822661, 0.8415383149065956] {'a_only': 152, 'b_only': 0, 'discordant': 152, 'p_exact': 3.503246160812043e-46, 'note': ''}
+LA_NOM layouts 87 sched e77aea566666a7df invariants True True True
+   greedy 0.235 0.235 wilson [0.182, 0.298] cluster [0.15458102065988283, 0.3197969543147208] ub0 None delta_v1 -0.005
+   reactive_memory 0.29 0.38 wilson [0.232, 0.356] cluster [0.1943121191604604, 0.38786923151421243] ub0 None delta_v1 -0.005
+   oracle_descent 1.0 1.0 wilson [0.981, 1.0] cluster None ub0 0.03384761068161957 delta_v1 0.0
+   obs_A_single_frame 0.97 0.995 wilson [0.936, 0.986] cluster [0.9453551912568307, 0.9906114255627221] ub0 None delta_v1 -0.01
+   obs_B_map_memory 1.0 1.0 wilson [0.981, 1.0] cluster None ub0 0.03384761068161957 delta_v1 0.0
+   obs_A_single_frame|obs_B_map_memory -0.03 [-0.05464480874316935, -0.009388574437277893] {'a_only': 0, 'b_only': 6, 'discordant': 6, 'p_exact': 0.03125, 'note': ''}
+   obs_B_map_memory|oracle_descent 0.0 None {'a_only': 0, 'b_only': 0, 'discordant': 0, 'p_exact': None, 'note': '0 discordant pairs: no test is defined'}
+   obs_A_single_frame|oracle_descent -0.03 [-0.05464480874316935, -0.009388574437277893] {'a_only': 0, 'b_only': 6, 'discordant': 6, 'p_exact': 0.03125, 'note': ''}
+   obs_B_map_memory|reactive_memory 0.71 [0.6121307684857876, 0.8056878808395396] {'a_only': 142, 'b_only': 0, 'discordant': 142, 'p_exact': 3.587324068671532e-43, 'note': ''}
+   obs_A_single_frame|greedy 0.735 [0.6549955583756345, 0.8137254901960784] {'a_only': 147, 'b_only': 0, 'discordant': 147, 'p_exact': 1.1210387714598537e-44, 'note': ''}
+LA_OCC layouts 87 sched 4ecfb3bf08322723 invariants True True True
+   greedy 0.235 0.235 wilson [0.182, 0.298] cluster [0.15458102065988283, 0.3197969543147208] ub0 None delta_v1 -0.015
+   reactive_memory 0.29 0.38 wilson [0.232, 0.356] cluster [0.1943121191604604, 0.38786923151421243] ub0 None delta_v1 -0.005
+   oracle_descent 1.0 1.0 wilson [0.981, 1.0] cluster None ub0 0.03384761068161957 delta_v1 0.0
+   obs_A_single_frame 0.56 0.725 wilson [0.491, 0.627] cluster [0.47638974044553445, 0.6379351395730707] ub0 None delta_v1 -0.055
+   obs_B_map_memory 1.0 1.0 wilson [0.981, 1.0] cluster None ub0 0.03384761068161957 delta_v1 0.0
+   obs_A_single_frame|obs_B_map_memory -0.44 [-0.5236102595544655, -0.3620648604269293] {'a_only': 0, 'b_only': 88, 'discordant': 88, 'p_exact': 6.462348535570529e-27, 'note': ''}
+   obs_B_map_memory|oracle_descent 0.0 None {'a_only': 0, 'b_only': 0, 'discordant': 0, 'p_exact': None, 'note': '0 discordant pairs: no test is defined'}
+   obs_A_single_frame|oracle_descent -0.44 [-0.5236102595544655, -0.3620648604269293] {'a_only': 0, 'b_only': 88, 'discordant': 88, 'p_exact': 6.462348535570529e-27, 'note': ''}
+   obs_B_map_memory|reactive_memory 0.71 [0.6121307684857876, 0.8056878808395396] {'a_only': 142, 'b_only': 0, 'discordant': 142, 'p_exact': 3.587324068671532e-43, 'note': ''}
+   obs_A_single_frame|greedy 0.325 [0.25116031667491345, 0.39890917370425566] {'a_only': 74, 'b_only': 9, 'discordant': 83, 'p_exact': 7.707195762739296e-14, 'note': ''}
