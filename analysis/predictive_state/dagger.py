@@ -12,6 +12,7 @@ import torch
 
 from . import env as E
 from . import expert as X
+from . import infer as I
 from . import models as M
 from . import train as T
 
@@ -36,7 +37,7 @@ def collect(net, n_episodes, seed, Tn=T.T_TRAIN, betas=(0.0, 0.3, 0.6), batch=25
             prop = torch.from_numpy(obs["prop"]).to(dev)
             task = torch.from_numpy(obs["task"]).to(dev)
             valid = torch.from_numpy(obs["valid"]).float().to(dev)
-            z = net.enc(M.to_x(img), task)
+            z = I.gated_encode(net.enc, img, task, (valid > 0.5) & torch.from_numpy(alive).to(dev))   # EXP-0013: no encoder on blackout/finished rows (same z where it matters: cell and policy multiply z by valid)
             h = net.cell_step(h, z, valid, prop, task, a_prev)
             lg = net.policy(h, prop, task, z * valid[:, None])
             pa = torch.cat([torch.tanh(lg[:, :2]), (lg[:, 2:3] > 0).float()], -1).cpu().numpy()

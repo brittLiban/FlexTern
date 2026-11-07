@@ -1,0 +1,281 @@
+"""EXP-0013 Phase 1.1: paired, interleaved latency attribution (legacy EXP-0012 step vs the shared RecurrentRunner).
+
+Identical inputs: a closed-loop trace per trigger is recorded once; every variant then replays the SAME (img, valid, prop, task)
+sequence, so differences are implementation, not episode content. Variants are interleaved and rotated each repetition, with
+warm-up repetitions discarded and the GC disabled while timing.
+  legacy      : the EXP-0012 batch-1 step (python-scalar trigger decision) from git history (`_latency_exp0012`), with two deviations:
+                a `fixed` branch added (the original did not support it), and `pool_feat` is computed every step as in the original,
+                so in `full` mode legacy pays for pooling the runner skips (this is why the runner is slightly faster on `full`)
+  runner      : RecurrentRunner, counters on (track=True)           -- what Phase 1 shipped
+  runner_nt   : RecurrentRunner, track=False (no per-step device->host stat sync)
+  runner_tm   : RecurrentRunner with timing=True (component split trigger / encoder / update; adds 4 perf_counter calls)
+Also: batched evaluation wall time (CPU and, if present, GPU), legacy vs gated vs gated+select_alive, and the MAC budget.
+Usage: python -m analysis.predictive_state.phase11_timing CKPT OUT.json [reps]   |   ... ops CKPT OUT.json  (aten op counts per step)
+"""
+from __future__ import annotations
+
+import gc
+import json
+import platform
+import sys
+import time
+
+import numpy as np
+import torch
+
+from . import env as E
+from . import evaluate as V
+from . import infer as I
+from . import models as M
+from . import train as T
+
+TAUS = {"full": "full", "fixed:0.25": "fixed:0.25", "pix:0.0199": "pix:0.0199", "learned:0.1445": "learned:0.1445"}
+
+
+@torch.no_grad()
+def record(net, trigger, episodes=15, seed=31):
+    """Closed-loop trace with the runner: list of episodes, each a list of (img, valid, prop, task) tensors."""
+    eps = []
+    for ep in range(episodes):
+        env = E.BatchEnv(1, "test", E.TEST_CONDS["DIST"], seed=seed + ep)
+        obs = env.reset()
+        r = I.RecurrentRunner(net, trigger, 1, "cpu", track=False)
+        tr = []
+        for t in range(E.T_PICK):
+            if env.done[0]:
+                break
+            x = (torch.from_numpy(obs["img"]), torch.from_numpy(obs["valid"]), torch.from_numpy(obs["prop"]), torch.from_numpy(obs["task"]))
+            tr.append(x)
+            act, _ = r.step(*x, torch.ones(1, dtype=torch.bool))
+            obs, _ = env.step(act.numpy())
+        eps.append(tr)
+    return eps
+
+
+class Legacy:
+    """EXP-0012 batch-1 step (python-scalar decisions), semantics of _latency_exp0012.py plus a `fixed` branch (see module docstring)."""
+    def __init__(self, net, trigger):
+        self.net = net
+        self.kind, self.par = I.parse_trigger(trigger)
+        self.h = net.init_state(1, "cpu"); self.a_prev = torch.zeros(1, 3)
+        self.since, self.last_pool, self.prev_task, self.prev_held, self.prev_grip, self.t = 0, None, None, False, False, 0
+        self.acc = 0.0
+
+    def step(self, img, valid, prop, task):
+        net = self.net
+        pool = M.pool_feat(img)
+        do = bool(valid[0])
+        if self.kind != "full":
+            forced = self.since >= I.KMAX_SKIP or self.t == 0 or (self.prev_task is not None and bool((task != self.prev_task).any())) \
+                or (self.prev_held and prop[0, 2] < 0.5 and self.prev_grip)
+            if self.kind == "pix":
+                want = self.last_pool is None or float((pool - self.last_pool).pow(2).mean().sqrt()) > self.par
+            elif self.kind == "fixed":
+                self.acc += self.par
+                want = self.acc >= 1.0
+                if want and do:
+                    self.acc -= 1.0
+                self.acc = min(self.acc, 2.0)
+            else:
+                want = float(net.trig(torch.cat([self.h, self.a_prev, pool], -1))) > self.par
+            do = do and (forced or want)
+        z = net.enc(M.to_x(img), task) if do else torch.zeros(1, M.Z)
+        vf = torch.tensor([1.0 if do else 0.0])
+        self.h = net.cell_step(self.h, z, vf, prop, task, self.a_prev)
+        lg = net.policy(self.h, prop, task, z * vf[:, None])
+        act = torch.cat([torch.tanh(lg[:, :2]), (lg[:, 2:3] > 0).float()], -1)
+        self.since = 0 if do else self.since + 1
+        self.last_pool = pool if (do or self.last_pool is None) else self.last_pool
+        self.prev_task, self.prev_held, self.prev_grip, self.a_prev = task, bool(prop[0, 2] > 0.5), bool(prop[0, 3] > 0.5), act
+        self.t += 1
+        return act, do
+
+
+def make(variant, net, trigger):
+    if variant == "legacy":
+        return Legacy(net, trigger)
+    return I.RecurrentRunner(net, trigger, 1, "cpu", timing=(variant == "runner_tm"), track=(variant != "runner_nt"))
+
+
+@torch.no_grad()
+def replay(variant, net, trigger, eps):
+    lat, acts, flags = [], [], []
+    agg = {}
+    one = torch.ones(1, dtype=torch.bool)
+    for tr in eps:
+        s = make(variant, net, trigger)
+        for x in tr:
+            t0 = time.perf_counter()
+            if variant == "legacy":
+                a, do = s.step(*x)
+            else:
+                a, m = s.step(*x, one)
+                do = bool(m[0])
+            lat.append(time.perf_counter() - t0)
+            acts.append(a.numpy().copy()); flags.append(do)
+        if variant != "legacy":
+            for k, v in s.counters.as_dict().items():
+                agg[k] = agg.get(k, 0) + v
+    return np.array(lat), np.concatenate(acts), np.array(flags), (agg if variant != "legacy" else None)
+
+
+def boot_ci(x, f=np.mean, B=2000, seed=0):
+    rng = np.random.default_rng(seed)
+    x = np.asarray(x)
+    v = [f(x[rng.integers(0, len(x), len(x))]) for _ in range(B)]
+    return [float(np.percentile(v, 2.5)), float(np.percentile(v, 97.5))]
+
+
+def latency_block(net, trig, threads, reps, eps):
+    torch.set_num_threads(threads)
+    variants = ["legacy", "runner", "runner_nt", "runner_tm"]
+    for v in variants:                                   # warm-up (discarded)
+        replay(v, net, trig, eps[:3])
+    gc.disable()
+    L = {v: [] for v in variants}
+    ref = None
+    for rep in range(reps):
+        order = variants[rep % 4:] + variants[:rep % 4]
+        for v in order:
+            lat, acts, flags, cnt = replay(v, net, trig, eps)
+            L[v].append(lat)
+            if rep == 0:
+                if ref is None:
+                    ref = (acts, flags)
+                L[v + "_acts_ok"] = bool(np.allclose(acts, ref[0], atol=1e-5)) and bool((flags == ref[1]).all())
+                if v == "runner_tm":
+                    L["comp"] = cnt
+    gc.enable()
+    out = {"n_steps": int(len(L["legacy"][0])), "enc_frac": float(ref[1].mean()), "reps": reps, "variants": {}}
+    base = np.median(np.stack(L["legacy"]), 0)           # per-step median over reps (robust to scheduler spikes)
+    for v in variants:
+        per_step = np.median(np.stack(L[v]), 0)
+        d = per_step - base
+        out["variants"][v] = {"p50_ms": float(np.percentile(per_step, 50) * 1e3), "p95_ms": float(np.percentile(per_step, 95) * 1e3),
+                              "mean_ms": float(per_step.mean() * 1e3),
+                              "mean_ms_ci95": [x * 1e3 for x in boot_ci(per_step)],
+                              "paired_diff_vs_legacy_mean_ms": float(d.mean() * 1e3), "paired_diff_ci95_ms": [x * 1e3 for x in boot_ci(d)],
+                              "rep_means_ms": [float(l.mean() * 1e3) for l in L[v]],
+                              "same_actions_and_decisions_as_first": L.get(v + "_acts_ok")}
+    c = L["comp"]
+    out["component_mean_ms_runner_tm"] = {k: 1e3 * c[k] / out["n_steps"] for k in ("t_trigger", "t_encoder", "t_update")}
+    out["tm_counters"] = {k: c[k] for k in ("steps", "enc_calls", "enc_samples", "rec_updates", "policy_rows", "trigger_rows")}
+    return out
+
+
+def synced(dev):
+    if dev != "cpu":
+        torch.cuda.synchronize()
+    return time.perf_counter()
+
+
+def batched_block(net, dev, n, reps, trigger):
+    """Wall time of a whole batched evaluation (rollout), paired + interleaved: legacy / gated(select_alive=False) / gated."""
+    cond = E.TEST_CONDS["NOM"]
+    fns = {"legacy": lambda: V.rollout_legacy(net, "dev", cond, 5, n, trigger, dev),
+           "gated_fullbatch": lambda: V.rollout(net, "dev", cond, 5, n, trigger, dev, select_alive=False),
+           "gated_selective": lambda: V.rollout(net, "dev", cond, 5, n, trigger, dev, select_alive=True)}
+    names = list(fns)
+    for k in names:
+        fns[k]()
+    W = {k: [] for k in names}
+    R = {}
+    for rep in range(reps):
+        for k in names[rep % 3:] + names[:rep % 3]:
+            t0 = synced(dev)
+            r = fns[k]()
+            W[k].append(synced(dev) - t0)
+            R[k] = r
+    out = {"episodes": n, "reps": reps, "variants": {}}
+    for k in names:
+        out["variants"][k] = {"wall_s_median": float(np.median(W[k])), "wall_s_min": float(np.min(W[k])), "wall_s_all": [float(x) for x in W[k]],
+                              "success": float(R[k]["success"].mean()), "enc_count": float(R[k]["enc_count"].sum())}
+        if "counters" in R[k]:
+            out["variants"][k]["counters"] = {q: R[k]["counters"][q] for q in ("enc_calls", "enc_samples", "rec_updates", "policy_rows", "active_steps", "finished_rows_processed")}
+    out["identical_per_episode_success"] = bool((R["legacy"]["success"] == R["gated_selective"]["success"]).all() and (R["gated_fullbatch"]["success"] == R["gated_selective"]["success"]).all())
+    return out
+
+
+def mac_budget(net):
+    macs = {"enc": 0, "cell": 0, "pol": 0, "trig": 0}
+    hooks = []
+
+    def mk(key):
+        def hook(mod, inp, out):
+            if isinstance(mod, torch.nn.Conv2d):
+                macs[key] += out.numel() // out.shape[0] * mod.in_channels * mod.kernel_size[0] * mod.kernel_size[1] // mod.groups
+            elif isinstance(mod, torch.nn.Linear):
+                macs[key] += mod.in_features * mod.out_features
+        return hook
+    for key, root in (("enc", net.enc), ("cell", net.cell), ("pol", net.pol), ("trig", net.trig)):
+        for m in root.modules():
+            if isinstance(m, (torch.nn.Conv2d, torch.nn.Linear)):
+                hooks.append(m.register_forward_hook(mk(key)))
+    img = torch.zeros(1, 32, 32, 3, dtype=torch.uint8); task = torch.zeros(1, E.N_COLORS); task[0, 0] = 1
+    prop = torch.zeros(1, 4)
+    with torch.no_grad():
+        z = net.enc(M.to_x(img), task)
+        h = net.cell_step(net.init_state(1, "cpu"), z, torch.ones(1), prop, task, torch.zeros(1, 3))
+        net.policy(h, prop, task, z)
+        net.trig(torch.cat([h, torch.zeros(1, 3), M.pool_feat(img)], -1))
+    for h_ in hooks:
+        h_.remove()
+    return macs
+
+
+def op_counts(net, eps, trig):
+    """Dispatched aten ops per step (torch.profiler), legacy vs runner(track on/off): attributes the batch-1 overhead to op dispatch."""
+    from torch.profiler import profile, ProfilerActivity
+    torch.set_num_threads(1)
+    out = {}
+    for v in ("legacy", "runner", "runner_nt"):
+        with profile(activities=[ProfilerActivity.CPU]) as prof:
+            _, _, _, _ = replay(v, net, trig, eps[:3])
+        n_steps = sum(len(e) for e in eps[:3])
+        ops = [e for e in prof.events() if e.name.startswith("aten::") and e.cpu_parent is None or (e.name.startswith("aten::") and not e.name.startswith("aten::_") and e.cpu_parent is not None and not e.cpu_parent.name.startswith("aten::"))]
+        top = [e for e in prof.events() if e.name.startswith("aten::") and (e.cpu_parent is None or not e.cpu_parent.name.startswith("aten::"))]
+        out[v] = {"top_level_aten_ops_per_step": len(top) / n_steps, "steps": n_steps,
+                  "total_self_cpu_ms_per_step": sum(e.self_cpu_time_total for e in prof.events()) / 1e3 / n_steps}
+    return out
+
+
+def main_ops():
+    ck, out = sys.argv[2], sys.argv[3]
+    net, _ = T.load_net(ck, "cpu")
+    res = {}
+    for trig_name, trig in TAUS.items():
+        eps = record(net, trig, episodes=3)
+        res[trig_name] = op_counts(net, eps, trig)
+        print(trig_name, {k: round(v["top_level_aten_ops_per_step"], 1) for k, v in res[trig_name].items()}, flush=True)
+    json.dump(res, open(out, "w"), indent=1)
+
+
+def main():
+    if sys.argv[1] == "ops":
+        return main_ops()
+    ck, out = sys.argv[1], sys.argv[2]
+    reps = int(sys.argv[3]) if len(sys.argv) > 3 else 12
+    net, _ = T.load_net(ck, "cpu")
+    res = {"checkpoint": ck, "platform": platform.platform(), "torch": torch.__version__, "cpu_threads_default": torch.get_num_threads(),
+           "cuda": torch.cuda.is_available(), "protocol": "trace replay, interleaved+rotated variants, warm-up discarded, gc off, per-step median over reps",
+           "mac_budget_per_step": mac_budget(net), "batch1": {}, "batched": {}}
+    for trig_name, trig in TAUS.items():
+        eps = record(net, trig)
+        for th in (1, 4):
+            res["batch1"][f"threads{th}|{trig_name}"] = latency_block(net, trig, th, reps, eps)
+            v = res["batch1"][f"threads{th}|{trig_name}"]["variants"]
+            print(th, trig_name, {k: round(v[k]["p50_ms"], 3) for k in v}, flush=True)
+    torch.set_num_threads(4)
+    for trig_name, trig in (("full", "full"), ("fixed:0.25", "fixed:0.25"), ("pix:0.0199", "pix:0.0199")):
+        res["batched"][f"cpu|{trig_name}"] = batched_block(net, "cpu", 32, 5, trig)
+        print("cpu", trig_name, {k: round(v["wall_s_median"], 3) for k, v in res["batched"][f"cpu|{trig_name}"]["variants"].items()}, flush=True)
+    if torch.cuda.is_available():
+        netg, _ = T.load_net(ck, "cuda")
+        for trig_name, trig in (("full", "full"), ("fixed:0.25", "fixed:0.25"), ("pix:0.0199", "pix:0.0199")):
+            res["batched"][f"cuda|{trig_name}"] = batched_block(netg, "cuda", 64, 7, trig)
+            print("cuda", trig_name, {k: round(v["wall_s_median"], 3) for k, v in res["batched"][f"cuda|{trig_name}"]["variants"].items()}, flush=True)
+    json.dump(res, open(out, "w"), indent=1)
+
+
+if __name__ == "__main__":
+    main()

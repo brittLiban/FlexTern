@@ -1,0 +1,28 @@
+{
+ "train": {
+  "n": 150,
+  "wall_iou_mean": 1.0,
+  "wall_iou_min": 1.0,
+  "target_visible_frac": 1.0,
+  "target_pos_err_mean": 0.005893248175658907,
+  "target_pos_err_p95": 0.010141564765945077,
+  "goal_found_frac": 0.9933333333333333,
+  "goal_center_err_mean": 0.011783857739236731,
+  "goal_center_err_p95": 0.048632778227329254,
+  "path_length_error_parsed_minus_true_mean": 0.04910726845264435,
+  "path_length_error_abs_p95": 0.10292845219373703
+ },
+ "dev": {
+  "n": 150,
+  "wall_iou_mean": 1.0,
+  "wall_iou_min": 1.0,
+  "target_visible_frac": 1.0,
+  "target_pos_err_mean": 0.005433636926657831,
+  "target_pos_err_p95": 0.010832646302878857,
+  "goal_found_frac": 1.0,
+  "goal_center_err_mean": 0.010028042801034948,
+  "goal_center_err_p95": 0.03133170660585152,
+  "path_length_error_parsed_minus_true_mean": 0.04354393482208252,
+  "path_length_error_abs_p95": 0.10302465409040451
+ }
+}

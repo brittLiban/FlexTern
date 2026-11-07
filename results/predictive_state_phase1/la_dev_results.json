@@ -1,0 +1,330 @@
+{
+ "split": "dev",
+ "n": 200,
+ "seed": 5001,
+ "budget": 65,
+ "controllers": {
+  "greedy": {
+   "success_at_budget": 0.24,
+   "ci95": [
+    0.1860652685202468,
+    0.3037346545572801
+   ],
+   "success_at_80": 0.24,
+   "success_vs_budget": {
+    "30": 0.135,
+    "40": 0.215,
+    "50": 0.225,
+    "60": 0.235,
+    "66": 0.24,
+    "80": 0.24
+   },
+   "median_finish_successful": 29.5,
+   "fail_kinds": {
+    "timeout": 152
+   },
+   "effort": {
+    "sim_steps": 0,
+    "decisions": 0,
+    "expanded": 0
+   },
+   "wall_s": 4.144321500003571,
+   "sim_steps_per_decision": 0.0
+  },
+  "reactive": {
+   "success_at_budget": 0.26,
+   "ci95": [
+    0.20413736892786316,
+    0.32490871391293097
+   ],
+   "success_at_80": 0.26,
+   "success_vs_budget": {
+    "30": 0.155,
+    "40": 0.21,
+    "50": 0.245,
+    "60": 0.26,
+    "66": 0.26,
+    "80": 0.26
+   },
+   "median_finish_successful": 29.0,
+   "fail_kinds": {
+    "timeout": 148
+   },
+   "effort": {
+    "sim_steps": 0,
+    "decisions": 13508,
+    "expanded": 0,
+    "ray_casts": 23923
+   },
+   "wall_s": 5.024748499999987,
+   "sim_steps_per_decision": 0.0
+  },
+  "reactive_memory": {
+   "success_at_budget": 0.295,
+   "ci95": [
+    0.23613844271901735,
+    0.3615884197074943
+   ],
+   "success_at_80": 0.435,
+   "success_vs_budget": {
+    "30": 0.155,
+    "40": 0.21,
+    "50": 0.245,
+    "60": 0.26,
+    "66": 0.31,
+    "80": 0.435
+   },
+   "median_finish_successful": 41.0,
+   "fail_kinds": {
+    "timeout": 113
+   },
+   "effort": {
+    "sim_steps": 0,
+    "decisions": 13120,
+    "expanded": 0,
+    "ray_casts": 18557
+   },
+   "wall_s": 4.76707569998689,
+   "sim_steps_per_decision": 0.0
+  },
+  "oracle_descent": {
+   "success_at_budget": 1.0,
+   "ci95": [
+    0.9811539940816791,
+    1.0
+   ],
+   "success_at_80": 1.0,
+   "success_vs_budget": {
+    "30": 0.48,
+    "40": 0.91,
+    "50": 1.0,
+    "60": 1.0,
+    "66": 1.0,
+    "80": 1.0
+   },
+   "median_finish_successful": 31.0,
+   "fail_kinds": {},
+   "effort": {
+    "sim_steps": 113112,
+    "decisions": 6284,
+    "expanded": 1356668
+   },
+   "wall_s": 6.385676000005333,
+   "sim_steps_per_decision": 18.0
+  },
+  "oracle_shoot_euclid_H1": {
+   "success_at_budget": 0.24,
+   "ci95": [
+    0.1860652685202468,
+    0.3037346545572801
+   ],
+   "success_at_80": 0.24,
+   "success_vs_budget": {
+    "30": 0.185,
+    "40": 0.24,
+    "50": 0.24,
+    "60": 0.24,
+    "66": 0.24,
+    "80": 0.24
+   },
+   "median_finish_successful": 27.0,
+   "fail_kinds": {
+    "timeout": 152
+   },
+   "effort": {
+    "sim_steps": 862848,
+    "decisions": 13482,
+    "expanded": 1356668
+   },
+   "wall_s": 3.710977800015826,
+   "sim_steps_per_decision": 64.0
+  },
+  "oracle_shoot_euclid_H5": {
+   "success_at_budget": 0.205,
+   "ci95": [
+    0.15486094831106376,
+    0.26625819518074556
+   ],
+   "success_at_80": 0.26,
+   "success_vs_budget": {
+    "30": 0.01,
+    "40": 0.055,
+    "50": 0.1,
+    "60": 0.18,
+    "66": 0.21,
+    "80": 0.26
+   },
+   "median_finish_successful": 53.5,
+   "fail_kinds": {
+    "timeout": 148
+   },
+   "effort": {
+    "sim_steps": 4688320,
+    "decisions": 14651,
+    "expanded": 1326037
+   },
+   "wall_s": 5.335899600002449,
+   "sim_steps_per_decision": 320.0
+  },
+  "oracle_shoot_euclid_H10": {
+   "success_at_budget": 0.0,
+   "ci95": [
+    0.0,
+    0.018846005918320894
+   ],
+   "success_at_80": 0.03,
+   "success_vs_budget": {
+    "30": 0.0,
+    "40": 0.0,
+    "50": 0.0,
+    "60": 0.0,
+    "66": 0.0,
+    "80": 0.03
+   },
+   "median_finish_successful": 79.0,
+   "fail_kinds": {
+    "timeout": 194
+   },
+   "effort": {
+    "sim_steps": 10234240,
+    "decisions": 15991,
+    "expanded": 895286
+   },
+   "wall_s": 6.206169999990379,
+   "sim_steps_per_decision": 640.0
+  },
+  "oracle_shoot_euclid_H20": {
+   "success_at_budget": 0.0,
+   "ci95": [
+    0.0,
+    0.018846005918320894
+   ],
+   "success_at_80": 0.005,
+   "success_vs_budget": {
+    "30": 0.0,
+    "40": 0.0,
+    "50": 0.0,
+    "60": 0.0,
+    "66": 0.0,
+    "80": 0.005
+   },
+   "median_finish_successful": 79.0,
+   "fail_kinds": {
+    "timeout": 199
+   },
+   "effort": {
+    "sim_steps": 20478720,
+    "decisions": 15999,
+    "expanded": 898932
+   },
+   "wall_s": 8.796126500004902,
+   "sim_steps_per_decision": 1280.0
+  },
+  "oracle_shoot_geodesic_H1": {
+   "success_at_budget": 1.0,
+   "ci95": [
+    0.9811539940816791,
+    1.0
+   ],
+   "success_at_80": 1.0,
+   "success_vs_budget": {
+    "30": 0.485,
+    "40": 0.91,
+    "50": 1.0,
+    "60": 1.0,
+    "66": 1.0,
+    "80": 1.0
+   },
+   "median_finish_successful": 31.0,
+   "fail_kinds": {},
+   "effort": {
+    "sim_steps": 401600,
+    "decisions": 6275,
+    "expanded": 1356668
+   },
+   "wall_s": 3.2017954999755602,
+   "sim_steps_per_decision": 64.0
+  },
+  "oracle_shoot_geodesic_H5": {
+   "success_at_budget": 0.55,
+   "ci95": [
+    0.48075488574571107,
+    0.6173605136624569
+   ],
+   "success_at_80": 0.755,
+   "success_vs_budget": {
+    "30": 0.02,
+    "40": 0.11,
+    "50": 0.27,
+    "60": 0.46,
+    "66": 0.565,
+    "80": 0.755
+   },
+   "median_finish_successful": 56.0,
+   "fail_kinds": {
+    "timeout": 49
+   },
+   "effort": {
+    "sim_steps": 3959040,
+    "decisions": 12372,
+    "expanded": 1319151
+   },
+   "wall_s": 5.8359994999773335,
+   "sim_steps_per_decision": 320.0
+  },
+  "oracle_shoot_geodesic_H10": {
+   "success_at_budget": 0.02,
+   "ci95": [
+    0.007804300176394188,
+    0.050287865505193874
+   ],
+   "success_at_80": 0.035,
+   "success_vs_budget": {
+    "30": 0.0,
+    "40": 0.005,
+    "50": 0.01,
+    "60": 0.02,
+    "66": 0.02,
+    "80": 0.035
+   },
+   "median_finish_successful": 60.0,
+   "fail_kinds": {
+    "timeout": 193
+   },
+   "effort": {
+    "sim_steps": 10149120,
+    "decisions": 15858,
+    "expanded": 891968
+   },
+   "wall_s": 7.050711100018816,
+   "sim_steps_per_decision": 640.0
+  },
+  "oracle_shoot_geodesic_H20": {
+   "success_at_budget": 0.0,
+   "ci95": [
+    0.0,
+    0.018846005918320894
+   ],
+   "success_at_80": 0.0,
+   "success_vs_budget": {
+    "30": 0.0,
+    "40": 0.0,
+    "50": 0.0,
+    "60": 0.0,
+    "66": 0.0,
+    "80": 0.0
+   },
+   "median_finish_successful": null,
+   "fail_kinds": {
+    "timeout": 200
+   },
+   "effort": {
+    "sim_steps": 20480000,
+    "decisions": 16000,
+    "expanded": 885070
+   },
+   "wall_s": 9.413172500004293,
+   "sim_steps_per_decision": 1280.0
+  }
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "checkpoint": "/home/liban/ps_ckpt/G_s0.pt",
+ "device": "cuda",
+ "torch": "2.11.0+cu128",
+ "episodes": 32,
+ "cond": "NOM",
+ "seed": 5,
+ "runs": {
+  "full": {
+   "legacy": {
+    "executed_enc_calls": 80,
+    "executed_enc_samples": 2560,
+    "logical_enc_count": 1303.0,
+    "alive_steps": 1501.0,
+    "success": 0.65625,
+    "wall_s": 0.7746238710024045
+   },
+   "gated": {
+    "executed_enc_calls": 80,
+    "executed_enc_samples": 1303,
+    "logical_enc_count": 1303.0,
+    "alive_steps": 1501.0,
+    "success": 0.65625,
+    "wall_s": 0.7994285560052958
+   },
+   "identical_per_episode_success": true
+  },
+  "fixed:0.25": {
+   "legacy": {
+    "executed_enc_calls": 80,
+    "executed_enc_samples": 2560,
+    "logical_enc_count": 331.0,
+    "alive_steps": 1302.0,
+    "success": 0.71875,
+    "wall_s": 0.7978640529981931
+   },
+   "gated": {
+    "executed_enc_calls": 49,
+    "executed_enc_samples": 331,
+    "logical_enc_count": 331.0,
+    "alive_steps": 1302.0,
+    "success": 0.71875,
+    "wall_s": 0.8384414249958354
+   },
+   "identical_per_episode_success": true
+  },
+  "pix:0.03": {
+   "legacy": {
+    "executed_enc_calls": 80,
+    "executed_enc_samples": 2560,
+    "logical_enc_count": 313.0,
+    "alive_steps": 1412.0,
+    "success": 0.71875,
+    "wall_s": 0.6523541360002127
+   },
+   "gated": {
+    "executed_enc_calls": 72,
+    "executed_enc_samples": 313,
+    "logical_enc_count": 313.0,
+    "alive_steps": 1412.0,
+    "success": 0.71875,
+    "wall_s": 0.8327393049985403
+   },
+   "identical_per_episode_success": true
+  }
+ }
+}
