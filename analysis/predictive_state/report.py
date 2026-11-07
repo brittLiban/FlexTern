@@ -69,7 +69,7 @@ def row(res, arm, spec="full"):
         per_seed.append(None if any(m is None for m in ms) else float(np.mean([m.mean() for m in ms])))
     lg = vecs(res, arm, "LONG", spec)
     pk = [v["picks_frac"] for k, v in res.items() if k.startswith(f"{arm}|") and "|LONG|" in k and k.endswith("|" + spec) and "|test|" in k]
-    ef = [v["enc_frac"] for k, v in res.items() if k.startswith(f"{arm}|") and "|test|" in k and k.endswith("|" + spec) and "|LONG|" not in k]
+    ef = [v["enc_frac"] for k, v in res.items() if k.startswith(f"{arm}|") and "|test|" in k and k.endswith("|" + spec) and k.split("|")[3] in CONDS]
     return {"cells": cells, "macro": float(np.nanmean(cells)), "per_seed_macro": per_seed, "long_complete": mean_over_seeds(lg),
             "long_picks_frac": float(np.mean(pk)) if pk else float("nan"), "enc_frac": float(np.mean(ef)) if ef else float("nan"), "seeds": seeds}
 
@@ -159,7 +159,15 @@ def main():
         cost[(a, f)] = c
         md.append(f"| {a} | {f:.2f} | {c['macs']/1e3:.0f} | {c['bytes']/1e3:.1f} |")
     if "G" in rows:
-        eligible = [a for a in ("G-I4a", "G-I4u", "G-I8a") if a in rows and rows[a]["macro"] >= 0.95 * G["macro"]]
+        def matched_macro(a, seeds):
+            ms = [x for sd, x in zip(rows[a]["seeds"], rows[a]["per_seed_macro"]) if sd in seeds and x is not None]
+            return float(np.mean(ms)) if ms else float("nan")
+        eligible = []
+        for a in ("G-I4a", "G-I4u", "G-I8a"):
+            if a in rows:
+                common = set(rows[a]["seeds"]) & set(G["seeds"])      # eligibility on MATCHED seeds only
+                if matched_macro(a, common) >= 0.95 * matched_macro("G", common):
+                    eligible.append(a)
         md.append(f"\nControls retaining >=95% of G macro success: {eligible or 'none'}.\n")
         md.append("\n### G4 pairs: candidate vs strongest eligible control under the SAME learned trigger (measured test encoder fraction), analytical ratio control/candidate\n")
         md.append("(all INT4/INT8 controls listed; 'eligible' = retains >=95% of G macro success, the locked eligibility rule. Scope matters: G-Ta quantizes encoder+updater, G-Tu only the updater; the like-for-like INT4 control is the same scope.)\n")

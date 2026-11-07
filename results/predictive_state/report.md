@@ -37,7 +37,7 @@ macro G - G0 = -0.144; bootstrap 95% [-0.164, -0.124]
 
 | model | trigger@budget | NOM | OCC | DIST | HARD | macro | enc fraction | macro / own full | DIST / own full |
 |---|---|---|---|---|---|---|---|---|---|
-| G | full | 0.518 | 0.477 | 0.459 | 0.356 | 0.452 | 0.649 | 1.000 | 1.000 |
+| G | full | 0.518 | 0.477 | 0.459 | 0.356 | 0.452 | 0.713 | 1.000 | 1.000 |
 | G | fixed@0.2 | 0.512 | 0.457 | 0.461 | 0.322 | 0.438 | 0.177 | 0.969 | 1.005 |
 | G | fixed@0.33 | 0.516 | 0.473 | 0.486 | 0.338 | 0.453 | 0.279 | 1.002 | 1.058 |
 | G | fixed@0.5 | 0.539 | 0.486 | 0.500 | 0.359 | 0.471 | 0.415 | 1.041 | 1.090 |
@@ -47,16 +47,16 @@ macro G - G0 = -0.144; bootstrap 95% [-0.164, -0.124]
 | G | pix@0.2 | 0.476 | 0.429 | 0.433 | 0.297 | 0.409 | 0.177 | 0.904 | 0.944 |
 | G | pix@0.33 | 0.513 | 0.457 | 0.458 | 0.337 | 0.441 | 0.287 | 0.975 | 0.998 |
 | G | pix@0.5 | 0.534 | 0.472 | 0.498 | 0.352 | 0.464 | 0.412 | 1.026 | 1.085 |
-| G-I4a | full | 0.487 | 0.410 | 0.469 | 0.322 | 0.422 | 0.647 | 1.000 | 1.000 |
+| G-I4a | full | 0.487 | 0.410 | 0.469 | 0.322 | 0.422 | 0.711 | 1.000 | 1.000 |
 | G-I4a | fixed@0.33 | 0.518 | 0.453 | 0.507 | 0.344 | 0.456 | 0.278 | 1.080 | 1.081 |
 | G-I4a | learned@0.33 | 0.467 | 0.400 | 0.463 | 0.300 | 0.407 | 0.276 | 0.966 | 0.988 |
 | G-I4a | pix@0.33 | 0.518 | 0.417 | 0.481 | 0.319 | 0.434 | 0.290 | 1.028 | 1.026 |
-| G-I4u | full | 0.537 | 0.475 | 0.465 | 0.353 | 0.458 | 0.648 | 1.000 | 1.000 |
+| G-I4u | full | 0.537 | 0.475 | 0.465 | 0.353 | 0.458 | 0.714 | 1.000 | 1.000 |
 | G-I4u | fixed@0.33 | 0.495 | 0.425 | 0.445 | 0.345 | 0.427 | 0.284 | 0.934 | 0.957 |
 | G-I4u | learned@0.33 | 0.460 | 0.392 | 0.445 | 0.293 | 0.398 | 0.254 | 0.869 | 0.957 |
 | G-I4u | pix@0.33 | 0.495 | 0.428 | 0.450 | 0.340 | 0.428 | 0.274 | 0.936 | 0.968 |
-| G-I8a | full | 0.463 | 0.487 | 0.400 | 0.360 | 0.427 | 0.644 | 1.000 | 1.000 |
-| G-Ta | full | 0.596 | 0.599 | 0.529 | 0.424 | 0.537 | 0.653 | 1.000 | 1.000 |
+| G-I8a | full | 0.463 | 0.487 | 0.400 | 0.360 | 0.427 | 0.711 | 1.000 | 1.000 |
+| G-Ta | full | 0.596 | 0.599 | 0.529 | 0.424 | 0.537 | 0.718 | 1.000 | 1.000 |
 | G-Ta | fixed@0.2 | 0.552 | 0.472 | 0.480 | 0.326 | 0.458 | 0.175 | 0.852 | 0.908 |
 | G-Ta | fixed@0.33 | 0.591 | 0.527 | 0.546 | 0.392 | 0.514 | 0.279 | 0.957 | 1.032 |
 | G-Ta | fixed@0.5 | 0.606 | 0.579 | 0.551 | 0.427 | 0.541 | 0.418 | 1.007 | 1.042 |
@@ -66,12 +66,12 @@ macro G - G0 = -0.144; bootstrap 95% [-0.164, -0.124]
 | G-Ta | pix@0.2 | 0.547 | 0.460 | 0.421 | 0.314 | 0.436 | 0.169 | 0.811 | 0.796 |
 | G-Ta | pix@0.33 | 0.596 | 0.542 | 0.560 | 0.387 | 0.521 | 0.281 | 0.971 | 1.059 |
 | G-Ta | pix@0.5 | 0.634 | 0.571 | 0.582 | 0.420 | 0.552 | 0.424 | 1.028 | 1.101 |
-| G-Ta-s8 | full | 0.570 | 0.497 | 0.530 | 0.363 | 0.490 | 0.650 | 1.000 | 1.000 |
-| G-Tu | full | 0.566 | 0.522 | 0.521 | 0.420 | 0.507 | 0.649 | 1.000 | 1.000 |
+| G-Ta-s8 | full | 0.570 | 0.497 | 0.530 | 0.363 | 0.490 | 0.716 | 1.000 | 1.000 |
+| G-Tu | full | 0.566 | 0.522 | 0.521 | 0.420 | 0.507 | 0.715 | 1.000 | 1.000 |
 | G-Tu | fixed@0.33 | 0.636 | 0.556 | 0.552 | 0.438 | 0.545 | 0.282 | 1.075 | 1.060 |
 | G-Tu | learned@0.33 | 0.589 | 0.519 | 0.522 | 0.376 | 0.501 | 0.259 | 0.988 | 1.002 |
 | G-Tu | pix@0.33 | 0.654 | 0.561 | 0.570 | 0.431 | 0.554 | 0.284 | 1.093 | 1.094 |
-| G0 | full | 0.664 | 0.631 | 0.596 | 0.493 | 0.596 | 0.662 | 1.000 | 1.000 |
+| G0 | full | 0.664 | 0.631 | 0.596 | 0.493 | 0.596 | 0.722 | 1.000 | 1.000 |
 
 ## Exploratory (post-hoc, not gated): long blackouts (30-50 steps)
 
@@ -102,7 +102,7 @@ macro G - G0 = -0.144; bootstrap 95% [-0.164, -0.124]
 | R | 1.00 | 1145 | 348.5 |
 | T16 | 1.00 | 1433 | 908.1 |
 
-Controls retaining >=95% of G macro success: ['G-I4u'].
+Controls retaining >=95% of G macro success: none.
 
 
 ### G4 pairs: candidate vs strongest eligible control under the SAME learned trigger (measured test encoder fraction), analytical ratio control/candidate
@@ -112,9 +112,9 @@ Controls retaining >=95% of G macro success: ['G-I4u'].
 | candidate | control | eligible | enc frac cand/control | bytes ratio | MACs ratio |
 |---|---|---|---|---|---|
 | G-Ta | G-I4a | no | 0.27/0.28 | 2.01 | 1.02 |
-| G-Ta | G-I4u | yes | 0.27/0.25 | 3.09 | 0.96 |
+| G-Ta | G-I4u | no | 0.27/0.25 | 3.09 | 0.96 |
 | G-Tu | G-I4a | no | 0.26/0.28 | 0.86 | 1.04 |
-| G-Tu | G-I4u | yes | 0.26/0.25 | 1.33 | 0.99 |
+| G-Tu | G-I4u | no | 0.26/0.25 | 1.33 | 0.99 |
 
 ## State usefulness: ridge probes from the recurrent state / encoder embedding (R^2; standardized features, CV lambda; fit on DEV LONG steps<=100, scored on TEST LONG)
 
@@ -332,21 +332,21 @@ Primary probe = h -> position of the occluded (blackout-frame) target. h->target
   ]
  },
  "G3_G-Ta": {
-  "enc_reduction": 0.5874906491788905,
+  "enc_reduction": 0.6247852628072019,
   "macro_ratio": 0.9125711329539575,
   "dist_ratio": 0.9978991596638657,
   "learned_minus_best_control_macro": -0.03111111111111109,
   "pass": false
  },
  "G3_G-Tu": {
-  "enc_reduction": 0.6011662518837383,
+  "enc_reduction": 0.6377816446811149,
   "macro_ratio": 0.988499452354874,
   "dist_ratio": 1.0021321961620469,
   "learned_minus_best_control_macro": -0.0527777777777777,
   "pass": false
  },
  "G3_G": {
-  "enc_reduction": 0.6022336266891903,
+  "enc_reduction": 0.6380862159156162,
   "macro_ratio": 0.9348894348894349,
   "dist_ratio": 0.9927360774818401,
   "learned_minus_best_control_macro": -0.030277777777777792,
@@ -359,7 +359,7 @@ Primary probe = h -> position of the occluded (blackout-frame) target. h->target
   "pass_analytical": false
  },
  "G4_G-Ta_vs_G-I4u": {
-  "eligible_control": true,
+  "eligible_control": false,
   "bytes_ratio": 3.094691546697296,
   "macs_ratio": 0.9632567457565631,
   "pass_analytical": false
@@ -375,7 +375,7 @@ Primary probe = h -> position of the occluded (blackout-frame) target. h->target
   "pass_analytical": false
  },
  "G4_G-Tu_vs_G-I4u": {
-  "eligible_control": true,
+  "eligible_control": false,
   "bytes_ratio": 1.3293026716687988,
   "macs_ratio": 0.9884111568611432,
   "pass_analytical": false

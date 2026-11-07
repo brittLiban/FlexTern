@@ -36,21 +36,21 @@
   ]
  },
  "G3_G-Ta": {
-  "enc_reduction": 0.5874906491788905,
+  "enc_reduction": 0.6247852628072019,
   "macro_ratio": 0.9125711329539575,
   "dist_ratio": 0.9978991596638657,
   "learned_minus_best_control_macro": -0.03111111111111109,
   "pass": false
  },
  "G3_G-Tu": {
-  "enc_reduction": 0.6011662518837383,
+  "enc_reduction": 0.6377816446811149,
   "macro_ratio": 0.988499452354874,
   "dist_ratio": 1.0021321961620469,
   "learned_minus_best_control_macro": -0.0527777777777777,
   "pass": false
  },
  "G3_G": {
-  "enc_reduction": 0.6022336266891903,
+  "enc_reduction": 0.6380862159156162,
   "macro_ratio": 0.9348894348894349,
   "dist_ratio": 0.9927360774818401,
   "learned_minus_best_control_macro": -0.030277777777777792,
@@ -63,7 +63,7 @@
   "pass_analytical": false
  },
  "G4_G-Ta_vs_G-I4u": {
-  "eligible_control": true,
+  "eligible_control": false,
   "bytes_ratio": 3.094691546697296,
   "macs_ratio": 0.9632567457565631,
   "pass_analytical": false
@@ -79,7 +79,7 @@
   "pass_analytical": false
  },
  "G4_G-Tu_vs_G-I4u": {
-  "eligible_control": true,
+  "eligible_control": false,
   "bytes_ratio": 1.3293026716687988,
   "macs_ratio": 0.9884111568611432,
   "pass_analytical": false
