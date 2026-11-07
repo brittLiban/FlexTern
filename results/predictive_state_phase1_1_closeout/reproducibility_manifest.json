@@ -2,7 +2,7 @@
  "created_by": "analysis/predictive_state/closeout_manifest.py",
  "base_main_sha": "6cbd44b2f93721a4f63201ebbc796e62985e4f3a",
  "branch": "exp-0013-phase1-1-closeout",
- "code_sha_at_manifest_time": "be5574967abb98512af8debc64c32991148be191",
+ "code_sha_at_manifest_time": "cba08a93fe873576deb3c50ee811ab28d1d75ba1",
  "working_tree_dirty_at_manifest_time": false,
  "environment": {
   "host_python": "3.12.10",
@@ -80,12 +80,12 @@
   "test_split": "refused"
  },
  "statistics": {
-  "version": "closeout-stats-1",
+  "version": "closeout-stats-2",
   "bootstrap_B": 4000,
   "bootstrap_seed": 0,
   "episode_ci": "Wilson 95%",
   "cluster_ci": "layout-clustered percentile bootstrap",
-  "zero_variance": "exact one-sided Clopper-Pearson over unique layouts",
+  "zero_variance": "descriptive count only (k/n across m unique DEV layouts); the stats-1 Clopper-Pearson bound over unique layouts was withdrawn (independence/population assumptions not met)",
   "mcnemar": "exact two-sided, '0 discordant pairs' reported without p"
  },
  "commands": [
@@ -114,7 +114,7 @@
   "Phase 1.1 horizon grid (not re-run; re-tabulated only)"
  ],
  "raw_files_sha256": {
-  "results\\predictive_state_phase1_1_closeout\\closeout_summary.json": "d0551d6f6a9db207e0bed425f78eadd3a040c1ac676aa3ae4fa031368bb34e0f",
+  "results\\predictive_state_phase1_1_closeout\\closeout_summary.json": "03d689abe07b625b45d3c39bff00dd86069ae1334ac487c02f2f13c657156718",
   "results\\predictive_state_phase1_1_closeout\\determinism_rerun_LA_OCC.json": "5578318298f7333623f56505a0b766fb21dd4e2da5f9e1282e2dee603b687672",
   "results\\predictive_state_phase1_1_closeout\\paired_replay_LA_CLEAR.json": "981b80b4d08a1861b854b61c8c916d3760f73d292f9b2a86fc2e40de325baa34",
   "results\\predictive_state_phase1_1_closeout\\paired_replay_LA_NOM.json": "ac1a46c3a7ec8e8bdbb14f0c3a8cf505cfb0a5e22434f934cca520c8a8ee8dcb",
@@ -124,7 +124,7 @@
   "results\\predictive_state_phase1_1_closeout\\repro_v1_LA_OCC.json": "1c18001e1b0790f197e08a7f26dcf581f9608ee041215be55ef45e124854e8d8",
   "results\\predictive_state_phase1_1_closeout\\timing_retime_summary.json": "cf0a04f03543a40da59613ff2a8484bd1c4ac6a66951b7ba845432833ba930ed",
   "results\\predictive_state_phase1_1_closeout\\timing_retime_train_trace.json": "87dca2f7e507762a2f17f4de2fcf47c1e203edeb3493d585b867b0828bbca2a1",
-  "results\\predictive_state_phase1_1_closeout\\closeout_tables.md": "686d85dc4524824b5b2cf6548418d347d90045bd9b17caa5e10a533d5e822996",
+  "results\\predictive_state_phase1_1_closeout\\closeout_tables.md": "f2ccf91c7e28b378243d13a771feed1fa885b3f4016d2543500ad1b22f29d7b4",
   "results\\predictive_state_phase1_1_closeout\\power_state.jsonl": "3d707c4d2a6acc0b6f1bd0b686abf1de60b93120b186c1005d2bbaf1deeaa240"
  },
  "historical_files_unchanged": {
@@ -307,6 +307,262 @@
    "tests": 13,
    "skipped": 0,
    "seconds": 0.2
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_analysis",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 0.9
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_analysis_cross_model",
+   "status": "OK",
+   "tests": 21,
+   "skipped": 0,
+   "seconds": 0.2
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_control_gate",
+   "status": "OK",
+   "tests": 20,
+   "skipped": 0,
+   "seconds": 0.3
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_control_semantics",
+   "status": "OK",
+   "tests": 21,
+   "skipped": 0,
+   "seconds": 0.9
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_controllers_obs",
+   "status": "OK",
+   "tests": 18,
+   "skipped": 0,
+   "seconds": 37.4
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_datacenter_gate",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_edge_inference",
+   "status": "OK",
+   "tests": 42,
+   "skipped": 11,
+   "seconds": 2.7
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_env_la",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 11.0
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_env_paired",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 5.6
+  },
+  {
+   "log": "hardening_chunk1.log",
+   "module": "test_executed_work",
+   "status": "OK",
+   "tests": 10,
+   "skipped": 0,
+   "seconds": 2.6
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_inference_skip",
+   "status": "OK",
+   "tests": 24,
+   "skipped": 0,
+   "seconds": 6.5
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_inference_startup",
+   "status": "OK",
+   "tests": 3,
+   "skipped": 0,
+   "seconds": 2.2
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_memory_residency",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_model_precision",
+   "status": "OK",
+   "tests": 11,
+   "skipped": 6,
+   "seconds": 4.2
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_predictive_state",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 6.5
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_reference",
+   "status": "OK",
+   "tests": 19,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_roofline",
+   "status": "OK",
+   "tests": 26,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_split_guard",
+   "status": "OK",
+   "tests": 11,
+   "skipped": 0,
+   "seconds": 2.4
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_sram_retention",
+   "status": "OK",
+   "tests": 21,
+   "skipped": 0,
+   "seconds": 0.3
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_sram_retention_correction",
+   "status": "OK",
+   "tests": 15,
+   "skipped": 0,
+   "seconds": 0.2
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_sram_validation",
+   "status": "OK",
+   "tests": 15,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_ternary_vs_int4",
+   "status": "OK",
+   "tests": 13,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "hardening_chunk3.log",
+   "module": "test_transition_events",
+   "status": "OK",
+   "tests": 9,
+   "skipped": 0,
+   "seconds": 0.5
+  },
+  {
+   "log": "hardening_predictive.log",
+   "module": "test_split_guard",
+   "status": "OK",
+   "tests": 11,
+   "skipped": 0,
+   "seconds": 2.9
+  },
+  {
+   "log": "hardening_predictive.log",
+   "module": "test_env_paired",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 4.6
+  },
+  {
+   "log": "hardening_predictive.log",
+   "module": "test_transition_events",
+   "status": "OK",
+   "tests": 9,
+   "skipped": 0,
+   "seconds": 0.6
+  },
+  {
+   "log": "hardening_predictive.log",
+   "module": "test_env_la",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 11.4
+  },
+  {
+   "log": "hardening_predictive.log",
+   "module": "test_controllers_obs",
+   "status": "OK",
+   "tests": 18,
+   "skipped": 0,
+   "seconds": 36.8
+  },
+  {
+   "log": "hardening_predictive.log",
+   "module": "test_predictive_state",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 6.6
+  },
+  {
+   "log": "hardening_predictive.log",
+   "module": "test_inference_skip",
+   "status": "OK",
+   "tests": 24,
+   "skipped": 0,
+   "seconds": 6.2
+  },
+  {
+   "log": "hardening_predictive.log",
+   "module": "test_inference_startup",
+   "status": "OK",
+   "tests": 3,
+   "skipped": 0,
+   "seconds": 2.3
+  },
+  {
+   "log": "hardening_predictive.log",
+   "module": "test_executed_work",
+   "status": "OK",
+   "tests": 10,
+   "skipped": 0,
+   "seconds": 2.5
   },
   {
    "log": "inference_regression_verbose.log",
