@@ -397,6 +397,47 @@ Workaround:       Harness refuses to time off AC, waits up to 30 minutes for AC,
                   flagged and interrupted results are retained.
 ```
 
+```
+KI-022
+Status:           Open
+Severity:         Moderate
+First observed:   2026-11-07
+Relevant commit:  EXP-0012 branch exp-0012-predictive-state
+Description:      Closed-loop behaviour-cloning success on OccPick2D is highly seed-dependent at small training budgets: at 3000 steps x batch
+                  24 the same architecture and data gave NOM success 0.63 / 0.22 / 0.32 (R, seeds 0/1/2) and 0.72 / 0.16 / 0.46 (T16). At
+                  6000 x 48 the spread shrank but was not eliminated (EXP-0012 record, amendment 4). Only three training seeds per arm.
+Impact:           Differences below ~0.1 absolute macro success between arms should not be read as ranking; episode-bootstrap CIs
+                  (+-0.03 to 0.05) understate seed variance.
+Workaround:       Report per-seed values next to means; more seeds or longer training would be needed to resolve small gaps.
+```
+
+```
+KI-023
+Status:           Open
+Severity:         Minor
+First observed:   2026-11-07
+Relevant commit:  EXP-0012 branch exp-0012-predictive-state
+Description:      Hashes recorded in protocol_v1.json / protocol_v1_amended.json are SHA-256 of the files as they sat in the working tree
+                  when `lock.py` ran under WSL (LF line endings). git on Windows may check the same files out with CRLF, so a hash recomputed
+                  from a Windows checkout can differ although content is identical.
+Impact:           Code-hash verification must be done on LF content (`git show <commit>:<path> | sha256sum`).
+Workaround:       Compare against `git show` output, not the working copy.
+```
+
+```
+KI-024
+Status:           Open
+Severity:         Moderate
+First observed:   2026-11-07
+Relevant commit:  EXP-0012 branch exp-0012-predictive-state
+Description:      GPU training of the recurrent arms is launch-bound (a Python loop of ~100-160 GRU steps with fake-quant ops). With 8 GB of GPU
+                  memory, three concurrent training processes ran ~2.3x slower in aggregate than two (7.8 GB used, 90% utilization), and
+                  background launches started from the Windows side (nohup of a `wsl` process) die when the session ends; launching from inside
+                  WSL (`nohup setsid ... &` in a script run by `wsl -- bash -s`) survives.
+Impact:           Wall-clock cost of a 3-seed, 9-arm study was ~7 hours on this machine; mistakes in orchestration cost hours.
+Workaround:       Two concurrent workers; launch detached jobs from inside WSL; consider CUDA graphs or a fused cell if more arms are added.
+```
+
 ## Closed
 
 ```
