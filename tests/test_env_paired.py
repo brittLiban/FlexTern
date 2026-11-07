@@ -180,6 +180,33 @@ class PairedEnvTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             P.PairedLAEnv(3, "dev", COND, seed=1, layout_ids=lay[:2])
 
+    def test_explicit_layout_ids_must_belong_to_the_requested_split(self):
+        """Every initialization path (episode_ids None or custom): positive cases per split, negative cases incl. reserved TEST geometry."""
+        ranges = E.LAYOUT_RANGES
+        for split in ("train", "dev"):
+            lo, hi = ranges[split]
+            for ids in (None, [0, 1]):
+                kw = {} if ids is None else {"episode_ids": ids}
+                env = P.PairedLAEnv(2, split, COND, seed=1, layout_ids=np.array([lo, hi - 1]), **kw)
+                np.testing.assert_array_equal(env.layout_ids, [lo, hi - 1])
+            others = [r for k, r in ranges.items() if k != split]
+            for bad in ([ranges["test"][0], lo], [lo, ranges["test"][1] - 1], [lo - 1, lo], [lo, hi], [others[0][0], lo]):
+                for kw in ({}, {"episode_ids": [0, 1]}):
+                    with self.assertRaises(ValueError, msg=f"{split} {bad} {kw}"):
+                        P.PairedLAEnv(2, split, COND, seed=1, layout_ids=np.array(bad), **kw)
+        with self.assertRaises(ValueError):
+            P.PairedLAEnv(1, "dev", COND, seed=1, layout_ids=[2000])                    # the reported defect: dev + reserved id, no episode_ids
+        with self.assertRaises(ValueError):
+            P.PairedLAEnv(1, "dev", COND, seed=1, layout_ids=[1000.0])                  # non-integer ids
+        with self.assertRaises(ValueError):
+            P.PairedLAEnv(1, "test", COND, seed=1, layout_ids=[2000])                   # reserved split itself stays refused
+        # default generation stays inside the split and is unchanged
+        for split in ("train", "dev"):
+            e = P.PairedLAEnv(50, split, COND, seed=9)
+            lo, hi = ranges[split]
+            self.assertTrue(((e.layout_ids >= lo) & (e.layout_ids < hi)).all())
+            np.testing.assert_array_equal(e.layout_ids, np.random.default_rng([9, 777]).integers(lo, hi, size=50))
+
     # ------------------------------------------------------------------ hardening round: unsupported random draws fail visibly
     def test_unsupported_random_draws_fail_visibly(self):
         env = P.PairedLAEnv(4, "dev", COND, seed=1)

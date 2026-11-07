@@ -107,12 +107,11 @@ class PairedLAEnv(L.LAEnv):
                 raise ValueError("duplicate episode_ids are not supported: they would share spawn, blackout and noise streams")
             if (self.episode_ids < 0).any():
                 raise ValueError("episode_ids must be non-negative")
+        if layout_ids is not None:                  # every path: explicit layouts must lie in the requested split (reserved TEST geometry is unreachable)
             lids = np.asarray(layout_ids)
             lo, hi = E.LAYOUT_RANGES[split]
-            if lids.shape != (n,) or ((lids < lo) | (lids >= hi)).any():
-                raise ValueError(f"layout_ids must have shape ({n},) and lie in the '{split}' range [{lo}, {hi})")
-        if layout_ids is not None and len(layout_ids) != n:
-            raise ValueError(f"layout_ids must have length n={n}")
+            if lids.shape != (n,) or not np.issubdtype(lids.dtype, np.integer) or ((lids < lo) | (lids >= hi)).any():
+                raise ValueError(f"layout_ids must be integers of shape ({n},) lying in the '{split}' range [{lo}, {hi})")
         conds = cond if isinstance(cond, list) else [cond] * n
         assert all(c.n_picks == 1 for c in conds), "paired replay requires n_picks == 1"
         draws = [blackout_draws(self.seed, e, c.dur[0], c.dur[1]) for e, c in zip(self.episode_ids, conds)]

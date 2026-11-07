@@ -1,8 +1,9 @@
 """State-usefulness and prediction analyses for the recurrent arms (EXP-0012).
 
 probe:   ridge regression from the recurrent state h to the true target position on blackout frames (target not held).
-         Fit on DEV LONG rollouts, steps <= 100; scored on TEST LONG rollouts, steps in (0,100] and > 160 (beyond the
-         160-step training length). R^2 drop between windows measures state drift.
+         Fit on DEV LONG rollouts, steps <= 100; scored on a second set of LONG rollouts, steps in (0,100] and > 160 (beyond the
+         160-step training length). That set is the TRAIN split by default (closeout hardening; EXP-0012 scored it on the reserved TEST
+         split, which now needs PS_PROBE_SPLIT=test together with FLEXTERN_ALLOW_TEST_SPLIT=1; use PS_PROBE_SPLIT=dev for held-out-style). R^2 drop between windows measures state drift.
 predict: open-loop multi-step latent prediction from teacher-forced state, k = 1..8, with a persistence baseline and a
          shuffled-action control (does the predictor use the action?). Cosine similarity to the EMA target embedding.
 Usage: python -m analysis.predictive_state.analyze_state probe|predict ARMS SEEDS OUT.json
