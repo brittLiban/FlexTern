@@ -1,0 +1,15 @@
+-- chunk 3: ['test_inference_skip', 'test_inference_startup', 'test_memory_residency', 'test_model_precision', 'test_predictive_state', 'test_reference', 'test_roofline', 'test_split_guard', 'test_sram_retention', 'test_sram_retention_correction', 'test_sram_validation', 'test_ternary_vs_int4', 'test_transition_events'] (estimated 33.5 s)
+{'module': 'test_inference_skip', 'status': 'OK', 'tests': 24, 'skipped': 0, 'seconds': 11.2}
+{'module': 'test_inference_startup', 'status': 'OK', 'tests': 3, 'skipped': 0, 'seconds': 2.9}
+{'module': 'test_memory_residency', 'status': 'OK', 'tests': 17, 'skipped': 0, 'seconds': 0.1}
+{'module': 'test_model_precision', 'status': 'OK', 'tests': 11, 'skipped': 6, 'seconds': 6.3}
+{'module': 'test_predictive_state', 'status': 'OK', 'tests': 17, 'skipped': 0, 'seconds': 9.4}
+{'module': 'test_reference', 'status': 'OK', 'tests': 19, 'skipped': 0, 'seconds': 0.1}
+{'module': 'test_roofline', 'status': 'OK', 'tests': 26, 'skipped': 0, 'seconds': 0.1}
+{'module': 'test_split_guard', 'status': 'OK', 'tests': 11, 'skipped': 0, 'seconds': 2.9}
+{'module': 'test_sram_retention', 'status': 'OK', 'tests': 21, 'skipped': 0, 'seconds': 0.4}
+{'module': 'test_sram_retention_correction', 'status': 'OK', 'tests': 15, 'skipped': 0, 'seconds': 0.2}
+{'module': 'test_sram_validation', 'status': 'OK', 'tests': 15, 'skipped': 0, 'seconds': 0.1}
+{'module': 'test_ternary_vs_int4', 'status': 'OK', 'tests': 13, 'skipped': 0, 'seconds': 0.1}
+{'module': 'test_transition_events', 'status': 'OK', 'tests': 9, 'skipped': 0, 'seconds': 0.6}
+TOTAL: modules 13 tests 201 skipped 6 seconds 34.4 failed []

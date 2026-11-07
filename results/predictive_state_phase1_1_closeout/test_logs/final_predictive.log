@@ -1,0 +1,11 @@
+-- chunk 1: ['test_split_guard', 'test_env_paired', 'test_transition_events', 'test_env_la', 'test_controllers_obs', 'test_predictive_state', 'test_inference_skip', 'test_inference_startup', 'test_executed_work'] (estimated 88.2 s)
+{'module': 'test_split_guard', 'status': 'OK', 'tests': 11, 'skipped': 0, 'seconds': 3.0}
+{'module': 'test_env_paired', 'status': 'OK', 'tests': 18, 'skipped': 0, 'seconds': 5.8}
+{'module': 'test_transition_events', 'status': 'OK', 'tests': 9, 'skipped': 0, 'seconds': 0.6}
+{'module': 'test_env_la', 'status': 'OK', 'tests': 16, 'skipped': 0, 'seconds': 18.5}
+{'module': 'test_controllers_obs', 'status': 'OK', 'tests': 18, 'skipped': 0, 'seconds': 70.7}
+{'module': 'test_predictive_state', 'status': 'OK', 'tests': 17, 'skipped': 0, 'seconds': 9.1}
+{'module': 'test_inference_skip', 'status': 'OK', 'tests': 24, 'skipped': 0, 'seconds': 8.8}
+{'module': 'test_inference_startup', 'status': 'OK', 'tests': 3, 'skipped': 0, 'seconds': 2.5}
+{'module': 'test_executed_work', 'status': 'OK', 'tests': 10, 'skipped': 0, 'seconds': 2.9}
+TOTAL: modules 9 tests 126 skipped 0 seconds 121.9 failed []
