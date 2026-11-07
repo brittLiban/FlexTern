@@ -102,7 +102,9 @@ class TestQuantModels(unittest.TestCase):
     def test_ternary_levels(self):
         w = torch.randn(32, 64)
         q = Q.fq_weight(w, "tern")
-        self.assertLessEqual(len(torch.unique(q.detach().round(decimals=6))), 3)
+        # count levels in units of the scale: `_ste` returns w + (q - w).detach(), whose float32 rounding error made an absolute round(decimals=6)
+        # split +-s into two "levels" in about 12% of random draws (flaky before the hardening round; the quantizer itself is unchanged)
+        self.assertLessEqual(len(torch.unique((q.detach() / w.abs().mean()).round(decimals=4))), 3)
 
     def test_int4_levels(self):
         q = Q.fq_weight(torch.randn(16, 64), "int4")

@@ -21,6 +21,7 @@ from . import env as E
 from . import evaluate as V
 from . import expert as X
 from . import models as M
+from . import split_policy as SP
 from . import train as T
 
 
@@ -75,7 +76,7 @@ PROBES = {                       # name: (feature, target, blackout frames only)
 def probe(net, seed, n=int(os.environ.get("PS_PROBE_N", 150))):
     cond = E.TEST_CONDS["LONG"]
     dv = V.rollout(net, "dev", cond, 5000 + seed, n, "full", collect=True)["rec"]
-    ts = V.rollout(net, os.environ.get("PS_PROBE_SPLIT", "test"), cond, 9000 + seed, n, "full", collect=True)["rec"]
+    ts = V.rollout(net, SP.resolve(os.environ.get("PS_PROBE_SPLIT")), cond, 9000 + seed, n, "full", collect=True)["rec"]
     out = {}
     for name, (f, tg, bo) in PROBES.items():
         Xtr, ytr, ntr = _rows(dv, f, tg, 0, 100, bo)

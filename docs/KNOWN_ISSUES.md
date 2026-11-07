@@ -520,6 +520,24 @@ Workaround:       Use a fresh held-out range for v2 (reserve before coding). pha
                   FLEXTERN_ALLOW_TEST_SPLIT=1); tests/test_split_guard.py + analysis/predictive_state/split_manifest.json fail on unlisted "test" use.
 ```
 
+```
+KI-031
+Status:           Open
+Severity:         Minor (no effect on any reported number; relevant to a v2 interface)
+First observed:   2026-11-07 (independent code audit, closeout hardening round)
+Relevant commit:  closeout hardening commit on exp-0013-phase1-1-closeout
+Description:      `infer.RecurrentRunner` does not distinguish a startup blackout from an intentionally skipped observation. (1) The network's `valid`
+                  input is `enc_mask` (an embedding was supplied), never `valid_env`, so blackout and trigger-skipped frames are identical network
+                  inputs; only `Counters` tell them apart. (2) The forced first observation (`t == 0`) is consumed by an invalid first frame and is
+                  not re-armed: with a never-asking trigger (`fixed:0.0`) the first embedding arrives only at the KMAX_SKIP = 8 safety bound.
+                  (3) `last_pool` is initialised from the first frame whatever its validity, so a pix trigger compares the next valid frame with a
+                  gray frame (it then almost surely fires: benign by accident). Pinned by tests/test_inference_startup.py (characterization tests).
+Impact:           None on EXP-0012 / EXP-0013 results: v1 and paired replay cannot black out before step 3 (`t_pick >= 3`). A v2 environment with startup
+                  blackouts, or a v2 predictive-state interface that must know *why* no observation arrived (sensor loss vs. policy-chosen skip),
+                  needs an explicit `observation_status` input and a re-armed first-observation rule; the EXP-0012 model interface is not retroactively changed.
+Workaround:       none needed for v1; do not use startup blackouts with the current runner.
+```
+
 ## Closed
 
 ```

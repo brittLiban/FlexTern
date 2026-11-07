@@ -23,9 +23,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 BUDGET_S = 900
 TIERS = {
-    "smoke": ["test_split_guard", "test_env_paired", "test_env_la"],
-    "benchmark": ["test_split_guard", "test_env_la", "test_env_paired", "test_controllers_obs"],
-    "predictive": ["test_split_guard", "test_env_paired", "test_env_la", "test_controllers_obs", "test_predictive_state", "test_inference_skip", "test_executed_work"],
+    "smoke": ["test_split_guard", "test_env_paired", "test_transition_events", "test_env_la"],
+    "benchmark": ["test_split_guard", "test_env_la", "test_env_paired", "test_transition_events", "test_controllers_obs"],
+    "predictive": ["test_split_guard", "test_env_paired", "test_transition_events", "test_env_la", "test_controllers_obs", "test_predictive_state", "test_inference_skip", "test_inference_startup", "test_executed_work"],
 }
 BUDGET = json.loads((ROOT / "tests" / "test_budget.json").read_text())["modules_seconds"]
 ALL = sorted(p.stem for p in (ROOT / "tests").glob("test_*.py"))

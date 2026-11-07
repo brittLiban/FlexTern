@@ -8,6 +8,8 @@ encoder are training/analysis-only and excluded. Run on AC power with nothing el
 EXP-0013 Phase 1: the step is `infer.RecurrentRunner` -- the same code `evaluate.rollout` uses -- so trigger decisions and
 recurrent updates are identical in both paths, `fixed:K` is supported, blackout frames are never encoded, and `full` no longer
 pays for the 8x8 pooling it does not use. Latency is split into trigger / encoder / update time (perf_counter, batch 1).
+Closeout hardening: the traces are recorded on TRAIN layouts (`split_policy.timing_split()`); the historical EXP-0012/Phase 1 traces used the
+reserved TEST range and can be regenerated only with FLEXTERN_ALLOW_TEST_SPLIT=1.
 Usage: python -m analysis.predictive_state.latency CKPT.pt OUT.json
 """
 from __future__ import annotations
@@ -22,6 +24,7 @@ import torch
 
 from . import env as E
 from . import infer as I
+from . import split_policy as SP
 from . import train as T
 
 
@@ -37,7 +40,7 @@ def run(net, trigger, threads, episodes=15, seed=31, cond="DIST"):
     comp = {"trigger": 0.0, "encoder": 0.0, "update": 0.0}
     tot = I.Counters()
     for ep in range(episodes):
-        env = E.BatchEnv(1, "test", E.TEST_CONDS[cond], seed=seed + ep)
+        env = E.BatchEnv(1, SP.timing_split(), E.TEST_CONDS[cond], seed=seed + ep)
         obs = env.reset()
         runner = I.RecurrentRunner(net, trigger, 1, "cpu", timing=True)
         for t in range(E.T_PICK):

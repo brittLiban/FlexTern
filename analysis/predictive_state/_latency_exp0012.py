@@ -4,6 +4,8 @@ Quantized arms have no packed kernel in this code base: their fake-quant graph i
 (it would measure simulation overhead, not an implementation). Only the plain FP checkpoint's deployment path is timed:
 pooled-pixel features + (optional) encoder + GRU cell + policy head (+ trigger head). The predictor head and EMA encoder
 are training/analysis-only and excluded. Run on AC power with nothing else on the CPU (KI-021).
+Closeout hardening: the environment split now comes from `split_policy.timing_split()` (TRAIN by default; the frozen historical
+behaviour, TEST layouts, needs FLEXTERN_ALLOW_TEST_SPLIT=1). Nothing else in this frozen copy changed.
 Usage: python -m analysis.predictive_state.latency CKPT.pt OUT.json
 """
 from __future__ import annotations
@@ -17,6 +19,7 @@ import numpy as np
 import torch
 
 from . import env as E
+from . import split_policy as SP
 from . import evaluate as V
 from . import models as M
 from . import train as T
@@ -33,7 +36,7 @@ def run(net, trigger, threads, episodes=15, seed=31):
     kind, par = V.parse_trigger(trigger)
     lat, enc_flags = [], []
     for ep in range(episodes):
-        env = E.BatchEnv(1, "test", E.TEST_CONDS["DIST"], seed=seed + ep)
+        env = E.BatchEnv(1, SP.timing_split(), E.TEST_CONDS["DIST"], seed=seed + ep)
         obs = env.reset()
         h = net.init_state(1, "cpu")
         a_prev = torch.zeros(1, 3)

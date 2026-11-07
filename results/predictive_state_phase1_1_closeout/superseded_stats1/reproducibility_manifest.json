@@ -1,0 +1,316 @@
+{
+ "created_by": "analysis/predictive_state/closeout_manifest.py",
+ "base_main_sha": "6cbd44b2f93721a4f63201ebbc796e62985e4f3a",
+ "branch": "exp-0013-phase1-1-closeout",
+ "code_sha_at_manifest_time": "be5574967abb98512af8debc64c32991148be191",
+ "working_tree_dirty_at_manifest_time": false,
+ "environment": {
+  "host_python": "3.12.10",
+  "numpy": "2.5.3",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "wsl_timing": "torch 2.11.0+cu128, Linux-6.18 WSL2 Ubuntu (see timing_retime_train_trace.json)"
+ },
+ "splits": {
+  "train": [
+   0,
+   400
+  ],
+  "dev": [
+   1000,
+   1100
+  ],
+  "test (reserved; unused by every closeout script)": [
+   2000,
+   2200
+  ]
+ },
+ "evaluation": {
+  "split": "dev",
+  "seed": 5001,
+  "n_episodes": 200,
+  "episode_ids": "arange(200)",
+  "layout_ids": "default_rng([5001,777]).integers(1000,1100,200) (87 unique)",
+  "conditions": {
+   "LA_CLEAR": {
+    "p_blackout": 0.0,
+    "dur": [
+     5,
+     15
+    ],
+    "k": 2
+   },
+   "LA_NOM": {
+    "p_blackout": 0.02,
+    "dur": [
+     5,
+     15
+    ],
+    "k": 2
+   },
+   "LA_OCC": {
+    "p_blackout": 0.05,
+    "dur": [
+     10,
+     30
+    ],
+    "k": 3
+   }
+  },
+  "step_budget_success": 65,
+  "simulator_cap": 80,
+  "dilation": 1,
+  "controllers": [
+   "greedy",
+   "reactive_memory",
+   "oracle_descent",
+   "obs_A_single_frame",
+   "obs_B_map_memory"
+  ],
+  "controller_changes_after_dev_observation": "none"
+ },
+ "random_stream_policy": {
+  "protocol": "la-paired-replay-1.1",
+  "streams": {
+   "spawn": "(seed, episode_id, 1)",
+   "blackout": "(seed, episode_id, 2); uniforms+durations for t < 128",
+   "render_noise": "(seed, episode_id, 3, t)"
+  },
+  "shared_generator": "refused",
+  "n_picks": "must be 1",
+  "test_split": "refused"
+ },
+ "statistics": {
+  "version": "closeout-stats-1",
+  "bootstrap_B": 4000,
+  "bootstrap_seed": 0,
+  "episode_ci": "Wilson 95%",
+  "cluster_ci": "layout-clustered percentile bootstrap",
+  "zero_variance": "exact one-sided Clopper-Pearson over unique layouts",
+  "mcnemar": "exact two-sided, '0 discordant pairs' reported without p"
+ },
+ "commands": [
+  "python -m analysis.predictive_state.closeout_repro_v1 COND results/predictive_state_phase1_1_closeout/repro_v1_COND.json   (COND = LA_CLEAR, LA_NOM, LA_OCC; ~4 min each)",
+  "python -m analysis.predictive_state.closeout_paired COND results/predictive_state_phase1_1_closeout/paired_replay_COND.json   (~5 min each)",
+  "python -m analysis.predictive_state.analyze_closeout   -> closeout_summary.json, closeout_tables.md",
+  "powershell -File scripts/capture_power_state.ps1 LABEL >> power_state.jsonl   (read-only)",
+  "WSL (what was actually run): cp results/predictive_state/checkpoints/G_s0.pt /tmp/G_s0_repo.pt (same sha256); python -m analysis.predictive_state.phase11_timing /tmp/G_s0_repo.pt results/predictive_state_phase1_1_closeout/timing_retime_train_trace.json 12   (~6 min; trace split TRAIN by default; env TORCHDYNAMO_DISABLE=1)",
+  "python scripts/run_tests.py smoke|benchmark|predictive|full --chunk K"
+ ],
+ "timing": {
+  "checkpoint": "results/predictive_state/checkpoints/G_s0.pt",
+  "checkpoint_sha256": "d67dd85a6647572f055d7041b5fb2d9aa9dca4d239130b37cd56d92eb566e2f3",
+  "triggers": {
+   "full": "full",
+   "fixed": "fixed:0.25",
+   "pix": "pix:0.0199",
+   "learned": "learned:0.1445"
+  },
+  "trace_split": "train",
+  "power_state": "host-reported AC (BatteryStatus 2, PowerOnline true) before and after; see power_state.jsonl",
+  "limits": "single checkpoint, single machine, WSL2 clocks/thermals uncontrolled, no energy measurement"
+ },
+ "not_independently_reproduced": [
+  "historical timing on TEST traces (timing_paired*.json, op_counts.json): regenerable only with FLEXTERN_ALLOW_TEST_SPLIT=1; not re-run",
+  "Phase 1.1 horizon grid (not re-run; re-tabulated only)"
+ ],
+ "raw_files_sha256": {
+  "results\\predictive_state_phase1_1_closeout\\closeout_summary.json": "d0551d6f6a9db207e0bed425f78eadd3a040c1ac676aa3ae4fa031368bb34e0f",
+  "results\\predictive_state_phase1_1_closeout\\determinism_rerun_LA_OCC.json": "5578318298f7333623f56505a0b766fb21dd4e2da5f9e1282e2dee603b687672",
+  "results\\predictive_state_phase1_1_closeout\\paired_replay_LA_CLEAR.json": "981b80b4d08a1861b854b61c8c916d3760f73d292f9b2a86fc2e40de325baa34",
+  "results\\predictive_state_phase1_1_closeout\\paired_replay_LA_NOM.json": "ac1a46c3a7ec8e8bdbb14f0c3a8cf505cfb0a5e22434f934cca520c8a8ee8dcb",
+  "results\\predictive_state_phase1_1_closeout\\paired_replay_LA_OCC.json": "29dd30a8c52851364e9a8244651da8dd1174a4bd8fd78424daccf972c4f03337",
+  "results\\predictive_state_phase1_1_closeout\\repro_v1_LA_CLEAR.json": "005d46e89c491850e5fa3af1ad851adc801d43b05df058e39d7ed29568936b89",
+  "results\\predictive_state_phase1_1_closeout\\repro_v1_LA_NOM.json": "8e2cc06f13c8b4451d8e7274395b4a36bb6df126714c883f7c798dd0ec3e1876",
+  "results\\predictive_state_phase1_1_closeout\\repro_v1_LA_OCC.json": "1c18001e1b0790f197e08a7f26dcf581f9608ee041215be55ef45e124854e8d8",
+  "results\\predictive_state_phase1_1_closeout\\timing_retime_summary.json": "cf0a04f03543a40da59613ff2a8484bd1c4ac6a66951b7ba845432833ba930ed",
+  "results\\predictive_state_phase1_1_closeout\\timing_retime_train_trace.json": "87dca2f7e507762a2f17f4de2fcf47c1e203edeb3493d585b867b0828bbca2a1",
+  "results\\predictive_state_phase1_1_closeout\\closeout_tables.md": "686d85dc4524824b5b2cf6548418d347d90045bd9b17caa5e10a533d5e822996",
+  "results\\predictive_state_phase1_1_closeout\\power_state.jsonl": "3d707c4d2a6acc0b6f1bd0b686abf1de60b93120b186c1005d2bbaf1deeaa240"
+ },
+ "historical_files_unchanged": {
+  "results/predictive_state_phase1_1/paired.json": "927b5c5c8b44b56b796252ae490c50886d0b37b6338022abbc0a332e6e21a6bd",
+  "git_diff_vs_main_for_results_predictive_state_phase1_x": "empty"
+ },
+ "tests_observed_this_session": [
+  {
+   "log": "chunk1.log",
+   "module": "test_analysis",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 1.2
+  },
+  {
+   "log": "chunk1.log",
+   "module": "test_analysis_cross_model",
+   "status": "OK",
+   "tests": 21,
+   "skipped": 0,
+   "seconds": 0.2
+  },
+  {
+   "log": "chunk1.log",
+   "module": "test_control_gate",
+   "status": "OK",
+   "tests": 20,
+   "skipped": 0,
+   "seconds": 0.4
+  },
+  {
+   "log": "chunk1.log",
+   "module": "test_control_semantics",
+   "status": "OK",
+   "tests": 21,
+   "skipped": 0,
+   "seconds": 1.1
+  },
+  {
+   "log": "chunk1.log",
+   "module": "test_controllers_obs",
+   "status": "OK",
+   "tests": 18,
+   "skipped": 0,
+   "seconds": 42.1
+  },
+  {
+   "log": "chunk1.log",
+   "module": "test_datacenter_gate",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "chunk1.log",
+   "module": "test_edge_inference",
+   "status": "OK",
+   "tests": 42,
+   "skipped": 11,
+   "seconds": 4.0
+  },
+  {
+   "log": "chunk2.log",
+   "module": "test_env_la",
+   "status": "OK",
+   "tests": 16,
+   "skipped": 0,
+   "seconds": 13.2
+  },
+  {
+   "log": "chunk2.log",
+   "module": "test_env_paired",
+   "status": "OK",
+   "tests": 10,
+   "skipped": 0,
+   "seconds": 4.4
+  },
+  {
+   "log": "chunk2.log",
+   "module": "test_executed_work",
+   "status": "OK",
+   "tests": 10,
+   "skipped": 0,
+   "seconds": 3.1
+  },
+  {
+   "log": "chunk2.log",
+   "module": "test_hardware_gate",
+   "status": "TIMEOUT",
+   "tests": null,
+   "skipped": 0,
+   "seconds": 900.0
+  },
+  {
+   "log": "chunk2.log",
+   "module": "test_inference_skip",
+   "status": "OK",
+   "tests": 24,
+   "skipped": 0,
+   "seconds": 8.4
+  },
+  {
+   "log": "chunk2.log",
+   "module": "test_memory_residency",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "chunk2.log",
+   "module": "test_model_precision",
+   "status": "OK",
+   "tests": 11,
+   "skipped": 6,
+   "seconds": 6.8
+  },
+  {
+   "log": "chunk3.log",
+   "module": "test_predictive_state",
+   "status": "OK",
+   "tests": 17,
+   "skipped": 0,
+   "seconds": 11.2
+  },
+  {
+   "log": "chunk3.log",
+   "module": "test_reference",
+   "status": "OK",
+   "tests": 19,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "chunk3.log",
+   "module": "test_roofline",
+   "status": "OK",
+   "tests": 26,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "chunk3.log",
+   "module": "test_split_guard",
+   "status": "OK",
+   "tests": 5,
+   "skipped": 0,
+   "seconds": 0.5
+  },
+  {
+   "log": "chunk3.log",
+   "module": "test_sram_retention",
+   "status": "OK",
+   "tests": 21,
+   "skipped": 0,
+   "seconds": 0.4
+  },
+  {
+   "log": "chunk3.log",
+   "module": "test_sram_retention_correction",
+   "status": "OK",
+   "tests": 15,
+   "skipped": 0,
+   "seconds": 0.3
+  },
+  {
+   "log": "chunk3.log",
+   "module": "test_sram_validation",
+   "status": "OK",
+   "tests": 15,
+   "skipped": 0,
+   "seconds": 0.1
+  },
+  {
+   "log": "chunk4.log",
+   "module": "test_ternary_vs_int4",
+   "status": "OK",
+   "tests": 13,
+   "skipped": 0,
+   "seconds": 0.2
+  },
+  {
+   "log": "inference_regression_verbose.log",
+   "unittest_summary": "Ran 34 tests in 7.891s OK"
+  }
+ ]
+}

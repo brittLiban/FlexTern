@@ -151,6 +151,94 @@ class PairedEnvTests(unittest.TestCase):
         env = P.PairedLAEnv(20, "dev", E.Cond("LA_CLEAR", 0.0, (5, 15), 0.0, 2), seed=1)
         self.assertTrue(env.scheduled_valid(82).all())
 
+    # ------------------------------------------------------------------ hardening round: episode id <-> layout id
+    def test_custom_episode_ids_require_explicit_layout_ids(self):
+        with self.assertRaises(ValueError):
+            P.PairedLAEnv(2, "dev", COND, seed=21, episode_ids=[7, 13])
+        full = P.PairedLAEnv(20, "dev", COND, seed=21)                       # default full batch: episode i is id i (locked protocol, unchanged)
+        np.testing.assert_array_equal(full.episode_ids, np.arange(20))
+        np.testing.assert_array_equal(full.layout_ids, np.random.default_rng([21, 777]).integers(1000, 1100, size=20))
+
+    def test_episode_keeps_its_layout_when_its_batch_index_changes(self):
+        full = P.PairedLAEnv(20, "dev", COND, seed=21)
+        sd = full.spawn_digest()
+        for sel in ([7], [13, 7], [7, 13], [19, 7, 0]):
+            sub = P.PairedLAEnv(len(sel), "dev", COND, seed=21, episode_ids=sel, layout_ids=full.layout_ids[sel])
+            for pos, e in enumerate(sel):
+                self.assertEqual(sub.layout_ids[pos], full.layout_ids[e], f"episode {e} received another layout at batch index {pos}")
+                self.assertEqual(sub.spawn_digest()[pos], sd[e])
+        # the silent failure mode being removed: with the batch-position default, episode 7 at index 0 would get layout_ids[0], not layout_ids[7]
+        silent = P.PairedLAEnv(1, "dev", COND, seed=21)
+        self.assertNotEqual(silent.layout_ids[0], full.layout_ids[7])
+
+    def test_ambiguous_episode_identities_are_rejected(self):
+        lay = np.arange(1000, 1003)
+        for bad_ids, bad_lay in (([1, 1, 2], lay), ([1, 2], lay), ([-1, 2, 3], lay), ([[1, 2, 3]], lay), ([1, 2, 3], lay[:2]),
+                                 ([1, 2, 3], np.array([1000, 1001, 2000])), ([1, 2, 3], np.array([1000, 1001, 5]))):
+            with self.assertRaises(ValueError, msg=str((bad_ids, bad_lay))):
+                P.PairedLAEnv(3, "dev", COND, seed=1, episode_ids=bad_ids, layout_ids=bad_lay)
+        with self.assertRaises(ValueError):
+            P.PairedLAEnv(3, "dev", COND, seed=1, layout_ids=lay[:2])
+
+    # ------------------------------------------------------------------ hardening round: unsupported random draws fail visibly
+    def test_unsupported_random_draws_fail_visibly(self):
+        env = P.PairedLAEnv(4, "dev", COND, seed=1)
+        rng = env.rng
+        for call in (lambda: rng.normal(0, E.PIX_NOISE, (4, 2)),          # Gaussian in the dynamics (outside render): must NOT return zeros
+                     lambda: rng.normal(0, 1.0, (4, 2)),
+                     lambda: rng.random(3),                              # wrong shape
+                     lambda: rng.integers(0, 5),                         # not the blackout duration draw
+                     lambda: rng.uniform(0, 1), lambda: rng.permutation(3), lambda: rng.choice(3)):
+            with self.assertRaises(RuntimeError):
+                call()
+        # inside render only the zero-mean PIX_NOISE placeholder is served; any other Gaussian still fails
+        rng.render_scope = True
+        try:
+            self.assertEqual(float(np.abs(rng.normal(0, E.PIX_NOISE, (3, 3))).sum()), 0.0)
+            for call in (lambda: rng.normal(0, 2 * E.PIX_NOISE, (3, 3)), lambda: rng.normal(0.5, E.PIX_NOISE, (3, 3))):
+                with self.assertRaises(RuntimeError):
+                    call()
+        finally:
+            rng.render_scope = False
+
+    def test_gaussian_dynamics_draw_in_step_is_caught(self):
+        """Negative control: a (hypothetical) future dynamics change that draws Gaussian noise inside step() must raise, not silently get zeros."""
+        class Rogue(P.PairedLAEnv):
+            def step(self, action):
+                self.rng.normal(0.0, E.PIX_NOISE, (self.n, 2))
+                return super().step(action)
+        env = Rogue(2, "dev", COND, seed=1)
+        env.reset()
+        with self.assertRaises(RuntimeError):
+            env.step(np.zeros((2, 3), np.float32))
+
+    def test_render_noise_distribution_preserved(self):
+        n = np.stack([P.noise_field(3, e, 0) for e in (0, 1, 2, 3)])
+        self.assertAlmostEqual(float(n.std()), E.PIX_NOISE, delta=0.1)
+        self.assertAlmostEqual(float(n.mean()), 0.0, delta=0.4)
+        # pinned realization: any change to the noise recipe (a protocol change) must be deliberate and must bump PROTOCOL
+        self.assertEqual(hashlib.sha1(P.noise_field(3, 0, 0).tobytes()).hexdigest(), "d8142868718398564bf4b16a53fc6e963a0d22c3")
+        env = P.PairedLAEnv(2, "dev", COND, seed=3)
+        env.reset()
+        self.assertTrue((env.last_noise[1] == P.noise_field(3, 1, 0)).all())
+
+    def test_locked_protocol_reproduces_committed_digests(self):
+        """The hardening must not change the locked la-paired-replay-1.1 protocol: spawn and schedule digests of the committed DEV runs are reproduced."""
+        import json
+        from pathlib import Path
+        base = Path(__file__).resolve().parent.parent / "results" / "predictive_state_phase1_1_closeout"
+        for cn in ("LA_CLEAR", "LA_NOM", "LA_OCC"):
+            f = base / f"paired_replay_{cn}.json"
+            if not f.exists():
+                self.skipTest("committed paired-replay results not present")
+            rec = json.loads(f.read_text())
+            cond = __import__("analysis.predictive_state.run_phase11_benchmark", fromlist=["CONDS"]).CONDS[cn]
+            env = P.PairedLAEnv(rec["n"], "dev", cond, rec["seed"], t_limit=80)
+            ref = rec["controllers"]["greedy"]
+            self.assertEqual(rec["protocol"], P.PROTOCOL)
+            self.assertEqual(env.layout_ids.tolist(), ref["layout_id"])
+            self.assertEqual(env.spawn_digest(), ref["spawn_digest"])
+            self.assertEqual(env.schedule_digest(82), ref["schedule_digest"])
 
 if __name__ == "__main__":
     unittest.main()

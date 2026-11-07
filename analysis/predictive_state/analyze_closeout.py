@@ -5,7 +5,10 @@
 Usage: python -m analysis.predictive_state.analyze_closeout [RESULTS_DIR]   -> closeout_summary.json + markdown on stdout
 STATS_VERSION documents the method: exact McNemar (reported as '0 discordant pairs' when there are none), Wilson episode-level interval,
 layout-clustered percentile bootstrap (resample the unique layouts, B=4000, seed 0, ratio estimator), and, when the observed value has no
-variation, an exact one-sided 95% (Clopper-Pearson) bound with the number of unique layouts as the effective sample size."""
+variation, NO inferential bound (closeout-stats-2): the observation is reported descriptively as "k/n successes across m unique DEV layouts".
+closeout-stats-1 also printed an exact Clopper-Pearson "failure <= 0.034" over the 87 unique layouts. That bound assumes independent layouts drawn
+from the population of interest; the DEV pool has only 100 ids, 87 of them sampled with replacement, several spawns share a layout, and the
+claim would concern unseen layouts. It was withdrawn; the superseded outputs are kept in superseded_stats1/."""
 import hashlib
 import json
 import math
@@ -16,7 +19,7 @@ import numpy as np
 
 from .run_la_benchmark import wilson
 
-STATS_VERSION = "closeout-stats-1"
+STATS_VERSION = "closeout-stats-2"
 CONDS = ("LA_CLEAR", "LA_NOM", "LA_OCC")
 CTRLS = ("greedy", "reactive_memory", "oracle_descent", "obs_A_single_frame", "obs_B_map_memory")
 PAIRS = (("obs_A_single_frame", "obs_B_map_memory"), ("obs_B_map_memory", "oracle_descent"), ("obs_A_single_frame", "oracle_descent"),
@@ -33,11 +36,6 @@ def mcnemar(a, b):
         return {"a_only": 0, "b_only": 0, "discordant": 0, "p_exact": None, "note": "0 discordant pairs: no test is defined"}
     k = min(n10, n01)
     return {"a_only": n10, "b_only": n01, "discordant": n, "p_exact": min(1.0, 2 * sum(math.comb(n, i) for i in range(k + 1)) / 2 ** n), "note": ""}
-
-
-def upper_bound_zero(m, conf=0.95):
-    """Exact one-sided Clopper-Pearson upper bound on a failure probability after 0 failures in m independent units."""
-    return 1 - (1 - conf) ** (1 / m)
 
 
 def cluster_boot(layouts, x, y=None, seed=0):
@@ -133,13 +131,12 @@ def paired_replay(pr, repro_v1, hist):
             k, n = int(s65[c].sum()), len(layouts)
             v1_rate = float(np.mean(hist["conds"][cn][c]["per_episode_success_at_budget"]))
             fails = {kk: int(sum(1 for f in cc[c]["fail_kind"] if f == kk)) for kk in set(cc[c]["fail_kind"]) if kk}
-            fail_x = 1 - s65[c]
             ci = cluster_boot(layouts, s65[c])
             block["controllers"][c] = {
                 "success_at_65": k / n, "successes_at_65": k, "success_at_80": float(np.mean(cc[c]["success_at_80"])),
                 "wilson95_episode_level": wilson(k, n),
                 "layout_cluster_bootstrap95": ci if ci else None,
-                "failure_upper95_exact_over_unique_layouts": upper_bound_zero(len(set(layouts))) if fail_x.sum() == 0 else None,
+                "descriptive": f"{k}/{n} successes at 65 steps across {len(set(layouts))} unique DEV layouts (no claim for unseen layouts)",
                 "finish": finish_stats(cc[c]["finish"], cc[c]["success_at_80"]), "fail_kinds_at_cap_80_or_before": fails,
                 "effort": cc[c]["effort"], "v1_historical_success_at_65": v1_rate, "delta_vs_v1_historical": k / n - v1_rate,
                 "per_episode_success_at_65_sha1": hashlib.sha1(bytes(s65[c].astype(np.uint8).tolist())).hexdigest()[:12]}
@@ -184,9 +181,9 @@ def markdown(out):
         L.append(f"| {kk} | " + " | ".join("%d (%d)" % (out["historical_defect_measured"][cn][k]["episodes_with_different_valid_sequence_while_live"], out["historical_defect_measured"][cn][k]["episodes_with_different_valid_sequence_whole_run"]) for cn in CONDS) + " |")
     for cn, b in out["paired_replay"]["conds"].items():
         L += ["", f"## Paired replay, {cn}: {b['n_episodes']} episodes, {b['unique_layouts']} unique layouts, schedule id `{b['schedule_identifier']}`, dark steps {b['blackout_schedule_first_65_steps']['dark_step_fraction']:.3f}, episodes with a blackout {b['blackout_schedule_first_65_steps']['episodes_with_any_blackout']:.3f}", "",
-              "| controller | success@65 | success@80 | Wilson95 (episodes) | layout-cluster bootstrap95 | exact 95% failure bound (unique layouts) | median finish (successes) | timeouts | v1 hist @65 | delta |", "|---|---|---|---|---|---|---|---|---|---|"]
+              "| controller | success@65 | success@80 | Wilson95 (episodes) | layout-cluster bootstrap95 | descriptive (successes / episodes; unique layouts) | median finish (successes) | timeouts | v1 hist @65 | delta |", "|---|---|---|---|---|---|---|---|---|---|"]
         for c, v in b["controllers"].items():
-            ub = "-" if v["failure_upper95_exact_over_unique_layouts"] is None else "<= %.3f" % v["failure_upper95_exact_over_unique_layouts"]
+            ub = f"{v['successes_at_65']}/{b['n_episodes']}; {b['unique_layouts']} layouts"
             L.append(f"| {c} | {v['success_at_65']:.3f} | {v['success_at_80']:.3f} | [{v['wilson95_episode_level'][0]:.3f}, {v['wilson95_episode_level'][1]:.3f}] | {fmt_ci(v['layout_cluster_bootstrap95'])} | {ub} | "
                      f"{v['finish']['median']} | {v['fail_kinds_at_cap_80_or_before'].get('timeout', 0)} | {v['v1_historical_success_at_65']:.3f} | {v['delta_vs_v1_historical']:+.3f} |")
         L += ["", "| pair (a vs b) | a-b success@65 | layout-cluster bootstrap95 of a-b | a-only / b-only discordant | exact McNemar p (episode level) |", "|---|---|---|---|---|"]
@@ -221,7 +218,7 @@ def main():
               blk["all_controllers_same_spawn_digests"], blk["all_controllers_same_schedule_digests"], blk["realized_valid_identical_across_controllers_on_common_steps"])
         for c, v in blk["controllers"].items():
             print("  ", c, v["success_at_65"], v["success_at_80"], "wilson", [round(x, 3) for x in v["wilson95_episode_level"]], "cluster", v["layout_cluster_bootstrap95"],
-                  "ub0", v["failure_upper95_exact_over_unique_layouts"], "delta_v1", round(v["delta_vs_v1_historical"], 3))
+                  "desc", v["descriptive"], "delta_v1", round(v["delta_vs_v1_historical"], 3))
         for k, v in blk["pairs"].items():
             print("  ", k, round(v["difference_a_minus_b"], 3), v["layout_cluster_bootstrap95_difference"], v["mcnemar_episode_level"])
 

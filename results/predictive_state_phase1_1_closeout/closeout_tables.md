@@ -23,13 +23,13 @@ Headline = while live under both controllers (observations both acted on); in br
 
 ## Paired replay, LA_CLEAR: 200 episodes, 87 unique layouts, schedule id `886db08b80c0b145`, dark steps 0.000, episodes with a blackout 0.000
 
-| controller | success@65 | success@80 | Wilson95 (episodes) | layout-cluster bootstrap95 | exact 95% failure bound (unique layouts) | median finish (successes) | timeouts | v1 hist @65 | delta |
+| controller | success@65 | success@80 | Wilson95 (episodes) | layout-cluster bootstrap95 | descriptive (successes / episodes; unique layouts) | median finish (successes) | timeouts | v1 hist @65 | delta |
 |---|---|---|---|---|---|---|---|---|---|
-| greedy | 0.235 | 0.235 | [0.182, 0.298] | [0.155, 0.320] | - | 28.0 | 153 | 0.240 | -0.005 |
-| reactive_memory | 0.290 | 0.380 | [0.232, 0.356] | [0.194, 0.388] | - | 37.5 | 124 | 0.295 | -0.005 |
-| oracle_descent | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | <= 0.034 | 31.0 | 0 | 1.000 | +0.000 |
-| obs_A_single_frame | 0.995 | 0.995 | [0.972, 0.999] | [0.984, 1.000] | - | 31.0 | 1 | 1.000 | -0.005 |
-| obs_B_map_memory | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | <= 0.034 | 31.0 | 0 | 1.000 | +0.000 |
+| greedy | 0.235 | 0.235 | [0.182, 0.298] | [0.155, 0.320] | 47/200; 87 layouts | 28.0 | 153 | 0.240 | -0.005 |
+| reactive_memory | 0.290 | 0.380 | [0.232, 0.356] | [0.194, 0.388] | 58/200; 87 layouts | 37.5 | 124 | 0.295 | -0.005 |
+| oracle_descent | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | 200/200; 87 layouts | 31.0 | 0 | 1.000 | +0.000 |
+| obs_A_single_frame | 0.995 | 0.995 | [0.972, 0.999] | [0.984, 1.000] | 199/200; 87 layouts | 31.0 | 1 | 1.000 | -0.005 |
+| obs_B_map_memory | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | 200/200; 87 layouts | 31.0 | 0 | 1.000 | +0.000 |
 
 | pair (a vs b) | a-b success@65 | layout-cluster bootstrap95 of a-b | a-only / b-only discordant | exact McNemar p (episode level) |
 |---|---|---|---|---|
@@ -41,13 +41,13 @@ Headline = while live under both controllers (observations both acted on); in br
 
 ## Paired replay, LA_NOM: 200 episodes, 87 unique layouts, schedule id `e77aea566666a7df`, dark steps 0.172, episodes with a blackout 0.760
 
-| controller | success@65 | success@80 | Wilson95 (episodes) | layout-cluster bootstrap95 | exact 95% failure bound (unique layouts) | median finish (successes) | timeouts | v1 hist @65 | delta |
+| controller | success@65 | success@80 | Wilson95 (episodes) | layout-cluster bootstrap95 | descriptive (successes / episodes; unique layouts) | median finish (successes) | timeouts | v1 hist @65 | delta |
 |---|---|---|---|---|---|---|---|---|---|
-| greedy | 0.235 | 0.235 | [0.182, 0.298] | [0.155, 0.320] | - | 28.0 | 153 | 0.240 | -0.005 |
-| reactive_memory | 0.290 | 0.380 | [0.232, 0.356] | [0.194, 0.388] | - | 37.5 | 124 | 0.295 | -0.005 |
-| oracle_descent | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | <= 0.034 | 31.0 | 0 | 1.000 | +0.000 |
-| obs_A_single_frame | 0.970 | 0.995 | [0.936, 0.986] | [0.945, 0.991] | - | 37.0 | 1 | 0.980 | -0.010 |
-| obs_B_map_memory | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | <= 0.034 | 31.0 | 0 | 1.000 | +0.000 |
+| greedy | 0.235 | 0.235 | [0.182, 0.298] | [0.155, 0.320] | 47/200; 87 layouts | 28.0 | 153 | 0.240 | -0.005 |
+| reactive_memory | 0.290 | 0.380 | [0.232, 0.356] | [0.194, 0.388] | 58/200; 87 layouts | 37.5 | 124 | 0.295 | -0.005 |
+| oracle_descent | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | 200/200; 87 layouts | 31.0 | 0 | 1.000 | +0.000 |
+| obs_A_single_frame | 0.970 | 0.995 | [0.936, 0.986] | [0.945, 0.991] | 194/200; 87 layouts | 37.0 | 1 | 0.980 | -0.010 |
+| obs_B_map_memory | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | 200/200; 87 layouts | 31.0 | 0 | 1.000 | +0.000 |
 
 | pair (a vs b) | a-b success@65 | layout-cluster bootstrap95 of a-b | a-only / b-only discordant | exact McNemar p (episode level) |
 |---|---|---|---|---|
@@ -59,13 +59,13 @@ Headline = while live under both controllers (observations both acted on); in br
 
 ## Paired replay, LA_OCC: 200 episodes, 87 unique layouts, schedule id `4ecfb3bf08322723`, dark steps 0.478, episodes with a blackout 0.955
 
-| controller | success@65 | success@80 | Wilson95 (episodes) | layout-cluster bootstrap95 | exact 95% failure bound (unique layouts) | median finish (successes) | timeouts | v1 hist @65 | delta |
+| controller | success@65 | success@80 | Wilson95 (episodes) | layout-cluster bootstrap95 | descriptive (successes / episodes; unique layouts) | median finish (successes) | timeouts | v1 hist @65 | delta |
 |---|---|---|---|---|---|---|---|---|---|
-| greedy | 0.235 | 0.235 | [0.182, 0.298] | [0.155, 0.320] | - | 28.0 | 153 | 0.250 | -0.015 |
-| reactive_memory | 0.290 | 0.380 | [0.232, 0.356] | [0.194, 0.388] | - | 37.5 | 124 | 0.295 | -0.005 |
-| oracle_descent | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | <= 0.034 | 31.0 | 0 | 1.000 | +0.000 |
-| obs_A_single_frame | 0.560 | 0.725 | [0.491, 0.627] | [0.476, 0.638] | - | 49.0 | 55 | 0.615 | -0.055 |
-| obs_B_map_memory | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | <= 0.034 | 31.0 | 0 | 1.000 | +0.000 |
+| greedy | 0.235 | 0.235 | [0.182, 0.298] | [0.155, 0.320] | 47/200; 87 layouts | 28.0 | 153 | 0.250 | -0.015 |
+| reactive_memory | 0.290 | 0.380 | [0.232, 0.356] | [0.194, 0.388] | 58/200; 87 layouts | 37.5 | 124 | 0.295 | -0.005 |
+| oracle_descent | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | 200/200; 87 layouts | 31.0 | 0 | 1.000 | +0.000 |
+| obs_A_single_frame | 0.560 | 0.725 | [0.491, 0.627] | [0.476, 0.638] | 112/200; 87 layouts | 49.0 | 55 | 0.615 | -0.055 |
+| obs_B_map_memory | 1.000 | 1.000 | [0.981, 1.000] | n/a (no variation) | 200/200; 87 layouts | 31.0 | 0 | 1.000 | +0.000 |
 
 | pair (a vs b) | a-b success@65 | layout-cluster bootstrap95 of a-b | a-only / b-only discordant | exact McNemar p (episode level) |
 |---|---|---|---|---|

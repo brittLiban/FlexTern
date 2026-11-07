@@ -1,5 +1,5 @@
 {
- "stats_version": "closeout-stats-1",
+ "stats_version": "closeout-stats-2",
  "bootstrap_B": 4000,
  "reproduction_of_historical": {
   "LA_CLEAR": {
@@ -235,7 +235,7 @@
        0.15458102065988283,
        0.3197969543147208
       ],
-      "failure_upper95_exact_over_unique_layouts": null,
+      "descriptive": "47/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 47,
        "min": 19,
@@ -270,7 +270,7 @@
        0.1943121191604604,
        0.38786923151421243
       ],
-      "failure_upper95_exact_over_unique_layouts": null,
+      "descriptive": "58/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 76,
        "min": 19,
@@ -303,7 +303,7 @@
        1.0
       ],
       "layout_cluster_bootstrap95": null,
-      "failure_upper95_exact_over_unique_layouts": 0.03384761068161957,
+      "descriptive": "200/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 200,
        "min": 18,
@@ -336,7 +336,7 @@
        0.9835164835164835,
        1.0
       ],
-      "failure_upper95_exact_over_unique_layouts": null,
+      "descriptive": "199/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 199,
        "min": 18,
@@ -368,7 +368,7 @@
        1.0
       ],
       "layout_cluster_bootstrap95": null,
-      "failure_upper95_exact_over_unique_layouts": 0.03384761068161957,
+      "descriptive": "200/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 200,
        "min": 18,
@@ -493,7 +493,7 @@
        0.15458102065988283,
        0.3197969543147208
       ],
-      "failure_upper95_exact_over_unique_layouts": null,
+      "descriptive": "47/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 47,
        "min": 19,
@@ -528,7 +528,7 @@
        0.1943121191604604,
        0.38786923151421243
       ],
-      "failure_upper95_exact_over_unique_layouts": null,
+      "descriptive": "58/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 76,
        "min": 19,
@@ -561,7 +561,7 @@
        1.0
       ],
       "layout_cluster_bootstrap95": null,
-      "failure_upper95_exact_over_unique_layouts": 0.03384761068161957,
+      "descriptive": "200/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 200,
        "min": 18,
@@ -594,7 +594,7 @@
        0.9453551912568307,
        0.9906114255627221
       ],
-      "failure_upper95_exact_over_unique_layouts": null,
+      "descriptive": "194/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 199,
        "min": 18,
@@ -626,7 +626,7 @@
        1.0
       ],
       "layout_cluster_bootstrap95": null,
-      "failure_upper95_exact_over_unique_layouts": 0.03384761068161957,
+      "descriptive": "200/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 200,
        "min": 18,
@@ -751,7 +751,7 @@
        0.15458102065988283,
        0.3197969543147208
       ],
-      "failure_upper95_exact_over_unique_layouts": null,
+      "descriptive": "47/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 47,
        "min": 19,
@@ -786,7 +786,7 @@
        0.1943121191604604,
        0.38786923151421243
       ],
-      "failure_upper95_exact_over_unique_layouts": null,
+      "descriptive": "58/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 76,
        "min": 19,
@@ -819,7 +819,7 @@
        1.0
       ],
       "layout_cluster_bootstrap95": null,
-      "failure_upper95_exact_over_unique_layouts": 0.03384761068161957,
+      "descriptive": "200/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 200,
        "min": 18,
@@ -852,7 +852,7 @@
        0.47638974044553445,
        0.6379351395730707
       ],
-      "failure_upper95_exact_over_unique_layouts": null,
+      "descriptive": "112/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 145,
        "min": 18,
@@ -884,7 +884,7 @@
        1.0
       ],
       "layout_cluster_bootstrap95": null,
-      "failure_upper95_exact_over_unique_layouts": 0.03384761068161957,
+      "descriptive": "200/200 successes at 65 steps across 87 unique DEV layouts (no claim for unseen layouts)",
       "finish": {
        "n_success": 200,
        "min": 18,

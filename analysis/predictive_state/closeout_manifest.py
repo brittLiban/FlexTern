@@ -55,7 +55,7 @@ def main():
         "random_stream_policy": {"protocol": P.PROTOCOL, "streams": {"spawn": "(seed, episode_id, 1)", "blackout": "(seed, episode_id, 2); uniforms+durations for t < %d" % P.TMAX,
                                                                       "render_noise": "(seed, episode_id, 3, t)"}, "shared_generator": "refused", "n_picks": "must be 1", "test_split": "refused"},
         "statistics": {"version": A.STATS_VERSION, "bootstrap_B": A.B, "bootstrap_seed": 0, "episode_ci": "Wilson 95%", "cluster_ci": "layout-clustered percentile bootstrap",
-                       "zero_variance": "exact one-sided Clopper-Pearson over unique layouts", "mcnemar": "exact two-sided, '0 discordant pairs' reported without p"},
+                       "zero_variance": "descriptive count only (k/n across m unique DEV layouts); the stats-1 Clopper-Pearson bound over unique layouts was withdrawn (independence/population assumptions not met)", "mcnemar": "exact two-sided, '0 discordant pairs' reported without p"},
         "commands": [
             "python -m analysis.predictive_state.closeout_repro_v1 COND results/predictive_state_phase1_1_closeout/repro_v1_COND.json   (COND = LA_CLEAR, LA_NOM, LA_OCC; ~4 min each)",
             "python -m analysis.predictive_state.closeout_paired COND results/predictive_state_phase1_1_closeout/paired_replay_COND.json   (~5 min each)",

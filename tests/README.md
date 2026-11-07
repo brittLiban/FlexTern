@@ -8,7 +8,7 @@ Simulation testbenches and reference models. Every design in `rtl/` should have 
 
 | tier | command | contents | needs |
 |---|---|---|---|
-| smoke | `python scripts/run_tests.py smoke` | reserved-split guard, paired-replay env, OccPick2D-LA env | numpy |
+| smoke | `python scripts/run_tests.py smoke` | reserved-split guard, paired-replay env, deterministic transition fixtures, OccPick2D-LA env | numpy (the split guard's executed-entrypoint checks also need torch and skip without it) |
 | benchmark | `python scripts/run_tests.py benchmark` | smoke + observation-matched controllers | numpy |
 | predictive | `python scripts/run_tests.py predictive` | benchmark + EXP-0012 env/model tests + gated-encode / executed-work regression | torch |
 | full | `python scripts/run_tests.py full` | every module in <= 900 s chunks (`full --chunk K`); the 21 non-RTL modules take about 100 s in total; `test_hardware_gate` (iverilog RTL simulations, about 29 min, INFERRED; it timed out at 900 s in the closeout run) is its own chunk and needs `--approved` | torch; iverilog for the RTL module |

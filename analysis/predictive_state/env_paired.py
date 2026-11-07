@@ -59,18 +59,27 @@ def reference_valid(u, dur, p_blackout, T):
 
 class _ExoRng:
     """Stand-in for `BatchEnv.rng`: serves ONLY the draws `BatchEnv.step`/`render` make from precomputed, episode-keyed streams.
-    Any other use (e.g. a controller or a code path drawing from the shared generator) raises."""
+    Any other use raises: unknown methods (`uniform`, `permutation`, ...), a `random`/`integers` call whose shape or bounds differ from the
+    blackout recurrence, and any `normal` call except the zero-mean PIX_NOISE render-noise placeholder made inside `render()` (the
+    real noise is injected per (episode, t) afterwards). A Gaussian draw in the dynamics therefore fails visibly instead of returning zeros."""
     def __init__(self, env):
         self._env = env
+        self.render_scope = False                   # set by PairedLAEnv.render around the noise-free super().render()
 
     def random(self, size):
-        assert size == self._env.n
+        if size != self._env.n:
+            raise RuntimeError(f"unsupported random(size={size!r}): only the per-episode blackout uniform (n={self._env.n}) is served")
         return self._env._u[:, self._env.t].copy()
 
     def integers(self, lo, hi):
+        e = self._env
+        if not (np.array_equal(lo, e.dur_lo) and np.array_equal(hi, e.dur_hi + 1)):
+            raise RuntimeError("unsupported integers(): only the per-episode blackout duration draw is served")
         return self._env._dur[:, self._env.t].copy()
 
     def normal(self, loc, scale, size):
+        if not (self.render_scope and loc == 0 and scale == E.PIX_NOISE):
+            raise RuntimeError(f"unsupported normal(loc={loc!r}, scale={scale!r}): Gaussian draws are allowed only as zero-mean PIX_NOISE render noise inside render()")
         return np.zeros(size)                       # noise is injected per (episode, t) in `PairedLAEnv.render`
 
     def __getattr__(self, name):
@@ -84,8 +93,26 @@ class PairedLAEnv(L.LAEnv):
         if split == "test":
             raise ValueError("the reserved TEST layout range must not be used by exploratory/paired evaluations")
         self.seed = int(seed)
-        self.episode_ids = np.arange(n) if episode_ids is None else np.asarray(episode_ids, dtype=np.int64)
-        assert len(self.episode_ids) == n
+        if episode_ids is None:
+            self.episode_ids = np.arange(n)         # protocol default: episode i of the batch IS episode id i (locked la-paired-replay-1.1)
+        else:
+            # Layout ids default to a function of the batch POSITION (`default_rng([seed,777]).integers(lo,hi,n)[i]`), so custom episode ids
+            # would silently receive whatever layout their position implies. Make the pairing explicit instead of guessing.
+            if layout_ids is None:
+                raise ValueError("custom episode_ids require explicit layout_ids: the default layout of an episode depends on its batch position, not its id")
+            self.episode_ids = np.asarray(episode_ids, dtype=np.int64)
+            if self.episode_ids.ndim != 1 or len(self.episode_ids) != n:
+                raise ValueError(f"episode_ids must be 1-D with length n={n}")
+            if len(np.unique(self.episode_ids)) != n:
+                raise ValueError("duplicate episode_ids are not supported: they would share spawn, blackout and noise streams")
+            if (self.episode_ids < 0).any():
+                raise ValueError("episode_ids must be non-negative")
+            lids = np.asarray(layout_ids)
+            lo, hi = E.LAYOUT_RANGES[split]
+            if lids.shape != (n,) or ((lids < lo) | (lids >= hi)).any():
+                raise ValueError(f"layout_ids must have shape ({n},) and lie in the '{split}' range [{lo}, {hi})")
+        if layout_ids is not None and len(layout_ids) != n:
+            raise ValueError(f"layout_ids must have length n={n}")
         conds = cond if isinstance(cond, list) else [cond] * n
         assert all(c.n_picks == 1 for c in conds), "paired replay requires n_picks == 1"
         draws = [blackout_draws(self.seed, e, c.dur[0], c.dur[1]) for e, c in zip(self.episode_ids, conds)]
@@ -162,7 +189,11 @@ class PairedLAEnv(L.LAEnv):
         return np.stack([noise_field(self.seed, e, self.t) for e in self.episode_ids])
 
     def render(self):
-        img = super().render()                      # noise-free (the guarded rng returns zeros)
+        self._exo.render_scope = True
+        try:
+            img = super().render()                  # noise-free (the guarded rng returns zeros for the PIX_NOISE placeholder only)
+        finally:
+            self._exo.render_scope = False
         self.last_noise = self.noise()
         return np.clip(img + self.last_noise, 0, 255)
 

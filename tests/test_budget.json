@@ -13,15 +13,17 @@
   "test_executed_work": 3.1,
   "test_hardware_gate": 1750.0,
   "test_inference_skip": 8.4,
+  "test_inference_startup": 2.4,
   "test_memory_residency": 0.1,
   "test_model_precision": 6.8,
   "test_predictive_state": 11.2,
   "test_reference": 0.1,
   "test_roofline": 0.1,
-  "test_split_guard": 0.5,
+  "test_split_guard": 2.8,
   "test_sram_retention": 0.4,
   "test_sram_retention_correction": 0.3,
   "test_sram_validation": 0.1,
-  "test_ternary_vs_int4": 0.2
+  "test_ternary_vs_int4": 0.2,
+  "test_transition_events": 0.6
  }
 }

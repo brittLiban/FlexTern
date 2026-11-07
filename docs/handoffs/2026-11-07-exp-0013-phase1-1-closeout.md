@@ -33,3 +33,7 @@ Section 13 of the closeout record. Founder decisions pending: merge of this bran
 - Use `PairedLAEnv` (never `LAEnv`) for any paired comparison; do not use ids 2000-2199 for v2 claims; the `"test"` literal is guarded by `tests/test_split_guard.py`.
 - Windows host Python 3.12 imports torch 2.11 now (CUDA works); WSL was used for the timing run only (matching the historical setup).
 - Spawns in the paired protocol are not bit-identical to v1; compare aggregates, not episodes, across protocols.
+
+## Addendum: hardening round after the independent code audit
+
+See `docs/experiments/EXP-0013-phase1-1-closeout.md` section 15. Net effect for a continuing agent: `PairedLAEnv` custom `episode_ids` need explicit `layout_ids`; use `analysis/predictive_state/split_policy.py` for any split choice (TRAIN default); do not cite a layout-level failure bound (only "k/n across m unique DEV layouts"); `RecurrentRunner` conflates sensor blackout with chosen skip and does not re-arm the first observation (KI-031), so a v2 interface needs an explicit observation status.
