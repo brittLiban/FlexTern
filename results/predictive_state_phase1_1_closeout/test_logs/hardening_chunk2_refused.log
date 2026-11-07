@@ -1,0 +1,1 @@
+refused chunk 2 ['test_hardware_gate']: estimated 1750.0 s exceeds the 900 s budget; get founder approval and pass --approved (a single module is never split)
