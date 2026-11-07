@@ -55,6 +55,14 @@ TEST_CONDS = {
     "LONG": Cond("LONG", 0.03, (5, 20), 0.5, 2, n_picks=10),  # 10 sequential picks (~400 steps, 2.5x the 160-step training length), no state reset (amendment 3: was 5)
 }
 
+# Exploratory (post-hoc, added after dev showed persistent state gave no advantage under the locked conditions): longer
+# blackouts so that remembering the target matters. Not part of any locked gate.
+EXPLORATORY_CONDS = {
+    "BLK40": Cond("BLK40", 0.04, (30, 50), 0.0, 2),
+    "BLK40D": Cond("BLK40D", 0.04, (30, 50), 1.0, 2),
+}
+TEST_CONDS_ALL = {**TEST_CONDS, **EXPLORATORY_CONDS}
+
 
 def layout_from_id(layout_id: int):
     """Deterministic layout: occluder rectangles (cx, cy, w, h) x NOCC (some may be empty) and goal centre."""

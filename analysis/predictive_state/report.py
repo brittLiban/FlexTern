@@ -173,10 +173,58 @@ def main():
             gates[f"G4_{cand}_vs_G_full"] = {"bytes_ratio": cg["bytes"] / cc["bytes"], "macs_ratio": cg["macs"] / cc["macs"]}
     # ---- probe, prediction, latency
     if pr:
-        md.append("\n## State usefulness: linear probe of occluded target position from h (R^2; fit on DEV LONG steps<=100)\n")
-        md.append("| arm | seed | R2 early (<=100) | R2 late (>160) | n late | mean abs h early/late | max abs h | NaN |\n|---|---|---|---|---|---|---|---|")
+        md.append("\n## State usefulness: ridge probes from the recurrent state / encoder embedding (R^2; standardized features, CV lambda; fit on DEV LONG steps<=100, scored on TEST LONG)\n")
+        md.append("Primary probe = h -> position of the occluded (blackout-frame) target. h->target on valid frames and z->target are positive controls; if the primary probe is near 0 while controls are high, h does not carry the remembered position.\n")
+        md.append("| arm | seed | probe | n fit | R2 early (<=100) | R2 late (>160) | n late |\n|---|---|---|---|---|---|---|")
         for k, v in sorted(pr.items()):
-            md.append(f"| {k.split('|')[0]} | {k.split('|')[1]} | {fmt(v['early_le100']['r2'])} | {fmt(v['late_gt160']['r2'])} | {v['late_gt160']['n']} | {fmt(v['mean_abs_h_le100'])}/{fmt(v['mean_abs_h_gt160'])} | {fmt(v['max_abs_h'])} | {v['nan']} |")
+            for name in ("h->target|blackout", "h->target|valid", "z->target|valid", "h->goal|blackout"):
+                d = v.get(name)
+                if not d or "early_le100" not in d:
+                    md.append(f"| {k.split('|')[0]} | {k.split('|')[1]} | {name} | {d['n_fit'] if d else 0} | n/a | n/a | n/a |")
+                    continue
+                md.append(f"| {k.split('|')[0]} | {k.split('|')[1]} | {name} | {d['n_fit']} | {fmt(d['early_le100']['r2'])} | {fmt(d['late_gt160']['r2'])} | {d['late_gt160']['n']} |")
+        md.append("\n| arm | seed | mean abs h early/late | max abs h | NaN |\n|---|---|---|---|---|")
+        for k, v in sorted(pr.items()):
+            md.append(f"| {k.split('|')[0]} | {k.split('|')[1]} | {fmt(v['mean_abs_h_le100'])}/{fmt(v['mean_abs_h_gt160'])} | {fmt(v['max_abs_h'])} | {v['nan']} |")
+        for a_ in ("G", "G-Tu", "G-Ta"):
+            rs = [v["h->target|blackout"] for k, v in pr.items() if k.startswith(a_ + "|") and "early_le100" in v.get("h->target|blackout", {})]
+            if rs and all(r["late_gt160"]["r2"] is not None and r["early_le100"]["r2"] is not None for r in rs):
+                gates.setdefault("G5_probe", {})[a_] = {"early": float(np.mean([r["early_le100"]["r2"] for r in rs])), "late": float(np.mean([r["late_gt160"]["r2"] for r in rs]))}
+        pg = gates.get("G5_probe", {})
+        if "G" in pg:
+            for a_ in ("G-Tu", "G-Ta"):
+                if a_ in pg:
+                    pg[a_]["late_drop_vs_G"] = pg["G"]["late"] - pg[a_]["late"]
+                    pg[a_]["primary_probe_informative"] = bool(pg["G"]["early"] > 0.2)
+    # per-pick conditional success (LONG drift diagnostic) and final z_std
+    md.append("\n## LONG: per-pick conditional success (P(complete pick j | completed j-1)); episodes end at first failure\n")
+    md.append("| arm | picks 1-2 | picks 3-5 | picks 6-10 | episodes reaching pick 6 |\n|---|---|---|---|---|")
+    for a_ in full_arms:
+        vv = [np.array(v["picks_done_vec"]) for k, v in res.items() if k.startswith(a_ + "|") and "|test|LONG|full" in k]
+        if not vv:
+            continue
+        pdn = np.concatenate(vv)
+
+        def cond(lo, hi):
+            num = sum((pdn >= j + 1).sum() for j in range(lo, hi))
+            den = sum((pdn >= j).sum() for j in range(lo, hi))
+            return num / den if den else float("nan")
+        md.append(f"| {a_} | {fmt(cond(0,2))} | {fmt(cond(2,5))} | {fmt(cond(5,10))} | {int((pdn>=5).sum())} of {len(pdn)} |")
+    try:
+        import os
+        import torch
+        ck = os.environ.get("PS_CKPT", "/home/liban/ps_ckpt")
+        zs = {}
+        for f in sorted(os.listdir(ck)):
+            if f.endswith(".pt") and f.startswith("G") and "G0" not in f:
+                lg = torch.load(os.path.join(ck, f), map_location="cpu")["log"]
+                zs[f[:-3]] = lg[-1].get("z_std")
+        md.append("\n## Embedding collapse monitor: final per-dimension std of z across the training batch (JEPA arms)\n")
+        md.append("| run | z_std |\n|---|---|")
+        for k, v in zs.items():
+            md.append(f"| {k} | {fmt(v)} |")
+    except Exception as e:
+        md.append(f"\n(z_std unavailable: {e})")
     if pd_:
         md.append("\n## Multi-step latent prediction (cosine to EMA target embedding; k steps open-loop; DEV NOM+DIST)\n")
         md.append("| arm | seed | k=1 pred/shuffled/persist | k=4 | k=8 |\n|---|---|---|---|---|")

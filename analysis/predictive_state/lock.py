@@ -97,5 +97,34 @@ def main():
     print("wrote", out)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and "--amend" not in __import__("sys").argv:
     main()
+
+
+AMENDED_STATEMENT = {
+    "amendments": ["1 task-conditioned CoordConv encoder (floor effect)", "2 policy feed-through of current embedding",
+                   "3 LONG = 10 picks; late probe window > 160 steps", "4 budget 6000 steps x batch 48 for all arms; G-I8a and G-Ta-s8 seed 0 only",
+                   "5 (measurement fairness, before any test data) fixed-rate trigger uses a fractional accumulator calibrated empirically like the other triggers; "
+                   "probes use standardized features, CV ridge, n=150 rollouts and positive controls; LONG picks_frac = picks / n_picks with per-pick conditional success reported"],
+    "decision_rules_set_before_test": [
+        "G0 (discrimination) is decided on DEV with the amendment-4 checkpoints at 300 episodes per cell, all available seeds.",
+        "Amendment 4 is the last fix attempt for the floor. No further change to budget or architecture will be made to improve baseline success. "
+        "If G0 fails on dev or G1 fails on test the verdict is STOP and questions A-D are reported as descriptive, ungated results.",
+        "Test split is evaluated once per (arm, seed, condition, trigger) after this file is committed.",
+    ],
+}
+
+
+def main_amended(ckdir="/home/liban/ps_ckpt", data="/home/liban/ps_data/train_s0_n2000.npz"):
+    rec = json.loads((HERE / "protocol_v1.json").read_text())
+    rec["amended"] = AMENDED_STATEMENT
+    rec["code_sha256_after_amendments"] = {f: sha(HERE / f) for f in FILES + ["run_eval.py", "analyze_state.py", "report.py", "latency.py", "run_train.py"]}
+    rec["training_data_sha256"] = sha(Path(data))
+    rec["checkpoint_sha256"] = {p.name: sha(p) for p in sorted(Path(ckdir).glob("*.pt"))}
+    out = HERE / "protocol_v1_amended.json"
+    out.write_text(json.dumps(rec, indent=2))
+    print("wrote", out, len(rec["checkpoint_sha256"]), "checkpoints")
+
+
+if __name__ == "__main__" and len(__import__("sys").argv) > 1 and __import__("sys").argv[1] == "--amend":
+    main_amended()

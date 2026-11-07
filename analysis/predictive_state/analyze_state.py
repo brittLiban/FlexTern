@@ -24,40 +24,71 @@ from . import models as M
 from . import train as T
 
 
-def _ridge(Xtr, ytr, lam=1.0):
-    Xb = np.concatenate([Xtr, np.ones((len(Xtr), 1))], 1)
-    A = Xb.T @ Xb + lam * np.eye(Xb.shape[1])
-    return np.linalg.solve(A, Xb.T @ ytr)
+def _ridge_cv(Xtr, ytr, lams=(1e-2, 1e-1, 1, 10, 100, 1000), folds=5):
+    mu, sd = Xtr.mean(0), Xtr.std(0) + 1e-6
+    Z = (Xtr - mu) / sd
+    idx = np.arange(len(Z)) % folds
+    best, bl = -1e9, lams[0]
+    for lam in lams:
+        sse = 0.0
+        for f in range(folds):
+            tr, te = idx != f, idx == f
+            w = _fit(Z[tr], ytr[tr], lam)
+            sse += ((_pred(w, Z[te]) - ytr[te]) ** 2).sum()
+        score = -sse
+        if score > best:
+            best, bl = score, lam
+    return {"w": _fit(Z, ytr, bl), "mu": mu, "sd": sd, "lam": bl}
 
 
-def _r2(w, Xte, yte):
-    Xb = np.concatenate([Xte, np.ones((len(Xte), 1))], 1)
-    p = Xb @ w
+def _fit(Z, y, lam):
+    Xb = np.concatenate([Z, np.ones((len(Z), 1))], 1)
+    return np.linalg.solve(Xb.T @ Xb + lam * np.eye(Xb.shape[1]), Xb.T @ y)
+
+
+def _pred(w, Z):
+    return np.concatenate([Z, np.ones((len(Z), 1))], 1) @ w
+
+
+def _r2(m, Xte, yte):
+    p = _pred(m["w"], (Xte - m["mu"]) / m["sd"])
     return float(1 - ((p - yte) ** 2).sum() / ((yte - yte.mean(0)) ** 2).sum())
 
 
-def _rows(rec, tmin, tmax, only_blackout=True):
-    h, tg, held, valid, alive = (rec[k] for k in ("h", "target", "held", "valid", "alive"))
-    T_ = h.shape[1]
-    t = np.arange(T_)[None, :]
-    m = alive & ~held & (t > tmin) & (t <= tmax)
-    if only_blackout:
-        m &= ~valid
-    return h[m], tg[m], int(m.sum())
+def _rows(rec, feat, targ, tmin, tmax, blackout):
+    X_, y_, held, valid, alive = rec[feat], rec[targ], rec["held"], rec["valid"], rec["alive"]
+    t = np.arange(X_.shape[1])[None, :]
+    m = alive & (t > tmin) & (t <= tmax) & ((~valid) if blackout else valid)
+    if targ == "target":
+        m &= ~held
+    return X_[m], y_[m], int(m.sum())
 
 
-def probe(net, seed, n=60):
+PROBES = {                       # name: (feature, target, blackout frames only)
+    "h->target|blackout": ("h", "target", True),            # primary: remembered position of the occluded target
+    "h->target|valid": ("h", "target", False),              # positive control
+    "z->target|valid": ("z", "target", False),              # positive control: the encoder embedding itself
+    "h->goal|blackout": ("h", "goal", True),                # remembered goal position
+}
+
+
+def probe(net, seed, n=int(os.environ.get("PS_PROBE_N", 150))):
     cond = E.TEST_CONDS["LONG"]
     dv = V.rollout(net, "dev", cond, 5000 + seed, n, "full", collect=True)["rec"]
-    ts = V.rollout(net, "test", cond, 9000 + seed, n, "full", collect=True)["rec"]
-    Xtr, ytr, ntr = _rows(dv, 0, 100)
-    w = _ridge(Xtr, ytr)
-    out = {"n_fit": ntr}
-    for name, (lo, hi) in {"early_le100": (0, 100), "late_gt160": (160, 10_000)}.items():
-        Xte, yte, nte = _rows(ts, lo, hi)
-        out[name] = {"r2": _r2(w, Xte, yte) if nte > 20 else None, "n": nte}
-    alive = ts["alive"]
-    h = ts["h"]
+    ts = V.rollout(net, os.environ.get("PS_PROBE_SPLIT", "test"), cond, 9000 + seed, n, "full", collect=True)["rec"]
+    out = {}
+    for name, (f, tg, bo) in PROBES.items():
+        Xtr, ytr, ntr = _rows(dv, f, tg, 0, 100, bo)
+        if ntr < 50:
+            out[name] = {"n_fit": ntr, "r2": None}
+            continue
+        m = _ridge_cv(Xtr, ytr)
+        d = {"n_fit": ntr, "lam": m["lam"]}
+        for wn, (lo, hi) in {"early_le100": (0, 100), "late_gt160": (160, 10_000)}.items():
+            Xte, yte, nte = _rows(ts, f, tg, lo, hi, bo)
+            d[wn] = {"r2": _r2(m, Xte, yte) if nte > 30 else None, "n": nte}
+        out[name] = d
+    alive, h = ts["alive"], ts["h"]
     nh = np.abs(h).mean(-1)
     t = np.arange(h.shape[1])[None, :]
     out["mean_abs_h_le100"] = float(nh[alive & (t <= 100)].mean())

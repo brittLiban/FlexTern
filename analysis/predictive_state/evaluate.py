@@ -32,6 +32,7 @@ def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, colle
     h = net.init_state(n, dev)
     a_prev = torch.zeros(n, 3, device=dev)
     since = torch.zeros(n, device=dev, dtype=torch.long)
+    acc = torch.zeros(n, device=dev)
     last_pool = None
     prev_task = None
     prev_held = torch.zeros(n, dtype=torch.bool, device=dev)
@@ -40,7 +41,7 @@ def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, colle
     alive_steps = np.zeros(n)
     frames = []          # for S4
     toks = []            # for T16
-    rec = {"h": [], "target": [], "held": [], "valid": [], "alive": [], "enc": []} if collect else None
+    rec = {"h": [], "z": [], "target": [], "goal": [], "held": [], "valid": [], "alive": [], "enc": []} if collect else None
     for t in range(T):
         alive = ~env.done
         if not alive.any():
@@ -59,7 +60,9 @@ def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, colle
             held_now = prop[:, 2] > 0.5
             forced |= prev_held & ~held_now & prev_grip           # slip: object lost while gripper still closed
             if kind == "fixed":
-                want = since >= int(par)
+                acc = acc + par                       # fractional accumulator: encode when it reaches 1 (rate = par per step)
+                want = acc >= 1.0
+                acc = torch.where(want & valid_env, acc - 1.0, acc).clamp(max=2.0)
             elif kind == "pix":
                 want = ((pool - last_pool).pow(2).mean(-1).sqrt() > par) if last_pool is not None else torch.ones_like(forced)
             else:
@@ -100,6 +103,8 @@ def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, colle
         if collect:
             rec["h"].append(h.cpu().numpy() if cfg.kind == "rec" else np.zeros((n, 1), np.float32))
             pv = env.privileged()
+            rec["z"].append((z * validf[:, None]).cpu().numpy())
+            rec["goal"].append(pv["goal"])
             rec["target"].append(pv["target"]); rec["held"].append(pv["held"]); rec["valid"].append(obs["valid"].copy())
             rec["alive"].append(am.copy()); rec["enc"].append(enc_mask.cpu().numpy())
         prev_held = prop[:, 2] > 0.5
@@ -118,17 +123,17 @@ def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, colle
 def calibrate(net, kind, target_frac, dev="cuda", seed=777, n=96, lo=None, hi=None, iters=9):
     """Find the trigger parameter whose encoder fraction on the DEV split (NOM+DIST mixture) is closest to target_frac.
     fixed:k is solved analytically (k = round(1/target))."""
-    if kind == "fixed":
-        k = max(1, int(round(1.0 / target_frac)) - 1)
-        return float(k)
     conds = [E.TEST_CONDS["NOM"], E.TEST_CONDS["DIST"]]
-    lo, hi = (0.0, 0.6) if kind == "pix" else (-0.5, 1.5)
+    lo, hi = {"pix": (0.0, 0.6), "fixed": (0.0, 1.0)}.get(kind, (-0.5, 1.5))
     best = None
     for _ in range(iters):
         mid = (lo + hi) / 2
         fr = np.mean([rollout(net, "dev", c, seed, n // 2, f"{kind}:{mid}", dev)["enc_frac"] for c in conds])
         best = mid
-        if fr > target_frac:      # too many encodes -> raise threshold
+        too_many = fr > target_frac
+        if kind == "fixed":                # rate: too many encodes -> lower the rate
+            hi, lo = (mid, lo) if too_many else (hi, mid)
+        elif too_many:                     # threshold: too many encodes -> raise it
             lo = mid
         else:
             hi = mid
@@ -136,7 +141,7 @@ def calibrate(net, kind, target_frac, dev="cuda", seed=777, n=96, lo=None, hi=No
 
 
 def summarize(res):
-    return {"success": float(res["success"].mean()), "picks_frac": float(res["picks_done"].mean()),
+    return {"success": float(res["success"].mean()), "picks_mean": float(res["picks_done"].mean()),
             "failed_grasps": float(res["failed_grasps"].mean()), "enc_frac": res["enc_frac"],
             "enc_per_ep": float(res["enc_count"].mean()), "steps_per_ep": float(res["alive_steps"].mean()),
             "fail_kinds": {k: int((res["fail_kind"] == k).sum()) for k in set(res["fail_kind"].tolist()) if k}}

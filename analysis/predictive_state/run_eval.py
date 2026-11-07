@@ -12,7 +12,7 @@ from . import env as E
 from . import evaluate as V
 from . import train as T
 
-N_EP = {"NOM": 300, "OCC": 300, "DIST": 300, "HARD": 300, "LONG": 100}
+N_EP = {"NOM": 300, "OCC": 300, "DIST": 300, "HARD": 300, "LONG": 100, "BLK40": 300, "BLK40D": 300}
 EVAL_SEED = {"dev": 5000, "test": 9000}
 
 
@@ -44,9 +44,11 @@ def main():
                     if key in res:
                         continue
                     n = max(20, int(N_EP[cn] * n_scale))
-                    r = V.rollout(net, split, E.TEST_CONDS[cn], EVAL_SEED[split] + s, n, trig)
+                    r = V.rollout(net, split, E.TEST_CONDS_ALL[cn], EVAL_SEED[split] + s, n, trig)
                     d = V.summarize(r)
                     d["trigger"] = trig
+                    d["picks_frac"] = d["picks_mean"] / E.TEST_CONDS_ALL[cn].n_picks
+                    d["picks_done_vec"] = r["picks_done"].astype(int).tolist()
                     d["success_vec"] = r["success"].astype(int).tolist()
                     res[key] = d
                     json.dump(res, open(out, "w"))

@@ -49,9 +49,7 @@ def run(net, trigger, threads, episodes=15, seed=31):
             if kind != "full":
                 forced = since >= V.KMAX_SKIP or t == 0 or (prev_task is not None and bool((task != prev_task).any())) \
                     or (prev_held and prop[0, 2] < 0.5 and prev_grip)
-                if kind == "fixed":
-                    want = since >= int(par)
-                elif kind == "pix":
+                if kind == "pix":
                     want = last_pool is None or float((pool - last_pool).pow(2).mean().sqrt()) > par
                 else:
                     want = float(net.trig(torch.cat([h, a_prev, pool], -1))) > par
