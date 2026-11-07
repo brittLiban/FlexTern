@@ -4,7 +4,7 @@ There is exactly one active engineering objective at a time. This file is the si
 
 ---
 
-**Active: EXP-0013 (persistent predictive state, counterfactual planning, adaptive perception) — Phase 0 (audit) complete, STOPPED for founder review.** Branch `exp-0013-predictive-planning`. Audit: `experiments/EXP-0013-audit.md`. Phase 1 (pipeline repair) not authorized yet; no training launched. Decisions needed: D1 lookahead benchmark variant, D2 new model interface, D3 belief-transition design (see audit §5).
+**Active: EXP-0013 (persistent predictive state, counterfactual planning, adaptive perception) — Phase 1 COMPLETE, STOPPED for founder review.** Branch `exp-0013-predictive-planning` (not merged). Records: `experiments/EXP-0013-audit.md` (Phase 0), `experiments/EXP-0013-phase1.md` (Phase 1). Done: true encoder skipping via shared `infer.RecurrentRunner` (Gates A, B pass), OccPick2D-LA v1 benchmark with oracle/greedy/reactive controls (Gate C pass, narrow; Gate D conditional). No learned world model, no training, no quantization. Awaiting authorization for Phase 2 (proposal and compute estimate in the Phase 1 record, section 6). Open founder questions: Phase 1 record section 7.
 
 (Previous state, kept for context:) No other objective active; EXP-0012 awaiting review.
 

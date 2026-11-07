@@ -438,6 +438,38 @@ Impact:           Wall-clock cost of a 3-seed, 9-arm study was ~7 hours on this 
 Workaround:       Two concurrent workers; launch detached jobs from inside WSL; consider CUDA graphs or a fused cell if more arms are added.
 ```
 
+```
+KI-025
+Status:           Open
+Severity:         Moderate
+First observed:   2026-11-07
+Relevant commit:  EXP-0013 Phase 1 (branch exp-0013-predictive-planning)
+Description:      EXP-0012 reported "encoder runs" were LOGICAL counts: evaluate.py executed the encoder on every row at every step and
+                  masked the output (G_s0, 32 DEV episodes: 2560 images executed vs 331 requested at fixed:0.25). Success numbers remain
+                  valid (outputs were masked identically; verified by per-episode equality of the new gated path), but every "encoder cut",
+                  cost-saving or latency statement in EXP-0012 refers to requested, not executed, work. The batch-1 latency path (latency.py)
+                  did skip, but with different trigger code (no fixed:K). Fixed in Phase 1 (infer.RecurrentRunner); the verdict is not changed.
+                  Open part: the rebuilt batch-1 path is ~0.1-0.3 ms/step slower in skip modes from counter/gating bookkeeping (p50 ~0.4-0.6 ms
+                  baseline) and the batched GPU evaluation is not faster in wall time; training still encodes all frames.
+Impact:           No latency or energy speed-up claim is supported by either path yet.
+Workaround:       Quote executed counts from infer.Counters; add a counters-off timing mode before any latency claim.
+```
+
+```
+KI-026
+Status:           Open
+Severity:         Minor
+First observed:   2026-11-07
+Relevant commit:  EXP-0013 Phase 1
+Description:      OccPick2D-LA v1: a one-step lookahead with a map-derived value function solves the task (oracle H=1), so it does not prove
+                  multi-step rollouts are necessary; random-shooting oracle results degrade with horizon because of sampler quality (N=64
+                  random-walk plans). The reactive baselines were hand-built (tangent direction tailored to the divider) and not tuned beyond
+                  a single memory variant. Step budget (65) was derived from oracle path lengths only, but baseline outcomes on TRAIN layouts
+                  were seen while debugging.
+Impact:           Gate C is "PASS (narrow)"; do not cite LA results as evidence that planning is necessary.
+Workaround:       See EXP-0013-phase1.md section 3 and the Phase 2 proposal (value head; CEM; harder variants).
+```
+
 ## Closed
 
 ```
