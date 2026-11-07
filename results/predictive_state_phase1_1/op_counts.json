@@ -1,0 +1,70 @@
+{
+ "full": {
+  "legacy": {
+   "top_level_aten_ops_per_step": 73.62916666666666,
+   "steps": 240,
+   "total_self_cpu_ms_per_step": 0.8359914291666684
+  },
+  "runner": {
+   "top_level_aten_ops_per_step": 74.67916666666666,
+   "steps": 240,
+   "total_self_cpu_ms_per_step": 0.7465928083333416
+  },
+  "runner_nt": {
+   "top_level_aten_ops_per_step": 63.67916666666667,
+   "steps": 240,
+   "total_self_cpu_ms_per_step": 0.652017666666673
+  }
+ },
+ "fixed:0.25": {
+  "legacy": {
+   "top_level_aten_ops_per_step": 65.67032967032966,
+   "steps": 91,
+   "total_self_cpu_ms_per_step": 0.49983735164834847
+  },
+  "runner": {
+   "top_level_aten_ops_per_step": 95.1978021978022,
+   "steps": 91,
+   "total_self_cpu_ms_per_step": 0.7475877142857186
+  },
+  "runner_nt": {
+   "top_level_aten_ops_per_step": 84.1978021978022,
+   "steps": 91,
+   "total_self_cpu_ms_per_step": 0.6166955494505556
+  }
+ },
+ "pix:0.0199": {
+  "legacy": {
+   "top_level_aten_ops_per_step": 71.47976878612717,
+   "steps": 173,
+   "total_self_cpu_ms_per_step": 0.5081669306358352
+  },
+  "runner": {
+   "top_level_aten_ops_per_step": 95.46820809248555,
+   "steps": 173,
+   "total_self_cpu_ms_per_step": 0.6780078034682085
+  },
+  "runner_nt": {
+   "top_level_aten_ops_per_step": 84.46820809248555,
+   "steps": 173,
+   "total_self_cpu_ms_per_step": 0.5581185895953664
+  }
+ },
+ "learned:0.1445": {
+  "legacy": {
+   "top_level_aten_ops_per_step": 71.70063694267516,
+   "steps": 157,
+   "total_self_cpu_ms_per_step": 0.5189023184713347
+  },
+  "runner": {
+   "top_level_aten_ops_per_step": 96.52866242038216,
+   "steps": 157,
+   "total_self_cpu_ms_per_step": 0.7219363885350263
+  },
+  "runner_nt": {
+   "top_level_aten_ops_per_step": 85.52866242038216,
+   "steps": 157,
+   "total_self_cpu_ms_per_step": 0.5397706560509479
+  }
+ }
+}

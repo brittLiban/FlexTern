@@ -1,0 +1,44 @@
+{
+ "split": "train",
+ "seed": 31337,
+ "n": 60,
+ "cond": "LA_CLEAR",
+ "rule": "pick the dilation radius with the higher mean ObsA/ObsB success within the budget; tie -> larger",
+ "runs": {
+  "obs_A_single_frame|dil0": {
+   "success_at_budget": 0.8,
+   "success_at_80": 0.8,
+   "fail_kinds": {
+    "timeout": 12
+   },
+   "wall_s": 40.310355700028595
+  },
+  "obs_B_map_memory|dil0": {
+   "success_at_budget": 0.8,
+   "success_at_80": 0.8,
+   "fail_kinds": {
+    "timeout": 12
+   },
+   "wall_s": 40.53176619997248
+  },
+  "mean|dil0": 0.8,
+  "obs_A_single_frame|dil1": {
+   "success_at_budget": 0.9333333333333333,
+   "success_at_80": 0.9333333333333333,
+   "fail_kinds": {
+    "timeout": 4
+   },
+   "wall_s": 35.15750610001851
+  },
+  "obs_B_map_memory|dil1": {
+   "success_at_budget": 0.9333333333333333,
+   "success_at_80": 0.9333333333333333,
+   "fail_kinds": {
+    "timeout": 4
+   },
+   "wall_s": 35.20030150003731
+  },
+  "mean|dil1": 0.9333333333333333
+ },
+ "selected_dilation": 1
+}

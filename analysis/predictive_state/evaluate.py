@@ -126,7 +126,7 @@ def rollout_legacy(net, split, cond, seed, n, trigger="full", dev="cuda", T=None
 
 
 @torch.no_grad()
-def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, collect=False, layout_ids=None, timing=False):
+def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, collect=False, layout_ids=None, timing=False, select_alive=True):
     """Closed-loop rollout. Recurrent arms use the shared gated runner (true encoder skipping, instrumented); other arms
     use the unchanged EXP-0012 path (`rollout_legacy`). Same signature and result keys as before, plus `counters`."""
     if net.cfg.kind != "rec":
@@ -135,7 +135,7 @@ def rollout(net, split, cond, seed, n, trigger="full", dev="cuda", T=None, colle
     env = E.BatchEnv(n, split, cond, seed=seed, layout_ids=layout_ids)
     T = T or (E.T_PICK * cond.n_picks + 2)
     obs = env.reset()
-    runner = I.RecurrentRunner(net, trigger, n, dev, timing=timing)
+    runner = I.RecurrentRunner(net, trigger, n, dev, timing=timing, select_alive=select_alive)
     enc_count = np.zeros(n)
     alive_steps = np.zeros(n)
     rec = {"h": [], "z": [], "target": [], "goal": [], "held": [], "valid": [], "alive": [], "enc": []} if collect else None

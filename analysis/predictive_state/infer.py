@@ -37,8 +37,11 @@ def parse_trigger(trig):
 class Counters:
     """Executed-work counters. `enc_calls` counts PyTorch encoder forward calls, `enc_samples` the images actually processed."""
     steps: int = 0                 # runner.step calls (batch steps)
-    rec_updates: int = 0           # recurrent-state updates executed (one per alive row per step)
-    active_steps: int = 0          # alive (unfinished) rows summed over steps
+    rec_updates: int = 0           # recurrent-cell rows EXECUTED (== alive rows when select_alive, == n per step otherwise)
+    policy_rows: int = 0           # policy-head rows EXECUTED
+    trigger_rows: int = 0          # rows through the pixel-pool / trigger computation (always the full batch; not gated)
+    active_steps: int = 0          # alive (unfinished) rows summed over steps (USEFUL work; executed work is rec_updates)
+    finished_rows_processed: int = 0   # finished rows that still went through the cell/policy (0 when select_alive)
     enc_calls: int = 0
     enc_samples: int = 0
     requested: int = 0             # alive rows whose trigger asked for an observation and whose frame was valid (== enc_samples)
@@ -87,10 +90,10 @@ class RecurrentRunner:
     vision is skipped) from the zero embedding, the previous action and the current proprioception.
     """
 
-    def __init__(self, net, trigger="full", n=1, dev="cpu", timing=False):
+    def __init__(self, net, trigger="full", n=1, dev="cpu", timing=False, select_alive=True, track=True):
         if net.cfg.kind != "rec":
             raise ValueError("RecurrentRunner is for recurrent arms only")
-        self.net, self.dev, self.timing = net, dev, timing
+        self.net, self.dev, self.timing, self.select_alive, self.track = net, dev, timing, select_alive, track
         self.kind, self.par = parse_trigger(trigger)
         self.n = n
         self.h = net.init_state(n, dev)
@@ -117,6 +120,7 @@ class RecurrentRunner:
         if self.kind == "full":
             return valid_env & alive, None
         pool = M.pool_feat(img)
+        self.counters.trigger_rows += int(img.shape[0])
         forced = (self.since >= KMAX_SKIP) | (self.t == 0)
         if self.prev_task is not None:
             forced = forced | (task != self.prev_task).any(-1)
@@ -138,31 +142,55 @@ class RecurrentRunner:
     @torch.no_grad()
     def step(self, img, valid_env, prop, task, alive):
         net, c = self.net, self.counters
+        n_alive = int(alive.sum()) if self.n > 1 else int(bool(alive[0]))
+        if n_alive == 0:                              # nothing to do: no trigger, encoder, cell or policy; state untouched
+            c.steps += 1
+            c.finished_rows += self.n
+            self.t += 1
+            self.last_z = torch.zeros(self.n, M.Z, device=self.dev)
+            return torch.zeros(self.n, 3, device=self.dev), torch.zeros(self.n, dtype=torch.bool, device=self.dev)
         t0 = self._tick()
         enc_mask, pool = self.decide(img, valid_env, prop, task, alive)
         t1 = self._tick()
         z = gated_encode(net.enc, img, task, enc_mask, c)
         t2 = self._tick()
         validf = enc_mask.float()
-        self.h = net.cell_step(self.h, z, validf, prop, task, self.a_prev)
-        logits = net.policy(self.h, prop, task, z * validf[:, None])
-        act = torch.cat([torch.tanh(logits[:, :2]), (logits[:, 2:3] > 0).float()], -1)
+        if self.select_alive and n_alive < self.n:    # genuine selective execution: only alive rows enter the cell and policy
+            idx = alive.nonzero(as_tuple=True)[0]
+            h_sub = net.cell_step(self.h[idx], z[idx], validf[idx], prop[idx], task[idx], self.a_prev[idx])
+            lg = net.policy(h_sub, prop[idx], task[idx], (z * validf[:, None])[idx])
+            self.h = self.h.clone()
+            self.h[idx] = h_sub
+            act = torch.zeros(self.n, 3, device=self.dev)
+            act[idx] = torch.cat([torch.tanh(lg[:, :2]), (lg[:, 2:3] > 0).float()], -1)
+            rows = n_alive
+            act_keep = self.a_prev.clone()
+            act_keep[idx] = act[idx]
+        else:                                         # full batch (also the legacy accounting when select_alive=False)
+            self.h = net.cell_step(self.h, z, validf, prop, task, self.a_prev)
+            logits = net.policy(self.h, prop, task, z * validf[:, None])
+            act = torch.cat([torch.tanh(logits[:, :2]), (logits[:, 2:3] > 0).float()], -1)
+            rows = self.n
+            act_keep = act
+        c.rec_updates += rows
+        c.policy_rows += rows
+        c.finished_rows_processed += rows - n_alive
         if self.kind != "full":
             self.since = torch.where(enc_mask, torch.zeros_like(self.since), self.since + 1)
             self.last_pool = pool if self.last_pool is None else torch.where(enc_mask[:, None], pool, self.last_pool)
         self.prev_held = prop[:, 2] > 0.5
         self.prev_grip = prop[:, 3] > 0.5
-        self.a_prev = act
+        self.a_prev = act_keep
         self.last_z = z
         t3 = self._tick()
-        n_alive, n_req, n_black, n_skip = torch.stack(
-            [alive.sum(), enc_mask.sum(), (~valid_env & alive).sum(), (valid_env & alive & ~enc_mask).sum()]).tolist()
         c.steps += 1
-        c.rec_updates += n_alive
+        if self.track:                                # one extra device->host sync per step; track=False isolates its cost
+            n_req, n_black, n_skip = torch.stack(
+                [enc_mask.sum(), (~valid_env & alive).sum(), (valid_env & alive & ~enc_mask).sum()]).tolist()
+            c.requested += n_req
+            c.blackout_rows += n_black
+            c.trigger_skipped_rows += n_skip
         c.active_steps += n_alive
-        c.requested += n_req
-        c.blackout_rows += n_black
-        c.trigger_skipped_rows += n_skip
         c.finished_rows += self.n - n_alive
         if self.timing:
             c.t_trigger += t1 - t0

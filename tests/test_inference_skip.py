@@ -252,8 +252,9 @@ class TestRunnerSemantics(unittest.TestCase):
                 h = net.cell_step(h, z, vf, prop, task, a_prev)
                 lg = net.policy(h, prop, task, z * vf[:, None])
                 a_prev = torch.cat([torch.tanh(lg[:, :2]), (lg[:, 2:3] > 0).float()], -1)
-            self.assertTrue(torch.allclose(r.h, h, atol=1e-5), t)
-            self.assertTrue(torch.allclose(act[:, :2], a_prev[:, :2], atol=1e-5), t)
+            # Phase 1.1: finished rows are no longer processed (state frozen), so compare the ACTIVE rows only
+            self.assertTrue(torch.allclose(r.h[alive], h[alive], atol=1e-5), t)
+            self.assertTrue(torch.allclose(act[alive][:, :2], a_prev[alive][:, :2], atol=1e-5), t)
             self.assertTrue(bool(torch.isfinite(r.h).all()))
 
 
