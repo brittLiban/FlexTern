@@ -9,17 +9,17 @@ Date: 2026-11-07 · Branch `exp-0013-predictive-planning` · Inspected checkpoin
 2. The encoder-skipping latency question is explained, not hidden: skipping removes ~60-67% of the model's MACs but gives **no end-to-end speedup** on batch-1 CPU through the shared runner and **none on CUDA**; it helps only on batched CPU (-9 to -19% wall). Cause: tiny-op dispatch overhead (measured), not the encoder.
 3. The Phase 1 benchmark comparison was information-mismatched. It is replaced by an explicit information-access matrix and two observation-matched, non-learned baselines.
 
-**What the evidence now says (MEASURED, DEV, 200 paired episodes per condition).**
+**What the evidence now says (MEASURED, DEV, 200 episodes per condition; same layouts and spawns for every controller; blackout realisations are NOT shared, see section 5).**
 - Greedy 0.24, reactive-with-memory 0.295, **observation-matched map baseline, no learning, no world model: 1.00 (LA_CLEAR), 0.98 (LA_NOM), 1.00 with a hand-coded 2-part memory (LA_NOM, LA_OCC)**; privileged oracle 1.00.
 - The Phase 1 gap between reactive (0.26) and oracle (1.00) was **missing map information, not missing planning**: a one-step descent on a map parsed from the 32x32 RGB frame (wall IoU 1.000) closes it entirely.
 - Multi-step planning does **not** beat a one-step value controller: with the exact geodesic value, beam search at H=1/5/10/20 = 1.00/1.00/1.00/1.00. Without a value (Euclidean cost, true dynamics, up to 2720 simulated steps per decision, H up to 20) no planner beats greedy by more than noise (best 0.36 vs greedy 0.24, n=80).
-- Persistent memory is needed only to bridge blackouts, and a hand-coded last-seen memory of (wall map, target position, goal box) is sufficient (LA_OCC: single-frame 0.615 -> memory 1.00, paired discordant 0 vs 77). Both parts are needed (map-only 0.61, object-only 0.58 on TRAIN).
+- Persistent memory is needed only to bridge blackouts, and a hand-coded last-seen memory of (wall map, target position, goal box) is sufficient (LA_OCC: single-frame 0.615 -> memory 1.00, discordant on layout/spawn pairs 0 vs 77). Both parts are needed (map-only 0.61, object-only 0.58 on TRAIN).
 
 **Does OccPick2D-LA v1 test the intended architecture? No.** Everything that varies is static (walls, goal, target before grasp) or directly observed (end-effector via proprioception). There is no hidden dynamic state and no action-dependent hidden consequence, so neither a predictive/action-conditioned latent nor counterfactual planning is required, and a hand-coded baseline with no learning saturates it.
 
-**Phase 2 recommendation: BLOCKED as specified (learned dynamics + value-head planner on LA v1); MODIFY.** Training a world model on v1 could at best tie a 60-line hand-coded controller; it could not support the thesis. This is a negative result about the *benchmark*, not a refutation of the hypothesis (which v1 simply cannot test).
+**Phase 2 recommendation: BLOCKED as specified (learned dynamics + value-head planner on LA v1); MODIFY.** Training a world model on v1 could at best tie a hand-coded baseline (its memory store is ~15 lines; parser + planner ~150); it could not support the thesis. This is a negative result about the *benchmark*, not a refutation of the hypothesis (which v1 simply cannot test).
 
-**Smallest next experiment (software only, no training, ~1 day):** specify and calibrate OccPick2D-LA v2 (section 7) in which the decisive variable is dynamic and hidden during blackouts (an action-independent moving gate that is visible only intermittently, plus a hand-coded constant-velocity extrapolator and last-seen memory as the baselines to beat). Proceed to learned models only if (a) the last-seen-memory baseline fails, (b) a privileged predictor solves it, (c) the hand-coded extrapolator is itself beatable or documented as the bar. Fresh held-out layout range required.
+**Smallest next experiment (software only, no training, ESTIMATE ~1-2 days of engineering):** specify and calibrate an OccPick2D-LA v2 (section 7) with fresh held-out layouts. Be clear about what each variant can show: (A) a periodic hidden gate seen intermittently tests *prediction through blackouts*, but a hand-coded constant-period extrapolator will probably solve it, so it can only show that a learned state matches a trivial baseline; (B) an **action-dependent hidden consequence** (e.g. a switch that opens the divider gate after a delay, state visible only in valid frames) is the smallest variant that needs action-conditioned prediction and counterfactual rollouts, and is the only one that could separate the proposed architecture from memory plus extrapolation. I recommend authorising (B), with (A) as its control. Proceed to any learned model only if the last-seen-memory baseline fails, a privileged predictor solves it, and a hand-coded predictor is implemented and reported as the bar.
 
 ## 1. Executed-computation accounting (section 3 of the directive)
 
@@ -59,7 +59,20 @@ Arithmetic: per step MACs encoder 1,126,400, GRU 103,680, policy 34,432, trigger
 | fixed:0.25 | 4 | 0.671 | 0.959 | +0.289 [+0.215, +0.363] | +0.185 |
 | (4-thread rows for full/pix/learned are in `summary.json`) | | | | | |
 
-p50/p95 are in `summary.json` (e.g. fixed:0.25, 1 thread: legacy p50/p95 vs runner p50/p95 in the JSON). In the **lean legacy path** skipping does cut batch-1 latency (full 0.80 -> fixed:0.25 0.56 ms, -30%); the shared runner gives back most of it (0.79 -> 0.75, -5%).
+Batch-1 p50 / p95 ms (per-step medians over reps; `summary.json`):
+
+| trigger | threads | legacy | runner | runner (no stats sync) |
+|---|---|---|---|---|
+| full | 1 | 0.758 / 0.887 | 0.751 / 0.868 | 0.693 / 0.821 |
+| full | 4 | 0.809 / 1.160 | 0.826 / 1.185 | 0.732 / 1.080 |
+| fixed:0.25 | 1 | 0.406 / 0.885 | 0.582 / 1.036 | 0.540 / 1.010 |
+| fixed:0.25 | 4 | 0.551 / 1.184 | 0.839 / 1.459 | 0.673 / 1.251 |
+| pix:0.0199 | 1 | 0.465 / 0.943 | 0.620 / 1.098 | 0.561 / 1.038 |
+| pix:0.0199 | 4 | 0.599 / 1.124 | 0.825 / 1.428 | 0.746 / 1.321 |
+| learned:0.1445 | 1 | 0.459 / 0.952 | 0.652 / 1.208 | 0.605 / 1.174 |
+| learned:0.1445 | 4 | 0.625 / 1.246 | 0.872 / 1.588 | 0.758 / 1.486 |
+
+In the **lean legacy path** skipping does cut batch-1 latency (full 0.80 -> fixed:0.25 0.56 ms, -30%); the shared runner gives back most of it (0.79 -> 0.75, -5%).
 
 Attribution (MEASURED): `torch.profiler` counts top-level aten ops per step, fixed:0.25: legacy 65.7, runner 95.2, runner without stats sync 84.2 (`op_counts.json`); at ~5-8 us per tiny CPU op this is +0.15-0.25 ms, matching the paired difference. Sources: the tensorised trigger decision (`decide`: comparisons, `torch.where`, accumulator, task/slip checks on 1-element tensors, runner timing component trigger 0.20-0.31 ms) and the stats `.tolist()` sync (~11 ops, ~0.05-0.08 ms). Encoder component in skip modes: 0.14-0.19 ms; update (GRU+policy+bookkeeping) 0.34-0.48 ms. The regression is therefore Python/dispatch overhead, not synchronisation of the encoder and not gather/scatter (batch 1 bypasses them). In `full` mode the runner is not slower: legacy pays for pooling it never uses (66-74 vs 64-75 ops).
 
@@ -78,7 +91,7 @@ Per-episode success identical in every paired run. Interpretation (INFERRED): wi
 
 ## 3. Information-access matrix (section 5)
 
-Generated from `analysis/predictive_state/info_matrix.py` (tests check that OBS rows have no privileged access and that the observation baselines' code touches only the observation dict). `Y` receives, `N` does not, `img` recovered from the image by the controller, `ray` local ray-cast through the true map, `hand` hand-coded assumption.
+Abridged from `analysis/predictive_state/info_matrix.py` (full generated table with all cell qualifiers: `results/predictive_state_phase1_1/info_matrix.json`; tests check that OBS rows have no privileged access and that the observation baselines' code touches only the observation dict). `Y` receives, `N` does not, `img` recovered from the image by the controller, `ray` local ray-cast through the true map, `hand` hand-coded assumption.
 
 | controller | class | RGB | proprio | task | history | memory | full wall geometry | true dynamics | priv. object pos. | layout id | geodesic map |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -106,7 +119,9 @@ The earlier "reactive" and "greedy" were never observation-matched (they read tr
 
 Parse fidelity from one valid frame (150 initial frames each; `parse_fidelity.json`): wall IoU 1.000 (min 1.000) on TRAIN and DEV; target visible 100%, position error mean 0.006 / p95 0.011; goal found 99.3% / 100%, centre error mean 0.010-0.012 / p95 0.031-0.049; shortest-path length from the parsed map is +0.044-0.049 longer on average (dilation) with |error| p95 0.103.
 
-## 5. Paired results (section 5-7; DEV layouts, seed 5001, n=200, same layouts/spawns for every controller; success within the locked 65-step budget)
+## 5. Results on identical layouts and spawns (DEV layouts, seed 5001, n=200; success within the locked 65-step budget)
+
+**Pairing caveat (checked, 40 episodes, LA_OCC):** layouts, spawns, goals and targets are identical across controllers, but the environment RNG is consumed differently after the first step (the end-effector disc draws a position-dependent number of noise samples), so *blackout realisations differ between controllers* (ObsA vs ObsB: identical valid-frame sequence over the first 20 steps in only 28% of episodes; median first divergence at step 9-10). The McNemar statistics below therefore pair on layout and spawn only, not on blackout timing; the effect sizes are far larger than that nuisance, but the discordant counts are not a clean within-episode comparison.
 
 | controller (class) | LA_CLEAR (no blackout) | LA_NOM (15% dark steps) | LA_OCC (46% dark steps) |
 |---|---|---|---|
@@ -116,9 +131,11 @@ Parse fidelity from one valid frame (150 initial frames each; `parse_fidelity.js
 | obs_B map+object memory (OBS) | **1.000** | **1.000** | **1.000** [0.98, 1.00] |
 | oracle_descent (PRIV upper bound) | 1.000 | 1.000 | 1.000 |
 
-Wilson 95% CIs. Paired exact McNemar (A-only vs B-only successes): LA_NOM 0 vs 4 (p=0.125), LA_OCC 0 vs 77 (p=1e-23); B vs oracle: 0 vs 0 in every condition. Failures of A are all timeouts (stands still in the dark). Blackout statistics (TRAIN, zero-action rollouts of 65 steps): LA_NOM 15.3% of steps dark, 75% of episodes have a blackout, mean longest 7.8 steps; LA_OCC 45.6%, 96.5%, 21.1 steps. LA_CLEAR is defined in the Phase 1.1 script only; `env_la.LA_CONDS` and the 65-step budget are unchanged. 200 episodes per cell: the CIs above are the uncertainty; differences of a few episodes (e.g. 0.98 vs 1.00) are not resolved.
+Wilson 95% CIs. Exact McNemar on layout/spawn pairs (A-only vs B-only successes): LA_NOM 0 vs 4 (p=0.125), LA_OCC 0 vs 77 (p=1e-23); B vs oracle: 0 vs 0 in every condition. Failures of A are all timeouts (stands still in the dark). Blackout statistics (TRAIN, zero-action rollouts of 65 steps): LA_NOM 15.3% of steps dark, 75% of episodes have a blackout, mean longest 7.8 steps; LA_OCC 45.6%, 96.5%, 21.1 steps. LA_CLEAR is defined in the Phase 1.1 script only; `env_la.LA_CONDS` and the 65-step budget are unchanged. 200 episodes per cell: the CIs above are the uncertainty; differences of a few episodes (e.g. 0.98 vs 1.00) are not resolved.
 
 What must be remembered (exploratory, TRAIN seed 2024, n=100, LA_OCC; `memory_ablation.json`): full memory 1.00; map memory only 0.61; object memory only 0.58; none (= A) 0.61. Both are required; neither alone helps.
+
+Compute effort of the observation-matched baselines (unoptimised pure-Python Dijkstra and parsing; `paired.json`): LA_CLEAR 6392 decisions, 1305 Dijkstra solves (~0.2 per decision; solves are cached per map), 6392 parses, 101 s per 200 episodes = 15.8 ms/decision; LA_NOM 13.6-14.2 ms/decision; LA_OCC 8.3-11.5 ms/decision (blackout steps need no parse). Privileged oracle descent for comparison: 18 simulated steps/decision, 0.6-1.4 ms/decision. None of this is on the latency path of the learned model.
 
 Environment/oracle consistency (`consistency.json`): over 64 TRAIN and 64 DEV layouts x 60 random (including over-length) action steps the max |env position - la_move prediction| = 1.4e-7 (float32). TEST layouts untouched.
 
@@ -158,7 +175,10 @@ Environment/oracle consistency (`consistency.json`): over 64 TRAIN and 64 DEV la
 
 **Plain statement: v1 does not meaningfully require predictive state, counterfactual planning, or learned dynamics.** The only thing it demonstrates is that a persistent memory beats no memory under long blackouts, which a hand-coded memory already achieves.
 
-**Smallest scientifically defensible redesign (PROPOSAL, not implemented; would be a new benchmark version, LA v2, with its own calibration, preregistered rules and a fresh held-out layout range, e.g. ids 3000-3199):** add one hidden, dynamic, action-independent element observable only when the camera is valid, for example a gate in the divider that cycles open/closed with a fixed period and phase drawn per episode and is drawn only in valid frames, plus a thicker blackout schedule so the gate state at arrival time must be *predicted* across the dark interval. Required before any training: (i) the last-seen-memory baseline (ObsB) must fail clearly; (ii) a privileged planner with the true gate schedule must solve it; (iii) a hand-coded constant-period extrapolator must be implemented and reported (if it solves the task the learned-state claim is again only "match a trivial baseline"); (iv) action-dependent hidden consequences (e.g. a switch that opens the gate after a delay) are the next step if (iii) saturates it, because only then are counterfactual rollouts under different actions needed.
+**Smallest scientifically defensible redesign (PROPOSAL, not implemented; a new benchmark version, LA v2, with its own calibration, preregistered rules and a fresh held-out layout range, e.g. ids 3000-3199).** Two variants, different purposes:
+- **v2-A (control): periodic hidden gate.** A gate in the divider cycles open/closed with a per-episode period and phase and is drawn only in valid frames; blackouts hide it, so the state at arrival time must be predicted. This tests prediction through blackouts, but a hand-coded constant-period extrapolator will probably solve it; it can show at most that a learned state matches a trivial baseline.
+- **v2-B (the informative one): action-dependent hidden consequence.** A switch the end-effector must press opens the gate after a delay (or only while a second condition holds); the gate state is visible only in valid frames. Choosing the next action then requires predicting the consequence of alternative actions through unobserved intervals, i.e. action-conditioned dynamics and counterfactual rollouts, which a last-seen memory cannot supply.
+Required before any training: (i) the last-seen-memory baseline (ObsB) fails clearly; (ii) a privileged planner with the true schedule/dynamics solves it; (iii) a hand-coded predictor (extrapolator for A; a rule-based switch/delay tracker for B) is implemented and reported as the bar a learned state must beat; (iv) observation-matched baselines frozen and committed before any DEV scoring (as done here), and blackout RNG decoupled from rendering so episodes are truly paired.
 
 ## 8. Scientific interpretation and gate status (replaces the Phase 1 reading where they differ)
 
@@ -170,8 +190,27 @@ Environment/oracle consistency (`consistency.json`): over 64 TRAIN and 64 DEV la
 
 ## 9. Limitations and unexecuted checks
 
-Single checkpoint (`G_s0`) and single machine for timing, probably on battery; trigger thresholds are the EXP-0012 DEV calibrations; batched CPU/CUDA timings use 5/7 repetitions (CIs are t-intervals over repetitions); n=80 in the horizon grid (wide CIs); DIL is the only tuned parameter but the parser embeds hand-coded priors (colour code, object radius) and the action-effect rule; ObsA/B timing was not measured; `dagger.py` collection not re-run; TEST layouts untouched, no preregistered TEST evaluation run (not authorized); no energy measurement; no multi-seed analysis (nothing trained); shooting horizons beyond 20 and budgets beyond 2720 not run; GPU profile of the CUDA slowdown not taken (cause is INFERRED). The first paired timing run's component split was discarded (it summed only the last episode's counters; fixed and re-run; `timing_paired_run1.json` is kept for its latency numbers only).
+Single checkpoint (`G_s0`) and single machine for timing, probably on battery; trigger thresholds are the EXP-0012 DEV calibrations; batched CPU/CUDA timings use 5/7 repetitions (CIs are t-intervals over repetitions); n=80 in the horizon grid (wide CIs); DIL is the only tuned parameter but the parser embeds hand-coded priors (colour code, object radius) and the action-effect rule; `dagger.py` collection not re-run; TEST layouts untouched, no preregistered TEST evaluation run (not authorized); no energy measurement; no multi-seed analysis (nothing trained); shooting horizons beyond 20 and budgets beyond 2720 not run; GPU profile of the CUDA slowdown not taken (cause is INFERRED). The first paired timing run's component split was discarded (it summed only the last episode's counters; fixed and re-run; `timing_paired_run1.json` is kept for its latency numbers only).
 
-## 10. Reproduce
+## 10. Directive section 8 acceptance checklist
 
-WSL (torch, `~/ftvenv`): `python -m unittest tests.test_predictive_state tests.test_inference_skip tests.test_executed_work tests.test_env_la tests.test_controllers_obs` (85 tests). Timing: `python -m analysis.predictive_state.phase11_timing ~/ps_ckpt/G_s0.pt results/predictive_state_phase1_1/timing_paired.json 12` (~5 min) and `... phase11_timing ops ~/ps_ckpt/G_s0.pt .../op_counts.json`. Host (numpy): `python -m analysis.predictive_state.run_phase11_benchmark select_dilation|parse_fidelity|paired|memory_ablation|consistency <OUT.json>` and `horizon <OUT.json> 200 anchor`, `horizon <OUT.json> 80 grid 320`, `horizon <OUT.json> 80 grid_euclid 2720`; then `python -m analysis.predictive_state.analyze_phase11 results/predictive_state_phase1_1` and `python -m analysis.predictive_state.info_matrix OUT.json`. Run lengths: paired 10 min, each horizon part 2-3 min, memory ablation 3.5 min, nothing above 15 min.
+| Requirement | Evidence | Result |
+|---|---|---|
+| Encoder calls/samples equal independently observed executions | `test_executed_work.test_counters_equal_spies_mixed_active_finished`; `test_inference_skip.TestGatedEncode` (spy on `net.enc.forward`) | PASS |
+| Recurrent and policy counters match executed rows | same test (spies on `net.cell`, `net.pol`); `test_full_batch_mode_counts_finished_rows_as_executed` | PASS |
+| Finished rows accounted for; cannot change active outputs | `test_all_finished_does_nothing`, `test_finished_rows_cannot_change_active_outputs` (bit-identical), `test_row_finishing_midway_is_frozen` | PASS |
+| All-skipped batches make no encoder call; blackouts never encoded | `test_all_skipped_vision_...`, `test_blackout_rows_never_reach_encoder_all_triggers`, Phase 1 `test_none_needed_never_calls_encoder` | PASS |
+| Active outputs remain correct | `test_selective_equals_full_batch_for_active_rows`; `TestRolloutEquivalence` per-episode identity vs `rollout_legacy` | PASS (finished-row state is now frozen: deliberate change) |
+| Controller information access documented | section 3, `info_matrix.py`, `TestInfoMatrix` | PASS |
+| Observation-matched baselines on identical episodes | section 5; `TestObservationOnly` (AST check, observation keys only) | PASS for layouts/spawns; **blackout realisations not shared** |
+| Oracle upper bounds separated from deployable baselines | PRIV/OBS classes in the matrix and tables | PASS |
+| Planning-horizon comparison with documented budgets | section 6; anchor reproduces Phase 1 exactly | PASS with caveat: beam cost is 17WH so its budgets are not equal across H |
+| Env transition == oracle transition | `consistency.json` (1.4e-7); `test_env_la.test_planner_dynamics_equal_env_dynamics` | PASS |
+| Test layouts untouched | `TestObservationOnly.test_test_range_never_used`; no Phase 1.1 script references the test range | PASS |
+| Multi-step planning vs one-step value controller | section 6 | no evidence of improvement (inconclusive beyond H=20 / B=2720) |
+| Persistent memory necessary | sections 5, 7 | short-term static memory yes (hand-coded suffices); predictive state not testable on v1 |
+| Encoder skipping improves total measured time | section 2 | only batched CPU |
+
+## 11. Reproduce
+
+WSL (torch, `~/ftvenv`): `python -m unittest tests.test_predictive_state tests.test_inference_skip tests.test_executed_work tests.test_env_la tests.test_controllers_obs` (85 tests, all pass). Full Windows-host run of all 21 test modules (torch imports on the host this session): 384 tests OK, 17 skipped (same 17 as the 356-test Phase 1 baseline, none caused by the new modules), 1863 s. Timing: `python -m analysis.predictive_state.phase11_timing ~/ps_ckpt/G_s0.pt results/predictive_state_phase1_1/timing_paired.json 12` (~5 min) and `... phase11_timing ops ~/ps_ckpt/G_s0.pt .../op_counts.json`. Host (numpy): `python -m analysis.predictive_state.run_phase11_benchmark select_dilation|parse_fidelity|paired|memory_ablation|consistency <OUT.json>` and `horizon <OUT.json> 200 anchor`, `horizon <OUT.json> 80 grid 320`, `horizon <OUT.json> 80 grid_euclid 2720`; then `python -m analysis.predictive_state.analyze_phase11 results/predictive_state_phase1_1` and `python -m analysis.predictive_state.info_matrix OUT.json`. Run lengths: paired 10 min, each horizon part 2-3 min, memory ablation 3.5 min, nothing above 15 min.
