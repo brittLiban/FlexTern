@@ -3,6 +3,7 @@
   parse_fidelity  OUT        how well can walls / target / goal be recovered from ONE visible frame (TRAIN + DEV, never TEST)
   paired          OUT [n]    privileged references + observation-matched baselines on identical DEV episodes, 3 conditions
   horizon         OUT [n] [anchor|grid] [B,..] [planner,..]   planning-horizon diagnostic (privileged planners, stated simulation budgets)
+  memory_ablation OUT [n]    what must ObsB remember? (TRAIN, LA_OCC) + blackout statistics
   consistency     OUT        env transition vs oracle transition (la_move) on random actions across all splits' layouts
 The TEST layout range (2000-2199) is never used here.
 """
@@ -141,7 +142,7 @@ def _run_plan(res, out, pk, cost, agg, H, B, n, seed=None):
 def horizon(out, n=80, part="grid", budgets=(320,), planners=("rs_walk", "rs_const", "cem", "beam")):
     """part='anchor': rs_walk, geodesic, terminal, B = 64*H, n episodes (default 200 = the Phase-1 episode set): must reproduce Phase 1's
     oracle_shoot_geodesic numbers (proves PlanDiag == controllers_la.Oracle).
-    part='grid'  : planner x cost x H at the stated simulation budgets (sim steps per decision)."""
+    part='grid'  : planner x cost x H at the stated simulation budgets (sim steps per decision); 'grid_euclid' = Euclid cost only."""
     res = {"split": "dev", "seed": EVAL_SEED, "n": n, "cond": "LA_NOM", "budget_steps": L.LA_T_PICK, "part": part, "runs": {}}
     if part == "anchor":
         for H in (1, 5, 10, 20):
@@ -149,10 +150,66 @@ def horizon(out, n=80, part="grid", budgets=(320,), planners=("rs_walk", "rs_con
         return
     for B in budgets:
         for pk in planners:
-            for cost in ("euclid", "geodesic"):                       # euclid first: it is the only arm that can show a lookahead benefit
+            for cost in (("euclid",) if part == "grid_euclid" else ("euclid", "geodesic")):   # euclid first: the only arm that can show a lookahead benefit
                 for agg in (("terminal", "sum") if pk == "rs_walk" else ("terminal",)):
                     for H in (1, 5, 10, 20):
                         _run_plan(res, out, pk, cost, agg, H, B, n)
+
+
+class ObsBAblate(O.ObsB):
+    """ObsB with parts of its memory switched off (exploratory, TRAIN only): what must be remembered to bridge blackouts?"""
+    def __init__(self, dil, mem_map=True, mem_obj=True):
+        super().__init__(dil)
+        self.mem_map, self.mem_obj = mem_map, mem_obj
+        self.name = f"obsB_map{int(mem_map)}_obj{int(mem_obj)}"
+
+    def act_one(self, i, img, valid, prop, task_id):
+        ee, held, grip = prop[:2], prop[2] > 0.5, prop[3] > 0.5
+        wall = tgt_m = gb = None
+        if valid:
+            pr = O.parse(img, task_id)
+            wall, tgt_m, gb = pr["wall"], pr["tgt"], pr["goal_bbox"]
+            if self.mem_map:
+                self.mem_wall[i] = pr["wall_raw"] if self.mem_wall[i] is None else (self.mem_wall[i] | pr["wall_raw"])
+            if self.mem_obj:
+                if tgt_m is not None and not held:
+                    self.mem_tgt[i] = tgt_m
+                if gb is not None:
+                    m = self.mem_gb[i]
+                    self.mem_gb[i] = gb if m is None else (min(m[0], gb[0]), max(m[1], gb[1]), min(m[2], gb[2]), max(m[3], gb[3]))
+        plan = wall if not self.mem_map else (self.mem_wall[i] if wall is None else (self.mem_wall[i] | wall))
+        t_use = tgt_m if not self.mem_obj else self.mem_tgt[i]
+        g_use = gb if not self.mem_obj else self.mem_gb[i]
+        goal = O.bbox_center(g_use) if g_use is not None else None
+        return self._decide(i, ee, held, grip, ee if held else t_use, goal, plan)
+
+
+def memory_ablation(out, n=100):
+    """TRAIN layouts, seed 2024, LA_OCC (long blackouts). Exploratory; not used to tune anything."""
+    dil = json.load(open(out.replace("memory_ablation", "dilation_selection")))["selected_dilation"]
+    res = {"split": "train", "seed": 2024, "n": n, "cond": "LA_OCC", "runs": {}}
+    for mm, mo in ((True, True), (False, True), (True, False), (False, False)):
+        env = make_env("train", CONDS["LA_OCC"], n, 2024)
+        ctrl = ObsBAblate(dil, mm, mo)
+        r = O.run_episodes_obs(env, ctrl)
+        res["runs"][ctrl.name] = summarize(r, n) | {"mem_map": mm, "mem_obj": mo}
+        print(ctrl.name, res["runs"][ctrl.name]["success_at_budget"], flush=True)
+    # blackout statistics of the conditions (zero-action rollouts, TRAIN): how much of an episode is dark
+    st = {}
+    for cn, cond in CONDS.items():
+        env = make_env("train", cond, 200, 2024)
+        obs = env.reset()
+        dark, longest, cur = 0, np.zeros(200, int), np.zeros(200, int)
+        for t in range(65):
+            obs, _ = env.step(np.zeros((200, 3), np.float32))
+            d = ~obs["valid"]
+            dark += d.sum()
+            cur = np.where(d, cur + 1, 0)
+            longest = np.maximum(longest, cur)
+        st[cn] = {"dark_step_fraction": float(dark / (200 * 65)), "episodes_with_any_blackout": float((longest > 0).mean()), "longest_blackout_mean": float(longest.mean())}
+    res["blackout_stats"] = st
+    json.dump(res, open(out, "w"), indent=1)
+    print(st)
 
 
 def consistency(out, steps=60):
@@ -182,4 +239,4 @@ if __name__ == "__main__":
         horizon(out, int(a[0]) if a else 80, a[1] if len(a) > 1 else "grid", tuple(int(x) for x in a[2].split(",")) if len(a) > 2 else (320,),
                 tuple(a[3].split(",")) if len(a) > 3 else ("rs_walk", "rs_const", "cem", "beam"))
     else:
-        {"select_dilation": select_dilation, "parse_fidelity": parse_fidelity, "paired": paired, "consistency": consistency}[mode](out, *[int(x) for x in a])
+        {"select_dilation": select_dilation, "parse_fidelity": parse_fidelity, "paired": paired, "memory_ablation": memory_ablation, "consistency": consistency}[mode](out, *[int(x) for x in a])

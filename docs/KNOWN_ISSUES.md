@@ -449,10 +449,14 @@ Description:      EXP-0012 reported "encoder runs" were LOGICAL counts: evaluate
                   valid (outputs were masked identically; verified by per-episode equality of the new gated path), but every "encoder cut",
                   cost-saving or latency statement in EXP-0012 refers to requested, not executed, work. The batch-1 latency path (latency.py)
                   did skip, but with different trigger code (no fixed:K). Fixed in Phase 1 (infer.RecurrentRunner); the verdict is not changed.
-                  Open part: the rebuilt batch-1 path is ~0.1-0.3 ms/step slower in skip modes from counter/gating bookkeeping (p50 ~0.4-0.6 ms
-                  baseline) and the batched GPU evaluation is not faster in wall time; training still encodes all frames.
-Impact:           No latency or energy speed-up claim is supported by either path yet.
-Workaround:       Quote executed counts from infer.Counters; add a counters-off timing mode before any latency claim.
+                  Phase 1.1 (EXP-0013-phase1-1.md): rec_updates also counted alive rows although cell/policy ran on the full batch; now
+                  executed rows are counted and verified by module spies, and cell/policy run on alive rows only (select_alive). MEASURED
+                  with paired trace replay: skipping saves 58-66% of model MACs but, through the shared runner, batch-1 CPU is +0.18-0.29 ms
+                  SLOWER in skip modes (tensor-op dispatch: ~95 vs ~66 aten ops/step; stats sync ~0.05-0.08 ms of it), batched CUDA is +4-11%
+                  slower, and only batched CPU is faster (-9 to -19%). The trigger (pooling/learned head) is not gated. Training still
+                  encodes all frames.
+Impact:           No end-to-end latency or energy speed-up claim is supported; quote executed counts from infer.Counters.
+Workaround:       A scalar batch-1 trigger fast path would likely recover ~0.1-0.2 ms (not done); run timing on AC power (KI-021, KI-028).
 ```
 
 ```
@@ -468,6 +472,35 @@ Description:      OccPick2D-LA v1: a one-step lookahead with a map-derived value
                   were seen while debugging.
 Impact:           Gate C is "PASS (narrow)"; do not cite LA results as evidence that planning is necessary.
 Workaround:       See EXP-0013-phase1.md section 3 and the Phase 2 proposal (value head; CEM; harder variants).
+```
+
+```
+KI-027
+Status:           Open
+Severity:         Major (research validity)
+First observed:   2026-11-07
+Relevant commit:  EXP-0013 Phase 1.1 (branch exp-0013-predictive-planning)
+Description:      OccPick2D-LA v1 does not require predictive state, learned dynamics or multi-step planning. An observation-matched, non-learned
+                  controller (32x32 frame parsed to a map, one-step shortest-path descent) scores 1.00 (no blackout) / 0.98 (LA_NOM) on DEV;
+                  adding a hand-coded last-seen memory of (wall map, target, goal box) scores 1.00 on LA_NOM and LA_OCC (single frame 0.615 on
+                  LA_OCC). Beam search with the exact value is 1.00 at H=1..20; value-free planners do not reliably beat greedy. All varying
+                  quantities are static or observed through proprioception. Phase 1 Gate C ("PASS, narrow") is therefore downgraded.
+Impact:           A learned world model trained on v1 could at best match a hand-coded baseline; it cannot support the predictive-state thesis.
+Workaround:       Do not cite v1 as evidence for the architecture. Proposed v2 (hidden dynamic element + delayed consequence, fresh test range,
+                  hand-coded extrapolator baseline) is in EXP-0013-phase1-1.md section 7; it needs founder authorization.
+```
+
+```
+KI-028
+Status:           Open
+Severity:         Minor
+First observed:   2026-11-07
+Relevant commit:  EXP-0013 Phase 1.1
+Description:      The Phase 1.1 latency/timing runs used one checkpoint (G_s0) on one laptop that reported BatteryStatus=1 (discharging) after the
+                  runs, so they were probably not on AC power (KI-021); absolute latencies differed 20-40% between two runs. Only paired
+                  within-run differences are claimed. ObsA/ObsB were not timed; quantized arms are not timed (no packed kernel).
+Impact:           Absolute ms figures are indicative; signs and sizes of paired differences were consistent across the two runs.
+Workaround:       Repeat phase11_timing.py on AC power with nothing else running before quoting any absolute latency.
 ```
 
 ## Closed

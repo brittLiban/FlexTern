@@ -4,7 +4,7 @@ There is exactly one active engineering objective at a time. This file is the si
 
 ---
 
-**Active: EXP-0013 (persistent predictive state, counterfactual planning, adaptive perception) — Phase 1 COMPLETE, STOPPED for founder review.** Branch `exp-0013-predictive-planning` (not merged). Records: `experiments/EXP-0013-audit.md` (Phase 0), `experiments/EXP-0013-phase1.md` (Phase 1). Done: true encoder skipping via shared `infer.RecurrentRunner` (Gates A, B pass), OccPick2D-LA v1 benchmark with oracle/greedy/reactive controls (Gate C pass, narrow; Gate D conditional). No learned world model, no training, no quantization. Awaiting authorization for Phase 2 (proposal and compute estimate in the Phase 1 record, section 6). Open founder questions: Phase 1 record section 7.
+**Active: EXP-0013 (persistent predictive state, counterfactual planning, adaptive perception) — Phase 1.1 COMPLETE, STOPPED for founder review.** Branch `exp-0013-predictive-planning` (not merged). Records: `experiments/EXP-0013-audit.md` (Phase 0), `experiments/EXP-0013-phase1.md` (Phase 1), `experiments/EXP-0013-phase1-1.md` (Phase 1.1: decision memo in section 0). Phase 1.1 found: executed-work counters fixed and spy-verified; encoder skipping cuts MACs but gives no end-to-end speedup on batch-1 CPU or CUDA (batched CPU -9 to -19%); OccPick2D-LA v1 is solved by a non-learned observation-matched map+memory baseline (1.00), so it does **not** test the predictive-state architecture. Recommendation: Phase 2 as specified is BLOCKED; modify to a v2 benchmark with hidden dynamic state (software only first). No learned world model, no training, no quantization. Awaiting founder decision.
 
 (Previous state, kept for context:) No other objective active; EXP-0012 awaiting review.
 

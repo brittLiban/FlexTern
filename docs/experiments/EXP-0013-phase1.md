@@ -1,5 +1,7 @@
 # EXP-0013 Phase 1 — Inference repair, measurement integrity, lookahead benchmark
 
+> **Phase 1.1 addendum (2026-11-07):** the data below are unchanged, but some interpretations are superseded - Gate C is downgraded (the benchmark is solved by a non-learned observation-matched baseline), the `rec_updates` counter and the latency reading are corrected, and the shooting degradation is attributed to the sampler/objective. See `EXP-0013-phase1-1.md`.
+
 Date: 2026-11-07 · Branch `exp-0013-predictive-planning` · Authorization: Phase 1 only. No learned world model, no training, no quantization, no merge. Audit: `EXP-0013-audit.md`. Labels per AGENTS.md §7.
 
 ## 1. What changed
