@@ -1,57 +1,48 @@
-# MEMO 2026-11-07: Phase 1.2 decision (design and falsification gate)
+# MEMO 2026-11-07: Phase 1.2 decision (design and falsification gate), Revision 3
 
-To: founder (for discussion with ChatGPT). From: implementation agent. Status: recommendation; nothing implemented.
+To: founder (for discussion with ChatGPT). From: implementation agent. Status: recommendation; nothing implemented. The adversarial counter-argument is in `MEMO-2026-11-07-exp-0013-phase1-2-adversarial.md`; read both. Earlier text of this memo is in git history (`5e042f0`).
 
 ## Repository and approval state
 
-- This work is on `exp-0013-phase1-2-design`, created from `exp-0013-phase1-1-closeout` @ `2810a56`.
-- **The Phase 1.1 closeout merge has not been approved or performed**: `2810a56` is not an ancestor of `origin/main` (`6cbd44b`), and no approval is recorded in the repository or the instructions I received. I merged nothing. The AGENTS.md section 10 rule stands: the founder approves that specific merge, and the RTL chunk (`test_hardware_gate`, ~29 min) remains either to be run or waived. This design branch contains the closeout commits, so it should not be merged ahead of the closeout.
-- No code, locked result, simulator, model or RTL file was modified. Deliverables are three documents plus the status line in `CURRENT_WORK.md`.
+- Work is on `exp-0013-phase1-2-design`, created from `exp-0013-phase1-1-closeout` @ `2810a56`.
+- **The Phase 1.1 closeout merge has not been approved or performed**: `2810a56` is not an ancestor of `origin/main` (`6cbd44b`) and no approval is recorded. I merged nothing. The branch carries the closeout commits, so it must not be merged ahead of the closeout. The RTL chunk (`test_hardware_gate`, ~29 min) is still unrun or unwaived.
+- Only documentation was changed. A throwaway reference script (scratchpad, not committed) checked the twin arithmetic.
 
-## What was produced
+## Deliverables
 
 | deliverable | location |
 |---|---|
-| technical design (state, transitions, observations, rewards, deadline, terminals; twins; controllers; test plan; protocol; criteria; smallest implementation) | `docs/experiments/EXP-0013-phase1-2-design.md` sections 2-9 |
-| baseline information-access matrix | same, section 5 |
-| simulator test plan | same, section 6 |
-| evaluation protocol and preregistered metrics | same, section 7 |
+| technical design (state, scheduled vs realized gate, transitions, observations, reward, deadline and boundary audit, terminals) | `docs/experiments/EXP-0013-phase1-2-design.md` sections 2 |
+| counterfactual twins (definitions, derivation, G-sweep, witnesses) | same, section 3 |
+| controllers, oracle split, baseline information-access matrix | same, sections 4-5 |
+| simulator test plan; evaluation protocol | same, sections 6-7 |
+| falsification gates (Rev 2 registered vs Rev 3 proposed), prerequisite-only claim, B2 sketch | same, sections 8-9 |
 | literature comparison | `docs/experiments/EXP-0013-phase1-2-literature.md` |
-| this decision memo | here |
+| reviews | `REV-2026-11-07-exp-0013-phase1-2-design-review.md`, `...-correction-review.md`, the adversarial memo |
 
-## The design in five lines
+## What the corrections changed in substance
 
-1. v2-B: ordinary motion into a switch disc starts a hidden 12-step countdown, after which the gate in the divider is passable for exactly 8 steps; no observation shows the timer, and the gate is visible only on valid frames.
-2. v2-A: same scene, gate on an exogenous periodic schedule with a deadline loose enough that waiting at the gate suffices; a control where map+memory must stay competitive.
-3. Twins have bit-identical observations and image-channel-equivalent histories and differ only in the agent's own press history. Alpha twins (pending vs idle) need only a remembered *fact*; beta/gamma twins (open vs pending, late vs early in the window) need *timing prediction*. Each requires a different optimal first decision (regret >= 3 steps).
-4. Controllers: oracle; map+memory lifted from v1 (C1); **map+memory plus a one-bit "I pressed" event memory (C1+, the strongest non-predictive memory controller)**; hand-coded timer FSM (C2, the predictor); stateless value policy (C3); probe-and-retry using bump feedback (C4); learned arms C5/C6 are specified but not run.
-5. Fresh locked held-out ids 3000-3999, 400 episodes with 400 distinct layouts per cell.
-
-## Falsification gate (preregistered, section 8 of the design)
-
-Validity gates V1-V6 on TRAIN/DEV2 (oracle solvable; the best of C1, C1+, C3, C4 loses to C2 by >= 6 steps median regret **and** >= 0.10 success in B; C2 near oracle; A is a true control; twins valid with preregistered minimum yields; pairing and tests pass). The deciding metric is deadline-free regret censored at 2x p95 oracle; the deadline is the inherited 1.5x rule plus a sweep. One TRAIN-only recalibration allowed; a second means stop. Then a single held-out run: GO-1 needs the same regret and success margins with bootstrap lower bounds above 3 steps and above 0. Failing any gate is a NO-GO with the negative result recorded, not a prompt to re-tune.
+1. **Two of the three original twins were invalid.** Revision 2's alpha (pending vs idle at the switch) was harmless; its beta had no decision difference (pooled regret 0). Corrected beta and gamma exist (pooled regret 6-7 in the abstraction) but only when the switch-to-gate distance is at least 5 moves (none at 3, marginal at 4), so placement is narrowed to 5-7 moves. Alpha fails the "different optimal first decisions" criterion at every distance and is demoted to a demonstration pair. **No twin is validated until it is replayed with the real oracle (Stage 1 test 7).**
+2. **Stronger baseline:** press-travel-wait (PTW, with press-before-pick), same parser/planner/observation access as the timer tracker C2, joins the non-predictive set. Its tuned patience partly encodes the delay; the C2-PTW gap measures the value of the model, not proof that PTW holds none.
+3. **Gate dynamics:** scheduled (machine / periodic) and realized (held-open) states separated, nine testable invariants.
+4. **Oracles:** `O_h` defines regret; `O_c` is diagnostic only.
+5. **Deadline:** inherited 80-step cap, `T_D` truncated at 75, per-episode feasibility requirements, `+(P - O)` rule for v2-A.
+6. **Criteria:** the registered Rev 2 gate table is preserved row by row beside the Rev 3 proposals P0-P7. The regret margin (6 steps, lower bound > 3) is unchanged; the conjunctive success margin is replaced by non-inferiority (a loosening, disclosed); outcomes partition on the lower bound (GO / SMALL-POSITIVE / NO-GO), weaker of LA_NOM and LA_OCC.
 
 ## What a GO would and would not mean
 
-- It would show: **timing prediction from action history beats the best memory-only controller on this task family** (E1b) and is sufficient for a bounded observer (E2). Remembering a press alone (E1a) is reported separately and is not claimed as prediction.
-- It would not show: that a learned model, a JEPA objective, ternary state or encoder skipping is needed or beneficial (E3-E6). The hand-coded C2 will probably solve v2-B, and v2-B cannot show a learned model beating a hand-coded predictor. A harder variant (per-episode latent timing, several interacting switches, stochastic delays) would be required for E5 and is deliberately out of scope.
-- Honest prior (HYPOTHESIZED, not a prediction): V2 passes if the delay and window are tight relative to blackouts and the deadline rule leaves little slack; the real risk is that C4 (probe-and-retry) is competitive, in which case the result is a NO-GO that saves the cost of training.
+- **Would show:** forecasting the gate from one's own action history beats the strongest forecast-free controller on this task family, and the information is sufficient for a bounded observer (E1b, E2).
+- **Would not show:** that a learned model, JEPA objective, ternary state or encoder skipping helps (E3-E6). v2-B is deterministic with known dynamics; a 30-line state machine solves it; nothing in it makes perception selectively informative. It is a **prerequisite** (necessary-condition) test. B2 (uncertain consequences, selectively informative observations) is the benchmark where adaptive perception and learned state could matter; it is sketched, not specified.
 
 ## Recommendation
 
-**GO for Stage 1 only: implement the v2 simulator, oracle and hand-coded controllers C1-C4 (software, no training, no GPU, about 3-4 engineering days ESTIMATE), with the abort points in design section 9, and evaluate the preregistered gates.**
-
-**NO-GO, for now, on any neural training, learned world model, GPU sweep, or encoder/latency experiment for v2.** Those become eligible only after GO-1 passes on the locked held-out set and the founder authorizes them.
-
-## Revision note
-
-The first draft lacked a memory-only controller with an event bit (so a GO could have meant only "remembering a press helps") and justified a 1.25x deadline by its expected effect on the baselines (circular). Both are fixed above; the recommendation is unchanged in substance but the bar a GO must clear is higher. See `REV-2026-11-07-exp-0013-phase1-2-design-review.md`.
+**GO for Stage 1 only**: implement the v2 simulator, `O_h`, twin builder and hand-coded controllers C1/C1+/PTW/C2/C3/C4 in software (no training, no GPU; about 3-4 engineering days, ESTIMATE), with the abort points in design section 10 plus two pre-registered early aborts (no twins validated in the real simulator with pooled regret >= 3; TRAIN median regret gap between PTW and C2 below 2 steps). **NO-GO, for now, on any neural training, learned world model, GPU sweep, or latency experiment**; they become eligible only after GO-1 on the locked held-out set and explicit authorization. Confidence is moderate; the adversarial memo explains why a GO is sensitive to where the information boundary between PTW and C2 is drawn, and why the founder may prefer to specify B2 first.
 
 ## What I need from you
 
-1. Approve (or amend) the criteria in design section 8 *before* implementation, since they are meant to be fixed in advance. In particular: thresholds (6 steps, 0.10, 0.05), `DELTA=12`, `W=8`, deadline multiplier 1.5 (inherited from v1) with deadline-free regret as the deciding metric, the twin yield minimums, and the single-recalibration rule.
-2. Authorize Stage 1 as the one active objective.
-3. Decide on the pending closeout merge (and the RTL chunk) so v2 branches from `main`.
-4. Confirm the held-out ids 3000-3999 and that they may be added to the reserved-split guard.
+1. Approve or amend the Revision 3 proposals P0-P7 (design 8.2): margin 6 steps with lower bound > 3, non-inferiority 0.02, the SMALL-POSITIVE band, weaker-of-two-conditions, `DELTA = 12`, `W = 8`, inherited 1.5x deadline truncated at 75, switch-to-gate distance 5-7 moves, twin yield minimums. Until you do, the Rev 2 registered criteria stand.
+2. Decide whether Stage 1 should be v2-B-first or whether B2 should be specified first (adversarial memo).
+3. Decide the order of the pending closeout merge and the RTL chunk.
+4. Confirm held-out ids 3000-3999 and their addition to the reserved-split guard.
 
 STOP for founder review.

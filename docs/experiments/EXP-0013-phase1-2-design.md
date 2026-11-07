@@ -27,7 +27,7 @@ v2 reuses v1 geometry, the 32x32 renderer, the proprioceptive vector, grip/pick/
 | switch S | disc, radius `R_S = 0.06`, at `p_S` in the left half; drawn in a new colour on every valid frame |
 | decoy pocket | unchanged |
 
-Placement (episode-keyed): `p_S` in `[0.08, xw-0.12] x [0.10, 0.90]`; `||p_S - spawn|| >= 0.15`; `||p_S - target|| >= 0.12`; outside wall margins; geodesic `p_S` -> gate entry between 0.15 and 0.35 (3-7 moves); **the S disc and the SLOT never overlap, so a press and slot occupancy never coincide**.
+Placement (episode-keyed): `p_S` in `[0.08, xw-0.12] x [0.10, 0.90]`; `||p_S - spawn|| >= 0.15`; `||p_S - target|| >= 0.12`; outside wall margins; geodesic `p_S` -> gate entry **between 0.25 and 0.35 (G = 5-7 moves)**; **the S disc and the SLOT never overlap, so a press and slot occupancy never coincide**. The lower bound 5 comes from the twin analysis in section 3.4: at G <= 3 no beta/gamma twin exists (pooled regret at most 2) and at G = 4 only marginal ones (regret exactly 3), so a wider placement range would let V5 fail for purely geometric reasons.
 
 ### 2.2 Scheduled versus realized gate state (resolves the v2-A contradiction)
 
@@ -76,7 +76,7 @@ Proof sketch of I1 (induction): suppose `occupied_t` and `g_t = 0`. Then `open(M
 - **p95 versus per-episode guarantees.** The p95 is a statement about the TRAIN distribution (5% of episodes finish later). Success rates need a *per-episode* statement. Requirements, all checked on TRAIN and DEV2 before any controller result is read:
   - R1: `T_D >= ceil(1.1 x max_{TRAIN, DEV2} O_h finish)`.
   - R2: every evaluated episode must have `O_h finish <= T_D`; episodes violating this are labelled `oracle-infeasible`, excluded for **all** controllers symmetrically, listed by id and counted; V1 requires at most 1% of episodes excluded. For the held-out set the exclusion list is produced before controllers are scored.
-  - R3 (v2-A): `T_D,A >= p95_A(O_h finish) + P` so a full period of waiting fits, and `T_D,A <= 75`; if both cannot hold, the single TRAIN-only recalibration may shorten `P` (keeping `O >= W`) or `DELTA`.
+  - R3 (v2-A): `T_D,A >= p95_A(O_h finish) + (P - O)`, i.e. the worst-case extra wait at a closed gate is the **closed** part of the period (`P - O = 12`), not the whole period; and `T_D,A <= 75`. Chosen from cap arithmetic before any result: v1's p95 is 43, the oracle in A adds at most ~12 steps of closed-gate waiting, so `p95_A <= ~55` and `p95_A + 12 ~= 67 <= 75` holds with margin 8, whereas the rejected `+P` form would give ~79 > 75 and consume the single recalibration before B is calibrated. If R3 still fails on TRAIN the single recalibration may shorten `P` (keeping `O >= W`).
   - R4: the earliest possible finish bounds `T_D` below: `F_min >= 3 + DELTA + 1 + post-gate moves (median 13, max 20)`, i.e. about 29-36 steps before any pick detour; `T_D` must exceed `F_min` for every episode (covered by R2).
 - **Terminals:** success; `wrong_pick`; `timeout` at `t_pick >= 80`. No other failure kind.
 - **Boundary conditions (each a named test):** E1 entering move at `lo-1`, `lo`, `hi`, `hi+1` of the window; E2 `rise` at `s+DELTA+W` ignored and at `+1` accepted; E3 re-entering the disc while inside creates no `rise`; E4 hold at close, release of the hold when leaving, no re-close while occupied; E5 machine/schedule frozen after `done`; E6 opening hidden by a blackout still obeys the closed form; E7 release on step 80 succeeds, step 81 does not exist; E8 `finish = T_D` is a success, `T_D + 1` a failure; E9 the global step counter, not `t_pick` (which freezes after `done`), drives `sigma_t`; E10 first step: `M_0` and `g_0` as defined, no press possible on step 1 (spawn is >= 0.15 from S).
@@ -93,34 +93,45 @@ A **hypothesis** is a hidden state `h` at time `t*` (machine state plus history 
 - (T1) identical current observation: `obs(h) = obs(h')` bit-exact (img, valid, prop, task);
 - (T2) different hidden state;
 - (T3) identical future exogenous streams;
-- (T4) **pooled regret** `rho(h, h') >= EPS = 3` steps, where `rho = min over open-loop action sequences, applied identically until the two observation streams first differ, of max_i (finish_i - V*_i)`, with each hypothesis continuing optimally once its identity is revealed (generous to the pooled policy: a lower bound on the regret of any observation-only policy). `V*_i` is the optimal remaining time in `h_i` (the reference oracle `O_h`, section 4);
+- (T4a) **different optimal first decisions**: the sets of optimal first actions in `h` and `h'` (computed by `O_h`) are disjoint; and (T4b) **pooled regret** `rho(h, h') >= EPS = 3` steps, where `rho = min over open-loop action sequences, applied identically until the two observation streams first differ, of max_i (finish_i - V*_i)`, with each hypothesis continuing optimally once its identity is revealed (generous to the pooled policy: a lower bound on the regret of any observation-only policy). `V*_i` is the optimal remaining time in `h_i` (the reference oracle `O_h`, section 4);
 - (T5) image-channel equivalence of the histories: every valid frame in both histories shows the gate closed;
 - (T6) an **executable witness**: two concrete action scripts from a common start that reach `t*` in `h` and `h'` respectively, replayable in the simulator.
 
-Why pooled regret and not "first-action regret": a reversible first move costs one step, so first-action regret with optimal continuation is nearly always ~1 and hides the real cost, which is that an observation-only policy cannot tell which continuation is right. **Strong twins** additionally have disjoint sets of optimal first actions; **weak twins** do not.
+Both T4a and T4b are required (T4a is the founder's criterion; T4b is added because a reversible first move costs one step, so first-action regret with optimal continuation is nearly always ~1 and hides the real cost, namely that an observation-only policy cannot tell which continuation is right). A pair that satisfies T4b but not T4a is **not a twin**; it may still be reported as an *event-memory demonstration pair*.
 
 ### 3.2 Route abstraction used for the derivation
 
-1-D integer line; S disc at `x = 0` (a press is the move from `x >= 1` to `x = 0`); gate-entering move is `x: G-1 -> G`, allowed only if `g` was open after the previous step; moves `dx in {-1, 0, 1}`; `held = 1` throughout (the pick is already done, so the post-gate remainder `T_post` is common and cancels in regret). Canonical constants: `DELTA = 12`, `W = 8`, `G = 7` (so S->gate is 7 moves, the top of the 3-7 placement range). A waiting position `q` is at `x = G - a` with `a` moves to the entering move and `p = G - a` moves back to the press. The machine is exactly section 2.2. `V*` is computed by exact breadth-first search over `(x, M)`; `rho` by exhaustive search over joint (x, M_h, M_h') open-loop prefixes with divergence on any observation difference (position, or the drawn gate when the frame is valid).
+1-D integer line; S disc at `x = 0` (a press is the move from `x >= 1` to `x = 0`); gate-entering move is `x: G-1 -> G`, allowed only if `g` was open after the previous step; moves `dx in {-1, 0, 1}`; `held = 1` throughout (the pick is already done, so the post-gate remainder `T_post` is common and cancels in regret). Canonical constants: `DELTA = 12`, `W = 8`, `G = 7` (S->gate is 7 moves, the top of the 5-7 placement range). A waiting position `q` is at `x = G - a` with `a` moves to the entering move and `p = G - a` moves back to the press. The machine is exactly section 2.2. `V*` is computed by exact breadth-first search over `(x, M)`; `rho` by exhaustive search over joint (x, M_h, M_h') open-loop prefixes with divergence on any observation difference (position, or the drawn gate when the frame is valid).
 
 ### 3.3 Results (DERIVED-IN-ABSTRACTION; real-simulator status HYPOTHETICAL)
 
-Status key: DIA = derived in abstraction by exhaustive search; the real-simulator status of every twin is HYPOTHETICAL until Stage 1 test 7 executes its witnesses against the real oracle.
+Status key: DIA = derived in the abstraction by exhaustive search; the real-simulator status of every twin is HYPOTHETICAL until Stage 1 test 7 executes its witnesses against the real oracle. Canonical instance `G = 7`, `DELTA = 12`, `W = 8`; numbers are the script's exact outputs.
 
-| twin | position `q` | hidden states | obs at `t*` | optimal first action `h` vs `h'` | pooled `rho` | type | status |
+| pair | position `q` | hidden states | obs at `t*` | optimal first action `h` vs `h'` | T4a disjoint | pooled `rho` (T4b) | verdict |
 |---|---|---|---|---|---|---|---|
-| **alpha** (event-memory) | gate-adjacent, `x = 6` (`a = 1`) | `h`: PENDING(k), `k in {5, 6}`; `h'`: IDLE (never pressed) | valid frame, gate drawn closed in both | `{-1,0,+1}` vs `{-1}` (**weak**: overlap) | 3 (k=5 or 6); 4 for k=7,8 but those are unreachable (see below) | memory of a fact resolves it | DIA; **weak and marginal** |
-| **beta** (timing), corrected | `x = 3` (`a = 4`, `p = 3`) | `h`: OPEN(k1), `k1 in {1,2,3}` (window will close before arrival); `h'`: PENDING(2) | dark frame | `{-1}` (or `{-1,0}` at k1=3) vs `{+1}` (**strong**) | 6 (needs >= 5 further dark frames; 1 frame gives 3) | needs timing | DIA |
-| **gamma** (timing) | `x = 3` | `h`: OPEN(k1), `k1 in {1,2,3}`; `h'`: OPEN(k2), `k2 in {4..7}` | dark frame | `{-1}` / `{-1,0}` vs `{+1}` (**strong**) | 6-7 (needs >= 3 further dark frames; 0 gives 3) | needs timing | DIA |
+| **beta** (timing), corrected | `x = 3` (`a = 4`) | `h`: OPEN(k1), `k1 in {1,2,3}` (window closes before arrival); `h'`: PENDING(2) | dark frame | `{-1}` (`{-1,0}` at k1=3) vs `{+1}` | **yes** | 6 (>= 5 further dark frames; 1 frame gives 3) | **twin (DIA, hypothetical in simulator)** |
+| **gamma** (timing) | `x = 3` | `h`: OPEN(k1), `k1 in {1,2,3}`; `h'`: OPEN(k2), `k2 in {4..7}` | dark frame | `{-1}` / `{-1,0}` vs `{+1}` | **yes** | 6-7 (>= 3 further dark frames; 0 gives 3) | **twin (DIA, hypothetical in simulator)** |
+| **alpha** (event-memory demonstration) | gate-adjacent `x = 6` | `h`: PENDING(k), `k in {5,6}`; `h'`: IDLE | valid frame, gate drawn closed | `{-1,0,+1}` vs `{-1}` | **no** (overlap) | 3 (k=5 or 6) | **not a twin**: fails T4a at every G (below); kept as a demonstration pair for "remembering a press helps"; excluded from V5 yields |
 
-Numbers are the script's exact outputs. Two constraints discovered by the check:
-- **alpha** with the effector at the gate: the pending history must have walked from S (6 moves) so `t* - s_press >= G - 1 = 6`, hence `k = DELTA - (t* - s_press) <= 6`. Larger `k` (where `rho` is 4) cannot occur at that position. alpha's `rho` is therefore exactly 3 (the threshold), and its optimal first actions overlap, so it is a **weak, marginal** twin; it supports the claim "remembering that I pressed helps" (resolved by C1+) but is not strong evidence on its own.
-- **beta as written in Revision 2 was not a twin.** It paired OPEN with 6 steps left against PENDING(8) at `q` with `a = 4`. Both states are best served by the same action (head for the gate: arrival at step 4 is inside the open window `[1,6]` and also inside the pending window `[9,16]` after waiting), so `rho = 0` (script output). Its stated press times were also internally inconsistent with a common end position. The valid pairing is OPEN with `k1 < a` (window lost before arrival) versus a state in which going is right.
-- **Condition for any OPEN-versus-other twin:** the window must close before arrival, `k1 < a`; for `k1 >= a` the optimal action is "go" in both and `rho = 0`.
+Constraints discovered by the check:
+- **alpha fails the founder's criterion.** In the pending state the delay leaves so much slack that "go back and press" is also optimal as a first move, so the optimal first-action sets always overlap; the only cost of the wrong commitment is later. Its `rho` is exactly 3 and only reachable for `k <= DELTA - (G - 1) = 6` (the pending history must have walked from S: `t* - s_press >= G - 1`); `k = 7, 8` would give 4 but cannot occur at that position.
+- **beta as written in Revision 2 was not a twin.** It paired OPEN with 6 steps left against PENDING(8) at `a = 4`; both are served by the same action (head for the gate), so `rho = 0` (script output), and its stated press times were inconsistent with a common end position.
+- **Condition for any OPEN-versus-other twin:** the window must close before arrival, `k1 < a`; for `k1 >= a`, "go" is optimal in both and `rho = 0`.
+- Closed form for the go-then-recover branch: committing to "go" in `h` (`k1 < a`) reaches the closed gate at step `a`, learns it is closed, returns `G - 1` moves and re-presses: extra cost `a + (G - 1) - max(p, k1 + 1)` (7 for `k1 <= 2`, 6 for `k1 = 3` at the canonical constants, equal to the search).
 
-Closed form for the gamma/beta bound (the go-then-recover branch): committing to "go" in `h` (k1 < a) arrives at the closed gate at step `a`, learns it is closed, returns `G - 1` moves to the switch, and re-presses: extra cost `a + (G - 1) - max(p, k1 + 1)` = 7 for `k1 <= 2` and 6 for `k1 = 3` at the canonical constants, matching the search. The "press-now" branch costs the other hypothesis at least as much, so `rho` is the smaller of the two, as computed.
+### 3.4 Sensitivity to the switch-to-gate distance G (script, exhaustive; best pair with T4a and `rho >= 3`)
 
-### 3.4 Executable witnesses (canonical instance, abstraction, verified by the script)
+| G | alpha: max rho / T4a | beta: best pair `(q,k1,k2)`, rho; max rho | gamma: best pair `(q,k1,k2)`, rho; max rho |
+|---|---|---|---|
+| 3 | 1 / none | none; 2 | none; 2 |
+| 4 | 2 / none | (1,1,1), 3; 3 | (1,1,3), 4; 4 |
+| 5 | 3 / none | (1,1,1), 3; 4 | (1,1,4), 6; 6 |
+| 6 | 3 / none | (1,1,1), 3; 6 | (1,1,5), 8; 8 |
+| 7 | 3 / none | (1,1,1), 3; 9 | (1,1,6), 10; 10 |
+
+"best pair" is the first one found with T4a and `rho >= 3`; "max rho" is the largest `rho` over all `(q, k1, k2)` for that G (including pairs failing T4a). Reading: **no twins at G = 3, marginal at G = 4, robust from G = 5**, hence the placement range G = 5-7 in 2.1. Alpha never satisfies T4a. The witnesses below use `q = 3` at `G = 7` (rho 6-7); the builder will choose `q` per layout to maximise `rho` subject to witness feasibility.
+
+### 3.5 Executable witnesses (canonical instance, abstraction, verified by the script)
 
 Common start: `x0 = 3` after the pick, `t* = 30`, both scripts loiter (hold still), walk to S, walk back to `x = 3`, loiter.
 
@@ -128,13 +139,13 @@ Common start: `x0 = 3` after the pick, `t* = 30`, both scripts loiter (hold stil
 |---|---|---|---|---|
 | beta k1=3 | loiter 1-10, in 11-13 (press at 13), out 14-16, loiter 17-30 -> OPEN(3) | loiter 1-17, in 18-20 (press at 20), out 21-23, loiter 24-30 -> PENDING(2) | `h`: OPEN(3); `h'`: PENDING(2) | from step 25 (`13 + DELTA`) to >= 35 |
 | gamma k1=2,k2=5 | press at 12 -> OPEN(2) | press at 15 -> OPEN(5) | OPEN(2) vs OPEN(5) | from step 24 to >= 33 |
-| alpha k=6 | `x0 = 6` (gate-adjacent): loiter 1-8, walk in 9-14 (press at 14), walk out 15-20 -> PENDING(6) at `t* = 20` | `x0 = 6`, never press, loiter 1-20 | PENDING(6) vs IDLE | frames valid |
+| alpha k=6 (demonstration pair) | `x0 = 6` (gate-adjacent): loiter 1-8, walk in 9-14 (press at 14), walk out 15-20 -> PENDING(6) at `t* = 20` | `x0 = 6`, never press, loiter 1-20 | PENDING(6) vs IDLE | frames valid |
 
-Each witness was replayed in the abstraction: the final position is equal, `M` differs, no valid frame in either history shows the gate open (T5), and `obs(h) = obs(h')` at `t*` (T1). **For the real environment** the twin builder (Stage 1) must (a) generate the same scripts with the layout's true distances, (b) replay both in the simulator and check T1-T5 bit-exactly, (c) compute `V*` and `rho` with the real oracle, and (d) reject the layout/`t*` if `rho < 3` or the blackout does not cover the required frames. Until (a)-(d) have run, every twin is **hypothetical in the real simulator**, and the yield minimums in V5 count only twins that pass (d).
+Each witness was replayed in the abstraction: the final position is equal, `M` differs, no valid frame in either history shows the gate open (T5), and `obs(h) = obs(h')` at `t*` (T1). **For the real environment** the twin builder (Stage 1) must (a) generate the same scripts with the layout's true distances, (b) replay both in the simulator and check T1-T5 bit-exactly, (c) compute `V*` and `rho` with the real oracle, and (d) reject the layout/`t*` if `rho < 3` or the blackout does not cover the required frames. Until (a)-(d) have run, every twin is **hypothetical in the real simulator**, and the yield minimums in V5 count only twins that pass (d), and only beta and gamma twins count.
 
-### 3.5 What distinguishes the states, and which controller resolves which
+### 3.6 What distinguishes the states, and which controller resolves which
 
-The only distinguishing information is the agent's own proprioceptive/action history (when it entered S). C1 (no press memory) resolves none. C1+ (one remembered "I pressed" bit) resolves alpha only. PTW (section 4) keeps an arrival-wait counter and a patience: it resolves alpha heuristically and can recover from beta/gamma by waiting out its patience at a cost. Beta and gamma require the elapsed time and the DELTA/W model, i.e. forecasting: C2. v2-A has no twins by construction (its schedule does not depend on actions, apart from the hold, which cannot change an optimal decision by 3 steps; V5(c) tests this).
+The only distinguishing information is the agent's own proprioceptive/action history (when it entered S). C1 (no press memory) resolves none. C1+ (one remembered "I pressed" bit) resolves the alpha demonstration pair. PTW (section 4) keeps an arrival-wait counter and a patience: it resolves alpha heuristically and can recover from beta/gamma by waiting out its patience at a cost. Beta and gamma require the elapsed time and the DELTA/W model, i.e. forecasting: C2. v2-A has no twins by construction (its schedule does not depend on actions, apart from the hold, which cannot change an optimal decision by 3 steps; V5(c) in 8.1 tests this).
 
 ## 4. Controllers and oracles
 
@@ -215,7 +226,7 @@ Numpy-only fast tests; each asserts the intended event occurred and, where v1 ap
 | metric | definition | role |
 |---|---|---|
 | decision regret (steps) | `finish(controller) - finish(O_h)` on the same episode; failures censored at `T_CAP = 80` | **primary, deciding** (deadline-free) |
-| success@T_D | released in the goal by step `T_D` (rule in 2.5) | reported; see 8.3 |
+| success@T_D | released in the goal by step `T_D` (rule in 2.5) | reported; criterion in 8.2 (P3) |
 | deadline sweep | success vs deadline from 1.0x p95 to `T_CAP` | robustness |
 | prediction accuracy | accuracy of predicted `g_{t+k}` (`k` in {1,2,4,8,16}) conditional on an action continuation, on forked snapshots; MAE of time-to-open when PENDING; by observation status | any predictor (C2 now, C6 later) |
 | calibration | Brier and ECE (10 bins) of predicted P(`g_{t+k} = 1`); meaningful for probabilistic predictors only | C6 |
@@ -230,28 +241,46 @@ Numpy-only fast tests; each asserts the intended event occurred and, where v1 ap
 
 ### 7.4 Statistics
 
-Layout-clustered percentile bootstrap (B = 4000) for paired differences; exact McNemar for success; Wilson intervals for rates. No claim beyond "layouts drawn from this generator". The paired regret SD is estimated on DEV2 for **reporting power only**; it is never used to change a threshold.
+Layout-clustered percentile bootstrap (B = 4000) for paired differences; exact McNemar for success; Wilson intervals for rates. No claim beyond "layouts drawn from this generator". The paired regret SD is estimated on DEV2 for **reporting power only**; it is never used to change a threshold. If more than half of one arm's episodes time out, that arm's median regret is determined by the 80-step cap rather than by behaviour; the timeout fraction is reported for every arm and, in that case, the mean-regret difference is reported alongside the median.
 
 ## 8. Falsification criteria
 
-### 8.1 Registered criteria (Revision 2, as reviewed; the PTW and O_h clarifications below are strengthenings applied regardless)
+### 8.1 Gate table: Revision 2 as registered, and Revision 3 as proposed (row by row)
 
-Design-validity gates V1-V6 (oracle solvable; best non-predictive loses to C2 by >= 6 steps median regret **and** >= 0.10 success in B; C2 within 0.05 of the oracle; A is a control; twins valid with preregistered yields; pairing and tests pass); GO-1 on HELDOUT-V2 with the same margins, bootstrap lower bounds above 3 steps and above 0; one recalibration.
+"Best non-predictive" is fixed on DEV2 and never re-selected on held-out data. "B" has two blackout conditions, LA_NOM and LA_OCC. `NP-set(Rev2) = {C1, C1+, C3, C4}`; `NP-set(Rev3) = {C1, C1+, PTW (best variant), C3, C4}`.
+
+| gate | Revision 2 (registered, as reviewed) | Revision 3 (proposed; P-numbers in 8.2) |
+|---|---|---|
+| V1 solvable | oracle success@T_D >= 0.99 in A and B (both blackout conditions) | `O_h` per-episode feasibility: at most 1% `oracle-infeasible` episodes in each cell, R1-R4 satisfied |
+| V2 information necessity (B, DEV2) | in both blackout conditions: best of NP-set(Rev2) has median regret >= 6 steps above C2 **and** success@T_D >= 0.10 below C2 | NP-set(Rev3); median regret gap >= 6 with lower bound > 3 (P1, unchanged); success criterion replaced by non-inferiority (P3); overall outcome is the weaker of the two blackout conditions (P7) |
+| V3 sufficiency | C2 success@T_D >= oracle - 0.05 in A and B | C2 median regret vs `O_h` <= 3 steps **and** success within 0.05 (P5) |
+| V4 control (A) | best of NP-set(Rev2) within 0.05 success and 3 steps median regret of C2 (C2 as defined for A) | NP-set(Rev3); same bounds |
+| V5 twins | (a) every constructed twin satisfies conditions (i)-(v); (b) minimum yield on DEV2 (full 100-layout pool, several `t*` per episode; TARGET): alpha >= 100 per blackout condition, beta and gamma >= 60 each in LA_OCC (LA_NOM yield only reported, since 5-15-step blackouts rarely cover the opening); (c) A yields none (regret < EPS for every constructed pair); failing the yield means the condition is untestable, not that the minimum is relaxed | (a) every twin satisfies T1-T6 incl. T4a (disjoint first actions) and T4b (`rho >= 3`) **validated with the real oracle** (test 7); (b) **alpha removed** (fails T4a); beta and gamma >= 60 each in LA_OCC from validated twins, placement G = 5-7, remaining-dark requirements (beta >= 5, gamma >= 3 frames); (c) unchanged |
+| V6 pairing / tests | section 6 tests pass; exogenous digests identical across controllers | same, plus tests 7-10 |
+| GO-1 (one run on HELDOUT-V2, controllers frozen) | in B, for both blackout conditions: (a) median regret(best of NP-set) - median regret(C2) >= 6 steps, bootstrap 95% lower bound > 3; (b) success@T_D(C2) - success@T_D(best of NP-set) >= 0.10, lower bound > 0; and in A the V4 bounds hold | partition on the lower bound (below); (b) replaced (P3) |
+| recalibration | one, TRAIN only, structural reasons only; a second means stop | unchanged |
+
+**Outcome partition (Revision 3 proposal, closing the gap between GO and SMALL-POSITIVE).** For each blackout condition, let `est` be the paired median-regret gap (best of NP-set minus C2) and `LB` its bootstrap 95% lower bound:
+- **GO**: `est >= 6` **and** `LB > 3`, and the non-inferiority criterion (P3) holds, and the A-control bounds hold;
+- **SMALL-POSITIVE**: `LB > 0` but not GO;
+- **NO-GO**: `LB <= 0`, or any V-gate failure after the single recalibration.
+The overall outcome is the **weaker** of the LA_NOM and LA_OCC outcomes (P7), which keeps the Rev 2 requirement that both conditions pass. Because the twin analysis predicts timing twins mostly in LA_OCC, an LA_NOM shortfall is a likely way to land in SMALL-POSITIVE; that is accepted, not engineered around.
 
 ### 8.2 Review after adding PTW and the oracle split (PROPOSED changes; nothing has been run)
 
 | # | item | Rev 2 | Rev 3 proposal | reason |
 |---|---|---|---|---|
-| P0 | non-predictive set | `{C1, C1+, C3, C4}` | add PTW (best variant) | the strongest forecast-free controller must be in the set; applied regardless of approval |
-| P0' | regret reference | "the oracle" | `O_h` | access declaration (4.1); applied regardless |
-| P1 | regret margin | 6 steps, lower bound > 3 | **unchanged** | set before PTW existed and not derived from any baseline result; lowering it after strengthening the baseline would be moving the goalposts. It is also well above measurement noise: with n = 400 and a per-episode paired SD of at most ~15 steps (range-bounded), SE <= 0.75 and the lower-bound requirement (> 3) effectively demands an estimate of about 4.5 or more |
-| P2 | "small positive" band | none | add a registered third outcome: gap in `[2, 6)` with lower bound > 0 is **SMALL-POSITIVE**: reported as evidence that timing helps modestly, treated as NO-GO for authorizing learned-model work | with a strong PTW a small residual gap is the likely honest outcome; the band stops a small effect from being relabelled success or failure after the fact |
-| P3 | success margin | `>= 0.10` and lower bound > 0, conjunctive with P1 | replace by **non-inferiority**: `success(C2) >= success(best non-predictive) - 0.02`; the full success sweep is reported | with the inherited 1.5x deadline a strong PTW may succeed on ~100% of episodes (ceiling), so a conjunctive success requirement could return NO-GO for reasons unrelated to the hypothesis; regret is already the deciding, deadline-free metric. **This change relaxes a condition (it favours GO) and is disclosed as such; P2 and the stronger baseline set offset it** |
-| P4 | V2 on DEV2 | same two thresholds | same as P1 + P3 | keep V2 and GO-1 identical so a gate cannot pass on DEV2 and fail on held-out for a different reason |
-| P5 | V3 | C2 within 0.05 success of the oracle | C2 median regret <= 3 steps **and** within 0.05 success of O_h | success can saturate; regret detects planning imperfection |
-| P6 | V4 (A is a control) | within 0.05 success and 3 steps | same, with PTW and C2 (as defined for A) in the comparison | unchanged in substance |
+| P0 | non-predictive set | `{C1, C1+, C3, C4}` | add PTW (best variant) | the strongest forecast-free controller must be in the set; **applied regardless of approval** |
+| P0' | regret reference | "the oracle" | `O_h` | access declaration (4.1); **applied regardless** |
+| P1 | regret margin | 6 steps, lower bound > 3 | **unchanged** | set before PTW existed and not derived from any baseline result; lowering it after strengthening the baseline would be moving the goalposts. Noise check: regret is censored at 80 and the oracle finish is >= ~29, so a per-episode regret can span ~50 steps; the paired SD is therefore at most ~25 (an assumption, not a measurement), SE <= 1.25 at n = 400, and `LB > 3` effectively requires `est` of about 5.5 or more, consistent with the 6-step threshold |
+| P2 | small-positive band | none | the SMALL-POSITIVE outcome above (lower bound > 0, not GO): reported as evidence that timing helps modestly; treated as NO-GO for authorizing learned-model work | with a strong PTW a small residual gap is the likely honest outcome; the band prevents it being relabelled after the fact |
+| P3 | success criterion | `>= 0.10` and lower bound > 0, conjunctive | **non-inferiority**: `success(C2) >= success(best of NP-set) - 0.02`; full sweep reported | with a 1.5x (truncated) deadline a strong PTW may succeed on ~100%, so a conjunctive success margin could return NO-GO for a ceiling reason unrelated to the hypothesis; regret is the deciding deadline-free metric. **This relaxes a condition (it favours GO); P1's unchanged margin, P2 and the stronger set offset it** |
+| P4 | V2 vs GO-1 | same thresholds | same thresholds | a gate must not pass on DEV2 and fail on held-out for a different reason |
+| P5 | V3 | success within 0.05 | add median regret <= 3 steps | success can saturate |
+| P6 | V4 | within 0.05 / 3 steps | same with NP-set(Rev3) | unchanged in substance |
+| P7 | both blackout conditions | both required | weaker-of-two rule | formalises the Rev 2 requirement under the partition |
 
-Operative status: **until the founder approves Revision 3, the Rev 2 registered criteria stand (with P0/P0')**; nothing is executed before approval. Possible outcomes under the proposal: GO-1 (P1 and P3 met, A control holds); SMALL-POSITIVE; NO-GO (V-gate failure after the single recalibration, or gap below 2 / lower bound <= 0).
+Operative status: **until the founder approves Revision 3, the Rev 2 column of 8.1 stands, with P0 and P0' applied**. Nothing is executed before approval.
 
 ### 8.3 Evidence ladder: what each result would and would not mean
 
@@ -301,4 +330,4 @@ Not needed: any neural network, GPU, new dependency, change to `env.py`, `env_la
 
 **Revision 2** (commit `5e042f0`, after advisor review `../reviews/REV-2026-11-07-exp-0013-phase1-2-design-review.md`). Added C1+ (event bit); deadline rule changed to the inherited 1.5x with a deadline-free deciding metric, `T_CAP = ceil(2 x p95)`; C2 in v2-A specified; twin yields preregistered; criteria V1-V6/GO-1 with 6 steps / 0.10 / 0.05.
 
-**Revision 3** (this file; review `../reviews/REV-2026-11-07-exp-0013-phase1-2-correction-review.md`). (1) Scheduled and realized gate states separated, exact order and nine invariants (I1-I9). (2) Twins re-derived with pooled regret and exhaustive search in a stated abstraction; **Rev 1/2 alpha (at the switch, harmless re-press) and beta (both states best served by "go") were not valid twins and are replaced**; every twin labelled DIA or HYPOTHETICAL. (3) PTW (press-travel-wait, press-before/after-pick) added to the non-predictive set. (4) Oracles split into O_h (regret reference) and O_c (diagnostic) with access declarations and tests. (5) Boundary audit: `T_CAP = 80` inherited, `T_D` truncated at 75, per-episode requirements R1-R4 and boundary tests E1-E10; the Rev 2 `T_CAP = ceil(2 x p95)` is withdrawn because it could exceed the simulator's 80-step timeout. (6) Section 9 added (prerequisite-only claim; B2 sketch). (7) Threshold proposals P0-P6 recorded without change to the registered Rev 2 criteria until approved. (8) Independent review and adversarial memo added.
+**Revision 3** (this file; review `../reviews/REV-2026-11-07-exp-0013-phase1-2-correction-review.md`). (1) Scheduled and realized gate states separated, exact order and nine invariants (I1-I9). (2) Twins re-derived with pooled regret and exhaustive search in a stated abstraction; **Rev 1/2 alpha (at the switch, harmless re-press) and beta (both states best served by "go") were not valid twins and are replaced**; every twin labelled DIA or HYPOTHETICAL. (3) PTW (press-travel-wait, press-before/after-pick) added to the non-predictive set. (4) Oracles split into O_h (regret reference) and O_c (diagnostic) with access declarations and tests. (5) Boundary audit: `T_CAP = 80` inherited, `T_D` truncated at 75, per-episode requirements R1-R4 and boundary tests E1-E10; the Rev 2 `T_CAP = ceil(2 x p95)` is withdrawn because it could exceed the simulator's 80-step timeout. (6) Section 9 added (prerequisite-only claim; B2 sketch). (7) Threshold proposals P0-P6 recorded without change to the registered Rev 2 criteria until approved. (8) After an independent review of Rev 3 (`../reviews/REV-2026-11-07-exp-0013-phase1-2-correction-review.md`): full gate table restored with Rev 2 and Rev 3 columns; **alpha reclassified as not a twin** (fails the first-decision criterion at every G) and removed from the V5 yield; outcome partition closed on the lower bound with a weaker-of-two-conditions rule; R3 corrected to `+(P - O)`; placement narrowed to G = 5-7 from the G-sensitivity sweep; the SD assumption corrected to ~25. Independent review and adversarial memo (`../reviews/MEMO-2026-11-07-exp-0013-phase1-2-adversarial.md`) added.

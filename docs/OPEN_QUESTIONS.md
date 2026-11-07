@@ -41,9 +41,9 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **What would answer it:** External ecosystem developments; cannot be answered inside this repo.
 **Status:** Open.
 
-### Q-029 (Phase 1.2, opened 2026-11-07) - Authorize and fix the preregistered v2 criteria
-**Question:** Does the founder approve the v2 falsification criteria (`experiments/EXP-0013-phase1-2-design.md` section 8: thresholds 6 steps / 0.10 / 0.05, DELTA=12, W=8, inherited 1.5x deadline with deadline-free regret as the deciding metric, twin yield minimums, one TRAIN-only recalibration) and authorize Stage 1 (software simulator, oracle, hand-coded controllers C1/C1+/C2/C3/C4; no training)?
-**Why it matters:** The criteria are only meaningful if fixed before results exist.
+### Q-029 (Phase 1.2, opened 2026-11-07; updated for design Revision 3) - Approve the v2 criteria proposals and authorize Stage 1
+**Question:** Does the founder approve design `experiments/EXP-0013-phase1-2-design.md` section 8.2 (P0-P7): regret margin 6 steps with bootstrap lower bound > 3 (unchanged), success criterion replaced by non-inferiority 0.02 (a disclosed loosening), SMALL-POSITIVE band, weaker-of-LA_NOM/LA_OCC rule, `DELTA=12`, `W=8`, inherited 1.5x deadline truncated at 75 under the inherited 80-step cap, switch-to-gate distance 5-7 moves, beta/gamma twin yield minimums (alpha removed), and the two early aborts (no validated twins; TRAIN PTW-vs-C2 gap < 2 steps)? And authorize Stage 1 (software simulator, `O_h`, twin builder, controllers C1/C1+/PTW/C2/C3/C4; no training)?
+**Why it matters:** The criteria are only meaningful if fixed before results exist; until approved the Rev 2 registered criteria stand.
 **What would answer it:** Founder (with ChatGPT) amends or approves; record as an ADR or a CURRENT_WORK objective.
 
 ### Q-030 (Phase 1.2) - Order of the pending closeout merge and the RTL chunk
@@ -55,7 +55,7 @@ When a question is resolved, mark it Closed, state the answer in one line, and p
 **What would answer it:** Founder confirmation.
 
 ### Q-032 (Phase 1.2) - Scope of a positive result
-**Question:** Is a GO that shows only "timing prediction from action history beats memory-only controllers" (a hand-coded timer FSM will likely solve v2-B) enough to justify later authorizing learned-model work, or is a harder variant (per-episode latent timing, several switches, stochastic delays; needed for any claim that a learned model beats a hand-coded predictor) required first?
+**Question:** Is a GO that shows only "timing forecasting from action history beats the strongest forecast-free controller" (a hand-coded timer FSM will likely solve v2-B) enough to justify later authorizing learned-model work, or is a harder variant (per-episode latent timing, several switches, stochastic delays; needed for any claim that a learned model beats a hand-coded predictor) required first?
 **What would answer it:** Founder and ChatGPT after Stage 1.
 
 ## Architecture-level (not yet relevant)
